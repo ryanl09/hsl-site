@@ -5,22 +5,32 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/classes/util/TECDB.php');
 
 class User {
     protected $id;
+    protected $role;
     protected $db;
+    protected $username;
+    protected $email;
 
     public function __construct($id, $role='user') {
         $this->id = $id;
         if (!$this->id) {
             $this->role='user';
             $this->db = 0;
+            $this->username = '';
+            $this->email = '';
             return;
-        }
-
-        if ($this->id) {
-            $this->username = 'ryan';
         }
 
         $this->role = $role;
         $this->db = new TECDB();
+        
+        $query = 
+        "SELECT `username`, `email`
+        FROM `users`
+        WHERE `user_id` = ?";
+        $res = $this->db->query($query, $this->id)->fetchArray();
+
+        $this->set_username($res['username']);
+        $this->set_email($res['email']);
 
         /*
         $user = get_user_by('ID', $id);
@@ -44,7 +54,6 @@ class User {
      */
 
     public function get_username() {
-        
         return $this->username;
     }
 
@@ -55,6 +64,24 @@ class User {
 
     private function set_username($username) {
         $this->username = $username;
+    }
+
+    /**
+     * Gets the user's email
+     * @return  string
+     */
+
+    public function get_email() {
+        return $this->email;
+    }
+
+    /**
+     * Sets the user's email
+     * @param   string  $email
+     */
+
+    private function set_email($email) {
+        $this->email = $email;
     }
 
     /**

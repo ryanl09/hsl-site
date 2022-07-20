@@ -23,6 +23,10 @@
     --tran-05: all 0.3s ease;
 }
 
+* {
+    box-sizing:border-box;
+}
+
 body{
     min-height: 100vh;
     background-color: var(--body-color);
@@ -133,7 +137,7 @@ header .image-text .profession{
 
 .sidebar header .image img{
     width: 40px;
-    border-radius: 6px;
+    border-radius: 50%;
 }
 
 .sidebar header .toggle{
@@ -296,9 +300,9 @@ body.dark .switch::before{
     position: absolute;
     top: 0;
     top: 0;
-    left: 250px;
+    left: 280px;
     height: 100vh;
-    width: calc(100% - 250px);
+    width: calc(100% - 280px);
     background-color: var(--body-color);
     transition: var(--tran-05);
 }
@@ -310,10 +314,19 @@ body.dark .switch::before{
 }
 
 .sidebar.close ~ .home{
-    left: 78px;
+    left: 88px;
     height: 100vh;
-    width: calc(100% - 78px);
+    width: calc(100% - 88px);
 }
-body.dark .home .text{
+body.dark .home{
     color: var(--text-color);
+}
+.home {
+    padding:10px 40px;
+}
+
+.home .page-title {
+    font-weight:600;
+    font-size:40px;
+    text-align: center;
 }
