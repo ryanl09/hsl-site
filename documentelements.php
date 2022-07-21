@@ -1,24 +1,32 @@
 <?php
 
 $path = $_SERVER['DOCUMENT_ROOT'];
-include_once($path . '/test.php');
 
-function wp_get_current_user() {
-    $u = new test();
-    return $u;
-}
+function base_header($params = []){
+    $styles='';
+    if (isset($params['styles'])) {
+        foreach ($params['styles'] as $style) {
+            $styles .= '<link rel="stylesheet" href="/css/' . $style . '.css">';
+        }
+    }
 
-function base_header(){
+    $scripts = '';
+    if (isset($params['scripts'])) {
+        foreach ($params['scripts'] as $script) {
+            $scripts .= '<script type="text/javascript" src="/js/' . $script . '.js">';
+        }
+    }
+
     echo
     '<head>
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         
-        <!----======== CSS ======== -->
-        <link rel="stylesheet" href="' . $path . '/css/sidebar.css">
+        <link rel="stylesheet" href="/css/sidebar.css">
+        ' . $styles . '
+        ' . $scripts . '
         
-        <!----===== Boxicons CSS ===== -->
         <link href="https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css" rel="stylesheet">
         <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     </head>';
@@ -26,25 +34,40 @@ function base_header(){
 
 function href($page) {
     $link = '';//'localhost';
-    if ($page!=='index'){
-        $link .= '/pages';
+
+    if($link==='dashboard'){
+        return 'localhost';
     }
-    $suf = '.php';
-    return $link . '/' . $page . $suf;
+
+    switch ($page) {
+        case 'profile':
+            return $link . '/user/ryan';
+        default:
+            return $link . '/' . $page;
+    }
 }
 
-function print_navbar($user) {
-
+function print_navbar() {
+    $u = 0;
+    $user='Guest';
+    $id=0;
+    $pfp='https://tecconvention.com/images/user.png';
+    if (isset($_SESSION['user'])) {
+        $u = $_SESSION['user'];
+        $user = $u->get_username();
+        $id = $u->get_id();
+        $pfp = $u->profile_image();
+    }
     echo '<nav class="sidebar close">
             <header>
                 <div class="image-text">
                     <span class="image">
-                        <img src="images/user.png" alt="">
+                        <img src="' . $pfp . '" alt="">
                     </span>
 
                     <div class="text logo-text">
                         <span class="name">TEC Esports</span>
-                        <span class="profession">' . ($user ? $user : 'Welcome!') . '</span>
+                        <span class="profession">' . $user . '</span>
                     </div>
                 </div>
 
@@ -52,7 +75,7 @@ function print_navbar($user) {
             </header>
 
             <div class="menu-bar">
-                <div class="menu">' . ($user ? '
+                <div class="menu">' . ($id ? '
                     <li class="search-box">
                         <i class="bx bx-search icon"></i>
                         <input type="text" placeholder="Search...">
@@ -60,7 +83,7 @@ function print_navbar($user) {
 
                     <ul class="menu-links">
                         <li class="nav-link">
-                            <a href="'.href('index').'">
+                            <a href="'.href('dashboard').'">
                                 <i class="bx bx-home-alt icon" ></i>
                                 <span class="text nav-text">Dashboard</span>
                             </a>
@@ -123,7 +146,7 @@ function print_navbar($user) {
                     </ul>
                 </div>
                 <div class="bottom-content">
-                ' . ($user ? '
+                ' . ($id ? '
                     <li class="">
                         <a href="'.href('logout').'">
                             <i class="bx bx-log-out icon" ></i>

@@ -9,6 +9,7 @@ class User {
     protected $db;
     protected $username;
     protected $email;
+    protected $pfp_url;
 
     public function __construct($id, $role='user') {
         $this->id = $id;
@@ -17,6 +18,7 @@ class User {
             $this->db = 0;
             $this->username = '';
             $this->email = '';
+            $this->pfp_url = '';
             return;
         }
 
@@ -24,13 +26,14 @@ class User {
         $this->db = new TECDB();
         
         $query = 
-        "SELECT `username`, `email`
+        "SELECT `username`, `email`, `pfp_url`
         FROM `users`
         WHERE `user_id` = ?";
         $res = $this->db->query($query, $this->id)->fetchArray();
 
         $this->set_username($res['username']);
         $this->set_email($res['email']);
+        $this->pfp_url = $res['pfp_url'] ? $res['pfp_url'] : 'https://tecconvention.com/images/user.png';
 
         /*
         $user = get_user_by('ID', $id);
@@ -85,6 +88,14 @@ class User {
     }
 
     /**
+     * Gets user's profile image
+     */
+
+    public function profile_image() {
+        return $this->pfp_url;
+    }
+
+    /**
      * Get the user's role
      * @return  string
      */
@@ -133,7 +144,7 @@ class User {
 
     public function get_meta($meta_key) {
         if (!$this->db) {
-            return;
+            return false;
         }
 
         $query = 

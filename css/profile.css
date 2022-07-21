@@ -1,0 +1,23 @@
+.banner-wrapper {
+    width:100%;
+}
+
+.pfp img {
+    border-radius:50%;
+    width:120px;
+}
+
+.banner {
+    background-color: rgb(105, 215, 230);
+    padding:20px 40px;
+}
+
+@media only screen and (max-width: 1024px) {
+    .pfp img {
+        width:60px;
+    }
+
+    .banner {
+        padding: 20px;
+    }
+}

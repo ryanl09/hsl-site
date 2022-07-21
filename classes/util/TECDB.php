@@ -1,6 +1,6 @@
 <?php
 
-class TECDB {
+class tecdb {
 
     protected $connection;
 	protected $query;
