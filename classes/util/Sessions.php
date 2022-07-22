@@ -1,9 +1,5 @@
 <?php
 
-if (isset($_COOKIE['PHPSESSID'])) {
-    session_id($_COOKIE['PHPSESSID']);
-}
-
 if (!session_id()) {
     session_start();
 }

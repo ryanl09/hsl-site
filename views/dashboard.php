@@ -3,8 +3,6 @@
 $path = $_SERVER['DOCUMENT_ROOT'];
 require_once($path . '/documentelements.php');
 
-require_once($path . '/classes/util/Sessions.php');
-
 $u = new User($user_id);
 
 ?>

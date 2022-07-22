@@ -1,0 +1,1 @@
+const ajax_url = '/ajax/';

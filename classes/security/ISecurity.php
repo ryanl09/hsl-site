@@ -1,7 +1,7 @@
 <?php
 
 interface ISecurity {
-    public abstract function create();
+    public function create();
 }
 
 ?>

@@ -3,7 +3,7 @@
 $path = $_SERVER['DOCUMENT_ROOT'];
 require_once($path . '/classes/util/tecdb.php');
 
-abstract class VerifyService() {
+abstract class VerifyService {
     protected $db;
     protected $params;
 
@@ -12,7 +12,7 @@ abstract class VerifyService() {
         $this->db = new tecdb();
     }
 
-    protected function check_input($key) {
+    final protected function check_input($key) {
         if (isset($this->params[$key])) {
             if (empty($this->params[$key])) {
                 return array(

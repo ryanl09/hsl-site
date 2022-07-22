@@ -2,7 +2,7 @@
 
 $path = $_SERVER['DOCUMENT_ROOT'];
 
-function base_header($params = []){
+function base_header($params = [], $nosidebar = false){
     $styles='';
     if (isset($params['styles'])) {
         foreach ($params['styles'] as $style) {
@@ -13,7 +13,7 @@ function base_header($params = []){
     $scripts = '';
     if (isset($params['scripts'])) {
         foreach ($params['scripts'] as $script) {
-            $scripts .= '<script type="text/javascript" src="/js/' . $script . '.js">';
+            $scripts .= '<script type="text/javascript" src="/js/' . $script . '.js"></script>';
         }
     }
 
@@ -22,13 +22,15 @@ function base_header($params = []){
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+        <script src="/js/consts.js"></script>
         
-        <link rel="stylesheet" href="/css/sidebar.css">
+        ' . ($nosidebar ? '' : '<link rel="stylesheet" href="/css/sidebar.css">') . '
         ' . $styles . '
         ' . $scripts . '
         
         <link href="https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css" rel="stylesheet">
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+        <link href="/css/loader.css" rel="stylesheet">
     </head>';
 }
 

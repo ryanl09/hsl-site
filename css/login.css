@@ -37,3 +37,146 @@ body{
     background-color: var(--primary-color);
     color: #fff;
 }
+
+.page-content {
+    max-height:100vh;
+    height:100%;
+}
+
+.login-header {
+    width:100%;
+    display:flex;
+    align-items: center;
+}
+
+
+.login-header img {
+    height:50px;
+    margin-left:auto;
+}
+
+.login-box {
+    margin:auto;
+    background-color:#fff;
+    border-radius:12px;
+    padding:20px;
+    -moz-box-shadow: 0 0 3px 2px #ddd;
+    -webkit-box-shadow: 0 0 3px 2px #ddd;
+    box-shadow: 0 0 3px 2px #ddd;
+    width:40em;
+    max-width: 40em;
+    position:absolute;
+    left:50%;
+    top:25%;
+    transform: translate(-50%, -25%);
+}
+
+.login-box h1 {
+    font-weight:500;
+}
+
+.login-footer {
+    width:100%;
+    margin-top:20px;
+    text-align: center;
+}
+
+.login-footer a {
+    text-decoration: none;
+    color:rgb(105, 164, 253);
+    font-size:14px;
+}
+
+.login-footer a:hover{
+    text-decoration: underline;
+}
+
+.row {
+    width:100%;
+    display:grid;
+    grid-template-columns: auto;
+    row-gap: 20px;
+    column-gap: 10px;
+    margin-top:20px;
+}
+
+.e2 {
+    grid-template-columns: auto auto;
+}
+
+.input {
+    display: flex;
+}
+
+.input i {
+    border-top-left-radius: 6px;
+    border-bottom-left-radius: 6px;
+    border: 1px solid var(--text-color);
+    padding:6px;
+    font-size:16px;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    width:40px;
+    background-color: var(--text-color);
+    color:#fff;
+}
+
+.input input {
+    font-size:16px;
+    padding:6px 12px;
+    border: 1px solid #aaa;
+    border-top-right-radius: 6px;
+    border-bottom-right-radius: 6px;
+    width:100%;
+    border-top-left-radius: 6px;
+    border-bottom-left-radius: 6px;
+}
+
+.input > i + input {
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
+}
+
+input[type=submit] {
+    border: 0;
+    outline: none;
+    background-color:var(--primary-color);
+    color:#fff;
+    transition: var(--tran-03);
+}
+
+input[type=submit]:hover {
+    cursor:pointer;
+    background-color: #41b178;
+}
+
+input[type=submit]:disabled {
+    cursor:not-allowed;
+    background-color:#aaa;
+    background-image: url('https://tecconvention.com/images/lr-loader.gif');
+    background-size: 25px 25px;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.errors {
+    padding: 6px 10px;
+    color: #cb0d0d;
+    background-color: #f5d8d8;
+}
+
+.check {
+    margin-top:20px;
+}
+
+@media only screen and (max-width: 1024px) {
+
+    .e2 {
+        grid-template-columns: auto;
+    }
+    .login-box {
+        width: 96%;
+        margin: 10px auto;
+    }
+}

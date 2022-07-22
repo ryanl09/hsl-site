@@ -4,8 +4,6 @@ $path = $_SERVER['DOCUMENT_ROOT'];
 require_once($path . '/documentelements.php');
 require_once($path . '/classes/user/User.php');
 
-require_once($path . '/classes/util/Sessions.php');
-
 $args = $_SERVER["REQUEST_URI"];
 $arg_arr = explode("/",$args);
 

@@ -8,8 +8,11 @@ class AuthToken implements ISecurity {
 
     private $length;
 
-    public function __construct($length) { 
-        $this->length = $length || DEFAULT_LENGTH;
+    public function __construct($length = 0) { 
+        if (!$length) {
+            $length = self::DEFAULT_LENGTH;
+        }
+        $this->length = $length;
     }
 
     /**

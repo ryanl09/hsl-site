@@ -8,7 +8,11 @@ require_once($path . '/controllers/MyGamesController.php');
 require_once($path . '/controllers/StatsController.php');
 require_once($path . '/controllers/MessagesController.php');
 require_once($path . '/controllers/ProfileController.php');
+require_once($path . '/controllers/LoginController.php');
+require_once($path . '/controllers/RegisterController.php');
 require_once($path . '/controllers/Error404Controller.php');
+
+require_once($path . '/classes/services/LogoutService.php');
 
 class ClientRequest {
     private $ctrl;
@@ -39,6 +43,15 @@ class ClientRequest {
                 break;
             case 'user':
                 $this->ctrl = new ProfileController();
+                break;
+            case 'login':
+                $this->ctrl = new LoginController();
+                break;
+            case 'register':
+                $this->ctrl = new RegisterController();
+                break;
+            case 'logout':
+                LogoutService::logout();
                 break;
             default:
                 $this->ctrl = new Error404Controller();
