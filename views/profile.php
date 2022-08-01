@@ -7,7 +7,13 @@ require_once($path . '/classes/user/User.php');
 $args = $_SERVER["REQUEST_URI"];
 $arg_arr = explode("/",$args);
 
-$view = new User(strtolower($arg_arr[2]));
+$username = strtolower($arg_arr[2]);
+$view = User::get_class_instance(0, $username);
+
+$can_edit = false;
+if ($view->get_id() === $_SESSION['user']->get_id()) {
+    $can_edit=true;
+}
 
 ?>
 
@@ -16,7 +22,8 @@ $view = new User(strtolower($arg_arr[2]));
 <?php 
 base_header(
     array(
-        'styles' => ['profile']
+        'styles' => ['profile'],
+        'scripts' => ['profile']
     )
 ); 
 ?>
@@ -28,7 +35,26 @@ base_header(
                     <div class="banner">
                         <div class="pfp">
                             <img src="<?php echo $view->profile_image(); ?>">
+                            <?php if ($can_edit) { ?>
+                                <span id="edit-pfp" class="edit-ctrl">+</span>
+                            <?php } ?>
                         </div>
+                        <div class="username">
+                            <h1 class="username-big"><?php echo $view->get_username(); ?></h1>
+                        </div>
+                        <?php if ($can_edit) { ?>
+                            <div class="editprev">
+                                <button id="edit">Edit</button>
+                                <button id="prev">Preview</button>
+                            </div>
+                        <?php } else { ?>
+                            <div class="profile-ctrls">
+                                <button id="like" class="p-btn"><i id="i-like" class='bx bx-heart'></i>Like</button>
+                                <button id="follow" class="p-btn"><i id="i-follow" class='bx bx-user-plus'></i>Follow</button>
+                                <button id="dm" class="p-btn"><i id="i-dm" class='bx bx-chat'></i>DM</button>
+                                <button id="report" class="p-btn"><i id="i-report" class='bx bx-alarm-exclamation'></i>Report</button>
+                            </div>
+                        <?php } ?>
                     </div>
                 </div>
             <? } else { //user doesn't exist ?>

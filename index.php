@@ -8,6 +8,8 @@ $args = $_SERVER["REQUEST_URI"];
 $arg_arr = explode("/",$args);
 $page = strtolower($arg_arr[1]);
 
-$req = new ClientRequest($page);
+if ($page!=='css'){
+    $req = new ClientRequest($page);   
+}
 
 ?>

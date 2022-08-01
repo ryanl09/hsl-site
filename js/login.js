@@ -21,7 +21,7 @@
                     log.val('Login');
                     if(!data.status) {
                         if (!data.errors) {
-                            console.log('Error sending request');
+                            errors.html(`${'Invalid request.'}<br>`);
                             return;
                         }
                         

@@ -183,7 +183,8 @@ class RegisterService extends VerifyService {
 
         return array(
             'status' => 1,
-            'user_id' => $user_id
+            'user_id' => $user_id,
+            'href' => '/dashboard'
         );
     }
 
