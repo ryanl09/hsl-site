@@ -2,6 +2,7 @@
 
 require_once('CreatePlayerService.php');
 require_once('CreateTeamManagerService.php');
+require_once('LoginService.php');
 
 $path = $_SERVER['DOCUMENT_ROOT'];
 require_once($path . '/classes/services/VerifyService.php');
@@ -23,15 +24,15 @@ class RegisterService extends VerifyService {
     }
 
     /**
-     * Registers a user based on what type they are
+     * do user meta & other actions based on type
      * @param   array   $params
      * @return  int|Player|TeamManager|Caster|Admin|College
      */
 
-    public function create_user($params) {
+    private function create_user() {
         $success = false;
         $cs = 0;
-        switch ($type) {
+        switch ($this->type) {
             case 'player':
                 $cs = new CreatePlayerService();
                 break;
@@ -45,19 +46,20 @@ class RegisterService extends VerifyService {
                 $cs = new CreateAdminService();
                 break;
             case 'staff':
-                //?
+                $cs = new CreateStaffService();
                 break;
             case 'college':
                 $cs = new CreateCollegeService();
                 break;
+            default:
+                return array(
+                    'status' => 0,
+                    'errors' => ['Invalid user type']
+                );
         }
 
-        if (!$cs){
-            return 0;
-        }
-
-        $user = $cs->create();
-        return $user;
+        $data = 1;//$cs->create();
+        return $data;
     }
 
     public function register() {
@@ -167,6 +169,22 @@ class RegisterService extends VerifyService {
             );
         }
 
+        $user_exists = $this->user_exists($username);
+        if ($user_exists) {
+            return array(
+                'status' => 0,
+                'errors' => ['An account with this username already exists']
+            );
+        }
+
+        $email_exists = $this->email_exists($email);
+        if ($email_exists) {
+            return array(
+                'status' => 0,
+                'errors' => ['An account with this email already exists']
+            );
+        }
+
         $name = ucwords(strtolower($f_name)) . ' ' . ucwords(strtolower($l_name));
 
         $auth = new AuthToken();
@@ -176,10 +194,21 @@ class RegisterService extends VerifyService {
         $password = $ph->create();
 
         $query =
-        "INSERT INTO `users` (`name`, `email`, `pronouns`, `username`, `password`, `activation_key`, `activated`)
-        VALUES (?, ?, ?, ?, ?, ?, false)";
+        "INSERT INTO `users` (`name`, `email`, `pronouns`, `username`, `password`, `activation_key`, `activated`, `role`)
+        VALUES (?, ?, ?, ?, ?, ?, false, ?)";
 
-        $user_id = $this->db->query($query, $name, $email, $pronouns, $username, $password, $activation_key)->lastInsertID();
+        $user_id = $this->db->query($query, $name, $email, $pronouns, $username, $password, $activation_key, $this->type)->lastInsertID();
+
+        $create_type = $this->create_user();
+        if (isset($create_type['errors'])) {
+            return $create_type;
+        }
+
+        $login_params = array(
+            'ref' => 'register'
+        );
+        $ls = new LoginService($login_params);
+        $ls->login_user($user_id);
 
         return array(
             'status' => 1,
@@ -198,6 +227,46 @@ class RegisterService extends VerifyService {
 
     private function validate_password($password) {
         return preg_match("/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{". self::MIN_PASS_LENGTH ."," . self::MAX_PASS_LENGTH . "}$/", $password);
+    }
+
+    /**
+     * checks if a user with this username exists
+     * @param   string  $user
+     * @return  boolean
+     */
+
+    private function user_exists($user) {
+        if (!$user) {
+            return false;
+        }
+
+        $query =
+        "SELECT `user_id`
+        FROM `users`
+        WHERE `username` = ?";
+
+        $res = $this->db->query($query, $user)->fetchArray();
+        return !empty($res);
+    }
+
+    /**
+     * checks if a user with this email exists
+     * @param   string  $email
+     * @return  boolean
+     */
+
+    private function email_exists($email) {
+        if (!$email) {
+            return false;
+        }
+
+        $query =
+        "SELECT `user_id`
+        FROM `users`
+        WHERE `email` = ?";
+
+        $res = $this->db->query($query, $email)->fetchArray();
+        return !empty($res);
     }
 }
 

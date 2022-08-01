@@ -122,7 +122,7 @@ body{
     color:#fff;
 }
 
-.input input {
+.input input, .input select {
     font-size:16px;
     padding:6px 12px;
     border: 1px solid #aaa;
@@ -134,6 +134,11 @@ body{
 }
 
 .input > i + input {
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
+}
+
+.input > i + select {
     border-top-left-radius: 0px;
     border-bottom-left-radius: 0px;
 }
@@ -168,6 +173,27 @@ input[type=submit]:disabled {
 
 .check {
     margin-top:20px;
+}
+
+.pass-specs {
+    background-color: var(--body-color);
+    border: 1px solid #aaa;
+    padding:6px 10px;
+    font-size:12px;
+    margin-top:20px;
+    border-radius:4px;
+}
+
+.pass-specs p i {
+    margin-right:6px;
+}
+
+.good {
+    color:#23a160;
+}
+
+.bad {
+    color:#cb0d0d;
 }
 
 @media only screen and (max-width: 1024px) {

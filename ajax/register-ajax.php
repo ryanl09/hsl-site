@@ -50,8 +50,48 @@ if ((isset($_SERVER['HTTP_X_REQUESTED_WITH'])) && ($_SERVER['HTTP_X_REQUESTED_WI
         );
         die();
     }
-    
-    $rs = new RegisterService($_POST, 'player');
+
+    if (isset($_POST['terms'])) {
+        $terms = $_POST['terms'];
+        if (!$terms) {
+            echo json_encode(
+                array(
+                    'status' => 0,
+                    'errors' => ['You must accept the Terms & Conditions and Privacy Policy to register']
+                )
+            );
+        }
+    } else {
+        echo json_encode(
+            array(
+                'status' => 0,
+                'errors' => ['Missing terms']
+            )
+        );
+        die();
+    }
+
+    $type = $_POST['type'];
+    if (isset($_POST['type'])) {
+        if (!$type) {
+            echo json_encode(
+                array(
+                    'status' => 0,
+                    'errors' => ['Invalid user type']
+                )
+            );
+            die();
+        }
+    } else {
+        echo json_encode(
+            array(
+                'status' => 0,
+                'errors' => ['Missing user type']
+            )
+        );
+        die();
+    }
+    $rs = new RegisterService($_POST, $type);
     $reg = $rs->register();
 
     echo json_encode($reg);

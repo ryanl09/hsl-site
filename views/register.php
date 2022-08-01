@@ -28,6 +28,18 @@ if (isset($_SESSION['user']) && $_SESSION['user']->get_id()) {
                     </div>
                     <div class="login-body">
                         <div class="row errors" style="display:none;"></div>
+                        <div class="row">
+                            <label for="user-type">I am a:</label>
+                            <div class="input">
+                                <i class='bx bxs-user-badge' ></i>
+                                <select name="user-type" id="user-type">
+                                    <option value="player">Player</option>
+                                    <option value="team_manager">Team Manager</option>
+                                    <option value="caster">Caster</option>
+                                    <option value="college">College</option>
+                                </select>
+                            </div>
+                        </div>
                         <div class="row e2">
                             <div class="input">
                                 <i class='bx bxs-user-detail' ></i>
@@ -63,6 +75,13 @@ if (isset($_SESSION['user']) && $_SESSION['user']->get_id()) {
                             <div class="input">
                                 <input type="password" name="c_password" id="c_password" placeholder="Confirm password">
                             </div>
+                        </div>
+                        <div class="pass-specs" style="display:none;">
+                            <p id="p-len" class="good"><i class='bx bx-check'></i>8 or more characters</p>
+                            <p id="p-low" class="good"><i class='bx bx-check'></i>1 lowercase letter</p>
+                            <p id="p-upp" class="good"><i class='bx bx-check'></i>1 uppercase letter</p>
+                            <p id="p-spe" class="bad"><i class='bx bx-x' ></i>1 special character</p>
+                            <p id="p-mat" class="bad"><i class='bx bx-x' ></i>Passwords match</p>
                         </div>
                         <div class="check">
                             <input type="checkbox" name="showpass" id="showpass">

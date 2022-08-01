@@ -99,7 +99,7 @@ function print_navbar() {
                             </a>
                         </li>
 
-                        <li class="nav-link">
+                        <li class="nav-link" style="display:none;">
                             <a href="'.href('feed').'">
                                 <i class="bx bx-news icon"></i>
                                 <span class="text nav-text">Feed</span>
@@ -135,14 +135,14 @@ function print_navbar() {
                         : '
                         <li class="nav-link">
                             <a href="'.href('login').'">
-                                <i class="bx bx-bell icon"></i>
+                            <i class="bx bxs-user-circle icon"></i>
                                 <span class="text nav-text">Log in</span>
                             </a>
                         </li>
 
                         <li class="nav-link">
                             <a href="'.href('register').'">
-                                <i class="bx bx-message icon" ></i>
+                                <i class="bx bx-edit icon" ></i>
                                 <span class="text nav-text">Register</span>
                             </a>
                         </li>') . '

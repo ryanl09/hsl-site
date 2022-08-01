@@ -23,10 +23,6 @@
     --tran-05: all 0.3s ease;
 }
 
-* {
-    box-sizing:border-box;
-}
-
 body{
     min-height: 100vh;
     background-color: var(--body-color);
@@ -57,7 +53,11 @@ body.dark{
     padding: 10px 14px;
     background: var(--sidebar-color);
     transition: var(--tran-05);
-    z-index: 100;  
+    z-index: 100;
+    
+    -moz-box-shadow: 0 0 3px -2px rgba(0,0,0,0.12);
+    -webkit-box-shadow: 0 0 3px -2px rgba(0,0,0,0.12);
+    box-shadow: 3px 0 2px -2px rgba(0,0,0,0.12);
 }
 .sidebar.close{
     width: 88px;
@@ -121,6 +121,9 @@ header .image-text .name {
     margin-top: 2px;
     font-size: 18px;
     font-weight: 600;
+    -moz-box-shadow: 0 0 3px 2px rgba(0,0,0,0.02);
+    -webkit-box-shadow: 0 0 3px 2px rgba(0,0,0,0.02);
+    box-shadow: 0 0 3px 2px rgba(0,0,0,0.02);
 }
 
 header .image-text .profession{
@@ -299,7 +302,6 @@ body.dark .switch::before{
 
 .home{
     position: absolute;
-    top: 0;
     top: 0;
     left: 280px;
     height: 100vh;

@@ -2,18 +2,39 @@
     $(document).ready(()=>{
         const reg = $('#register-btn');
         const errors = $('.errors');
+        var _FOCUS=[]; //hold only 2 values, the last focused input and the current
+        var pass_flags = [0,0,0,0,0];
 
         reg.on('click', (e)=>{
             e.preventDefault();
-            reg.prop('disabled', true);
-            reg.val('');
             errors.hide();
             errors.html('');
+            
+            const terms = $('#terms').is(':checked');
+            if (!terms){
+                errors.html('You must accept the Terms & Conditions and Privacy Policy to register');
+                errors.show();
+                return;
+            }
+
+            const flag_count = pass_flags.reduce(function(a, b) { return a + b; }, 0);
+            if (flag_count !== pass_flags.length){
+                errors.html(`Please fix the remaining (${pass_flags.length - flag_count}) password errors.`);
+                console.log(JSON.stringify(pass_flags));
+                errors.show();
+                return;
+            }
+
+            //disable the login button for all checks that do not happen instantaneously
+            reg.prop('disabled', true);
+            reg.val('');
 
             $.ajax({
                 type:'post',
                 url:`${ajax_url}register-ajax.php`,
-                data:{'f_name':$('#firstname').val(), 'l_name':$('#lastname').val(), 'pronouns': $('#pronouns').val(), 'email': $('#email').val(), 'username':$('#username').val(), 'password':$('#password').val(), 'c_password':$('#c_password').val(), 'csrf':$('#csrf').val()},
+                data:{'f_name':$('#firstname').val(), 'l_name':$('#lastname').val(), 'pronouns': $('#pronouns').val(), 'email': $('#email').val(), 
+                    'username':$('#username').val(), 'password':$('#password').val(), 'c_password':$('#c_password').val(), 'csrf':$('#csrf').val(),
+                    'terms':terms, 'type':$('#user-type').val()},
                 dataType:'json',
                 success:(data)=>{
                     console.log(data);
@@ -54,5 +75,93 @@
             $('#password').attr('type', 'password');
             $('#c_password').attr('type', 'password');
         });
-    });    
+
+        /**password spec events */
+
+        const ps = $('.pass-specs');
+
+        $('#password').on('input propertychange paste', ()=>{
+            const p = $('#password').val();
+            if (!p.length){
+                ps.slideUp();
+                return;
+            }
+
+            var len = (p.length >= 8) | 0;
+            pass_flags[0]=len;
+            set_flag('p-len', len);
+
+            var low = (p!=p.toUpperCase()) | 0;
+            pass_flags[1]=low;
+            set_flag('p-low', low);
+
+            var upp = (p!=p.toLowerCase()) | 0;
+            pass_flags[2]=upp;
+            set_flag('p-upp', upp);
+
+            const specialChars = /[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
+            var spe = specialChars.test(p) | 0;
+            pass_flags[3]=spe;
+            set_flag('p-spe', spe);
+
+            ps.slideDown();
+        });
+
+        $('#c_password').on('input propertychange paste', ()=>{
+            const p = $('#c_password').val();
+            if (!p.length){
+                ps.slideUp();
+                return;
+            }
+
+            ps.slideDown();
+
+            var mat = (p===$('#password').val()) | 0;
+            pass_flags[4]=mat;
+            set_flag('p-mat', mat);
+        });
+
+        $('input').on('focus', (e)=>{
+            _foc(e.target.id);
+        });
+
+        $('#showpass').on('click', (e)=>{
+            _foc(e.target.id);
+        });
+
+        /**
+         * update the password flag checks (length, letters, etc)
+         * @param {string} id 
+         * @param {boolean|int} val 
+         */
+    
+        function set_flag(id, val){
+            $(`#${id}`).removeClass();
+            $(`#${id}`).addClass(val?'good':'bad');
+    
+            $(`#${id} > i`).removeClass();
+            $(`#${id} > i`).addClass('bx');
+            $(`#${id} > i`).addClass(val?'bx-check':'bx-x');
+        }
+    
+        /**
+         * focus event handler
+         * @param {string} id
+         */
+
+        function _foc(id) {
+            if(_FOCUS.length>1){
+                _FOCUS.shift(); //remove the first element to make room for the 'new' 2nd
+            }
+            _FOCUS.push(id);
+            
+            if (_FOCUS[1]==='password' || _FOCUS[1]==='c_password' || _FOCUS[1]==='showpass'){
+                if($(`#${_FOCUS[1]}`).val().length > 0) {
+                    ps.slideDown();
+                    return;
+                }
+            }
+            ps.slideUp();
+        }
+    });
 })();

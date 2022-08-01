@@ -16,6 +16,8 @@ class User {
     protected $db;
     protected $username;
     protected $email;
+    protected $name;
+    protected $pronouns;
     protected $pfp_url;
 
     public function __construct($id, $role='user') {
@@ -23,8 +25,10 @@ class User {
         if (!$this->id) {
             $this->role='user';
             $this->db = 0;
-            $this->username = '';
+            $this->username = 'Guest';
             $this->email = '';
+            $this->name = '';
+            $this->pronouns = '';
             $this->pfp_url = '';
             return;
         }
@@ -33,7 +37,7 @@ class User {
         $this->db = new TECDB();
         
         $query = 
-        "SELECT `username`, `email`, `pfp_url`, `user_id`
+        "SELECT `username`, `email`, `pfp_url`, `user_id`, `name`, `pronouns`
         FROM `users`
         WHERE `user_id` = ?";
         $res = $this->db->query($query, $this->id)->fetchArray();
@@ -41,6 +45,8 @@ class User {
 
         $this->set_username($res['username']);
         $this->set_email($res['email']);
+        $this->set_name($res['name']);
+        $this->set_pronouns($res['pronouns']);
         $this->pfp_url = $res['pfp_url'] ? $res['pfp_url'] : '/images/user.png';
 
         /*
@@ -93,6 +99,42 @@ class User {
 
     private function set_email($email) {
         $this->email = $email;
+    }
+
+    /**
+     * Gets user's name
+     * @return  string
+     */
+
+    public function get_name() {
+        return $this->name;
+    }
+
+    /**
+     * Sets user's name
+     * @param   string  $name
+     */
+
+    private function set_name($name) {
+        $this->name = $name;
+    }
+
+    /**
+     * Gets user's pronouns
+     * @return  string
+     */
+
+    public function get_pronouns() {
+        return $this->pronouns;
+    }
+
+    /**
+     * Sets user's pronouns
+     * @param   string  $pronouns
+     */
+
+    private function set_pronouns($pronouns) {
+        $this->pronouns = $pronouns;
     }
 
     /**
@@ -345,6 +387,31 @@ class User {
             default:
                 return new User($user_id);
         }
+    }
+
+    /**
+     * Gets the badges for a user's page
+     * @param   int $user_id
+     * @return  array
+     */
+
+    public static function get_badges($user_id) {
+        if (!$user_id) {
+            return [];
+        }
+
+        $db = new tecdb();
+
+        $query = 
+        "SELECT badge_types.url
+        FROM `badges`
+        INNER JOIN `badge_types`
+            ON badge_types.id = badges.badge_id
+        WHERE `user_id` = ?";
+
+        $res = $db->query($query, $user_id)->fetchAll();
+
+        return $res;
     }
 }
 

@@ -16,11 +16,11 @@ class tecdb {
 		$charset = 'utf8';
 
 
-		/*
+		
 		$dbhost = '162.241.194.77';
 		$dbuser = 'teccoion_ryan';
 		$dbpass = '!p5^1-@zkPGein+z';
-		$dbname = 'teccoion_techs';*/
+		$dbname = 'teccoion_techs';
 
 		$this->connection = new mysqli($dbhost, $dbuser, $dbpass, $dbname);
 		if ($this->connection->connect_error) {

@@ -1,3 +1,18 @@
+
+:root{
+    /* ===== Colors ===== */
+    --body-color: #E4E9E7;
+    --sidebar-color: #FFF;
+    --primary-color: #2dd881;
+    --primary-color-light: #F6F5FF;
+    --toggle-color: #DDD;
+    --text-color: #373f51;
+    --btn-h: rgb(243, 242, 242);
+
+    /* ====== Transition ====== */
+    --btn-t: .1s all ease-in;
+}
+
 .banner-wrapper {
     width:100%;
 }
@@ -8,25 +23,57 @@
 
 .pfp img {
     border-radius:50%;
-    width:120px;
-    height:120px;
+    width:160px;
+    height:160px;
 }
 
 .banner {
-    background-color: rgb(105, 215, 230);
-    padding:20px 40px;
-    -moz-box-shadow: 0 0 3px 2px rgba(0,0,0,0.3);
-    -webkit-box-shadow: 0 0 3px 2px rgba(0,0,0,0.3);
-    box-shadow: 0 0 3px 2px rgba(0,0,0,0.3);
+    background-color: #fff;
+    padding:20px 60px;
+    padding-top: 40px;
+    display:grid;
+    grid-template-columns: 33% 33% 33%;
+}
+
+.banner-bottom {
+    background-color: #fff;
+    padding: 20px 60px;
     display:flex;
-    align-items:end;
+    align-items: center;
 }
 
 h1.username-big {
     font-size:32px;
-    color:#fff;
-    background-color:rgba(0,0,0,0.75);
+    color:#000;
+    /*background-color:rgba(0,0,0,0.75);*/
+}
+
+.username {
     padding:8px;
+    display:flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height:120px;
+    padding-left:20px;
+}
+
+.name {
+    font-size: 14px;
+}
+
+.pronouns {
+    font-size:14px;
+    font-weight: 400;
+    color:#555;
+}
+
+.bio {
+    width:75%;
+}
+
+.profile-info {
+    display:flex;
+    align-items: end;
 }
 
 .editprev {
@@ -46,9 +93,14 @@ h1.username-big {
     outline:0;
     border:none;
     margin:0;
-    padding:20px;
+    padding:6px 10px;
+    font-size: 16px;
     transition: 0.3s background-color ease;
-    font-weight:600;
+    font-weight:500;
+}
+
+.editprev i {
+    padding-right:6px;
 }
 
 #edit {
@@ -91,46 +143,44 @@ h1.username-big {
 }
 
 .c-mode {
-
-    background-color:blue;
+    color:#fff;
+    background-color:rgb(107, 153, 223);
 }
 
 .profile-ctrls {
     position: relative;
-    float:right;
     padding: 0px;
     display:flex;
     justify-content:center;
     margin-left: auto;
-}
-
-.profile-ctrls i {
-    padding-right:6px;
-}
-
-.profile-ctrls button:first-child {
-    border-top-left-radius: 6px;
-    border-bottom-left-radius: 6px;
-    border-left:none;
-}
-
-.profile-ctrls button:last-child {
-    border-top-right-radius: 6px;
-    border-bottom-right-radius: 6px;
+    gap:10px;
 }
 
 .p-btn {
+    display:flex;
+    align-items: center;
     font-weight:500;
-    padding:6px 10px;
+    padding:10px;
     font-size:16px;
     border:none;
     outline:0;
-    border-left:1px solid #ccc;
-    transition: .17s all ease-in;
+    background-color:#fff;
+    border-radius: 50vh;
+    transition: var(--btn-t);
+    border: 1px solid #ddd;
+}
+
+.p-btn i {
+    padding: 4px;
+}
+
+.p-btn > p {
+    display: none;
+    margin-left:6px;
 }
 
 .p-btn:hover {
-    background-color:#ddd;
+    background-color:var(--btn-h);
 }
 
 button:hover {
@@ -154,6 +204,10 @@ button:hover {
     color:red;
 }
 
+#block:hover i {
+    color:rgb(168, 0, 0);
+}
+
 .hasload:disabled {
     cursor:not-allowed;
     cursor:not-allowed;
@@ -164,13 +218,77 @@ button:hover {
     background-repeat: no-repeat;
 }
 
+.badges {
+    height: 100px;
+    display:flex;
+    align-items: end;
+    justify-items: center;
+    gap:10px;
+    max-width:340px;
+    overflow-x:auto;
+    margin: auto;
+}
+
+.badge-wrapper {
+    display:grid;
+    grid-template-columns: auto;
+    margin-top: auto;
+}
+
+.badge-title h4 {
+    text-align: center;
+}
+
+.profile-tabs {
+    display:flex;
+    justify-content: center;
+    gap:10px;
+    padding: 20px 0;
+}
+
+.profile-tabs button {
+    background-color: #fff;
+    border-radius: 50vh;
+    border: 0;
+    outline: none;
+    padding:6px 16px;
+    font-weight: 500;
+    transition: var(--btn-t);
+}
+
+.profile-tabs button:hover {
+    background-color:var(--btn-h);
+}
+
+.profile-tabs button.selected:hover {
+    background-color:#27b66c;
+}
+
+button.selected {
+    background-color: var(--primary-color);
+    color:#fff;
+}
+
+@media only screen and (max-width: 1240px) {
+    .banner {
+        grid-template-columns: auto;
+    }
+}
+
 @media only screen and (max-width: 1024px) {
-    .pfp img {
-        width:60px;
-        height:60px;
+
+
+    .banner-bottom {
+        display:grid;
+        grid-template-columns: auto;
     }
 
-    .banner {
-        padding: 20px;
+    .bio {
+        width:100%;
+    }
+
+    .profile-ctrls {
+        margin: auto;
+        margin-top: 10px;
     }
 }
