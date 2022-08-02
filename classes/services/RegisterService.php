@@ -189,6 +189,7 @@ class RegisterService extends VerifyService {
 
         $auth = new AuthToken();
         $activation_key = $auth->create();
+        $request_key = $auth->create();
 
         $ph = new PasswordHash($password);
         $password = $ph->create();

@@ -17,6 +17,16 @@ function base_header($params = [], $nosidebar = false){
         }
     }
 
+    $custom_style = '';
+
+    if (isset($params['custom_style']) && $params['custom_style'] != ''){
+        $custom_style = '<style>';
+        foreach ($params['custom_style'] as $identifier => $rules) {
+            $custom_style .= $identifier . '{' . $rules . '}';
+        }
+        $custom_style .= '</style>';
+    }
+
     echo
     '<head>
         <meta charset="UTF-8">
@@ -24,7 +34,7 @@ function base_header($params = [], $nosidebar = false){
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <script src="/includes/jquery-3.6.0.min.js"></script>
         <script src="/js/consts.js"></script>
-        <link rel="stylesheet" href="/css/gstatic.css">
+        <link rel="stylesheet" href="/css/transition.css">
         
         ' . ($nosidebar ? '' : '<link rel="stylesheet" href="/css/sidebar.css">') . '
         ' . $styles . '
@@ -32,6 +42,8 @@ function base_header($params = [], $nosidebar = false){
         
         <link href="/includes/boxicons.min.css" rel="stylesheet">
         <link href="/css/loader.css" rel="stylesheet">
+
+        ' . $custom_style . '
     </head>';
 }
 
@@ -85,48 +97,48 @@ function print_navbar() {
                     </li>
 
                     <ul class="menu-links">
-                        <li class="nav-link">
+                        <li class="nav-link p-dashboard">
                             <a href="'.href('dashboard').'">
                                 <i class="bx bx-home-alt icon" ></i>
                                 <span class="text nav-text">Dashboard</span>
                             </a>
                         </li>
                         
-                        <li class="nav-link">
+                        <li class="nav-link p-league">
                             <a href="'.href('league').'">
                                 <i class="bx bx-menu icon" ></i>
                                 <span class="text nav-text">League</span>
                             </a>
                         </li>
 
-                        <li class="nav-link" style="display:none;">
+                        <li class="nav-link p-feed" style="display:none;">
                             <a href="'.href('feed').'">
                                 <i class="bx bx-news icon"></i>
                                 <span class="text nav-text">Feed</span>
                             </a>
                         </li>
 
-                        <li class="nav-link">
+                        <li class="nav-link p-mygames">
                             <a href="'.href('mygames').'">
                                 <i class="bx bx-calendar-event icon" ></i>
                                 <span class="text nav-text">My Games</span>
                             </a>
                         </li>
 
-                        <li class="nav-link">
+                        <li class="nav-link p-stats">
                             <a href="'.href('stats').'">
                                 <i class="bx bx-stats icon"></i>
                                 <span class="text nav-text">Stats</span>
                             </a>
                         </li>
 
-                        <li class="nav-link">
+                        <li class="nav-link p-messages">
                             <a href="'.href('messages').'">
                                 <i class="bx bx-message icon" ></i>
                                 <span class="text nav-text">Messages</span>
                             </a>
                         </li>
-                        <li class="nav-link">
+                        <li class="nav-link p-user">
                             <a href="'.href('profile').'">
                                 <i class="bx bx-user icon" ></i>
                                 <span class="text nav-text">Profile</span>
@@ -156,7 +168,7 @@ function print_navbar() {
                             <span class="text nav-text">Logout</span>
                         </a>
                     </li>' : '') .
-                    '<li class="mode">
+                    '<li class="mode" style="display:none;">
                         <div class="sun-moon">
                             <i class="bx bx-moon icon moon"></i>
                             <i class="bx bx-sun icon sun"></i>

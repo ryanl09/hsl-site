@@ -4,15 +4,21 @@ $path = $_SERVER['DOCUMENT_ROOT'];
 require_once($path . '/documentelements.php');
 require_once($path . '/classes/user/User.php');
 
-$args = $_SERVER["REQUEST_URI"];
-$arg_arr = explode("/",$args);
-
+$arg_arr = $_SESSION['current_page'];
 $username = strtolower($arg_arr[2]);
 $view = User::get_class_instance(0, $username);
 
+$fill = '';
 $can_edit = false;
+$edit_style = '';
+
 if ($view->get_id() === $_SESSION['user']->get_id()) {
     $can_edit=true;
+    $fill = ' edit--fill';
+    $edit_style = array(
+        '.p-c' => 'display:none;',
+        '.p-c[style*="display: block"]' => 'display:flex !important;',
+    );
 }
 
 ?>
@@ -23,12 +29,19 @@ if ($view->get_id() === $_SESSION['user']->get_id()) {
 base_header(
     array(
         'styles' => ['profile'],
-        'scripts' => ['profile']
+        'scripts' => ['profile'],
+        'custom_style' => $edit_style
     )
 ); 
 ?>
     <body>
         <?php print_navbar();?>
+        <?php if ($can_edit) { ?>
+            <div class="editprev">
+                 <button id="edit" class="c-mode"><i class='bx bx-edit-alt' ></i>Edit</button>
+                <button id="prev"><i class='bx bx-search-alt' ></i>Preview</button>
+            </div>
+        <?php } ?>
         <section class="home">
             <?php if ($view->get_id()) { //if user exists ?>
                 <div class="banner-wrapper">
@@ -37,11 +50,12 @@ base_header(
                             <div class="pfp">
                                 <img src="<?php echo $view->profile_image(); ?>">
                                 <?php if ($can_edit) { ?>
-                                    <span id="edit-pfp" class="edit-ctrl">+</span>
+                                    <span id="edit-pfp" class="e-c">+</span>
                                 <?php } ?>
+                                <div class="online-status"></div>
                             </div>
                             <div class="username">
-                                <h1 class="username-big">@<?php echo $view->get_username(); ?></h1>
+                                <h1 class="username-big">@<?php echo $view->get_username(); ?><i class='bx bxs-check-square'></i></h1>
                                 <p class="name"><?php echo $view->get_name(); ?></p>
                                 <p class="pronouns"><?php echo $view->get_pronouns(); ?></p>
                             </div>
@@ -53,8 +67,13 @@ base_header(
                             <div class="badges">
                                 <?php
                                     $badges = User::get_badges($view->get_id());
-                                    foreach ($badges as $i => $row) {
-                                        echo '<img src="'.$row['url'].'" width="100" height="100">';
+                                    if (empty($badges)) {
+                                        echo '<p class="e-c">You don\'t have any badges yet!</p>';
+                                        echo '<p class="p-c">No badges on display</p>';
+                                    } else {
+                                        foreach ($badges as $i => $row) {
+                                            echo '<img src="'.$row['url'].'" width="100" height="100">';
+                                        }
                                     }
                                 ?>
                             </div>
@@ -62,15 +81,11 @@ base_header(
                     </div>
                     <div class="banner-bottom">
                         <div class="bio">
-                            <p class="bio-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure do</p>
-                        </div>
-                        <?php if ($can_edit) { ?>
-                            <div class="editprev">
-                                <button id="edit"><i class='bx bx-edit-alt' ></i>Edit</button>
-                                <button id="prev"><i class='bx bx-search-alt' ></i>Preview</button>
-                            </div>
-                        <?php } else { ?>
-                            <div class="profile-ctrls">
+                            <?php if ($can_edit) { ?>
+                                <textarea class="bio-text-edit e-c <?php echo $fill; ?>">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure do</textarea>
+                            <?php } ?>
+                            <p class="bio-text p-c">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure do</p>
+                            <div class="profile-ctrls p-c">
                                 <button id="like" class="p-btn">
                                     <i id="i-like" class='bx bx-heart'></i>
                                     <p>Like</p>
@@ -92,31 +107,55 @@ base_header(
                                     <p>Block</p>
                                 </button>
                             </div>
-                        <?php } ?>
                     </div>
                 </div>
                 <div class="page-content">
+                <input type="hidden" id="csrf" value="<?php echo $_SESSION['csrf']; ?>">
                     <div class="profile-tabs">
                         <button id="tab-info" class="selected">Info</button>
                         <button id="tab-stats">Stats</button>
                         <button id="tab-highlights">Highlights</button>
                     </div>
-                    <div class="test">
-                        <h2>hi</h2>
-                        <h2>hi</h2>
-                        <h2>hi</h2>
-                        <h2>hi</h2>
-                        <h2>hi</h2>
-                        <h2>hi</h2>
-                        <h2>hi</h2>
-                        <h2>hi</h2>
-                        <h2>hi</h2>
-                        <h2>hi</h2>
-                        <h2>hi</h2>
-                        <h2>hi</h2>
-                        <h2>hi</h2>
-                        <h2>hi</h2>
-                        <h2>hi</h2>
+                    <div class="info-tab --tab">
+                        <div class="tab">
+                            <div class="row e3">
+                                <div class="loading box-info"></div>
+                                <div class="loading box-info"></div>
+                                <div class="loading box-info"></div>
+                                <div class="box">
+                                    <div class="info">
+                                        <h4>School</h4>
+                                        <p id="student-school">Ryan</p>
+                                    </div>
+                                    <div class="info">
+                                        <h4>Grade</h4>
+                                        <p>10</p>
+                                    </div>
+                                </div>
+                                <div class="box">
+                                    <div class="info">
+                                        <h4>Grade</h4>
+                                        <p>10</p>
+                                    </div>
+                                </div>
+                                <div class="box">
+                                    <div class="info">
+                                        <h4>Upcoming Matches</h4>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-stats --tab" style="display:none;">
+                        <div class="tab">
+
+                        </div>
+                    </div>
+                    <div class="tab-highlights --tab" style="display:none;">
+                        <div class="tab">
+
+                        </div>
                     </div>
                 </div>
             <? } else { //user doesn't exist ?>

@@ -1,10 +1,38 @@
 (()=> {
     $(document).ready(()=>{
+
+        get_tab_info();
+
         const e =$('#edit'); //mode=0
         const p =$('#prev'); //mode=1
         const s =$('#save-changes');
 
-        const changes = [];
+        //observer for changes to update edit => save
+        changes = {
+            cInternal: [],
+            cListener: function(val) {},
+            set c(val) {
+                this.cInternal = val;
+                this.aListener(val);
+            },
+            get c() {
+                return this.cInternal;
+            },
+            registerListener: function(listener) {
+                this.cListener = listener
+            }
+        }
+
+        changes.registerListener(function(val) {
+            if (val) { //if a change was made, show save
+                e.text('Save');
+                e.html('<i class="bx bx-save"></i>');
+                e.toggleClass('save-profile-btn');
+                return;
+            }
+            //else show edit (if change was undone? not implemented yet)
+
+        });
 
         var _MODE = 0;
 
@@ -41,17 +69,11 @@
         const tabs = $('.profile-tabs > button');
         tabs.on('click', (e)=>{
             const tab = e.target.id;
+            const _t = tab.split('-');
             tabs.removeClass('selected');
             e.target.classList.add('selected');
-
-            switch (tab) {
-                case 'tab-info':
-                    break;
-                case 'tab-stats':
-                    break;
-                case 'tab-highlights':
-                    break;
-            }
+            $('.--tab').hide();
+            $(`.${_t[1]}-${_t[0]}`).show();
         });
 
         /*
@@ -119,13 +141,45 @@
         }
     });
 
+    async function get_tab_info() {
+        $.ajax({
+            type: 'get',
+            url: `${ajax_url}get-profile-ajax.php`,
+            data: { 'tab': 'info', 'csrf':$('#csrf').val() },
+            dataType: 'text',
+            success:(data)=>{
+                if (!data.status) {
+
+                    $('.loading.box-info').remove();
+                    document.getElementsByClassName('page-content')[0].insertAdjacentHTML('beforeend', `<p>${data}</p>`);
+                    return;
+                }
+
+                $('.loading.box-info').remove();
+            },
+            error:(a,b,c)=>{
+
+            }
+        });
+    }
+
+    async function get_tab_stats() {
+
+    }
+
+    async function get_tab_highlights() {
+
+    }
+
     function update_display(m) {
         if(m){//preview mode
-            $('.edit-ctrl').attr('hidden', true);
+            $('.e-c').hide();
+            $('.p-c').show();
             return;
         }
 
-
+        $('.e-c').show();
+        $('.p-c').hide();
     }
 
     var _LIKED = 0;

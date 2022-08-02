@@ -10,13 +10,52 @@
     --btn-h: rgb(243, 242, 242);
 
     /* ====== Transition ====== */
-    --btn-t: .1s all ease-in;
+    --btn-t: .1s background-color ease-in;
+
+    /* ====== Animations ====== */
+
+    --ad: 1.55s;
+    --ttf: ease-in;
+    --afm: both; 
+}
+
+.loading {
+    cursor:not-allowed;
+    background-color: #fff;
+    border-radius: 6px;
+    padding:20px;
+    width:100%;
+    height:100px;
+    margin:auto;
+    background-image: url('https://tecconvention.com/images/loader-green.gif');
+    background-size: 50px 50px;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.--tab {
+    border-radius: 6px;
+    padding:20px;
+    transition: .2s all ease;
+}
+
+.tab {
+}
+
+button {
+    transition: var(--btn-t);
+}
+
+.anim {
+    animation-duration: var(--ad);
+    transition-timing-function: var(--ttf);
+    animation-fill-mode: var(--afm);
 }
 
 .banner-wrapper {
     width:100%;
-}
 
+}
 .pfp {
     position:relative;
 }
@@ -25,6 +64,18 @@
     border-radius:50%;
     width:160px;
     height:160px;
+    position:relative;
+}
+
+.online-status {
+    position:absolute;
+    top:-10px;
+    right:-10px;
+    width:50px;
+    height:50px;
+    border-radius: 50%;
+    background-color: var(--primary-color);
+    border:4px solid #fff;
 }
 
 .banner {
@@ -45,7 +96,15 @@
 h1.username-big {
     font-size:32px;
     color:#000;
+    display:flex;
+    align-items: center;
     /*background-color:rgba(0,0,0,0.75);*/
+}
+
+h1.username-big i {
+    color:rgb(58, 122, 241);
+    font-size: 22px;
+    margin-left: 6px;
 }
 
 .username {
@@ -68,7 +127,9 @@ h1.username-big {
 }
 
 .bio {
-    width:75%;
+    display:flex;
+    align-items: center;
+    width:100%;
 }
 
 .profile-info {
@@ -77,16 +138,15 @@ h1.username-big {
 }
 
 .editprev {
-    position:relative;
-    float:right;
-    padding:0px;
+    position:fixed;
+    bottom:0;
+    right:0;
+    padding:16px;
     display:flex;
     justify-content:center;
     border-radius:6px;
-    -moz-box-shadow: 0 0 3px 2px rgba(0,0,0,0.2);
-    -webkit-box-shadow: 0 0 3px 2px rgba(0,0,0,0.2);
-    box-shadow: 0 0 3px 2px rgba(0,0,0,0.2);
     margin-left: auto;
+    z-index:2;
 }
 
 .editprev button {
@@ -94,9 +154,10 @@ h1.username-big {
     border:none;
     margin:0;
     padding:6px 10px;
-    font-size: 16px;
+    font-size:16px;
     transition: 0.3s background-color ease;
-    font-weight:500;
+    font-weight:400;
+    background-color:#fff;
 }
 
 .editprev i {
@@ -142,9 +203,17 @@ h1.username-big {
     opacity:0.8;
 }
 
-.c-mode {
+.editprev button.c-mode {
     color:#fff;
     background-color:rgb(107, 153, 223);
+}
+
+.save {
+    background-color: var(--primary-color);
+}
+
+.save:hover {
+    background-color: var(--btn-h);
 }
 
 .profile-ctrls {
@@ -154,6 +223,7 @@ h1.username-big {
     justify-content:center;
     margin-left: auto;
     gap:10px;
+    width: 25%;
 }
 
 .p-btn {
@@ -208,6 +278,14 @@ button:hover {
     color:rgb(168, 0, 0);
 }
 
+.bio-text-edit {
+    width:75%;
+    height:100%;
+    border-radius:6px;
+    resize:none;
+    padding:10px;
+}
+
 .hasload:disabled {
     cursor:not-allowed;
     cursor:not-allowed;
@@ -229,14 +307,31 @@ button:hover {
     margin: auto;
 }
 
+.badges p {
+    margin:auto;
+    font-size:20px;
+    color:#bbb;
+    font-weight: 300;
+}
+
 .badge-wrapper {
     display:grid;
     grid-template-columns: auto;
     margin-top: auto;
 }
+.badge-title {
+    padding:6px 0px;
+}
 
 .badge-title h4 {
-    text-align: center;
+    width: fit-content;
+    margin:auto;
+    padding:4px 16px;
+    color:#fff;
+    font-size: 14px;
+    background-color:#000;
+    border-radius: 50vh;
+    font-weight: 500;
 }
 
 .profile-tabs {
@@ -271,12 +366,55 @@ button.selected {
 
 @media only screen and (max-width: 1240px) {
     .banner {
+        padding: 20px;
         grid-template-columns: auto;
+        row-gap:30px;
     }
 }
 
-@media only screen and (max-width: 1024px) {
+.row {
+    display:grid;
+    grid-template-columns: auto;
+    gap:20px;
+}
 
+.e2 {
+    grid-template-columns: auto auto;
+}
+
+.e3 {
+    grid-template-columns: auto auto auto;
+}
+
+.box {
+    display:none;
+}
+
+.save-profile-btn {
+    background-color: var(--primary-color);
+}
+
+.save-profile-btn:hover {
+    background-color: var(--btn-h);
+}
+
+/* Keep these at bottom */
+
+/*
+.p-c {
+    display:none;
+}
+
+.p-c[style*='display: block'] {
+    display: flex !important;
+}
+*/
+
+.edit--fill {
+    width:100%;
+}
+
+@media only screen and (max-width: 1024px) {
 
     .banner-bottom {
         display:grid;
@@ -285,10 +423,40 @@ button.selected {
 
     .bio {
         width:100%;
+        flex-direction: column;
+    }
+
+    .bio-text-edit {
+        width:90%;
+        margin: auto;
     }
 
     .profile-ctrls {
         margin: auto;
         margin-top: 10px;
+    }
+
+    .pfp img {
+        width:80px;
+        height:80px;
+    }
+
+    .badge-wrapper {
+        overflow-x: auto;
+    }
+
+    .e2, .e3 {
+        grid-template-columns: auto;
+    }
+
+    .online-status {
+        width:30px;
+        height:30px;
+        right:-10px;
+        top:-10px;
+    }
+
+    .profile-info {
+        margin:auto;
     }
 }

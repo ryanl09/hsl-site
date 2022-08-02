@@ -413,6 +413,28 @@ class User {
 
         return $res;
     }
+
+    /**
+     * Gets all profile data for a user
+     * @param   int $user_id
+     * @return  array
+     */
+
+    public static function get_profile_data($user_id) {
+        if (!$user_id) {
+            return [];
+        }
+
+        $db = new tecdb();
+
+        $query =
+        "SELECT *
+        FROM `user_profile_display`
+        WHERE `user_id` = ?";
+
+        $res = $db->query($query, $user_id)->fetchArray();
+        return $res;
+    }
 }
 
 ?>
