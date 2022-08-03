@@ -1,6 +1,27 @@
 (()=> {
     $(document).ready(()=>{
 
+        const win = $(window);
+        const bio_e = $('.bio-text-edit') ?? 0;
+
+        var calc_bio_h = () => {
+            var w = bio_e.width();
+            var h = -1 * Math.sqrt(60 * w) + 320;
+            if(h >160) {
+                h=160;
+            }
+            if(h<62) {
+                h=62;
+            }
+            return Math.round(h);
+        }
+
+        if(bio_e){
+            win.resize(()=>{
+                bio_e.height(calc_bio_h());
+            });
+        }
+
         get_tab_info();
 
         const e =$('#edit'); //mode=0
@@ -146,16 +167,39 @@
             type: 'get',
             url: `${ajax_url}get-profile-ajax.php`,
             data: { 'tab': 'info', 'csrf':$('#csrf').val() },
-            dataType: 'text',
+            dataType: 'json',
+            async: true,
             success:(data)=>{
+                $('.loading.box-info').remove();
                 if (!data.status) {
-
-                    $('.loading.box-info').remove();
                     document.getElementsByClassName('page-content')[0].insertAdjacentHTML('beforeend', `<p>${data}</p>`);
                     return;
                 }
 
-                $('.loading.box-info').remove();
+                data = data.data;
+
+                $('.bio-text').text(data.bio);
+
+                if ($('.bio-text-edit')) {
+                    $('.bio-text-edit').text(data.bio);
+                }
+
+                $('#student-school-value').text(data.school);
+
+                if (!data.grad_year) {
+                    $('.grad-year-info').remove();
+                } else {
+                    $('#grad-year-value').text(data.grad_year);
+                }
+
+                if (!data.twitch_username) {
+                    $('.twitch-info').remove();
+                } else {
+                    $('#twitch-value').attr('href', data.twitch_href);
+                    $('#twitch-value').text(data.twitch_href);
+                }
+
+                $('.info-tab .tab .row .box').show();
             },
             error:(a,b,c)=>{
 

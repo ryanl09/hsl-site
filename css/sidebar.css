@@ -216,7 +216,7 @@ body.dark .sidebar header .toggle{
     transition: var(--tran-03);
 }
 
-.sidebar li a:hover{
+.sidebar li a:hover, .current-select {
     background-color: var(--primary-color);
 }
 .sidebar li a:hover .icon,

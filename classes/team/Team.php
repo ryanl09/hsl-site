@@ -10,6 +10,25 @@ class Team extends TeamAbstract {
     }
 
     /**
+     * Gets team name
+     * @return  string
+     */
+
+    public function get_team_name() {
+        if (!$this->id || !$this->db) {
+            return '';
+        }
+
+        $query =
+        'SELECT `team_name`
+        FROM `teams`
+        WHERE `team_id` = ?';
+
+        $res = $this->db->query($query, $this->id)->fetchArray();
+        return $res['team_name'];
+    }
+
+    /**
      * Gets a list of subteam ids
      * @return  array
      */

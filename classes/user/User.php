@@ -10,6 +10,8 @@ require_once($path . '/classes/user/Staff.php');
 require_once($path . '/classes/user/TeamManager.php');
 require_once($path . '/classes/util/TECDB.php');
 
+require_once($path . '/classes/team/Team.php');
+
 class User {
     protected $id;
     protected $role;
@@ -19,6 +21,8 @@ class User {
     protected $name;
     protected $pronouns;
     protected $pfp_url;
+    
+    private $team_id;
 
     public function __construct($id, $role='user') {
         $this->id = $id;
@@ -30,6 +34,7 @@ class User {
             $this->name = '';
             $this->pronouns = '';
             $this->pfp_url = '';
+            $this->team_id = 0;
             return;
         }
 
@@ -37,7 +42,7 @@ class User {
         $this->db = new TECDB();
         
         $query = 
-        "SELECT `username`, `email`, `pfp_url`, `user_id`, `name`, `pronouns`
+        "SELECT `username`, `email`, `pfp_url`, `user_id`, `name`, `pronouns`, `team_id`
         FROM `users`
         WHERE `user_id` = ?";
         $res = $this->db->query($query, $this->id)->fetchArray();
@@ -47,6 +52,7 @@ class User {
         $this->set_email($res['email']);
         $this->set_name($res['name']);
         $this->set_pronouns($res['pronouns']);
+        $this->set_team_id($res['team_id']);
         $this->pfp_url = $res['pfp_url'] ? $res['pfp_url'] : '/images/user.png';
 
         /*
@@ -135,6 +141,24 @@ class User {
 
     private function set_pronouns($pronouns) {
         $this->pronouns = $pronouns;
+    }
+
+    /**
+     * Gets user's team id
+     * @return  int
+     */
+
+    public function get_team_id() {
+        return $this->team_id;
+    }
+
+    /**
+     * Sets user's team id
+     * @param   int $team_id
+     */
+
+    private function set_team_id($team_id) {
+        $this->team_id = $team_id;
     }
 
     /**
@@ -310,6 +334,54 @@ class User {
     }
 
     /**
+     * Gets all team stuff
+     * @return  Team
+     */
+
+    public function get_team() {
+        return new Team($this->team_id);
+    }
+
+    /**
+     * Gets all profile data for a user
+     * @param   int $user_id
+     * @return  array
+     */
+
+    public function get_profile_data() {
+        if (!$this->id) {
+            return [];
+        }
+
+        $query =
+        "SELECT *
+        FROM `user_profile_display`
+        WHERE `user_id` = ?";
+
+        $res = $this->db->query($query, $this->id)->fetchArray();
+
+        if (empty($res)) {
+            return [];
+        }
+
+        $team = new Team($this->team_id);
+        $res['school'] = $team->get_id();
+
+        if (!$res['show_grad_year']) {
+            unset($res['grad_year']);
+        }
+
+        if ($res['twitch_username']) {
+            $res['twitch_href'] = 'https://twitch.tv/' . $res['twitch_username'];
+        } else {
+            unset($res['twitch_username']);
+        }
+        
+        return $res;
+    }
+
+
+    /**
      * Static functions
      */
 
@@ -411,28 +483,6 @@ class User {
 
         $res = $db->query($query, $user_id)->fetchAll();
 
-        return $res;
-    }
-
-    /**
-     * Gets all profile data for a user
-     * @param   int $user_id
-     * @return  array
-     */
-
-    public static function get_profile_data($user_id) {
-        if (!$user_id) {
-            return [];
-        }
-
-        $db = new tecdb();
-
-        $query =
-        "SELECT *
-        FROM `user_profile_display`
-        WHERE `user_id` = ?";
-
-        $res = $db->query($query, $user_id)->fetchArray();
         return $res;
     }
 }

@@ -94,7 +94,9 @@ if ((isset($_SERVER['HTTP_X_REQUESTED_WITH'])) && ($_SERVER['HTTP_X_REQUESTED_WI
             }
             $username = strtolower($arg_arr[4]);
             $user_id = User::find_id($username);
-            $ret = User::get_profile_data($user_id);
+
+            $user = new User($user_id);
+            $ret = $user->get_profile_data($user_id);
 
             echo json_encode(
                 array(

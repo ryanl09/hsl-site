@@ -34,7 +34,6 @@
 }
 
 .--tab {
-    border-radius: 6px;
     padding:20px;
     transition: .2s all ease;
 }
@@ -68,6 +67,7 @@ button {
 }
 
 .online-status {
+    color: #fff;
     position:absolute;
     top:-10px;
     right:-10px;
@@ -76,6 +76,18 @@ button {
     border-radius: 50%;
     background-color: var(--primary-color);
     border:4px solid #fff;
+    display:flex;
+    transition: .2s all ease;
+}
+
+.online-status i {
+    margin:auto;
+    font-size: 30px;
+}
+
+.set-online-status:hover {
+    cursor:pointer;
+    opacity:.8;
 }
 
 .banner {
@@ -364,14 +376,6 @@ button.selected {
     color:#fff;
 }
 
-@media only screen and (max-width: 1240px) {
-    .banner {
-        padding: 20px;
-        grid-template-columns: auto;
-        row-gap:30px;
-    }
-}
-
 .row {
     display:grid;
     grid-template-columns: auto;
@@ -383,11 +387,23 @@ button.selected {
 }
 
 .e3 {
-    grid-template-columns: auto auto auto;
+    grid-template-columns: 33% 33% 33%;
 }
 
 .box {
+    width: 100%;
     display:none;
+    padding:20px;
+    border-radius: 6px;
+    background-color: #fff;
+}
+
+.info {
+    margin-bottom:20px;
+}
+
+.info.end {
+    margin-bottom: 0;
 }
 
 .save-profile-btn {
@@ -396,6 +412,20 @@ button.selected {
 
 .save-profile-btn:hover {
     background-color: var(--btn-h);
+}
+
+.school-logo {
+    margin-left:auto;
+    display:flex;
+    align-items: center;
+}
+
+.twitch {
+    color: #6441a5;
+}
+
+.info h4 i {
+    margin-right:8px;
 }
 
 /* Keep these at bottom */
@@ -414,11 +444,18 @@ button.selected {
     width:100%;
 }
 
-@media only screen and (max-width: 1024px) {
+@media only screen and (max-width: 1240px) {
+
+    .banner {
+        padding: 20px;
+        grid-template-columns: auto;
+        row-gap:30px;
+    }
 
     .banner-bottom {
         display:grid;
         grid-template-columns: auto;
+        padding:20px 20px;
     }
 
     .bio {
@@ -427,8 +464,9 @@ button.selected {
     }
 
     .bio-text-edit {
-        width:90%;
+        width:100%;
         margin: auto;
+        height:calc(160px );
     }
 
     .profile-ctrls {
@@ -456,7 +494,11 @@ button.selected {
         top:-10px;
     }
 
-    .profile-info {
+    .online-status i {
+        font-size:20px;
+    }
+
+    .profile-info, .school-logo {
         margin:auto;
     }
 }

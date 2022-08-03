@@ -62,6 +62,25 @@ function href($page) {
     }
 }
 
+/**
+ * sees if we should add the green color to sidebar link
+ * @param   string  $page
+ * @return  string
+ */
+
+function _s($page) {
+    $c = '';
+    if (!isset($_SESSION['current_page'])) {
+        return $c;
+    }
+
+    $args = $_SESSION['current_page'];
+    if($args[3]===$page){
+        $c='current-select';
+    }
+    return $c;
+}
+
 function print_navbar() {
     $u = 0;
     $user='Guest';
@@ -98,48 +117,48 @@ function print_navbar() {
 
                     <ul class="menu-links">
                         <li class="nav-link p-dashboard">
-                            <a href="'.href('dashboard').'">
+                            <a href="'.href('dashboard').'" class="'._s('dashboard').'">
                                 <i class="bx bx-home-alt icon" ></i>
                                 <span class="text nav-text">Dashboard</span>
                             </a>
                         </li>
                         
                         <li class="nav-link p-league">
-                            <a href="'.href('league').'">
+                            <a href="'.href('league').'" class="'._s('league').'">
                                 <i class="bx bx-menu icon" ></i>
                                 <span class="text nav-text">League</span>
                             </a>
                         </li>
 
                         <li class="nav-link p-feed" style="display:none;">
-                            <a href="'.href('feed').'">
+                            <a href="'.href('feed').'" class="'._s('feed').'">
                                 <i class="bx bx-news icon"></i>
                                 <span class="text nav-text">Feed</span>
                             </a>
                         </li>
 
                         <li class="nav-link p-mygames">
-                            <a href="'.href('mygames').'">
+                            <a href="'.href('mygames').'" class="'._s('mygames').'">
                                 <i class="bx bx-calendar-event icon" ></i>
                                 <span class="text nav-text">My Games</span>
                             </a>
                         </li>
 
                         <li class="nav-link p-stats">
-                            <a href="'.href('stats').'">
+                            <a href="'.href('stats').'" class="'._s('stats').'">
                                 <i class="bx bx-stats icon"></i>
                                 <span class="text nav-text">Stats</span>
                             </a>
                         </li>
 
                         <li class="nav-link p-messages">
-                            <a href="'.href('messages').'">
+                            <a href="'.href('messages').'" class="'._s('messages').'">
                                 <i class="bx bx-message icon" ></i>
                                 <span class="text nav-text">Messages</span>
                             </a>
                         </li>
                         <li class="nav-link p-user">
-                            <a href="'.href('profile').'">
+                            <a href="'.href('profile').'" class="'._s('user').'">
                                 <i class="bx bx-user icon" ></i>
                                 <span class="text nav-text">Profile</span>
                             </a>

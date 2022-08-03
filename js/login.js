@@ -52,5 +52,11 @@
             $('#showpass-label').text('Show password');
             $('#password').attr('type', 'password');
         });
+
+        $('#password').keyup((e)=>{
+            if(e.keyCode == 13) {
+                $('#login-btn').click();
+            }
+        });
     });
 })();

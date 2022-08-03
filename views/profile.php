@@ -52,7 +52,11 @@ base_header(
                                 <?php if ($can_edit) { ?>
                                     <span id="edit-pfp" class="e-c">+</span>
                                 <?php } ?>
-                                <div class="online-status"></div>
+                                <div class="online-status <?php echo ($can_edit ? 'set-online-status' : ''); ?>">
+                                    <?php if ($can_edit) { ?>
+                                        <i class='bx bx-dots-horizontal-rounded e-c' ></i>
+                                    <?php } ?>
+                                </div>
                             </div>
                             <div class="username">
                                 <h1 class="username-big">@<?php echo $view->get_username(); ?><i class='bx bxs-check-square'></i></h1>
@@ -78,13 +82,16 @@ base_header(
                                 ?>
                             </div>
                         </div>
+                        <div class="school-logo">
+                            <img src="<?php echo $view->get_team()->get_logo(); ?>" alt="logo" width="100" height="100">
+                        </div>
                     </div>
                     <div class="banner-bottom">
                         <div class="bio">
                             <?php if ($can_edit) { ?>
-                                <textarea class="bio-text-edit e-c <?php echo $fill; ?>">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure do</textarea>
+                                <textarea class="bio-text-edit e-c <?php echo $fill; ?>"></textarea>
                             <?php } ?>
-                            <p class="bio-text p-c">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure do</p>
+                            <p class="bio-text p-c"></p>
                             <div class="profile-ctrls p-c">
                                 <button id="like" class="p-btn">
                                     <i id="i-like" class='bx bx-heart'></i>
@@ -124,12 +131,16 @@ base_header(
                                 <div class="loading box-info"></div>
                                 <div class="box">
                                     <div class="info">
-                                        <h4>School</h4>
-                                        <p id="student-school">Ryan</p>
+                                        <h4><i class='bx bxs-school'></i>School</h4>
+                                        <p id="student-school-value"></p>
                                     </div>
-                                    <div class="info">
-                                        <h4>Grade</h4>
-                                        <p>10</p>
+                                    <div class="info grad-year-info">
+                                        <h4><i class='bx bxs-graduation' ></i>Year of Graduation</h4>
+                                        <p id="grad-year-value"></p>
+                                    </div>
+                                    <div class="info twitch-info end">
+                                        <h4><i class='bx bxl-twitch twitch'></i>Twitch</h4>
+                                        <a id="twitch-value"></a>
                                     </div>
                                 </div>
                                 <div class="box">
