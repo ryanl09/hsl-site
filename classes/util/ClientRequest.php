@@ -11,6 +11,8 @@ require_once($path . '/controllers/ProfileController.php');
 require_once($path . '/controllers/LoginController.php');
 require_once($path . '/controllers/RegisterController.php');
 require_once($path . '/controllers/Error404Controller.php');
+require_once($path . '/controllers/AdminController.php');
+require_once($path . '/controllers/EventPanelController.php');
 
 require_once($path . '/classes/services/LogoutService.php');
 
@@ -52,6 +54,12 @@ class ClientRequest {
                 break;
             case 'logout':
                 LogoutService::logout();
+                break;
+            case 'admin':
+                $this->ctrl = new AdminController();
+                break;
+            case 'eventpanel':
+                $this->ctrl = new EventPanelController();
                 break;
             default:
                 $this->ctrl = new Error404Controller();

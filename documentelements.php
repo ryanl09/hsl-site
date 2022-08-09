@@ -2,6 +2,8 @@
 
 $path = $_SERVER['DOCUMENT_ROOT'];
 
+include_once($path . '/classes/user/User.php');
+
 function base_header($params = [], $nosidebar = false){
     $styles='';
     if (isset($params['styles'])) {
@@ -34,6 +36,7 @@ function base_header($params = [], $nosidebar = false){
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <script src="/includes/jquery-3.6.0.min.js"></script>
         <script src="/js/consts.js"></script>
+        <link rel="stylesheet" href="/css/general.css">
         <link rel="stylesheet" href="/css/transition.css">
         
         ' . ($nosidebar ? '' : '<link rel="stylesheet" href="/css/sidebar.css">') . '
@@ -41,7 +44,6 @@ function base_header($params = [], $nosidebar = false){
         ' . $scripts . '
         
         <link href="/includes/boxicons.min.css" rel="stylesheet">
-        <link href="/css/loader.css" rel="stylesheet">
 
         ' . $custom_style . '
     </head>';
@@ -75,7 +77,8 @@ function _s($page) {
     }
 
     $args = $_SESSION['current_page'];
-    if($args[3]===$page){
+
+    if($args[1]===$page){
         $c='current-select';
     }
     return $c;
@@ -162,12 +165,18 @@ function print_navbar() {
                                 <i class="bx bx-user icon" ></i>
                                 <span class="text nav-text">Profile</span>
                             </a>
-                        </li>'
+                        </li>' . ($_SESSION['user']->is_admin() ? ' 
+                        <li class="nav-link p-user">
+                            <a href="'.href('admin').'" class="'._s('adminpanel').'">
+                            <i class="bx bxs-edit icon"></i>
+                                <span class="text nav-text">Admin Panel</span>
+                            </a>
+                        </li>' : '')
                         : '
                         <li class="nav-link">
                             <a href="'.href('login').'">
                             <i class="bx bxs-user-circle icon"></i>
-                                <span class="text nav-text">Log in</span>
+                                <span class="text nav-text">Log In</span>
                             </a>
                         </li>
 

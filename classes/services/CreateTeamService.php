@@ -2,7 +2,10 @@
 
 //TESTED
 
-require_once($_SERVER['DOCUMENT_ROOT'] . '/classes/team/Team.php');
+$path = $_SERVER['DOCUMENT_ROOT'];
+
+require_once($path . '/classes/team/Team.php');
+require_once($path . '/classes/security/AuthToken.php');
 require_once('CreateService.php');
 
 class CreateTeamService extends CreateService {
@@ -33,55 +36,25 @@ class CreateTeamService extends CreateService {
             return 0;
         }
 
+        $at = new AuthToken(10);
+
         $name = $params['name'];
         $user_id = $params['user_id'];
         $logo = $params['logo'];
-        $active = 0;
+        $active = 1;
         $mascot = $params['mascot'];
         $primarycolor = $params['primarycolor'];
         $secondarycolor = $params['secondarycolor'];
-        $schoolcode = $this->generate_schoolcode();
+        $schoolcode = $at->create();
+        $slug = strtolower(str_replace(' ', '', $name));
         
         $query =
-        "INSERT INTO `teams` (team_name, `user_id`, team_logo, active, mascot, primarycolor, secondarycolor, schoolcode)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        "INSERT INTO `teams` (team_name, `user_id`, team_logo, active, mascot, primarycolor, secondarycolor, schoolcode, slug)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-        $id = $this->db->query($query, $name, $user_id, $logo, $active, $mascot, $primarycolor, $secondarycolor, $schoolcode)->lastInsertID();
-        return new Team($id);
+        $id = $this->db->query($query, $name, $user_id, $logo, $active, $mascot, $primarycolor, $secondarycolor, $schoolcode, $slug)->lastInsertID();
+        return $id;
     }
-
-    /**
-     * Creates a unique schoolcode used for when the student registers to join this team
-     * @return  string
-     */
-
-    private function generate_schoolcode() {
-        $code = bin2hex(random_bytes(10));
-        while ($this->schoolcode_exists($code)) {
-            $code = bin2hex(random_bytes(10));
-        }
-        return $code;
-    }
-
-    /**
-     * Checks if the schoolcode already exists
-     * @param   string  $code
-     * @return  boolean
-     */
-
-     private function schoolcode_exists($code) {
-        if (!$this->db) {
-            return false;
-        }
-
-        $query = 
-        "SELECT *
-        FROM `teams`
-        WHERE schoolcode = ?";
-
-        $rows = $this->db->query($query, $code)->numRows();
-        return $rows;
-     }
 }
 
 ?>

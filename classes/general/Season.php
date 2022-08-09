@@ -15,7 +15,7 @@ class Season {
         $today = getdate();
         
         //august
-        $name = $today['mon'] >= 8 ? 'Fall ' : 'Spring ' . $today['year'];
+        $name = ($today['mon'] >= 8 ? 'Fall ' : 'Spring ') . $today['year'];
 
         $query =
         "SELECT `id`

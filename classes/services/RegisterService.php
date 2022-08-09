@@ -1,10 +1,11 @@
 <?php
 
 require_once('CreatePlayerService.php');
-require_once('CreateTeamManagerService.php');
+require_once('CreateTeamService.php');
 require_once('LoginService.php');
 
 $path = $_SERVER['DOCUMENT_ROOT'];
+require_once($path . '/classes/team/Team.php');
 require_once($path . '/classes/services/VerifyService.php');
 require_once($path . '/classes/security/AuthToken.php');
 require_once($path . '/classes/security/PasswordHash.php');
@@ -34,22 +35,12 @@ class RegisterService extends VerifyService {
         $cs = 0;
         switch ($this->type) {
             case 'player':
-                $cs = new CreatePlayerService();
-                break;
             case 'team_manager':
-                $cs = new CreateTeamManagerService();
-                break;
             case 'caster':
-                $cs = new CreateCasterService();
-                break;
             case 'admin':
-                $cs = new CreateAdminService();
-                break;
             case 'staff':
-                $cs = new CreateStaffService();
-                break;
             case 'college':
-                $cs = new CreateCollegeService();
+                $cs=1;
                 break;
             default:
                 return array(
@@ -107,6 +98,44 @@ class RegisterService extends VerifyService {
             $errors[] = 'Confirm password is empty';
         }
 
+        $school = '';
+        $mascot = '';
+        $phone = '';
+        $pcolor = '';
+        $scolor = '';
+
+        if ($this->type==='team_manager' || $this->type==='college') {
+            $school = $this->check_input('school');
+            if (isset($school['error'])) {
+                $errors[] = 'School name is empty';
+            } else {
+                $school = $school['val'];
+            }
+
+            $mascot = $_POST['mascot'] ?? '';
+
+            $phone = $this->check_input('phone');
+            if (isset($phone['error'])) {
+                $errors[] = 'Phone number is empty';
+            } else {
+                $phone = $phone['val'];
+            }
+
+            $pcolor = $this->check_input('primarycolor');
+            if (isset($pcolor['error'])) {
+                $errors[] = 'Primary color is empty';
+            } else {
+                $pcolor = $pcolor['val'];
+            }
+
+            $scolor = $this->check_input('secondarycolor');
+            if (isset($scolor['error'])) {
+                $errors[] = 'Secondary color is empty';
+            } else {
+                $scolor = $scolor['val'];
+            }
+        }
+
         if (count($errors) > 0) {
             return array(
                 'status' => 0,
@@ -115,11 +144,11 @@ class RegisterService extends VerifyService {
         }
 
         $errors = [];
-        $f_name = $f_name['val'];
-        $l_name = $l_name['val'];
-        $pronouns = $pronouns['val'];
-        $email = $email['val'];
-        $username = $username['val'];
+        $f_name = strtolower($f_name['val']);
+        $l_name = strtolower($l_name['val']);
+        $pronouns = strtolower($pronouns['val']);
+        $email = strtolower($email['val']);
+        $username = strtolower($username['val']);
         $password = $password['val'];
         $c_password = $c_password['val'];
 
@@ -185,7 +214,15 @@ class RegisterService extends VerifyService {
             );
         }
 
-        $name = ucwords(strtolower($f_name)) . ' ' . ucwords(strtolower($l_name));
+        $team_id = 0;
+        if($this->type === 'player'){
+            $code = $_POST['schoolcode'];
+            $team_id = Team::from_schoolcode($code);
+        }
+
+        $discord = $_POST['discord'] ?? '';
+
+        $name = ucwords($f_name) . ' ' . ucwords($l_name);
 
         $auth = new AuthToken();
         $activation_key = $auth->create();
@@ -195,10 +232,10 @@ class RegisterService extends VerifyService {
         $password = $ph->create();
 
         $query =
-        "INSERT INTO `users` (`name`, `email`, `pronouns`, `username`, `password`, `activation_key`, `activated`, `role`)
-        VALUES (?, ?, ?, ?, ?, ?, false, ?)";
+        "INSERT INTO `users` (`name`, `email`, `pronouns`, `username`, `password`, `activation_key`, `activated`, `role`, `team_id`, `discord`)
+        VALUES (?, ?, ?, ?, ?, ?, false, ?, ?, ?)";
 
-        $user_id = $this->db->query($query, $name, $email, $pronouns, $username, $password, $activation_key, $this->type)->lastInsertID();
+        $user_id = $this->db->query($query, $name, $email, $pronouns, $username, $password, $activation_key, $this->type, $team_id, $discord)->lastInsertID();
 
         $create_type = $this->create_user();
         if (isset($create_type['errors'])) {
@@ -208,13 +245,40 @@ class RegisterService extends VerifyService {
         $login_params = array(
             'ref' => 'register'
         );
+
+        $team_id = 'N/A';
+
+        switch ($this->type) {
+            case 'team_manager':
+            case 'college':
+                $cts = new CreateTeamService();
+                $team_id = $cts->create(
+                    array(
+                        'name' => $school,
+                        'user_id' => $user_id,
+                        'logo' => '',
+                        'mascot' => $mascot,
+                        'primarycolor' => $pcolor,
+                        'secondarycolor' => $scolor
+                    )
+                );
+                break;
+        }
+        if ($this->type === 'team_mananger' || $this->type === 'college') {
+            //create team service
+           
+        }
+
         $ls = new LoginService($login_params);
         $ls->login_user($user_id);
 
         return array(
             'status' => 1,
             'user_id' => $user_id,
-            'href' => '/dashboard'
+            'href' => '/dashboard',
+            't_id' => $team_id,
+            'type' => 'team_manager',
+            'type2' => $this->type
         );
     }
 

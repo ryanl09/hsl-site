@@ -170,6 +170,8 @@
             dataType: 'json',
             async: true,
             success:(data)=>{
+
+                console.log(data);
                 $('.loading.box-info').remove();
                 if (!data.status) {
                     document.getElementsByClassName('page-content')[0].insertAdjacentHTML('beforeend', `<p>${data}</p>`);
@@ -197,6 +199,17 @@
                 } else {
                     $('#twitch-value').attr('href', data.twitch_href);
                     $('#twitch-value').text(data.twitch_href);
+                }
+
+                if (!data.games) {
+                    $('#games-info').html('<div><p class="nogames">None</p></div>');
+                } else {
+                    data.games.forEach(e => {
+                        $('<div>', {
+                            class: 'info',
+                            html: `<div class="games-entry"><img src="${e.url}" width="24" height="24"><p>${e.game_name}<p></div>`
+                        }).insertAfter('#games-info');
+                    });
                 }
 
                 $('.info-tab .tab .row .box').show();

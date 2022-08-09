@@ -1,0 +1,138 @@
+.blocks {
+    display: grid;
+    grid-template-columns: 25% 25% 50%;
+    column-gap: 20px;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+.input-group {
+    display:flex;
+    flex-direction: column;
+    gap:20px;
+    padding: 20px 0px;
+}
+
+.input {
+    flex-direction: column;
+    gap:10px;
+}
+
+.input select, .input input {
+    width:auto;
+}
+
+.input label {
+    font-weight: 500;
+}
+
+.teamlist {
+    border:1px solid #ccc;
+    background-color: #fff;
+    border-radius: 6px;
+    padding:20px;
+    font-size: 16px;
+    display:flex;
+    flex-direction: column;
+    transition: max-height .5s ease;
+    max-height:400px;
+    overflow-y: auto;
+}
+
+.teamlist p {
+    color: #aaa;
+    margin:auto;
+}
+
+.team-cbox{
+    display:flex;
+    align-items: center;
+}
+
+.team-cbox label {
+    padding-left:10px;
+}
+
+.listview {
+    border:1px solid #ccc;
+    background-color: #fff;
+    border-radius: 6px;
+    padding:20px;
+}
+
+.listview h4 {
+    margin-bottom: 10px;
+}
+
+.time-header {
+    display:flex;
+    align-items: center;
+}
+
+.time-header i {
+    font-size: 30px;
+    margin-left: auto;
+    transition: .2s color ease;
+}
+
+.game-times {
+    display:flex;
+    flex-direction: column;
+}
+
+.game-time {
+    display:flex;
+    align-items: center;
+    gap:10px;
+    flex-wrap:wrap;
+    margin-bottom: 10px;
+}
+
+.game-time input, .game-time select {
+    font-size:16px;
+    padding:6px 12px;
+    border: 1px solid #aaa;
+    border-radius: 6px;
+}
+
+.game-time input[type="text"] {
+    max-width:120px;
+}
+
+.game-time i {
+    font-size: 34px;
+    color:rgb(224, 75, 75);
+}
+
+hr.sep {
+    border: 0;
+    height:1px;
+    border-top: 1px #ddd solid;
+    width:100%;
+    margin: 20px 0;
+}
+
+.day-cbox{
+    display:inline;
+    margin:0 6px;
+}
+
+#no-team-selected:empty{
+    display:none;
+}
+
+@media only screen and (max-width:1024px) {
+    .input-group {
+        flex-direction: column;
+    }
+
+    .input select {
+        width:100%;
+    }
+
+    .blocks {
+        grid-template-columns: 100%;
+    }
+}

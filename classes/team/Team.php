@@ -175,6 +175,33 @@ class Team extends TeamAbstract {
         $logo = $this->db->query($query, $this->id)->fetchArray();
         return $logo['team_logo'] ?? '';
     }
+
+    /**
+     * static functions
+     */
+
+     /**
+      * Finds team id from school code
+      * @param  string  $code
+      * @return int
+      */
+
+    public static function from_schoolcode($code) {
+        if (!$code) {
+            return 0;
+        }
+
+        $db = new tecdb();
+
+        $query =
+        "SELECT `id`
+        FROM `teams`
+        WHERE 'code' = ?";
+
+        $res = $db->query($query, $code)->fetchArray();
+
+        return $res['id'] ?? 0;
+    }
 }
 
 ?>

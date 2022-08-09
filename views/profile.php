@@ -3,6 +3,7 @@
 $path = $_SERVER['DOCUMENT_ROOT'];
 require_once($path . '/documentelements.php');
 require_once($path . '/classes/user/User.php');
+require_once($path . '/classes/util/tecdb.php');
 
 $arg_arr = $_SESSION['current_page'];
 $username = strtolower($arg_arr[2]);
@@ -144,9 +145,8 @@ base_header(
                                     </div>
                                 </div>
                                 <div class="box">
-                                    <div class="info">
-                                        <h4>Grade</h4>
-                                        <p>10</p>
+                                    <div class="info" id="games-info">
+                                        <h4>Games</h4>
                                     </div>
                                 </div>
                                 <div class="box">
@@ -170,7 +170,6 @@ base_header(
                     </div>
                 </div>
             <? } else { //user doesn't exist ?>
-
             <?php } ?>
         </section>
 

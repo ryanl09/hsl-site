@@ -43,38 +43,72 @@ if (isset($_SESSION['user']) && $_SESSION['user']->get_id()) {
                         <div class="row e2">
                             <div class="input">
                                 <i class='bx bxs-user-detail' ></i>
-                                <input type="text" name="firstname" id="firstname" placeholder="First name">
+                                <input type="text" name="firstname" id="firstname" placeholder="First name *">
                             </div>
                             <div class="input">
-                                <input type="text" name="lastname" id="lastname" placeholder="Last name">
+                            <i class='bx bx-list-ul lname' ></i>
+                                <input type="text" name="lastname" id="lastname" placeholder="Last name *">
                             </div>
                         </div>
                         <div class="row">
                             <div class="input">
                                 <i class='bx bx-user-pin' ></i>
-                                <input type="text" name="pronouns" id="pronouns" placeholder="Pronouns">
+                                <input type="text" name="pronouns" id="pronouns" placeholder="Pronouns *">
                             </div>
                         </div>
-                        <div class="row">
+                        <div class="row e2">
                             <div class="input">
                                 <i class='bx bxs-envelope' ></i>
-                                <input type="email" name="email" id="email" placeholder="Email">
+                                <input type="email" name="email" id="email" placeholder="Email *">
+                            </div>
+                            <div class="input">
+                                <i class="bx bxl-discord-alt discord" ></i>
+                                <input type="text" name="discord" id="discord" placeholder="Discord (include #XXXX)">
                             </div>
                         </div>
                         <div class="row">
                             <div class="input">
                                 <i class='bx bxs-user' ></i>
-                                <input type="text" name="username" id="username" placeholder="Username">
+                                <input type="text" name="username" id="username" placeholder="Username *">
                             </div>
                         </div>
                         <div class="row e2">
                             <div class="input">
                                 <i class='bx bxs-key'></i>
-                                <input type="password" name="password" id="password" placeholder="Password">
+                                <input type="password" name="password" id="password" placeholder="Password *">
                             </div>
                             <div class="input">
-                                <input type="password" name="c_password" id="c_password" placeholder="Confirm password">
+                                <i class='bx bxs-check-circle cpass' ></i>
+                                <input type="password" name="c_password" id="c_password" placeholder="Confirm password *">
                             </div>
+                        </div>
+                        <div class="row e2" id="field-schoolinfo" style="display:none;">
+                            <div class="input">
+                                <i class='bx bxs-school' ></i>
+                                <input type="text" name="school" id="school" placeholder="School name (exclude 'high school', etc) *">
+                            </div>
+                            <div class="input">
+                                <i class='bx bxs-face-mask mascot' ></i>
+                                <input type="text" name="mascot" id="mascot" placeholder="Mascot">
+                            </div>
+                        </div>
+                        <div class="row e2" id="field-schoolinfo2" style="display:none;">
+                            <div class="input">
+                                <i class='bx bxs-phone'></i>
+                                <input type="tel" name="phone" id="phone" placeholder="Phone number">
+                            </div>
+                            <div class="input colors">
+                                <div class="color prim">
+                                    <input type="color" id="primarycolor">
+                                    <input type="text" id="primarycolor-text" placeholder="Primary color">
+                                </div>
+                                <div class="color seco">
+                                    <input type="color" id="secondarycolor">
+                                    <input type="text" id="secondarycolor-text" placeholder="Second color">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" id="field-schoolinfo">
                         </div>
                         <div class="pass-specs" style="display:none;">
                             <p id="p-len" class="good"><i class='bx bx-check'></i>8 or more characters</p>

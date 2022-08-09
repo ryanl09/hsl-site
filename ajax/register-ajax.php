@@ -91,6 +91,7 @@ if ((isset($_SERVER['HTTP_X_REQUESTED_WITH'])) && ($_SERVER['HTTP_X_REQUESTED_WI
         );
         die();
     }
+
     $rs = new RegisterService($_POST, $type);
     $reg = $rs->register();
 

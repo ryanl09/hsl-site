@@ -7,6 +7,8 @@
     font-family: 'Poppins', sans-serif;
 }
 
+@import 'constants.css';
+
 :root{
     /* ===== Colors ===== */
     --body-color: #E4E9E7;
@@ -63,8 +65,8 @@ body{
     -moz-box-shadow: 0 0 3px 2px #ddd;
     -webkit-box-shadow: 0 0 3px 2px #ddd;
     box-shadow: 0 0 3px 2px #ddd;
-    width:40em;
-    max-width: 40em;
+    width:50em;
+    max-width: 50em;
     position:absolute;
     left:50%;
     top:25%;
@@ -94,7 +96,7 @@ body{
 .row {
     width:100%;
     display:grid;
-    grid-template-columns: auto;
+    grid-template-columns: 100%;
     row-gap: 20px;
     column-gap: 10px;
     margin-top:20px;
@@ -104,65 +106,44 @@ body{
     grid-template-columns: auto auto;
 }
 
-.input {
-    display: flex;
+.discord, .cpass, .mascot, .lname {
+    display:none !important;
 }
 
-.input i {
-    border-top-left-radius: 6px;
-    border-bottom-left-radius: 6px;
-    border: 1px solid var(--text-color);
-    padding:6px;
-    font-size:16px;
+.input.colors {
+    display:grid;
+    grid-template-columns: 50% 50%;
+}
+
+.color input[type="color"] {
+    padding:7px 8px;
+    height:100%;
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 0px;
+}
+
+.color input[type="text"] {
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
+    border-left: none;
+}
+
+.color-w {
     display:flex;
-    justify-content: center;
-    align-items: center;
-    width:40px;
-    background-color: var(--text-color);
-    color:#fff;
+    flex-direction: column;
 }
 
-.input input, .input select {
-    font-size:16px;
-    padding:6px 12px;
-    border: 1px solid #aaa;
-    border-top-right-radius: 6px;
-    border-bottom-right-radius: 6px;
-    width:100%;
-    border-top-left-radius: 6px;
-    border-bottom-left-radius: 6px;
+.color {
+    display:grid;
+    grid-template-columns: 20% 80%;
 }
 
-.input > i + input {
-    border-top-left-radius: 0px;
-    border-bottom-left-radius: 0px;
+.color.prim {
+    padding-right:5px;
 }
 
-.input > i + select {
-    border-top-left-radius: 0px;
-    border-bottom-left-radius: 0px;
-}
-
-input[type=submit] {
-    border: 0;
-    outline: none;
-    background-color:var(--primary-color);
-    color:#fff;
-    transition: var(--tran-03);
-}
-
-input[type=submit]:hover {
-    cursor:pointer;
-    background-color: #41b178;
-}
-
-input[type=submit]:disabled {
-    cursor:not-allowed;
-    background-color:#aaa;
-    background-image: url('https://tecconvention.com/images/lr-loader.gif');
-    background-size: 25px 25px;
-    background-position: center;
-    background-repeat: no-repeat;
+.color.seco {
+    padding-left:5px;
 }
 
 .errors {
@@ -199,10 +180,29 @@ input[type=submit]:disabled {
 @media only screen and (max-width: 1024px) {
 
     .e2 {
-        grid-template-columns: auto;
+        grid-template-columns: 100%;
     }
     .login-box {
         width: 96%;
         margin: 10px auto;
+        position:relative;
+        left:0px;
+        top:0px;
+        transform: none;
+        margin-bottom: 20px;
+    }
+
+    .discord, .cpass, .mascot, .lname {
+        display:flex !important;
+    }
+
+    .input > i + input {
+        border-top-left-radius: 0px;
+        border-bottom-left-radius: 0px;
+    }
+    
+    .input > i + select {
+        border-top-left-radius: 0px;
+        border-bottom-left-radius: 0px;
     }
 }

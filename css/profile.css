@@ -19,20 +19,6 @@
     --afm: both; 
 }
 
-.loading {
-    cursor:not-allowed;
-    background-color: #fff;
-    border-radius: 6px;
-    padding:20px;
-    width:100%;
-    height:100px;
-    margin:auto;
-    background-image: url('https://tecconvention.com/images/loader-green.gif');
-    background-size: 50px 50px;
-    background-position: center;
-    background-repeat: no-repeat;
-}
-
 .--tab {
     padding:20px;
     transition: .2s all ease;
@@ -426,6 +412,19 @@ button.selected {
 
 .info h4 i {
     margin-right:8px;
+}
+
+.nogames {
+    margin: auto;
+    font-size:16px;
+    color: #bbb;
+    font-weight:300;
+}
+
+.games-entry {
+    display:flex;
+    gap:10px;
+    align-items: center;
 }
 
 /* Keep these at bottom */

@@ -5,6 +5,29 @@
         var _FOCUS=[]; //hold only 2 values, the last focused input and the current
         var pass_flags = [0,0,0,0,0];
 
+        const ut = $('#user-type');
+
+        ut.on('change', ()=>{
+            switch (ut.val()){
+                case 'player':
+                    $('#field-schoolinfo').hide();
+                    $('#field-schoolinfo2').hide();
+                    break;
+                case 'team_manager':
+                    $('#field-schoolinfo').show();
+                    $('#field-schoolinfo2').show();
+                    break;
+                case 'caster':
+                    $('#field-schoolinfo').hide();
+                    $('#field-schoolinfo2').hide();
+                    break;
+                case 'college':
+                    $('#field-schoolinfo').show();
+                    $('#field-schoolinfo2').show();
+                    break;
+            }
+        });
+
         reg.on('click', (e)=>{
             e.preventDefault();
             errors.hide();
@@ -34,8 +57,9 @@
                 url:`${ajax_url}register-ajax.php`,
                 data:{'f_name':$('#firstname').val(), 'l_name':$('#lastname').val(), 'pronouns': $('#pronouns').val(), 'email': $('#email').val(), 
                     'username':$('#username').val(), 'password':$('#password').val(), 'c_password':$('#c_password').val(), 'csrf':$('#csrf').val(),
-                    'terms':terms, 'type':$('#user-type').val()},
-                dataType:'json',
+                    'terms':terms, 'type':ut.val(), 'discord': $('#discord').val(), 'school': $('#school').val(), 'mascot':$('#mascot').val(), 'phone':$('#phone').val(), 'primarycolor':$('#primarycolor').val(),
+                    'secondarycolor':$('#secondarycolor').val()},
+                dataType:'text',
                 success:(data)=>{
                     console.log(data);
                     reg.prop('disabled', false);
@@ -128,6 +152,49 @@
         $('#showpass').on('click', (e)=>{
             _foc(e.target.id);
         });
+
+        /**
+         * color change events
+         */
+
+        const c_p = $('#primarycolor');
+        const c_s = $('#secondarycolor');
+        const c_pt = $('#primarycolor-text');
+        const c_st = $('#secondarycolor-text');
+
+        c_p.on('input paste', ()=>{
+            c_pt.val(c_p.val());
+        });
+
+        c_s.on('input paste', ()=>{
+            c_st.val(c_s.val());
+        });
+
+        c_pt.on('input paste', ()=>{
+            c_p.val(c_pt.val());
+        }).on('blur', ()=>{
+            if (!valid_color(c_pt.val())) {
+                c_pt.val('');
+            }
+        });
+
+        c_st.on('input paste', ()=>{
+            c_s.val(c_st.val());
+        }).on('blur', ()=>{
+            if (!valid_color(c_st.val())) {
+                c_st.val('');
+            }
+        });
+
+        let valid_color = (hex) =>{
+            var s = new Option().style;
+            s.color = hex;
+            if(hex.charAt(0)==='#'){
+                hex=hex.slice(1);
+            }
+            var s2 = `rgb(${parseInt(hex.substring(0, 2), 16)}, ${parseInt(hex.substring(2, 4), 16)}, ${parseInt(hex.substring(4, 6), 16)})`;
+            return s.color == s2;
+        }
 
         /**
          * update the password flag checks (length, letters, etc)

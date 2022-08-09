@@ -1,6 +1,7 @@
 <?php
 
 $path = $_SERVER['DOCUMENT_ROOT'];
+require_once($path . '/classes/general/Season.php');
 require_once($path . '/classes/services/MessageService.php');
 require_once($path . '/classes/user/Admin.php');
 require_once($path . '/classes/user/Caster.php');
@@ -42,7 +43,7 @@ class User {
         $this->db = new TECDB();
         
         $query = 
-        "SELECT `username`, `email`, `pfp_url`, `user_id`, `name`, `pronouns`, `team_id`
+        "SELECT `username`, `email`, `pfp_url`, `user_id`, `name`, `pronouns`, `team_id`, `role`
         FROM `users`
         WHERE `user_id` = ?";
         $res = $this->db->query($query, $this->id)->fetchArray();
@@ -53,6 +54,7 @@ class User {
         $this->set_name($res['name']);
         $this->set_pronouns($res['pronouns']);
         $this->set_team_id($res['team_id']);
+        $this->role = $res['role'];
         $this->pfp_url = $res['pfp_url'] ? $res['pfp_url'] : '/images/user.png';
 
         /*
@@ -315,8 +317,7 @@ class User {
             return false;
         }
 
-        
-
+        return $this->role === 'admin';
     }
 
     /**
@@ -343,6 +344,70 @@ class User {
     }
 
     /**
+     * Gets team name of the user
+     * @return  string
+     */
+
+    public function get_team_name() {
+        if (!$this->id) {
+            return '';
+        }
+
+        $query = 
+        "SELECT `team_name`
+        FROM `teams`
+        WHERE `id` = ?";
+
+        $res = $this->db->query($query, $this->team_id)->fetchArray();
+
+        return $res['team_name'] ?? '';
+    }
+
+    /**
+     * Gets all games the user competes in
+     * @param   boolean $logos
+     * @return  array
+     */
+
+    public function games_competing_in() {
+        if (!$this->id) {
+            return [];
+        }
+
+        $query = 
+        "SELECT `game_name`, `url`
+        FROM `games`
+        WHERE `id` IN (
+            SELECT `game_id`
+            FROM `subteams`
+            WHERE `id` IN (
+                SELECT `subteam_id`
+                FROM `subteam_seasons`
+                WHERE `season_id` = ?
+            )
+            AND `id` IN (
+                SELECT `subteam_id`
+                FROM `player_seasons`
+                WHERE `user_id` = ? AND `season_id` = ?
+            )
+        )
+        ORDER BY `game_name` DESC";
+
+        $c_s = Season::get_current();
+        $res = $this->db->query($query, $c_s, $this->id, $c_s)->fetchAll();
+
+        return $res;
+    }
+
+    /**
+     * Gets all seasons the student competed it
+     */
+
+    public function seasons_competed_in() {
+        
+    }
+
+    /**
      * Gets all profile data for a user
      * @param   int $user_id
      * @return  array
@@ -364,8 +429,7 @@ class User {
             return [];
         }
 
-        $team = new Team($this->team_id);
-        $res['school'] = $team->get_id();
+        $res['school'] = $this->get_team_name();
 
         if (!$res['show_grad_year']) {
             unset($res['grad_year']);
@@ -376,6 +440,8 @@ class User {
         } else {
             unset($res['twitch_username']);
         }
+
+        $res['games'] = $this->games_competing_in();
         
         return $res;
     }

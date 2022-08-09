@@ -1,0 +1,92 @@
+@import 'constants.css';
+
+.clickable {
+    transition: .12s opacity ease;
+}
+
+.clickable:hover {
+    opacity:0.75;
+    cursor:pointer;
+}
+
+.input {
+    display: flex;
+}
+
+.input i {
+    border-top-left-radius: 6px;
+    border-bottom-left-radius: 6px;
+    border: 1px solid var(--text-color);
+    padding:6px;
+    font-size:16px;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    width:40px;
+    background-color: var(--text-color);
+    color:#fff;
+}
+
+.input input, .input select {
+    font-size:16px;
+    padding:6px 12px;
+    border: 1px solid #aaa;
+    border-top-right-radius: 6px;
+    border-bottom-right-radius: 6px;
+    width:100%;
+    border-top-left-radius: 6px;
+    border-bottom-left-radius: 6px;
+}
+
+.input > i:not(.discord):not(.cpass):not(.mascot):not(.lname) + input {
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
+}
+
+.input > i:not(.discord):not(.cpass):not(.mascot):not(.lname) + select {
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
+}
+
+input[type=submit] {
+    border: 0;
+    outline: none;
+    background-color:var(--primary-color);
+    color:#fff;
+    transition: var(--tran-03);
+}
+
+input[type=submit]:hover {
+    cursor:pointer;
+    background-color: #41b178;
+}
+
+input[type=submit]:disabled {
+    cursor:not-allowed;
+    background-color:#aaa;
+    background-image: url('https://tecconvention.com/images/lr-loader.gif');
+    background-size: 25px 25px;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.loading {
+    cursor:not-allowed;
+    background-color: #fff;
+    border-radius: 6px;
+    padding:20px;
+    width:100%;
+    height:100px;
+    margin:auto;
+    background-image: url('https://tecconvention.com/images/loader-green.gif');
+    background-size: 50px 50px;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.showloading {
+    background-image: url('https://tecconvention.com/images/loader-green.gif');
+    background-size: 50px 50px;
+    background-position: center;
+    background-repeat: no-repeat;
+}
