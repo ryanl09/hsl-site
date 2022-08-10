@@ -59,7 +59,7 @@
                     'username':$('#username').val(), 'password':$('#password').val(), 'c_password':$('#c_password').val(), 'csrf':$('#csrf').val(),
                     'terms':terms, 'type':ut.val(), 'discord': $('#discord').val(), 'school': $('#school').val(), 'mascot':$('#mascot').val(), 'phone':$('#phone').val(), 'primarycolor':$('#primarycolor').val(),
                     'secondarycolor':$('#secondarycolor').val()},
-                dataType:'text',
+                dataType:'json',
                 success:(data)=>{
                     console.log(data);
                     reg.prop('disabled', false);

@@ -66,6 +66,11 @@
     margin-bottom: 10px;
 }
 
+.listview-body {
+    max-height:400px;
+    overflow-y:auto;
+}
+
 .time-header {
     display:flex;
     align-items: center;

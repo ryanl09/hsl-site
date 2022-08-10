@@ -1,6 +1,7 @@
 <?php
 
 $path = $_SERVER['DOCUMENT_ROOT'];
+include_once($path . '/classes/event/Schedule.php');
 include_once($path . '/classes/general/Game.php');
 
 require_once($path . '/documentelements.php');
@@ -55,6 +56,7 @@ if (!isset($_SESSION['user']) || (isset($_SESSION['user']) && $_SESSION['user']-
                                 </select>
                             </div>
                         </div>
+                        <h4>Teams</h4>
                         <div class="teamlist">
                             <p id="no-team-selected">Select a game</p>
                         </div>
@@ -96,7 +98,16 @@ if (!isset($_SESSION['user']) || (isset($_SESSION['user']) && $_SESSION['user']-
                         </div>
                     </div>
                     <div class="post-gen">
-
+                        <pre>
+                            
+                            <?php
+                            $days = ['Monday', 'Wednesday', 'Friday'];
+                            $times = ['3:00 PM', '3:45 PM', '4:30 PM'];
+                            $weeks = 6;
+                            $teams = [1,2,3,4,5,6];
+                            print_r(Schedule::generate(date('Y-m-d', strtotime('2022-08-17')), $days, $times, $weeks, $teams));
+                            ?>
+                        </pre>
                     </div>
                 </div>
             </div>
