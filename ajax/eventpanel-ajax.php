@@ -81,6 +81,33 @@ if ((isset($_SERVER['HTTP_X_REQUESTED_WITH'])) && ($_SERVER['HTTP_X_REQUESTED_WI
             $teams = Game::get_teams($game_id,$div);
             echo json_encode(array('teams' => $teams));
             break;
+        case 'schedule':
+            if (!isset($_GET['teams'])) {
+                echo ajaxerror::e('errors', ['Missing teams']);
+                die();
+            }
+
+            if (!isset($_GET['days'])) {
+                echo ajaxerror::e('errors', ['Missing days']);
+                die();
+            }
+
+            if (!isset($_GET['times'])) {
+                echo ajaxerror::e('errors', ['Missing times']);
+                die();
+            }
+
+            if (!isset($_GET['weeks'])) {
+                echo ajaxerror::e('errors', ['Missing week count']);
+                die();
+            }
+
+            if (!isset($_GET['start_day'])) {
+                echo ajaxerror::e('errors', ['Missing start day']);
+                die();
+            }
+
+            break;
         default:
             echo ajaxerror::e('errors', ['Invalid action']);
             die();

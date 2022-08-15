@@ -101,11 +101,12 @@ if (!isset($_SESSION['user']) || (isset($_SESSION['user']) && $_SESSION['user']-
                         <pre>
                             
                             <?php
+
                             $days = ['Monday', 'Wednesday', 'Friday'];
                             $times = ['3:00 PM', '3:45 PM', '4:30 PM'];
                             $weeks = 6;
-                            $teams = [1,2,3,4,5,6];
-                            print_r(Schedule::generate(date('Y-m-d', strtotime('2022-08-17')), $days, $times, $weeks, $teams));
+                            $teams = [1,2,3,4,5,6,7,8];
+                            print_r(Schedule::generate('2001-05-11', $days, $times, $weeks, $teams));
                             ?>
                         </pre>
                     </div>
