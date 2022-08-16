@@ -37,10 +37,6 @@ $(document).ready(()=>{
         $('.game-times').append(w);
     }
 
-    let num_times = () => {
-        return ;
-    }
-
     async function get_teams() {
         if ($('#clear-fields').is(':checked')){
             $('input[name="day"]').prop('checked', false);
@@ -96,6 +92,88 @@ $(document).ready(()=>{
             }
         });
     }
+
+    let pull_schedule = () => {
+        var times=[];
+        var time_len='';
+        Array.from(document.getElementsByClassName('game-time')).forEach(e => {
+            times.push($(e).val());
+            time_len += $(e).val();
+        });
+        if (!time_len.length){
+            //return { error: 'No times selected' };
+        }
+
+        var days=[];
+        Array.from(document.getElementsByName('day')).forEach(e => {
+            if ($(e).is(':checked')) {
+                days.push($(e).val());
+            }
+        });
+        if (!days.length) {
+            //return { error: 'No days selected' };
+        }
+
+        var date = $('#start-date').val();
+        if (!date){
+            //return { error: 'No date selected' };
+        }
+
+        var weeks = $('#numweeks').val();
+        if(!weeks){
+            //return { error: 'No # weeks selected' };
+        }
+
+        days=['monday','wednesday','friday'];
+        times=['3:30pm', '4:15pm', '5:00pm'];
+        date='2022-08-16';
+        teams=[1,2,3,4,5,6,7,8];
+        weeks=6;
+
+        $.ajax({
+            type:'get',
+            url:`${ajax_url}eventpanel-ajax.php`,
+            data:{'action':'schedule', 'teams':teams, 'days': days, 'start_day': date, 'weeks':weeks, 'times':times,'csrf':$('#csrf').val() },
+            dataType:'json',
+            async:true,
+            success:function(data){
+                console.log(data);
+                if(data.errors){
+                    console.log(data);
+                    return;
+                }
+
+                const tbl = $('#schedule-body');
+                tbl.html('');
+
+                data.forEach(e => {
+                    var c=0;
+                    e.matches.forEach(f => {
+                        const row = $(document.createElement('tr'));
+                        row.append(`<td>${!c ? e.date : ''}</td>`);
+                        row.append(`<td>${f.time}</td>`);
+                        row.append(`<td>${f.home}</td>`);
+                        row.append(`<td>${f.away}</td>`);
+                        tbl.append(row);
+                        c++;
+                    });
+                });
+            },
+            error:function(a,b,c){
+                console.log(a+','+b+','+c);
+            }
+        });
+
+        return true;
+    }
+
+    $('.btn-generate').on('click', ()=>{
+        var s = pull_schedule();
+
+        if(s.error){
+            console.log(`Error: ${s.error}`);
+        }
+    });
 
     $('#add-time').on('click', ()=>{
         add_time_box();

@@ -3,8 +3,9 @@
 $path = $_SERVER['DOCUMENT_ROOT'];
 include_once($path . '/classes/util/ajaxerror.php');
 
-require_once($path . '/classes/services/RegisterService.php');
+require_once($path . '/classes/event/Schedule.php');
 require_once($path . '/classes/general/Game.php');
+require_once($path . '/classes/services/RegisterService.php');
 require_once($path . '/classes/user/User.php');
 require_once($path . '/classes/util/Sessions.php');
 
@@ -82,6 +83,7 @@ if ((isset($_SERVER['HTTP_X_REQUESTED_WITH'])) && ($_SERVER['HTTP_X_REQUESTED_WI
             echo json_encode(array('teams' => $teams));
             break;
         case 'schedule':
+
             if (!isset($_GET['teams'])) {
                 echo ajaxerror::e('errors', ['Missing teams']);
                 die();
@@ -107,6 +109,19 @@ if ((isset($_SERVER['HTTP_X_REQUESTED_WITH'])) && ($_SERVER['HTTP_X_REQUESTED_WI
                 die();
             }
 
+            $teams = $_GET['teams'];
+            $days = $_GET['days'];
+            $times = $_GET['times'];
+            $weeks = intval($_GET['weeks']);
+            $start_day = $_GET['start_day'];
+
+            /*echo implode(',', $_GET['teams']) . PHP_EOL . implode(',', $_GET['days']) . PHP_EOL . implode(',', $_GET['times']) . PHP_EOL . $weeks . PHP_EOL . $start_day;
+            die();*/
+
+            $sch = Schedule::generate($start_day, $days, $times, $weeks, $teams);
+
+            echo json_encode($sch);
+            die();
             break;
         default:
             echo ajaxerror::e('errors', ['Invalid action']);

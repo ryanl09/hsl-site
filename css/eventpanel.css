@@ -1,7 +1,6 @@
 .blocks {
-    display: grid;
-    grid-template-columns: 25% 25% 50%;
-    column-gap: 20px;
+    display: flex;
+    gap:20px;
 }
 
 * {
@@ -95,14 +94,14 @@
     margin-bottom: 10px;
 }
 
-.game-time input, .game-time select {
+.game-time input, .game-time select, .listview-header1 input {
     font-size:16px;
     padding:6px 12px;
     border: 1px solid #aaa;
     border-radius: 6px;
 }
 
-.game-time input[type="text"] {
+.game-time input[type="text"],  .listview-header1 input {
     max-width:120px;
 }
 
@@ -128,6 +127,56 @@ hr.sep {
     display:none;
 }
 
+td, th {
+    padding:10px 20px;
+    text-align: left;
+}
+
+
+.pre-gen, .mid-gen {
+    min-width:300px;
+}
+
+.post-gen {
+    max-height: 600px;
+    overflow-y: auto;
+}
+
+table {
+    background-color:#fff;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    width:100%;
+}
+
+tr:nth-child(6n+1)>td,
+tr:nth-child(6n+2)>td,
+tr:nth-child(6n+3)>td {
+    background-color: #f3f3f3;
+}
+
+td {
+    /*border-right: 1px solid #ccc;*/
+}
+
+th {
+    border-bottom: 1px solid #ccc;
+}
+
+td:last-child {
+    border-right: none;
+}
+
+.btn-generate {
+    border:none;
+    outline:none;
+    border-radius: 6px;
+    padding:10px 20px;
+    background-color:var(--primary-color);
+    color:#fff;
+    width:100%;
+}
+
 @media only screen and (max-width:1024px) {
     .input-group {
         flex-direction: column;
@@ -138,6 +187,6 @@ hr.sep {
     }
 
     .blocks {
-        grid-template-columns: 100%;
+        flex-direction: column;
     }
 }
