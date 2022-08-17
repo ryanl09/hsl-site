@@ -43,7 +43,7 @@ $(document).ready(()=>{
             $('.game-times').html('');
             add_time_box();
         }
-
+        $('.btn-upload').remove();
         $('#no-team-selected').text('');
         $('.teamlist').addClass('showloading');
         $('.team-cbox').remove();
@@ -124,11 +124,21 @@ $(document).ready(()=>{
             //return { error: 'No # weeks selected' };
         }
 
+        var teams = [];
+        Array.from(document.getElementsByName('team-select')).forEach(e =>{
+            if($(e).is(':checked')) {
+                teams.push($(e).attr('subteam-id'));
+            }
+        });
+        if (teams.length < 2) {
+            return { error: 'Not enough teams selected' };
+        }
+
+        
         days=['monday','wednesday','friday'];
         times=['3:30pm', '4:15pm', '5:00pm'];
         date='2022-08-16';
-        teams=[1,2,3,4,5,6,7,8];
-        weeks=6;
+        weeks=2;
 
         $.ajax({
             type:'get',
@@ -137,6 +147,9 @@ $(document).ready(()=>{
             dataType:'json',
             async:true,
             success:function(data){
+                $('.btn-generate').prop('disabled', false);
+                $('.btn-generate').text('Generate');
+                $('.btn-generate').addClass('clickable');
                 console.log(data);
                 if(data.errors){
                     console.log(data);
@@ -146,18 +159,64 @@ $(document).ready(()=>{
                 const tbl = $('#schedule-body');
                 tbl.html('');
 
+                var week=1;
+                var last_day = -1;
+                var idx=0;
                 data.forEach(e => {
+                    idx++;
+                    if (e.meta) {
+                        last_day = e.meta[e.meta.length-1];
+                        console.log(last_day);
+                        tbl.append(`<tr style="background-color:#ddd !important;"><td>Week ${week}</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>`);
+                        week++;
+                        return;
+                    }
                     var c=0;
+                    var last_entry = idx >= data.length;
+                    
                     e.matches.forEach(f => {
                         const row = $(document.createElement('tr'));
-                        row.append(`<td>${!c ? e.date : ''}</td>`);
-                        row.append(`<td>${f.time}</td>`);
-                        row.append(`<td>${f.home}</td>`);
-                        row.append(`<td>${f.away}</td>`);
+                        var border = (c === e.matches.length-1 && !last_entry) ? ' style="border-bottom: 1px solid #ddd;"' : '';
+                        row.append(`<td${border}>${!c ? e.date : '&nbsp;'}</td>`);
+                        row.append(`<td${border}>${f.time}</td>`);
+                        row.append(`<td${border}>${f.home}</td>`);
+                        row.append(`<td${border}>${f.away}</td>`);
                         tbl.append(row);
                         c++;
                     });
+                    if (e.day===last_day && !last_entry){
+                        tbl.append(`<tr style="background-color:#ddd !important;"><td>Week ${week}</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>`);
+                        week++;
+                    }
                 });
+
+                console.log(data);
+
+                var p = document.getElementsByClassName('post-gen')[0];
+                var up = document.createElement('button');
+                const schedule = JSON.stringify(data);
+                console.log(schedule);
+                $(up).text('Upload');
+                $(up).addClass('btn-upload green clickable');
+                $(up).on('click', ()=>{
+                    $.ajax({
+                        type:'post',
+                        url:`${ajax_url}eventpanel-ajax.php`,
+                        data:{'action':'upload', 'schedule':schedule, 'csrf':$('#csrf').val(), 'game_id':$('#games').val() },
+                        dataType:'text',
+                        success:(dat)=>{
+                            console.log(dat);
+
+                            if (dat.errors) {
+
+                                return;
+                            }
+
+                            console.log(dat.success);
+                        }
+                    });
+                });
+                p.insertAdjacentElement('afterbegin', up);
             },
             error:function(a,b,c){
                 console.log(a+','+b+','+c);
@@ -168,6 +227,9 @@ $(document).ready(()=>{
     }
 
     $('.btn-generate').on('click', ()=>{
+        $('.btn-generate').prop('disabled', true);
+        $('.btn-generate').text('');
+        $('.btn-generate').removeClass('clickable');
         var s = pull_schedule();
 
         if(s.error){

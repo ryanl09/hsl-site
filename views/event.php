@@ -53,7 +53,7 @@ if (!isset($_SESSION['user']) || (isset($_SESSION['user']) && $_SESSION['user']-
                                     <label for="div">Division</label>
                                     <select name="div" id="div">
                                         <option value="1">1</option>
-                                        <option value="2">2</option>
+                                        <option value="1">2</option>
                                     </select>
                                 </div>
                             </div>
@@ -103,7 +103,7 @@ if (!isset($_SESSION['user']) || (isset($_SESSION['user']) && $_SESSION['user']-
                                 </div>
                                 <hr class="sep">
                                 <div class="listview-footer">
-                                    <button class="btn-generate green clickable">Generate</button>
+                                    <button class="btn-generate clickable">Generate</button>
                                 </div>
                             </div>
                         </div>
@@ -125,7 +125,5 @@ if (!isset($_SESSION['user']) || (isset($_SESSION['user']) && $_SESSION['user']-
                 </div>
             </div>
         </section>
-
-        <?php ui_script(); ?>
     </body>
 </html>

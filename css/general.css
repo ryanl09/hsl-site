@@ -9,6 +9,16 @@
     cursor:pointer;
 }
 
+button.green {
+    border:none;
+    outline:none;
+    border-radius: 6px;
+    padding:10px 20px;
+    background-color:var(--primary-color);
+    color:#fff;
+    width:100%;
+}
+
 .input {
     display: flex;
 }
@@ -61,7 +71,7 @@ input[type=submit]:hover {
     background-color: #41b178;
 }
 
-input[type=submit]:disabled {
+input[type=submit]:disabled, button:disabled {
     cursor:not-allowed;
     background-color:#aaa;
     background-image: url('https://tecconvention.com/images/lr-loader.gif');

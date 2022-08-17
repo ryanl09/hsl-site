@@ -327,3 +327,7 @@ body.dark .home{
 .current-select i {
     color: #fff !important;
 }
+
+.current-select span {
+    color: #fff !important;
+}

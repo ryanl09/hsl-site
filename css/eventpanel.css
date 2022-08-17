@@ -149,11 +149,6 @@ table {
     width:100%;
 }
 
-tr:nth-child(6n+1)>td,
-tr:nth-child(6n+2)>td,
-tr:nth-child(6n+3)>td {
-    background-color: #f3f3f3;
-}
 
 td {
     /*border-right: 1px solid #ccc;*/
@@ -168,13 +163,6 @@ td:last-child {
 }
 
 .btn-generate {
-    border:none;
-    outline:none;
-    border-radius: 6px;
-    padding:10px 20px;
-    background-color:var(--primary-color);
-    color:#fff;
-    width:100%;
 }
 
 @media only screen and (max-width:1024px) {

@@ -15,15 +15,16 @@ class Schedule {
 
     public static function generate($start_day, $days, $times, $num_weeks, $team_ids) {
         $len = count($team_ids);
-        $d_count = count($days);
+        if ($len % 2 !== 0) {
+            $team_ids[] = 0; // 'bye' week
+        }
+        $len++;
+
         $t_count = count($times);
+        $d_count = count($days);
         $games = $d_count * $t_count * $num_weeks;
 
         $dt = new DateTime(date('Y-m-d', strtotime($start_day)));
-
-        if ($t_count % 2 !== 0) {
-            $team_ids[] = 0; // 'bye' week
-        }
 
         for ($j = 0; $j < $d_count; $j++) {
             $days[$j]=intval(date('N', strtotime($days[$j])));
@@ -34,9 +35,13 @@ class Schedule {
         }
 
         $s = array(
-            'week' => 'Week 1'
+            //'week' => 'Week 1'
         );
         $weeks=1;
+
+        $s[] = array(
+            'meta' => $days
+        );
 
         $d_idx = 0;
         $start = intval($dt->format('N'));
@@ -62,7 +67,8 @@ class Schedule {
 
         $temp = array(
             'date' => $dt->format('l') . ', ' . $dt->format('F') . ' ' . $dt->format('d') . ' ' . $dt->format('Y'),
-            'matches' => []
+            'matches' => [],
+            'day' => intval($dt->format('N'))
         );
 
         $af = array_fill(0, 6, 0);
@@ -77,6 +83,7 @@ class Schedule {
                 array_splice($team_ids, 1, 0, $last);
             }
 
+            
             if ($h === 0 || $a === 0) {
                 $games++;
                 continue;
@@ -102,9 +109,10 @@ class Schedule {
                     $weeks++;
                 }
 
+                /*
                 $s[] = array(
                     'week' => 'Week ' . $weeks
-                );
+                );*/
                 
                 $dt->modify("+$add_days day");
                 //$start_day = date('+ ' . $add_days . ' days', strtotime($start_day));
@@ -112,9 +120,7 @@ class Schedule {
                 $temp = array(
                     'date' => $dt->format('l') . ', ' . $dt->format('F') . ' ' . $dt->format('d') . ' ' . $dt->format('Y'),
                     'matches' => [],
-                    'd1' => $d1,
-                    'd2' => $d2,
-                    'add' => $start_day . ' + ' . $add_days . ' days'
+                    'day' => $d2
                 );
             }
         }

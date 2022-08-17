@@ -66,11 +66,12 @@ class Game {
         "SELECT teams.team_name, teams.id AS team_id, subteams.id AS subteam_id, teams.slug
         FROM teams
         INNER JOIN subteams
-            ON subteams.team_id = teams.id AND subteams.game_id = ? AND subteams.division = ?
+            ON subteams.team_id = teams.id AND subteams.game_id = ?
         INNER JOIN subteam_seasons
-            ON subteams.id = subteam_seasons.subteam_id AND subteam_seasons.season_id = ?";
+            ON subteams.id = subteam_seasons.subteam_id AND subteam_seasons.season_id = ?
+        WHERE subteams.division = ?";
 
-        $res = $db->query($query, $game_id, $div, $season_id)->fetchAll();
+        $res = $db->query($query, $game_id, $season_id, $div)->fetchAll();
         return $res;
     }
 }
