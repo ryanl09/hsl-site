@@ -3,19 +3,30 @@
 $path = $_SERVER['DOCUMENT_ROOT'];
 include_once($path . '/classes/event/Schedule.php');
 include_once($path . '/classes/general/Game.php');
+include_once($path . '/classes/general/Stats.php');
 
+require_once($path . '/classes/event/Event.php');
 require_once($path . '/documentelements.php');
 
-if (!isset($_SESSION['user']) || (isset($_SESSION['user']) && $_SESSION['user']->get_role() !== 'admin')) {
-    header('Location: ' . href('dashboard'));
+$event_id = count($_SESSION['current_page']) > 2 ? $_SESSION['current_page'][2] : 0;
+$e = Event::exists($event_id);
+$home=0;
+$away=0;
+
+$size = 'width="220" height="220"';
+
+if ($e) {
+    $home = $e->get_home_team();
+    $away = $e->get_away_team();
 }
+
 ?>
 
 <html>
     <?php 
     base_header(array(
-        'styles' => ['eventpanel'],
-        'scripts' => ['eventpanel']
+        'styles' => ['event'],
+        'scripts' => ['event']
         )
     ); 
     ?>
@@ -24,106 +35,42 @@ if (!isset($_SESSION['user']) || (isset($_SESSION['user']) && $_SESSION['user']-
         <section class="home">
             <div class="page-content">
                 <input type="hidden" id="csrf" value="<?php echo $_SESSION['csrf']; ?>">
-                <h2>Event Panel</h2>
-                <h4>Schedule Builder</h4>
-                <input type="checkbox" id="clear-fields" checked="checked">
-                <label for="clear-fields">Clear fields on game change</label>
-                <div class="blocks">
-                    <div class="blocks">
-                        <div class="pre-gen">
-                            <div class="input-group">
-                                <div class="input">
-                                    <label for="start-date">Start day:</label>
-                                    <input type="date" id="start-date">
-                                </div>
-                            
-                                <div class="input">
-                                    <label for="games">Game:</label>
-                                    <select name="game" id="games">
-                                        <?php
-                                            $games = Game::get_all();
-                                            foreach ($games as $i => $row) {
-                                                echo '<option value="'.$row['id'].'">'.$row['game_name'].'</option>';
-                                            }
-                                        ?>
-                                    </select>
-                                </div>
+                <?php if ($e) { ?>
+                    <div class="match-header">
+                        <div class="home-team">
+                            <img src="<?php echo $home['team_logo']; ?>" <?php echo $size; ?> alt="">
+                            <p><?php echo $home['team_name']; ?></p>
+                        </div>
+                        <div class="vs"><p>vs</p></div>
+                        <div class="away-team">
+                            <img src="<?php echo $away['team_logo']; ?>" <?php echo $size; ?> alt="">
+                            <p><?php echo $away['team_name']; ?></p>
+                        </div>
+                    </div>
 
-                                <div class="input">
-                                    <label for="div">Division</label>
-                                    <select name="div" id="div">
-                                        <option value="1">1</option>
-                                        <option value="1">2</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <h4>Teams</h4>
-                            <div class="teamlist">
-                                <p id="no-team-selected">Select a game</p>
-                            </div>
-                        </div>
-                        <div class="mid-gen">
-                            <div class="listview">
-                                <div class="listview-header1">
-                                    <h4>Number of weeks:</h4>
-                                    <input type="text" id="numweeks">
-                                </div>
-                                <hr class="sep">
-                                <div class="listview-header">
-                                    <h4>Select days</h4>
-                                    <div class="day-cbox">
-                                        <input type="checkbox" name="day" value="monday" id="mon">
-                                        <label for="mon">Mon</label>
-                                    </div>
-                                    <div class="day-cbox">
-                                        <input type="checkbox" name="day" value="tuesday" id="tues">
-                                        <label for="tues">Tues</label>
-                                    </div>
-                                    <div class="day-cbox">
-                                        <input type="checkbox" name="day" value="wednesday" id="wed">
-                                        <label for="wed">Wed</label>
-                                    </div>
-                                    <div class="day-cbox">
-                                        <input type="checkbox" name="day" value="thursday" id="thu">
-                                        <label for="thu">Thu</label>
-                                    </div>
-                                    <div class="day-cbox">
-                                        <input type="checkbox" name="day" value="friday" id="fri">
-                                        <label for="fri">Fri</label>
-                                    </div>
-                                </div>
-                                <hr class="sep">
-                                <div class="listview-body">
-                                    <div class="time-header">
-                                        <h4>Select times</h4>
-                                        <i class='bx bxs-plus-square clickable' id="add-time"></i>
-                                    </div>
-                                    <div class="game-times">
-                                    </div>
-                                </div>
-                                <hr class="sep">
-                                <div class="listview-footer">
-                                    <button class="btn-generate clickable">Generate</button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="post-gen">
-                            <table cellspacing="0">
-                                <thead>
-                                    <tr>
-                                        <th>Date</th>
-                                        <th>Time</th>
-                                        <th>Home</th>
-                                        <th>Away</th>
-                                    </tr>
+                    <div class="info-container">
+                        <div class="info-box">
+                            <table>
+                                <thead id="thead-home">
+                                    <th>Player</th>
                                 </thead>
-                                <tbody id="schedule-body">
-                                </tbody>
+                            </table>
+                        </div>
+                        <div class="info-box">
+                            <table>
+                                <thead id="thead-home">
+                                    <th>Player</th>
+                                </thead>
                             </table>
                         </div>
                     </div>
-                </div>
+                <?php } else { ?>
+                        <!-- upcoming matches -->
+                <?php } ?>
             </div>
         </section>
+
+        <?php ui_script(); ?>
+
     </body>
 </html>

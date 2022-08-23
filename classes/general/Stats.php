@@ -39,6 +39,28 @@ class Stats {
             return 0;
         }
     }
+
+    /**
+     * Gets all stat columns for an event
+     * @param   int $game_id
+     * @return  array
+     */
+
+    public function get_cols($event_id) {
+        if (!$event_id) {
+            return [];
+        }
+
+        $query =
+        "SELECT stat_cols.id, stat_cols.name
+        FROM `stat_cols`
+        INNER JOIN `events`
+            ON events.id = ?
+        WHERE stat_cols.game_id = events.event_game";
+
+        $res = $this->db->query($query, $event_id)->fetchAll();
+        return $res;
+    }
 }
 
 ?>

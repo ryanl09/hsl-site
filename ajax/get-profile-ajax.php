@@ -96,12 +96,14 @@ if ((isset($_SERVER['HTTP_X_REQUESTED_WITH'])) && ($_SERVER['HTTP_X_REQUESTED_WI
             $user_id = User::find_id($username);
 
             $user = new User($user_id);
-            $ret = $user->get_profile_data($user_id);
+            $ret = $user->get_profile_data();
+            $events = $user->get_events();
 
             echo json_encode(
                 array(
                     'status' => 1,
-                    'data' => $ret
+                    'data' => $ret,
+                    'events' => $events
                 )
             );
             break;

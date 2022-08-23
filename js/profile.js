@@ -169,16 +169,16 @@
             data: { 'tab': 'info', 'csrf':$('#csrf').val() },
             dataType: 'json',
             async: true,
-            success:(data)=>{
+            success:(dat)=>{
 
-                console.log(data);
+                console.log(dat);
                 $('.loading.box-info').remove();
-                if (!data.status) {
-                    document.getElementsByClassName('page-content')[0].insertAdjacentHTML('beforeend', `<p>${data}</p>`);
+                if (!dat.status) {
+                    document.getElementsByClassName('page-content')[0].insertAdjacentHTML('beforeend', `<p>${dat}</p>`);
                     return;
                 }
 
-                data = data.data;
+                var data = dat.data;
 
                 $('.bio-text').text(data.bio);
 
@@ -209,6 +209,18 @@
                             class: 'info',
                             html: `<div class="games-entry"><img src="${e.url}" width="24" height="24"><p>${e.game_name}<p></div>`
                         }).insertAfter('#games-info');
+                    });
+                }
+
+                if (dat.events){
+                    var uc = $('#ucmatches');
+                    dat.events.forEach(e => {
+                        var row = $(document.createElement('tr'));
+                        //console.log(data.games.map(object => object.id));
+                        var idx = data.games.map(object => object.id).indexOf(e.event_game);
+                        var url=data.games[idx].url;
+                        row.append(`<td><img src="${url}" width="24" height="24"></td><td>${fix_date(e.event_date)}</td><td>${fix_time(e.event_time)}</td>`);
+                        uc.append(row);
                     });
                 }
 

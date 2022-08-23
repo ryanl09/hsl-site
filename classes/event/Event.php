@@ -13,41 +13,49 @@ class Event implements IEvent {
     }
 
     /**
-     * Gets the id of event's home team
-     * @return  int
+     * Gets the id and logo of event's home team
+     * @return  array
      */
 
     public function get_home_team() {
         if (!$this->id || !$this->db) {
-            return 0;
+            return [];
         }
 
         $query =
-        "SELECT `event_home`
+        "SELECT events.event_home, teams.team_logo, teams.team_name
         FROM `events`
-        WHERE id = ?";
+        INNER JOIN `subteams`
+            ON subteams.id = events.event_home
+        INNER JOIN `teams`
+            ON teams.id = subteams.team_id
+        WHERE events.id = ?";
 
-        $home_team = $this->db->query($query, $this->id)->fetchArray();
-        return $home_team['event_home'];
+        $res = $this->db->query($query, $this->id)->fetchArray();
+        return $res;
     }
 
     /**
-     * Gets the id of event's away team
+     * Gets the id and logo of event's away team
      * @return  int
      */
 
     public function get_away_team() {
         if (!$this->id || !$this->db) {
-            return 0;
+            return [];
         }
 
         $query =
-        "SELECT `event_away`
+        "SELECT events.event_away, teams.team_logo, teams.team_name
         FROM `events`
-        WHERE id = ?";
+        INNER JOIN `subteams`
+            ON subteams.id = events.event_away
+        INNER JOIN `teams`
+            ON teams.id = subteams.team_id
+        WHERE events.id = ?";
 
-        $home_team = $this->db->query($query, $this->id)->fetchArray();
-        return $home_team['event_away'];
+        $res = $this->db->query($query, $this->id)->fetchArray();
+        return $res;
     }
 
     /**
@@ -167,8 +175,35 @@ class Event implements IEvent {
     }
 
     /**
-     * 
+     * static functions
      */
+
+
+
+    /**
+     * Check if event with this id exists
+     * @return  boolean|Event
+     */
+
+    public static function exists($event_id) {
+        if (!$event_id) {
+            return false;
+        }
+
+        $db = new tecdb();
+
+        $query =
+        "SELECT EXISTS(
+            SELECT * 
+            FROM `events`
+            WHERE `id` = ?) AS ex";
+        $res = $db->query($query, $event_id)->fetchArray();
+        $ret = false;
+        if ($res['ex']) {
+            $ret = new Event($event_id);
+        }
+        return $ret;
+    }
 }
 
 ?>

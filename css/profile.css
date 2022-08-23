@@ -31,6 +31,11 @@ button {
     transition: var(--btn-t);
 }
 
+th {
+    text-align: left;
+    font-weight: 600;
+}
+
 .anim {
     animation-duration: var(--ad);
     transition-timing-function: var(--ttf);
@@ -382,6 +387,8 @@ button.selected {
     padding:20px;
     border-radius: 6px;
     background-color: #fff;
+    max-height: 350px;
+    overflow-y:auto;
 }
 
 .info {
@@ -445,6 +452,9 @@ button.selected {
 
 @media only screen and (max-width: 1240px) {
 
+    .--tab{
+        padding:20px 0px;
+    }
     .banner {
         padding: 20px;
         grid-template-columns: auto;

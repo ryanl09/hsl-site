@@ -150,9 +150,20 @@ base_header(
                                     </div>
                                 </div>
                                 <div class="box">
-                                    <div class="info">
-                                        <h4>Upcoming Matches</h4>
+                                    <div class="info end">
+                                        <div class="info">
+                                            <h4>Upcoming Matches</h4>
+                                        </div>
+                                        <table style="width:100%;">
+                                            <thead>
+                                                <th>Game</th>
+                                                <th>Date</th>
+                                                <th>Time</th>
+                                            </thead>
+                                            <tbody id="ucmatches">
 
+                                            </tbody>
+                                        </table>
                                     </div>
                                 </div>
                             </div>

@@ -1,18 +1,21 @@
 <?php
 
 $path = $_SERVER['DOCUMENT_ROOT'];
-require_once($path . '/controllers/DashboardController.php');
-require_once($path . '/controllers/LeagueController.php');
-require_once($path . '/controllers/FeedController.php');
-require_once($path . '/controllers/MyGamesController.php');
-require_once($path . '/controllers/StatsController.php');
-require_once($path . '/controllers/MessagesController.php');
-require_once($path . '/controllers/ProfileController.php');
-require_once($path . '/controllers/LoginController.php');
-require_once($path . '/controllers/RegisterController.php');
-require_once($path . '/controllers/Error404Controller.php');
 require_once($path . '/controllers/AdminController.php');
+require_once($path . '/controllers/DashboardController.php');
+require_once($path . '/controllers/Error404Controller.php');
 require_once($path . '/controllers/EventPanelController.php');
+require_once($path . '/controllers/EventController.php');
+require_once($path . '/controllers/FeedController.php');
+require_once($path . '/controllers/LeagueController.php');
+require_once($path . '/controllers/LoginController.php');
+require_once($path . '/controllers/MessagesController.php');
+require_once($path . '/controllers/MyGamesController.php');
+require_once($path . '/controllers/PrivacyController.php');
+require_once($path . '/controllers/ProfileController.php');
+require_once($path . '/controllers/RegisterController.php');
+require_once($path . '/controllers/StatsController.php');
+require_once($path . '/controllers/TermsController.php');
 
 require_once($path . '/classes/services/LogoutService.php');
 
@@ -60,6 +63,15 @@ class ClientRequest {
                 break;
             case 'eventpanel':
                 $this->ctrl = new EventPanelController();
+                break;
+            case 'event':
+                $this->ctrl = new EventController();
+                break;
+            case 'privacy':
+                $this->ctrl = new PrivacyController();
+                break;
+            case 'terms':
+                $this->ctrl = new TermsController();
                 break;
             default:
                 $this->ctrl = new Error404Controller();

@@ -96,12 +96,16 @@ $(document).ready(()=>{
     let pull_schedule = () => {
         var times=[];
         var time_len='';
-        Array.from(document.getElementsByClassName('game-time')).forEach(e => {
-            times.push($(e).val());
-            time_len += $(e).val();
-        });
+
+        var g = document.getElementsByClassName('game-time');
+        for (var i = 0; i < g.length; i++) {
+            var v = $(`#${$(g[i]).attr('id')} > input`).val();
+            var suf = $(`#${$(g[i]).attr('id')} > select`).val();
+            times.push(v + suf);
+            time_len += (v+suf);
+        }
         if (!time_len.length){
-            //return { error: 'No times selected' };
+            return { error: 'No times selected' };
         }
 
         var days=[];
@@ -111,17 +115,17 @@ $(document).ready(()=>{
             }
         });
         if (!days.length) {
-            //return { error: 'No days selected' };
+            return { error: 'No days selected' };
         }
 
         var date = $('#start-date').val();
         if (!date){
-            //return { error: 'No date selected' };
+            return { error: 'No date selected' };
         }
 
         var weeks = $('#numweeks').val();
         if(!weeks){
-            //return { error: 'No # weeks selected' };
+            return { error: 'No # weeks selected' };
         }
 
         var teams = [];
@@ -134,11 +138,12 @@ $(document).ready(()=>{
             return { error: 'Not enough teams selected' };
         }
 
-        
+        /*
         days=['monday','wednesday','friday'];
         times=['3:30pm', '4:15pm', '5:00pm'];
         date='2022-08-16';
         weeks=2;
+        */
 
         $.ajax({
             type:'get',
@@ -199,12 +204,14 @@ $(document).ready(()=>{
                 $(up).text('Upload');
                 $(up).addClass('btn-upload green clickable');
                 $(up).on('click', ()=>{
+                    $(up).prop('disabled', true);
                     $.ajax({
                         type:'post',
                         url:`${ajax_url}eventpanel-ajax.php`,
                         data:{'action':'upload', 'schedule':schedule, 'csrf':$('#csrf').val(), 'game_id':$('#games').val() },
                         dataType:'text',
                         success:(dat)=>{
+                            $(up).prop('disabled', false);
                             console.log(dat);
 
                             if (dat.errors) {

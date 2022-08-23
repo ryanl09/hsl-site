@@ -24,5 +24,8 @@ if (!isset($_SESSION['user']) || (isset($_SESSION['user']) && $_SESSION['user']-
                 <a href="/eventpanel">Event panel</a>
             </div>
         </section>
+
+        <?php ui_script(); ?>
+
     </body>
 </html>

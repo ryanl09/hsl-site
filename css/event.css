@@ -1,0 +1,56 @@
+@import 'constants.css';
+
+.match-header {
+    display:grid;
+    grid-template-columns: 40% 20% 40%;
+    gap:20px;
+    overflow:hidden
+}
+
+.match-header > div {
+    width:100%;
+    background-color: rgba(0,0,0,0);
+    text-align: center;
+    padding:20px;
+}
+
+.match-header >div:first-child {
+    text-align: right;
+}
+
+.match-header >div:last-child {
+    text-align: left;
+}
+
+.vs{
+    display:flex;
+    align-items:center;
+    justify-content: center;
+}
+
+.vs p {
+    font-size: 30px;
+}
+
+.home-team p, .away-team p {
+    padding:10px;
+}
+
+.info-box{
+    padding:20px 40px;
+    border-radius: 6px;
+    background-color: #fff;
+    width:100%;
+}
+
+.info-container{
+    display:grid;
+    grid-template-columns: 50% 50%;
+    gap:20px;
+}
+
+@media only screen and (max-width: 1024px) {
+    .match-details, .info-container {
+        grid-template-columns: 100%;
+    }
+}

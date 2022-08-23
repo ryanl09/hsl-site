@@ -156,20 +156,21 @@ if ((isset($_SERVER['HTTP_X_REQUESTED_WITH'])) && ($_SERVER['HTTP_X_REQUESTED_WI
 
                 $db = new tecdb();
 
-                $s = json_decode($_POST['schedule']);
+                $s = json_decode($_POST['schedule'], true);
                 for ($i = 0; $i < count($s); $i++) {
-                    if (isset($s[$i]->meta)) {
+                    if (isset($s[$i]['meta'])) {
                         continue;
                     }
 
-                    $m = $s[$i]->matches;
+                    $m = $s[$i]['matches'];
+
                     for ($j = 0; $j < count($m); $j++){
-                        $date = date('Y-m-d', strtotime($s[$i]->date));
-                        $time = date('H:i:s', strtotime($m->time));
+                        $date = date('Y-m-d', strtotime($s[$i]['date']));
+                        $time = date('H:i:s', strtotime($m[$j]['time']));
 
                         $query ="INSERT INTO `events` (`event_home`, `event_away`, `event_stream`, `event_date`, `event_time`, `event_game`, `event_winner`)
                         VALUES (?, ?, \"\", ?, ?, ?, 0)";
-                        $id = $db->query($query, $m['home'], $m['away'], $date, $time, $_POST['game_id'])->lastInsertId();
+                        $id = $db->query($query, $m[$j]['home'], $m[$j]['away'], $date, $time, $_POST['game_id'])->lastInsertId();
                         if (!$id) {
                             $failed[] = array(
                                 'date' => $date,

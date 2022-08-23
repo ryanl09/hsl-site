@@ -365,7 +365,6 @@ class User {
 
     /**
      * Gets all games the user competes in
-     * @param   boolean $logos
      * @return  array
      */
 
@@ -375,7 +374,7 @@ class User {
         }
 
         $query = 
-        "SELECT `game_name`, `url`
+        "SELECT `game_name`, `url`, `id`
         FROM `games`
         WHERE `id` IN (
             SELECT `game_id`
@@ -400,11 +399,14 @@ class User {
     }
 
     /**
-     * Gets all seasons the student competed it
+     * Gets all seasons the student competed
+     * @return  array
      */
 
     public function seasons_competed_in() {
-        
+        if (!$this->id) {
+            return [];
+        }
     }
 
     /**
@@ -443,6 +445,32 @@ class User {
 
         $res['games'] = $this->games_competing_in();
         
+        return $res;
+    }
+
+    /**
+     * Gets events user is competing in (upcoming matches)
+     * @return  array
+     */
+
+    public function get_events() {
+        if (!$this->id) {
+            return [];
+        }
+
+        $c_s = Season::get_current();
+
+        $query = 
+        "SELECT events.id, events.event_home, events.event_away, events.event_time, events.event_date, events.event_game, player_seasons.subteam_id
+        FROM events
+        LEFT JOIN subteams
+            ON subteams.id = events.event_home OR subteams.id = events.event_away
+        LEFT JOIN subteam_seasons
+            ON subteam_seasons.subteam_id = subteams.id AND subteam_seasons.season_id = ?
+        LEFT JOIN player_seasons
+            ON player_seasons.user_id = ? AND player_seasons.season_id = ?
+        WHERE player_seasons.subteam_id = subteams.id";
+        $res = $this->db->query($query, $c_s, $this->id, $c_s)->fetchAll();
         return $res;
     }
 
