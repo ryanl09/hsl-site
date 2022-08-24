@@ -1,5 +1,7 @@
 <?php
 
+require_once($_SERVER['DOCUMENT_ROOT'] . '/classes/user/User.php');
+
 if (!session_id()) {
     session_start();
 }
@@ -9,7 +11,8 @@ if (!isset($_SESSION['csrf'])) {
 }
 
 if (isset($_SESSION['user'])) {
-    $user_id = $_SESSION['user']->get_id();
+    $user = $_SESSION['user'];
+    $user_id = $user->get_id();
     $_SESSION['user'] = new User($user_id);
 }
 

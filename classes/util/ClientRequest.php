@@ -16,6 +16,7 @@ require_once($path . '/controllers/ProfileController.php');
 require_once($path . '/controllers/RegisterController.php');
 require_once($path . '/controllers/StatsController.php');
 require_once($path . '/controllers/TermsController.php');
+require_once($path . '/controllers/TickerController.php');
 
 require_once($path . '/classes/services/LogoutService.php');
 
@@ -72,6 +73,9 @@ class ClientRequest {
                 break;
             case 'terms':
                 $this->ctrl = new TermsController();
+                break;
+            case 'ticker':
+                $this->ctrl = new TickerController();
                 break;
             default:
                 $this->ctrl = new Error404Controller();

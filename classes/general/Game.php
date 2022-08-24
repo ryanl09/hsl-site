@@ -39,7 +39,7 @@ class Game {
         $db = new tecdb();
 
         $query =
-        "SELECT `id`, `game_name`
+        "SELECT `id`, `game_name`, `url`
         FROM `games`";
 
         $res = $db->query($query)->fetchAll();

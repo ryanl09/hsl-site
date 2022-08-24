@@ -1,0 +1,68 @@
+@import 'constants.css';
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+* {
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+.ticker-wrapper{
+    width:100%;
+    height:60px;
+}
+
+.img, .ticker, .ticker2 {
+    height:60px;
+    position:absolute;
+    bottom:0px;
+    left:0px;
+    transition:1s all ease;
+    color:#ccc;
+    font-weight: 600;
+    overflow:hidden;
+}
+
+.ticker, .ticker2 {
+    width:100%;
+    padding-left:90px;
+    display:flex;
+    justify-content: left;
+    align-items: center;
+    gap:20px;
+}
+
+li > div {
+    padding:10px;
+}
+
+.ticker {
+    z-index:1;
+    background-color:#222222;
+}
+
+.ticker2 {
+    z-index:2;
+    background-color:#0e0e0e;
+}
+
+.ticker-wrapper {
+    overflow:hidden;
+}
+
+.ticker2 {
+    margin-right: calc(100% - 40px);
+}
+
+.img {
+    width:80px;
+    background-color: black;
+    z-index:10;
+}
+
+ul {
+    list-style: none;
+}
+
+.img > div {
+    padding:10px;
+}

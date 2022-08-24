@@ -204,6 +204,26 @@ class Event implements IEvent {
         }
         return $ret;
     }
+
+    /**
+     * Gets all events for the current day
+     * @return  array
+     */
+
+    public static function all_today() {
+        $d = date('Y-m-d');
+        $t = date('H:i:s');
+
+        $db = new tecdb();
+        $query=
+        "SELECT *
+        FROM `events`
+        WHERE `event_date` = ? AND `event_time` >= ?
+        LIMIT 3";
+
+        $res = $db->query($query, $d, $t)->fetchAll();
+        return $res;
+    }
 }
 
 ?>
