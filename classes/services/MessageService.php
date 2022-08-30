@@ -34,7 +34,7 @@ class MessageService {
 
         $query=
         "INSERT INTO `messages` (`id_from`, `id_to`, `message`)
-        VALUES (?, ?, ?)"
+        VALUES (?, ?, ?)";
 
         $res = $this->db->query($query, $to, $from, $message)->lastInsertID();
         return $res;
@@ -73,7 +73,7 @@ class MessageService {
         $query=
         "SELECT *
         FROM `messages`
-        WHERE (`id_from` = ? AND `id_to` = ?) OR (`id_from` = ? AND `id_to` = ?);"
+        WHERE (`id_from` = ? AND `id_to` = ?) OR (`id_from` = ? AND `id_to` = ?)";
 
         $res = $this->db->query($query, $u, $u2, $u2, $u)->fetchAll();
         return $res;

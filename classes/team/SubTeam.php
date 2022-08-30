@@ -3,6 +3,9 @@
 require_once('TeamAbstract.php');
 require_once('Team.php');
 
+$path = $_SERVER['DOCUMENT_ROOT'];
+require_once($path . '/classes/general/Season.php');
+
 class SubTeam extends TeamAbstract {
     public function __construct($id) {
         parent::__construct($id);
@@ -48,11 +51,35 @@ class SubTeam extends TeamAbstract {
     public function get_logo() {
         $team = $this->get_parent_team();
 
-        if (!$team_id) {
+        if (!$team->get_id()) {
             return '';
         }
 
         return $team->get_logo();
+    }
+
+    /**
+     * gets all players on this team for current season
+     * @return  array
+     */
+
+    public function get_players() {
+        if (!$this->id) {
+            return [];
+        }
+
+        $c_s = Season::get_current();
+
+        $query =
+        "SELECT users.name, users.user_id
+        FROM `users`
+        INNER JOIN `subteams`
+            ON subteams.id = ?
+        INNER JOIN `player_seasons`
+            ON player_seasons.user_id = users.user_id AND player_seasons.subteam_id = ? AND player_seasons.season_id = ?";
+
+        $res = $this->db->query($query, $this->id, $this->id, $c_s)->fetchAll();
+        return $res;
     }
 }
 

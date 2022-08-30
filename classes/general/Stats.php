@@ -61,6 +61,37 @@ class Stats {
         $res = $this->db->query($query, $event_id)->fetchAll();
         return $res;
     }
+
+    /**
+     * Gets stats for each player for a team from a certain event
+     * @param   int $event_id
+     * @param   int $subteam_id
+     * @return  array
+     */
+
+    public function get_stats($event_id, $subteam_id) {
+        if (!$event_id || !$subteam_id) {
+            return [];
+        }
+
+        $query = 
+        "SELECT stat_cols.name, stats.user_id, stats.stat_id, stats.stat_value
+        FROM `stats`
+        INNER JOIN `stat_cols`
+            ON stat_cols.id = stats.stat_id
+        WHERE stats.user_id IN (
+            SELECT users.user_id
+            FROM `users`
+            INNER JOIN `subteams`
+                ON subteams.id = ?
+            INNER JOIN `player_seasons`
+                ON player_seasons.user_id = users.user_id AND player_seasons.subteam_id = ? AND player_seasons.season_id = ?
+            )
+        AND stats.event_id = ?";
+
+        $res = $this->db->query($query, $subteam_id, $subteam_id, Season::get_current(), $event_id)->fetchAll();
+        return $res;
+    }
 }
 
 ?>

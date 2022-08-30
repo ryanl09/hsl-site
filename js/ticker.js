@@ -21,6 +21,11 @@ $(document).ready(()=>{
         success:(data)=>{
             console.log(data);
             tabs[0] = '';
+
+            /**
+             * creating each tab as an array then loop to the start
+             */
+            
             data.games.forEach(e =>{
                 var el = $(document.createElement('div'));
                 el.css({'display':'flex', 'justify-content':'center', 'align-items':'center', 'gap':'10px'});
