@@ -6,7 +6,6 @@ $(document).ready(()=>{
 
     const t = $('.ticker');
     const t2 = $('.ticker2');
-    const colors='0123456789ABCDEF';
     const tabs = [];
     const games = [];
     const tab_divs = [];
@@ -80,14 +79,17 @@ $(document).ready(()=>{
     
     function set_intv() {
         setInterval(()=>{
+
             var c = '#';
             while (c.length < 7){
-                var r = colors.charAt(Math.floor(Math.random() * colors.length));
-                c += r;
+                c += '0123456789ABCDEF'.charAt(Math.floor(Math.random() * '0123456789ABCDEF'.length));
             }
+
+            console.log(m);
     
             if (m===0||m===3) {
 
+                //$('.progress').width('0px');
                 /*
                     HIDE LAST BLOCK BEHIND SHOWING BLOCK
                 */
@@ -133,6 +135,11 @@ $(document).ready(()=>{
                 return;
             } else if (m===2||m===5) {
 
+                $('.progress').css({'width':'0%', 'background-color':c});
+                $('.progress').animate({
+                    'width': '100%'
+                }, 5900);
+            
                 /*
                     SHOWING NEXT BLOCK
                 */

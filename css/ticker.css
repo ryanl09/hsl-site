@@ -45,6 +45,15 @@ li > div {
     background-color:#0e0e0e;
 }
 
+.progress {
+    background-color: var(--primary-color);
+    height:4px;
+    width:0%;
+    position:absolute;
+    left:0;
+    bottom:60px;
+}
+
 .ticker-wrapper {
     overflow:hidden;
 }

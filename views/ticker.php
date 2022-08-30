@@ -43,6 +43,7 @@ echo 'AWAY: ' . $away_team['event_away'] . PHP_EOL;
                     <img src="../images/logo.png" width="60" height="40" alt="">
                 </div>
             </li>
+            <li class="progress"></li>
             <li class="ticker"></li>
             <li class="ticker2"></li>
         </ul>
