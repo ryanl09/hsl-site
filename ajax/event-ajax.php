@@ -99,6 +99,10 @@ if ((isset($_SERVER['HTTP_X_REQUESTED_WITH'])) && ($_SERVER['HTTP_X_REQUESTED_WI
                 $away = $e->get_away_team();
 
                 $ret = array(
+                    'img' => array(
+                        'width' => '220',
+                        'height' => '220'
+                    ),
                     'cols' => $stats->get_cols($event_id),
                     'home' => array(
                         'name' => $home['team_name'],
