@@ -88,6 +88,7 @@ if ((isset($_SERVER['HTTP_X_REQUESTED_WITH'])) && ($_SERVER['HTTP_X_REQUESTED_WI
         $action=$_GET['action'];
         switch($action){
             case 'stats':
+                
                 $e = Event::exists($event_id);
                 if (!$e){
                     echo ajaxerror::e('errors', ['Event does not exist']);
@@ -97,6 +98,8 @@ if ((isset($_SERVER['HTTP_X_REQUESTED_WITH'])) && ($_SERVER['HTTP_X_REQUESTED_WI
 
                 $home = $e->get_home_team();
                 $away = $e->get_away_team();
+                $h_stats = $stats->get_stats($event_id, $home['t_id']);
+                $a_stats = $stats->get_stats($event_id, $away['t_id']);
 
                 $ret = array(
                     'img' => array(
@@ -104,16 +107,10 @@ if ((isset($_SERVER['HTTP_X_REQUESTED_WITH'])) && ($_SERVER['HTTP_X_REQUESTED_WI
                         'height' => '220'
                     ),
                     'cols' => $stats->get_cols($event_id),
-                    'home' => array(
-                        'name' => $home['team_name'],
-                        'logo' => $home['team_logo'],
-                        'stats' => $stats->get_stats($event_id, $home['event_home'])
-                    ),
-                    'away' => array(
-                        'name' => $away['team_name'],
-                        'logo' => $away['team_logo'],
-                        'stats' => $stats->get_stats($event_id, $away['event_away'])
-                    )
+                    'home' => $home,
+                    'away' => $away,
+                    'stats' => array_merge($h_stats, $a_stats),
+                    'players' => Event::get_players($event_id)
                 );
 
                 echo json_encode($ret);

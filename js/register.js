@@ -5,6 +5,12 @@
         var _FOCUS=[]; //hold only 2 values, the last focused input and the current
         var pass_flags = [0,0,0,0,0];
 
+        var code = '';
+        var pn = window.location.pathname.split('/');
+        if(pn.length>2){
+            $('#schoolcode').val(pn[2]);
+        }
+
         const ut = $('#user-type');
 
         ut.on('change', ()=>{
@@ -12,18 +18,22 @@
                 case 'player':
                     $('#field-schoolinfo').hide();
                     $('#field-schoolinfo2').hide();
+                    $('#disp-schoolcode').show();
                     break;
                 case 'team_manager':
                     $('#field-schoolinfo').show();
                     $('#field-schoolinfo2').show();
+                    $('#disp-schoolcode').hide();
                     break;
                 case 'caster':
                     $('#field-schoolinfo').hide();
                     $('#field-schoolinfo2').hide();
+                    $('#disp-schoolcode').hide();
                     break;
                 case 'college':
                     $('#field-schoolinfo').show();
                     $('#field-schoolinfo2').show();
+                    $('#disp-schoolcode').hide();
                     break;
             }
         });
@@ -58,7 +68,7 @@
                 data:{'f_name':$('#firstname').val(), 'l_name':$('#lastname').val(), 'pronouns': $('#pronouns').val(), 'email': $('#email').val(), 
                     'username':$('#username').val(), 'password':$('#password').val(), 'c_password':$('#c_password').val(), 'csrf':$('#csrf').val(),
                     'terms':terms, 'type':ut.val(), 'discord': $('#discord').val(), 'school': $('#school').val(), 'mascot':$('#mascot').val(), 'phone':$('#phone').val(), 'primarycolor':$('#primarycolor').val(),
-                    'secondarycolor':$('#secondarycolor').val()},
+                    'secondarycolor':$('#secondarycolor').val(), 'schoolcode':$('#schoolcode').val()},
                 dataType:'json',
                 success:(data)=>{
                     console.log(data);

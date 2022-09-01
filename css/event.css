@@ -22,10 +22,21 @@
     text-align: left;
 }
 
+th {
+    text-align: left;
+}
+
 .vs{
     display:flex;
     align-items:center;
     justify-content: center;
+}
+
+.st-mod {
+    padding:5px;
+    border-radius:4px;
+    max-width:80px;
+    border:1px solid #bbb;
 }
 
 .vs p {

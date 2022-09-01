@@ -56,7 +56,8 @@ class Stats {
         FROM `stat_cols`
         INNER JOIN `events`
             ON events.id = ?
-        WHERE stat_cols.game_id = events.event_game";
+        WHERE stat_cols.game_id = events.event_game
+        ORDER BY stat_cols.id ASC";
 
         $res = $this->db->query($query, $event_id)->fetchAll();
         return $res;
@@ -75,7 +76,7 @@ class Stats {
         }
 
         $query = 
-        "SELECT stat_cols.name, stats.user_id, stats.stat_id, stats.stat_value
+        "SELECT stats.user_id, stats.stat_id, stats.stat_value
         FROM `stats`
         INNER JOIN `stat_cols`
             ON stat_cols.id = stats.stat_id

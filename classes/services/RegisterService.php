@@ -226,16 +226,17 @@ class RegisterService extends VerifyService {
 
         $auth = new AuthToken();
         $activation_key = $auth->create();
+        $auth = new AuthToken(6);
         $request_key = $auth->create();
 
         $ph = new PasswordHash($password);
         $password = $ph->create();
 
         $query =
-        "INSERT INTO `users` (`name`, `email`, `pronouns`, `username`, `password`, `activation_key`, `activated`, `role`, `team_id`, `discord`)
-        VALUES (?, ?, ?, ?, ?, ?, false, ?, ?, ?)";
+        "INSERT INTO `users` (`name`, `email`, `pronouns`, `username`, `password`, `activation_key`, `activated`, `role`, `team_id`, `discord`, `request_key`)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-        $user_id = $this->db->query($query, $name, $email, $pronouns, $username, $password, $activation_key, $this->type, $team_id, $discord)->lastInsertID();
+        $user_id = $this->db->query($query, $name, $email, $pronouns, $username, $password, $activation_key, 0, $this->type, $team_id, $discord, $request_key)->lastInsertID();
 
         $create_type = $this->create_user();
         if (isset($create_type['errors'])) {
@@ -277,8 +278,7 @@ class RegisterService extends VerifyService {
             'user_id' => $user_id,
             'href' => '/dashboard',
             't_id' => $team_id,
-            'type' => 'team_manager',
-            'type2' => $this->type
+            'type' => $this->type
         );
     }
 

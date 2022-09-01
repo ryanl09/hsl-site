@@ -82,6 +82,12 @@ if (isset($_SESSION['user']) && $_SESSION['user']->get_id()) {
                                 <input type="password" name="c_password" id="c_password" placeholder="Confirm password *">
                             </div>
                         </div>
+                        <div class="row" id="disp-schoolcode">
+                            <div class="input">
+                                <i class='bx bxs-school'></i>
+                                <input type="text" name="schoolcode" id="schoolcode" placeholder="Team Code">
+                            </div>
+                        </div>
                         <div class="row e2" id="field-schoolinfo" style="display:none;">
                             <div class="input">
                                 <i class='bx bxs-school' ></i>

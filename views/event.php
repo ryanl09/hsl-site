@@ -6,6 +6,8 @@ include_once($path . '/classes/event/Schedule.php');
 require_once($path . '/classes/event/Event.php');
 require_once($path . '/documentelements.php');
 
+require_once($path . '/classes/general/Stats.php');
+
 
 $event_id = count($_SESSION['current_page']) > 2 ? $_SESSION['current_page'][2] : 0;
 $e = Event::exists($event_id);

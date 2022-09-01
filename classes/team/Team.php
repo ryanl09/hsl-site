@@ -196,7 +196,7 @@ class Team extends TeamAbstract {
         $query =
         "SELECT `id`
         FROM `teams`
-        WHERE 'code' = ?";
+        WHERE `schoolcode` = ?";
 
         $res = $db->query($query, $code)->fetchArray();
 

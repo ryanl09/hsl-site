@@ -23,7 +23,7 @@ class Event implements IEvent {
         }
 
         $query =
-        "SELECT events.event_home, teams.team_logo, teams.team_name
+        "SELECT events.event_home AS t_id, teams.team_logo AS logo, teams.team_name AS t_name
         FROM `events`
         INNER JOIN `subteams`
             ON subteams.id = events.event_home
@@ -46,7 +46,7 @@ class Event implements IEvent {
         }
 
         $query =
-        "SELECT events.event_away, teams.team_logo, teams.team_name
+        "SELECT events.event_away AS t_id, teams.team_logo AS logo, teams.team_name AS t_name
         FROM `events`
         INNER JOIN `subteams`
             ON subteams.id = events.event_away
@@ -222,6 +222,27 @@ class Event implements IEvent {
         LIMIT 3";
 
         $res = $db->query($query, $d, $t)->fetchAll();
+        return $res;
+    }
+
+    public static function get_players($event_id) {
+        if (!$event_id) {
+            return [];
+        }
+
+        $db = new tecdb();
+        $c_s = Season::get_current();
+
+        $query =
+        "SELECT users.name, users.user_id, player_seasons.subteam_id
+        FROM `users`
+        INNER JOIN `events`
+            ON events.id = ?
+        INNER JOIN `player_seasons`
+            ON player_seasons.user_id = users.user_id AND player_seasons.season_id = ?
+        WHERE (player_seasons.subteam_id = events.event_home OR player_seasons.subteam_id = events.event_away)";
+
+        $res = $db->query($query, $event_id, $c_s)->fetchAll();
         return $res;
     }
 }
