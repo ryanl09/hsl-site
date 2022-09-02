@@ -160,6 +160,12 @@
         async function user_actions() {
 
         }
+
+        async function load_highlights(){
+            /*
+            window.location.pathname.split(',')[2]
+            */
+        }
     });
 
     async function get_tab_info() {

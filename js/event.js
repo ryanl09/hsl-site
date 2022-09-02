@@ -5,6 +5,25 @@ $(document).ready(()=>{
         return;
     }
 
+    var save = $('.save-stats');
+
+    if(save){
+        save.on('click', ()=>{
+
+
+
+            $.ajax({
+                url:`${ajax_url}event-ajax.php`,
+                type:'post',
+                data:{'action':'stats', 'data':obj, 'event_id':e_id},
+                dataType:'json',
+                success:(data)=>{
+
+                }
+            });
+        });
+    }
+
     $.ajax({
         url:`${ajax_url}event-ajax.php`,
         type:'get',
@@ -86,7 +105,7 @@ $(document).ready(()=>{
                         text: t[l]
                     });
 
-                    if(p&&l){
+                    if(1&&l){
                         add = $('<td>').append(`<input type="text" value="${t[l]}" class="st-mod" user-id="${pl.user_id}" stat-id="${l}">`);
                     }
                     tr.append(add);

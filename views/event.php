@@ -58,6 +58,11 @@ $e = Event::exists($event_id);
                         <!-- upcoming matches -->
                 <?php } ?>
             </div>
+
+            <?php if ($_SESSION['user']->is_admin()) { ?>
+                <button class="save-stats clickable"><i class='bx bx-save'></i>Save</button>
+            <?php } ?>
+
         </section>
 
         <?php ui_script(); ?>

@@ -26,6 +26,31 @@ th {
     text-align: left;
 }
 
+.save-stats {
+
+    position:fixed;
+    right:0;
+    bottom:0;
+    padding:10px 16px;
+    outline:0;
+    border:none;
+    margin:10px;
+    display:flex;
+    align-items: center;
+    background-color: var(--primary-color);
+    color:#fff;
+    border-radius:4px;
+    font-size:16px;
+}
+
+.save-stats i {
+    padding-right:6px;
+}
+
+.save-stats:disabled {
+    cursor: not-allowed;
+}
+
 .vs{
     display:flex;
     align-items:center;

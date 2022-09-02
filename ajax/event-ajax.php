@@ -47,7 +47,20 @@ if ((isset($_SERVER['HTTP_X_REQUESTED_WITH'])) && ($_SERVER['HTTP_X_REQUESTED_WI
     
         switch ($action){
             case 'stats':
-                
+                if (!$_SESSION['user']->is_admin()) {
+                    echo ajaxerror::e('errors', ['Insufficient user permissions']);
+                    die();
+                }
+
+                if (!isset($_POST['data'])) {
+                    echo ajaxerror::e('errors', ['Missing data']);
+                    die();
+                }
+                $obj = json_decode($_POST['data']);
+
+                foreach ($obj as $i => $row) {
+                    
+                }
                 break;
         }
         
@@ -110,8 +123,13 @@ if ((isset($_SERVER['HTTP_X_REQUESTED_WITH'])) && ($_SERVER['HTTP_X_REQUESTED_WI
                     'home' => $home,
                     'away' => $away,
                     'stats' => array_merge($h_stats, $a_stats),
-                    'players' => Event::get_players($event_id)
+                    'players' => Event::get_players($event_id),
                 );
+
+                include_once($_SERVER['DOCUMENT_ROOT'] . '/classes/user/User.php');
+                if ($_SESSION['user']->is_admin()) {
+                    $ret['p'] = 1;
+                }
 
                 echo json_encode($ret);
                 die();
