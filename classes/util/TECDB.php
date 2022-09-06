@@ -9,17 +9,13 @@ class tecdb {
 	public $query_count = 0;
 
 	public function __construct() {
-		$dbhost = 'localhost';
-		$dbuser = 'root';
-		$dbpass = 'big';
-		$dbname = 'teccoion_techs';
 		$charset = 'utf8';
 
 
 		
-		$dbhost = '162.241.194.77';
-		$dbuser = 'teccoion_ryan';
-		$dbpass = '!p5^1-@zkPGein+z';
+		$dbhost = '3.17.33.69';
+		$dbuser = 'root';
+		$dbpass = 'TECisthebest1*';
 		$dbname = 'teccoion_techs';
 
 		$this->connection = new mysqli($dbhost, $dbuser, $dbpass, $dbname);

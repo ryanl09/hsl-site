@@ -93,6 +93,33 @@ class Stats {
         $res = $this->db->query($query, $subteam_id, $subteam_id, Season::get_current(), $event_id)->fetchAll();
         return $res;
     }
+
+    /**
+     * updates or inserts a new stat
+     * @param   int $user_id
+     * @param   int $event_id
+     * @param   int $stat_id
+     * @param   int $stat_value
+     * @return  boolean
+     */
+
+    public function add($user_id, $event_id, $stat_id, $stat_value) {
+        $query=
+        "IF EXISTS (SELECT * FROM `stats` WHERE `user_id` = ? AND `event_id` = ? AND `stat_id` = ?)
+        BEGIN
+            UPDATE `stats`
+            SET `stat_value` = ?
+            WHERE `user_id` = ? AND `event_id` = ? AND `stat_id` = ?
+        END
+        ELSE
+        BEGIN
+            INSERT INTO `stats` VALUES (?, ?, ?, ?)
+        END";
+
+        $db = new tecdb();
+        $ret = $db->query($query, $user_id, $event_id, $stat_id, $stat_value, $user_id, $event_id, $stat_id, $user_id, $event_id, $stat_id, $stat_value)->lastInsertID();
+        return $ret;
+    }
 }
 
 ?>

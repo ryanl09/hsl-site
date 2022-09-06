@@ -56,10 +56,15 @@ if ((isset($_SERVER['HTTP_X_REQUESTED_WITH'])) && ($_SERVER['HTTP_X_REQUESTED_WI
                     echo ajaxerror::e('errors', ['Missing data']);
                     die();
                 }
-                $obj = json_decode($_POST['data']);
+                $obj = json_decode($_POST['data'], true);
+
+                $stats = new Stats();
 
                 foreach ($obj as $i => $row) {
-                    
+                    $user_id = $row['u'];
+                    $stat_id = $row['s'];
+                    $stat_value = $row['v'];
+                    $stats->add($user_id, $event_id, $stat_id, $stat_value);
                 }
                 break;
         }

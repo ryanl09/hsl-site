@@ -10,15 +10,26 @@ $(document).ready(()=>{
     if(save){
         save.on('click', ()=>{
 
-
+            var obj=[];
+            var tb = $('.st-mod');
+            tb.forEach(e => {
+                if(e.val()) {
+                    var o = {
+                        u: e.attr('user-id'),
+                        s: e.attr('stat-id'),
+                        v: e.val()
+                    };
+                    obj.push(o);
+                }
+            });
 
             $.ajax({
                 url:`${ajax_url}event-ajax.php`,
                 type:'post',
-                data:{'action':'stats', 'data':obj, 'event_id':e_id},
+                data:{'action':'stats', 'data':JSON.stringify(obj), 'event_id':e_id},
                 dataType:'json',
                 success:(data)=>{
-
+                    
                 }
             });
         });

@@ -8,5 +8,19 @@
 </head>
 <body>
     <h2>test</h2>
+
+    <?php 
+
+        require_once($_SERVER['DOCUMENT_ROOT'] . '/TECDB.php');
+
+        $db = new tecdb();
+
+        $query = "SELECT * FROM `stats`";
+
+        $res = $db->query($query)->fetchAll();
+
+        print_r($res);
+    
+    ?>
 </body>
 </html>
