@@ -43,6 +43,15 @@ if ((isset($_SERVER['HTTP_X_REQUESTED_WITH'])) && ($_SERVER['HTTP_X_REQUESTED_WI
             die();
         }
 
+        if (!isset($_POST['event_id'])){
+            echo ajaxerror::e('errors', ['Missing event id']);
+            die();
+        }
+        $event_id = intval($_POST['event_id']);
+        if (!is_numeric($event_id)) {
+            echo ajaxerror::e('errors', ['Invalid event id']);
+        }
+
         $action = $_POST['action'];
     
         switch ($action){
@@ -60,12 +69,27 @@ if ((isset($_SERVER['HTTP_X_REQUESTED_WITH'])) && ($_SERVER['HTTP_X_REQUESTED_WI
 
                 $stats = new Stats();
 
+                $errors=[];
+
                 foreach ($obj as $i => $row) {
                     $user_id = $row['u'];
                     $stat_id = $row['s'];
                     $stat_value = $row['v'];
+                    if (!is_numeric($stat_value)) {
+                        $errors[] = 'Entry ' . $i . ' error (Value was NAN)';
+                        continue;
+                    }
                     $stats->add($user_id, $event_id, $stat_id, $stat_value);
                 }
+
+                $pref=count($errors)<1?'All ':'Some ';
+                echo json_encode(
+                    array(
+                        'status' => 1,
+                        'success' => $pref . 'stats were entered',
+                        'errors' => $errors
+                    )
+                );
                 break;
         }
         

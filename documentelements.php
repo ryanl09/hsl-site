@@ -50,10 +50,12 @@ function base_header($params = [], $nosidebar = false){
 }
 
 function href($page) {
-    $link = '';//'localhost';
+    $link = 'https://tecesports.com';//'localhost';
+
+    $link = 'localhost';
 
     if($link==='dashboard'){
-        return 'localhost';
+        return 'https://tecesports.com';
     }
 
     switch ($page) {
@@ -88,7 +90,7 @@ function print_navbar() {
     $u = 0;
     $user='Guest';
     $id=0;
-    $pfp='https://tecconvention.com/images/user.png';
+    $pfp='https://tecesports.com/images/user.png';
     if (isset($_SESSION['user'])) {
         $u = $_SESSION['user'];
         $user = $u->get_username();

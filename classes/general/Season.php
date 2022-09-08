@@ -42,6 +42,24 @@ class Season {
         $id = $db->query($query, $name)->lastInsertID();
         return $id;
     }
+
+    /**
+     * Gets all seasons prior to current (inclusive)
+     * @return  array
+     */
+
+    public static function get_all_prior() {
+        $db=new tecdb();
+        $c_s = self::get_current();
+
+        $query=
+        "SELECT *
+        FROM `seasons`
+        WHERE `id` <= ?";
+
+        $res = $db->query($query, $c_s)->fetchAll();
+        return $res;
+    }
 }
 
 ?>

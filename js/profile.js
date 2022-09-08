@@ -4,6 +4,12 @@
         const win = $(window);
         const bio_e = $('.bio-text-edit') ?? 0;
 
+        var got = {
+            'info': 0,
+            'stats': 0,
+            'highlights': 0
+        }
+
         var calc_bio_h = () => {
             var w = bio_e.width();
             var h = -1 * Math.sqrt(60 * w) + 320;
@@ -22,7 +28,8 @@
             });
         }
 
-        get_tab_info();
+        get_tab('info');
+        got['info']=1;
 
         const e =$('#edit'); //mode=0
         const p =$('#prev'); //mode=1
@@ -94,89 +101,40 @@
             tabs.removeClass('selected');
             e.target.classList.add('selected');
             $('.--tab').hide();
+
+            if (!got[_t[1]]){
+                get_tab(_t[1]);
+                got[_t[1]]=1;
+            }
+
             $(`.${_t[1]}-${_t[0]}`).show();
         });
 
-        /*
-        * ui events *
-        */
-
-        /*
-        const _l = $('#i-like');
-        $('#like').hover(
-            ()=>{ 
-                _l.addClass('bxs-heart');
-                $('#like > p').animate({width: 'toggle'}, 150);
-            },
-            ()=>{ 
-                _l.removeClass('bxs-heart');
-                $('#like > p').animate({width: 'hide'}, 1);
-            }
-        );
-        const _f = $('#i-follow');
-        $('#follow').hover(
-            ()=>{ 
-                _f.addClass('bxs-user-plus');
-                $('#follow > p').animate({width: 'toggle'}, 150);
-            },
-            ()=>{ 
-                _f.removeClass('bxs-user-plus');
-                $('#follow > p').animate({width: 'hide'}, 1);
-            }
-        );
-        const _d = $('#i-dm');
-        $('#dm').hover(
-            ()=>{ 
-                _d.addClass('bxs-chat');
-                $('#dm > p').animate({width: 'toggle'}, 150);
-            },
-            ()=>{ 
-                _d.removeClass('bxs-chat');
-                $('#dm > p').animate({width: 'hide'}, 1);
-            }
-        );
-        const _r = $('#i-report');
-        $('#report').hover(
-            ()=>{ 
-                _r.addClass('bxs-alarm-exclamation');
-                $('#report > p').animate({width: 'toggle'}, 150);
-            },
-            ()=>{ 
-                _r.removeClass('bxs-alarm-exclamation');
-                $('#report > p').animate({width: 'hide'}, 1);
-            }
-        );
-        const _b = $('#i-block');
-        $('#block').hover(
-            ()=>{
-                $('#block > p').animate({width: 'toggle'}, 150);
-            },
-            ()=>{
-                $('#block > p').animate({width: 'hide'}, 1);
-            }
-        );
-
-        */
         async function user_actions() {
 
         }
-
-        async function load_highlights(){
-            /*
-            window.location.pathname.split(',')[2]
-            */
-        }
     });
 
-    async function get_tab_info() {
+    async function get_tab(tab){
+        console.log(tab);
         $.ajax({
             type: 'get',
             url: `${ajax_url}get-profile-ajax.php`,
             data: { 'tab': 'info', 'csrf':$('#csrf').val() },
             dataType: 'json',
             async: true,
-            success:(dat)=>{
+            success:(data)=>{
+                parse_data(tab,data);
+            },
+            error:(a,b,c)=>{
+                console.log(a+','+b+','+c);
+            }
+        });
+    }
 
+    function parse_data(tab, dat){
+        switch(tab){
+            case 'info':
                 console.log(dat);
                 $('.loading.box-info').remove();
                 if (!dat.status) {
@@ -211,10 +169,10 @@
                     $('#games-info').html('<div><p class="nogames">None</p></div>');
                 } else {
                     data.games.forEach(e => {
-                        $('<div>', {
+                        $('#games-info').append($('<div>', {
                             class: 'info',
                             html: `<div class="games-entry"><img src="${e.url}" width="24" height="24"><p>${e.game_name}<p></div>`
-                        }).insertAfter('#games-info');
+                        }));
                     });
                 }
 
@@ -231,19 +189,14 @@
                 }
 
                 $('.info-tab .tab .row .box').show();
-            },
-            error:(a,b,c)=>{
+                break;
+            case 'stats':
 
-            }
-        });
-    }
-
-    async function get_tab_stats() {
-
-    }
-
-    async function get_tab_highlights() {
-
+                $('.stats-tab .tab .row .box').show();
+                break;
+            case 'highlights':
+                break;
+        }
     }
 
     function update_display(m) {

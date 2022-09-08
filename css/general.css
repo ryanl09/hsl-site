@@ -100,3 +100,7 @@ input[type=submit]:disabled, button:disabled {
     background-position: center;
     background-repeat: no-repeat;
 }
+
+.c-auto {
+    cursor:auto;
+}

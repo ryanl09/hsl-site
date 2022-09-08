@@ -450,6 +450,24 @@ button.selected {
     width:100%;
 }
 
+.selector {
+}
+
+.stats-tab .tab .row .box .selector:first-child {
+    margin-bottom: 12px;
+}
+
+.selector select {
+    border-radius:6px;
+    font-size:16px;
+    padding:6px 12px;
+    border: 1px solid #aaa;
+}
+
+.selector label {
+    margin-right:12px;
+}
+
 @media only screen and (max-width: 1240px) {
 
     .--tab{

@@ -9,27 +9,39 @@ $(document).ready(()=>{
 
     if(save){
         save.on('click', ()=>{
-
+            save.prop('disabled', true);
+            const save_html = save.html();
+            save.html('');
+            
             var obj=[];
             var tb = $('.st-mod');
-            tb.forEach(e => {
-                if(e.val()) {
-                    var o = {
-                        u: e.attr('user-id'),
-                        s: e.attr('stat-id'),
-                        v: e.val()
-                    };
-                    obj.push(o);
-                }
+            tb.each(function() {
+                var o = {
+                    u: $(this).attr('user-id'),
+                    s: $(this).attr('stat-id'),
+                    v: $(this).val()
+                };
+                obj.push(o);
             });
 
             $.ajax({
                 url:`${ajax_url}event-ajax.php`,
                 type:'post',
-                data:{'action':'stats', 'data':JSON.stringify(obj), 'event_id':e_id},
-                dataType:'json',
+                data:{'action':'stats', 'data':JSON.stringify(obj), 'event_id':e_id, 'csrf':$('#csrf').val()},
+                dataType:'text',
                 success:(data)=>{
-                    
+                    save.prop('disabled', false);
+                    save.html(save_html);
+                    console.log(data);
+                    if (!data.status && data.errors){
+
+                        return;
+                    }
+                },
+                error:(a,b,c)=>{
+                    save.prop('disabled', false);
+                    save.html(save_html);
+                    console.log(a+','+b+','+c);
                 }
             });
         });
@@ -123,6 +135,9 @@ $(document).ready(()=>{
                 }
                 $(`#tbody-${tbl}`).append(tr);
             }
+
+            $('.home').toggleClass('loading c-auto');
+            $('.show-onload').show();
         },
         error:(a,b,c)=>{
             console.log(a+','+b+','+c);

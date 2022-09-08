@@ -2,6 +2,7 @@
 
 $path = $_SERVER['DOCUMENT_ROOT'];
 require_once($path . '/documentelements.php');
+require_once($path . '/classes/general/Season.php');
 require_once($path . '/classes/user/User.php');
 require_once($path . '/classes/util/tecdb.php');
 
@@ -169,9 +170,40 @@ base_header(
                             </div>
                         </div>
                     </div>
-                    <div class="tab-stats --tab" style="display:none;">
+                    <div class="stats-tab --tab" style="display:none;">
                         <div class="tab">
+                            <div class="row">
+                                <div class="box">
+                                    <div class="selector">
+                                        <label for="season">Season:</label>
+                                        <select name="season" id="season">
+                                            <?php
+                                                $c_s = Season::get_current();
+                                                $a = Season::get_all_prior();
+                                                foreach ($a as $i => $row){
+                                                    echo '<option value="'.$row['id'].'">'.$row['season_name'].'</option>';
+                                                }
+                                            ?>
+                                        </select>
+                                    </div>
+                                    <div class="selector">
+                                        <label for="game">Game:</label>
+                                        <select name="game" id="game">
+                                            <?php
+                                                $u = $view->games_competing_in($c_s);
+                                                print_r($u);
+                                                foreach($u as $i => $row){
+                                                    echo '<option value="'.$row['id'].'">'.$row['game_name'].'</option>';
+                                                }
+                                            ?>
+                                        </select>
+                                    </div>
 
+                                    <script type="text/javascript">
+                                        $('#season').val(<?php echo $c_s; ?>);
+                                    </script>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="tab-highlights --tab" style="display:none;">

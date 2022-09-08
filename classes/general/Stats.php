@@ -104,20 +104,13 @@ class Stats {
      */
 
     public function add($user_id, $event_id, $stat_id, $stat_value) {
-        $query=
-        "IF EXISTS (SELECT * FROM `stats` WHERE `user_id` = ? AND `event_id` = ? AND `stat_id` = ?)
-        BEGIN
-            UPDATE `stats`
-            SET `stat_value` = ?
-            WHERE `user_id` = ? AND `event_id` = ? AND `stat_id` = ?
-        END
-        ELSE
-        BEGIN
-            INSERT INTO `stats` VALUES (?, ?, ?, ?)
-        END";
+        $query = 
+        "INSERT INTO `stats` (`user_id`, `event_id`, `stat_id`, `stat_value`) 
+        VALUES (?, ?, ?, ?)
+            ON DUPLICATE KEY UPDATE `stat_value` = ?";
 
         $db = new tecdb();
-        $ret = $db->query($query, $user_id, $event_id, $stat_id, $stat_value, $user_id, $event_id, $stat_id, $user_id, $event_id, $stat_id, $stat_value)->lastInsertID();
+        $ret = $db->query($query, $user_id, $event_id, $stat_id, $stat_value, $stat_value)->lastInsertID();
         return $ret;
     }
 }

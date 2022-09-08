@@ -55,7 +55,7 @@ class User {
         $this->set_pronouns($res['pronouns']);
         $this->set_team_id($res['team_id']);
         $this->role = $res['role'];
-        $this->pfp_url = $res['pfp_url'] ? $res['pfp_url'] : '/images/user.png';
+        $this->pfp_url = $res['pfp_url'] ? $res['pfp_url'] : 'https://tecesports.com/images/user.png';
 
         /*
         $user = get_user_by('ID', $id);
@@ -298,13 +298,7 @@ class User {
             return false;
         }
 
-        $query = 
-        "SELECT COUNT(*) AS rc
-        FROM `team_managers`
-        WHERE `user_id` = ?";
-
-        $rows = $this->db->query($query, $this->id)->fetchArray();
-        return $rows['rc'];
+        return $this->role === 'team_manager' || $this->role === 'tm';
     }
 
     /**
@@ -368,8 +362,12 @@ class User {
      * @return  array
      */
 
-    public function games_competing_in() {
-        if (!$this->id) {
+    public function games_competing_in($c_s) {
+        if($c_s==='current'){
+            $c_s=Season::get_current();
+        }
+
+        if (!$this->id || !$c_s || !is_numeric($c_s)) {
             return [];
         }
 
@@ -390,9 +388,8 @@ class User {
                 WHERE `user_id` = ? AND `season_id` = ?
             )
         )
-        ORDER BY `game_name` DESC";
+        ORDER BY `game_name` ASC";
 
-        $c_s = Season::get_current();
         $res = $this->db->query($query, $c_s, $this->id, $c_s)->fetchAll();
 
         return $res;
@@ -443,7 +440,7 @@ class User {
             unset($res['twitch_username']);
         }
 
-        $res['games'] = $this->games_competing_in();
+        $res['games'] = $this->games_competing_in('current');
         
         return $res;
     }

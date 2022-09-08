@@ -107,6 +107,13 @@ if ((isset($_SERVER['HTTP_X_REQUESTED_WITH'])) && ($_SERVER['HTTP_X_REQUESTED_WI
                 )
             );
             break;
+        case 'stats':
+            echo json_encode(
+                array(
+                    'status' => 1
+                )
+            );
+            break;
     }
 
 

@@ -26,17 +26,17 @@ $e = Event::exists($event_id);
     ?>
     <body>
         <?php print_navbar();?>
-        <section class="home">
+        <section class="home loading c-auto">
             <div class="page-content">
                 <input type="hidden" id="csrf" value="<?php echo $_SESSION['csrf']; ?>">
                 <?php if ($e) { ?>
-                    <div class="match-header">
+                    <div class="match-header show-onload" style="display:none;">
                         <div class="home-team"></div>
                         <div class="vs"><p>vs</p></div>
                         <div class="away-team"></div>
                     </div>
 
-                    <div class="info-container">
+                    <div class="info-container show-onload" style="display:none;">
                         <div class="info-box">
                             <div class="table-box">
                                 <table>
@@ -54,6 +54,7 @@ $e = Event::exists($event_id);
                             </div>
                         </div>
                     </div>
+
                 <?php } else { ?>
                         <!-- upcoming matches -->
                 <?php } ?>

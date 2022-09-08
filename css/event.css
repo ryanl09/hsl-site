@@ -27,7 +27,8 @@ th {
 }
 
 .save-stats {
-
+    width:93px;
+    height:45px;
     position:fixed;
     right:0;
     bottom:0;
