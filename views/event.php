@@ -61,7 +61,7 @@ $e = Event::exists($event_id);
             </div>
 
             <?php if ($_SESSION['user']->is_admin()) { ?>
-                <button class="save-stats clickable"><i class='bx bx-save'></i>Save</button>
+                <button class="save-stats stats clickable"><i class='bx bx-save'></i>Save</button>
             <?php } ?>
 
         </section>

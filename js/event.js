@@ -5,7 +5,7 @@ $(document).ready(()=>{
         return;
     }
 
-    var save = $('.save-stats');
+    var save = $('.save-btn');
 
     if(save){
         save.on('click', ()=>{

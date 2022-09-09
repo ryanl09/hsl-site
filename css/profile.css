@@ -367,20 +367,6 @@ button.selected {
     color:#fff;
 }
 
-.row {
-    display:grid;
-    grid-template-columns: auto;
-    gap:20px;
-}
-
-.e2 {
-    grid-template-columns: auto auto;
-}
-
-.e3 {
-    grid-template-columns: 33% 33% 33%;
-}
-
 .box {
     width: 100%;
     display:none;
@@ -508,10 +494,6 @@ button.selected {
 
     .badge-wrapper {
         overflow-x: auto;
-    }
-
-    .e2, .e3 {
-        grid-template-columns: auto;
     }
 
     .online-status {

@@ -48,6 +48,28 @@ class Team extends TeamAbstract {
     }
 
     /**
+     * gets subteams WITH game name
+     * @return  array
+     */
+
+    public function get_subteams_games() {
+        if (!$this->id) {
+            return [];
+        }
+
+        $query=
+        "SELECT subteams.division, subteams.id, games.game_name
+        FROM `teams`
+        INNER JOIN `subteams`
+            ON subteams.team_id = teams.id
+        INNER JOIN `games`
+            ON subteams.game_id = games.id
+        WHERE teams.id = ?";
+        $res = $this->db->query($query, $this->id)->fetchAll();
+        return $res;
+    }
+
+    /**
      * Adds a subteam
      * @param   int $division
      * @param   int $game
@@ -156,6 +178,24 @@ class Team extends TeamAbstract {
     }
 
     /**
+     * gets the schoolcode of a team
+     * @return  string
+     */
+
+    public function get_schoolcode() {
+        if (!$this->id){
+            return '';
+        }
+
+        $query=
+        "SELECT `schoolcode`
+        FROM `teams`
+        WHERE `id` = ?";
+        $res = $this->db->query($query, $this->id)->fetchArray();
+        return $res['schoolcode'];
+    }
+
+    /**
      * Gets url of team logo
      * @return  string
      */
@@ -174,6 +214,25 @@ class Team extends TeamAbstract {
 
         $logo = $this->db->query($query, $this->id)->fetchArray();
         return $logo['team_logo'] ?? '';
+    }
+
+    /**
+     * gets all players on team, regardless of game
+     * @return  array
+     */
+
+    public function get_players() {
+        if (!$this->id){
+            return [];
+        }
+
+        $query=
+        "SELECT `user_id`, `username`, `name`
+        FROM `users`
+        WHERE `team_id` = ?
+        ORDER BY `name` ASC";
+        $res = $this->db->query($query, $this->id)->fetchAll();
+        return $res;
     }
 
     /**

@@ -52,7 +52,7 @@ function base_header($params = [], $nosidebar = false){
 function href($page) {
     $link = 'https://tecesports.com';//'localhost';
 
-    $link = 'localhost';
+    $link = '';
 
     if($link==='dashboard'){
         return 'https://tecesports.com';

@@ -1,0 +1,119 @@
+@import 'constants.css';
+
+
+.box {
+    padding:10px 20px;
+    border-radius: 6px;
+    background-color: #fff;
+    max-height: 350px;
+    overflow-y:auto;
+    position:relative;
+}
+
+.tall {
+    width:100%;
+    height:600px;
+}
+
+.wide {
+    width:100%;
+}
+
+.box-title {
+    font-weight: 600;
+    margin: 10px 0px;
+}
+
+.box h3:first-child {
+    margin-top:0px;
+}
+
+.copy-code{
+    transition:.2s all ease;
+}
+
+.copy-code:hover {
+    cursor:pointer;
+    opacity:.6;
+}
+
+.copy-code i{
+    font-size:20px;
+}
+
+.rpw {
+    max-height:250px;
+    overflow-y:auto;
+}
+
+.r-players {
+    width:100%;
+}
+
+.user-col {
+    display:flex;
+    align-items:center;
+    border: 1px solid #ddd;
+    transition:.2s ease all;
+    padding:10px;
+}
+
+.user-col:hover {
+    background-color:#e2e2e2;
+    cursor:pointer;
+}
+
+tr:first-child td.user-col {
+    border-bottom: none;
+}
+
+.user-col i {
+    margin-left:auto;
+}
+
+.user-col > * {
+    pointer-events: none;
+}
+
+.player-info, .set-teams {
+    display:none;
+}
+
+.set-teams {
+    margin-top:10px;
+}
+
+.empty-player {
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform: translate(-50% , -50%);
+    -webkit-transform: translate(-50%, -50%);
+}
+
+.empty-player p {
+    font-size: 20px;
+    color:#bbb;
+    margin:auto;
+}
+
+.t-select {
+    font-size:16px;
+}
+
+.t-select input[type=checkbox] {
+    margin-right:8px;
+}
+
+.save-btn {
+    margin: 0px;
+    margin-top:20px;
+    width:100%;
+    text-align: center;
+}
+
+@media only screen and (max-width:1024px) {
+    .page-content {
+        padding:10px 20px;
+    }
+}
