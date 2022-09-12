@@ -58,7 +58,7 @@ class Team extends TeamAbstract {
         }
 
         $query=
-        "SELECT subteams.division, subteams.id, games.game_name
+        "SELECT subteams.division, subteams.id, games.game_name, games.id AS game_id
         FROM `teams`
         INNER JOIN `subteams`
             ON subteams.team_id = teams.id

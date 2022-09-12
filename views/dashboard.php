@@ -2,6 +2,7 @@
 
 $path = $_SERVER['DOCUMENT_ROOT'];
 require_once($path . '/documentelements.php');
+require_once($path . '/classes/general/Game.php');
 require_once($path . '/classes/user/User.php');
 require_once($path . '/classes/util/Sessions.php');
 require_once($path . '/classes/team/Team.php');
@@ -29,6 +30,7 @@ if (isset($_SESSION['user'])){
         <?php print_navbar();?>
         <section class="home">
             <div class="page-content">
+                <input type="hidden" id="csrf" value="<?php echo $_SESSION['csrf']; ?>">
                 <?php 
                     switch ($role) {
                         case 'player': ?>
@@ -71,21 +73,44 @@ if (isset($_SESSION['user'])){
                                             </tbody>
                                         </table>
                                     </div>
-                                    <h3 class="box-title">Teams</h3>
+                                    <div class="time-header" style="margin-top:16px;">
+                                        <h3 class="box-title">Teams</h3>
+                                        <i class="bx bxs-plus-square clickable" id="add-time"></i>
+                                    </div>
                                     <?php
                                         $st = $team->get_subteams_games();
-
                                         $cboxes='';
+                                        $games = Game::get_all();
+                                        echo '<div class="game-times">';
                                         foreach ($st as $i => $row) {
                                             $text = $row['game_name'] . ' - Division ' . $row['division'];
-                                            echo '<p>'.$text.'</p>';
-
-                                            //store for later so less loops
                                             $id = 'st-' . $row['id'];
                                             $cboxes .= '<div class="t-select"><input type="checkbox" id="'.$id.'"><label for="'.$id.'">'.$text.'</label></div>';
-                                        }
-                                    ?>
+                                            ?>
+
+                                            <div class="game-time" st-id="<?php echo $row['id']; ?>" id="subteam-<?php echo $i; ?>">
+                                                <select class="sel-gam" name="team-game" id="team-game">
+                                                    <?php
+                                                        for($i=0;$i<count($games);$i++){
+                                                            echo '<option value="'.$games[$i]['id'].'" '.($games[$i]['id']===$row['game_id']?'selected':'').'>'.$games[$i]['game_name'].'</option>';
+                                                        }
+                                                    ?>
+                                                </select>
+                                                <select class="sel-div" name="team-div" id="team-div">
+                                                    <?php 
+                                                        for ($i = 0; $i < 2; $i++){
+                                                            echo '<option value="'.($i+1).'" '.($i+1===$row['division']?'selected':'').'>D'.($i+1).'</option>';
+                                                        }
+                                                    ?>
+                                                </select>
+                                                <i class="bx bxs-checkbox-minus clickable"></i>
+                                            </div>
+                                    <?php } echo '</div>
+                                    <button class="save-btn save-teams clickable"><i class="bx bx-save"></i>Save</button>
+                                    '; ?>
+
                                 </div>
+
                                 <div class="box tall s-player">
                                     <h3 class="box-title">Allocate players</h3>
                                     <div class="empty-player">
@@ -100,7 +125,7 @@ if (isset($_SESSION['user'])){
                                         <div class="subteams">
                                             <?php echo $cboxes; ?>
                                         </div>
-                                        <button class="save-btn clickable"><i class='bx bx-save'></i>Save</button>
+                                        <button id="save-pl-t" class="save-btn clickable"><i class='bx bx-save'></i>Save</button>
                                     </div>
                                 </div>
                                 <div class="box tall s-events"></div>

@@ -7,6 +7,7 @@ include_once($path . '/classes/general/Stats.php');
 
 require_once($path . '/classes/event/Event.php');
 require_once($path . '/classes/team/SubTeam.php');
+include_once($path . '/classes/util/ajaxerror.php');
 require_once($path . '/classes/util/Sessions.php');
 
 if ((isset($_SERVER['HTTP_X_REQUESTED_WITH'])) && ($_SERVER['HTTP_X_REQUESTED_WITH']==='XMLHttpRequest')) {

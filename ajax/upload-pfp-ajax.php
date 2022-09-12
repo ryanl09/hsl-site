@@ -1,4 +1,5 @@
 <?php
+include_once($path . '/classes/util/ajaxerror.php');
 
 if (!isset($_POST['submit'])) {
     //invalid request

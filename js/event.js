@@ -28,7 +28,7 @@ $(document).ready(()=>{
                 url:`${ajax_url}event-ajax.php`,
                 type:'post',
                 data:{'action':'stats', 'data':JSON.stringify(obj), 'event_id':e_id, 'csrf':$('#csrf').val()},
-                dataType:'text',
+                dataType:'json',
                 success:(data)=>{
                     save.prop('disabled', false);
                     save.html(save_html);

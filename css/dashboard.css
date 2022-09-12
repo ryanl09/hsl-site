@@ -5,7 +5,7 @@
     padding:10px 20px;
     border-radius: 6px;
     background-color: #fff;
-    max-height: 350px;
+    max-height: 450px;
     overflow-y:auto;
     position:relative;
 }
@@ -105,11 +105,56 @@ tr:first-child td.user-col {
     margin-right:8px;
 }
 
+#schoolcode {
+    font-size:14px;
+}
+
 .save-btn {
     margin: 0px;
     margin-top:20px;
     width:100%;
-    text-align: center;
+    display: flex;
+    justify-content: center;
+}
+
+.time-header {
+    display:flex;
+    align-items: center;
+}
+
+.time-header i {
+    font-size: 30px;
+    margin-left: auto;
+    transition: .2s color ease;
+}
+
+.game-times {
+    display:flex;
+    flex-direction: column;
+}
+
+.game-time {
+    display:flex;
+    align-items: center;
+    gap:10px;
+    flex-wrap:wrap;
+    margin-bottom: 10px;
+}
+
+.game-time input, .game-time select, .listview-header1 input {
+    font-size:16px;
+    padding:6px 12px;
+    border: 1px solid #aaa;
+    border-radius: 6px;
+}
+
+.game-time input[type="text"],  .listview-header1 input {
+    max-width:120px;
+}
+
+.game-time i {
+    font-size: 34px;
+    color:rgb(224, 75, 75);
 }
 
 @media only screen and (max-width:1024px) {

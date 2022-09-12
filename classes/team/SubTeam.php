@@ -16,6 +16,10 @@ class SubTeam extends TeamAbstract {
             return 0;
         }
 
+        if($season==='current'){
+            $season=Season::get_current();
+        }
+
         $query = 
         "INSERT INTO `team_seasons` (team_id, season_id)
         VALUES (?, ?)";
