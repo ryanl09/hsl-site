@@ -232,23 +232,6 @@ class RegisterService extends VerifyService {
         $ph = new PasswordHash($password);
         $password = $ph->create();
 
-        $query =
-        "INSERT INTO `users` (`name`, `email`, `pronouns`, `username`, `password`, `activation_key`, `activated`, `role`, `team_id`, `discord`, `request_key`)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-
-        $user_id = $this->db->query($query, $name, $email, $pronouns, $username, $password, $activation_key, 0, $this->type, $team_id, $discord, $request_key)->lastInsertID();
-
-        $create_type = $this->create_user();
-        if (isset($create_type['errors'])) {
-            return $create_type;
-        }
-
-        $login_params = array(
-            'ref' => 'register'
-        );
-
-        $team_id = 'N/A';
-
         switch ($this->type) {
             case 'team_manager':
             case 'college':
@@ -265,6 +248,21 @@ class RegisterService extends VerifyService {
                 );
                 break;
         }
+
+        $query =
+        "INSERT INTO `users` (`name`, `email`, `pronouns`, `username`, `password`, `activation_key`, `activated`, `role`, `team_id`, `discord`, `request_key`)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+        $user_id = $this->db->query($query, $name, $email, $pronouns, $username, $password, $activation_key, 0, $this->type, $team_id, $discord, $request_key)->lastInsertID();
+
+        $create_type = $this->create_user();
+        if (isset($create_type['errors'])) {
+            return $create_type;
+        }
+
+        $login_params = array(
+            'ref' => 'register'
+        );
         if ($this->type === 'team_mananger' || $this->type === 'college') {
             //create team service
            

@@ -25,10 +25,14 @@ class CreateSubTeamService extends CreateService {
 
         $query = 
         "INSERT INTO subteams (team_id, division, game_id)
-        VALUES (?, ?, ?)";
+        SELECT * FROM (SELECT ? as team_id, ? AS division, ? as game_id) as temp
+        WHERE NOT EXISTS (
+            SELECT team_id
+            FROM subteams
+            WHERE team_id = ? AND division = ? AND game_id = ?) LIMIT 1;";
 
-        $id = $this->db->query($query, $team_id, $div, $game_id)->lastInsertID();
-        return new SubTeam($id);
+        $id = $this->db->query($query, $team_id, $div, $game_id, $team_id, $div, $game_id)->lastInsertID();
+        return $id;
     }
 }
 

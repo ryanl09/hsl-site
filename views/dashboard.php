@@ -75,7 +75,7 @@ if (isset($_SESSION['user'])){
                                     </div>
                                     <div class="time-header" style="margin-top:16px;">
                                         <h3 class="box-title">Teams</h3>
-                                        <i class="bx bxs-plus-square clickable" id="add-time"></i>
+                                        <i class="bx bxs-plus-square clickable m-add" id="add-team"></i>
                                     </div>
                                     <?php
                                         $st = $team->get_subteams_games();

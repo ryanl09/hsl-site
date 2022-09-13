@@ -168,13 +168,7 @@ class Team extends TeamAbstract {
         if (!$season) {
             return 0;
         }
-
-        $query = 
-        "INSERT INTO `team_seasons` (team_id, season_id)
-        VALUES (?, ?)";
-
-        $id = $this->db->query($query, $this->id, $season)>lastInsertID();
-        return $id;
+        return 1;
     }
 
     /**
