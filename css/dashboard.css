@@ -54,6 +54,7 @@
     display:flex;
     align-items:center;
     border: 1px solid #ddd;
+    border-bottom: none;
     transition:.2s ease all;
     padding:10px;
 }
@@ -63,8 +64,8 @@
     cursor:pointer;
 }
 
-tr:first-child td.user-col {
-    border-bottom: none;
+tr:last-child td.user-col {
+    border-bottom: 1px solid #ddd;
 }
 
 .user-col i {
@@ -81,6 +82,14 @@ tr:first-child td.user-col {
 
 .set-teams {
     margin-top:10px;
+}
+
+.hide-rem {
+    display:none !important;
+}
+
+.m-cancel {
+    color:rgb(224, 75, 75);
 }
 
 .empty-player {

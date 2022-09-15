@@ -223,7 +223,7 @@ class Team extends TeamAbstract {
         $query=
         "SELECT `user_id`, `username`, `name`
         FROM `users`
-        WHERE `team_id` = ?
+        WHERE `team_id` = ? AND `role` <> \"team_manager\"
         ORDER BY `name` ASC";
         $res = $this->db->query($query, $this->id)->fetchAll();
         return $res;

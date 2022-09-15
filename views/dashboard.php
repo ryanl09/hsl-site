@@ -82,7 +82,14 @@ if (isset($_SESSION['user'])){
                                         $cboxes='';
                                         $games = Game::get_all();
                                         echo '<div class="game-times">';
+
+                                        $js_games=[]; //lazy
+                                        $js_divs=[];
+                                        $can_push=true;
                                         foreach ($st as $i => $row) {
+                                            if(count($js_games)>0){
+                                                $can_push=false;
+                                            }
                                             $text = $row['game_name'] . ' - Division ' . $row['division'];
                                             $id = 'st-' . $row['id'];
                                             $cboxes .= '<div class="t-select"><input type="checkbox" id="'.$id.'"><label for="'.$id.'">'.$text.'</label></div>';
@@ -93,6 +100,12 @@ if (isset($_SESSION['user'])){
                                                     <?php
                                                         for($i=0;$i<count($games);$i++){
                                                             echo '<option value="'.$games[$i]['id'].'" '.($games[$i]['id']===$row['game_id']?'selected':'').'>'.$games[$i]['game_name'].'</option>';
+                                                            if($can_push){
+                                                                $js_games[] = array(
+                                                                    'id' => $games[$i]['id'],
+                                                                    'name' => $games[$i]['game_name']
+                                                                );
+                                                            }
                                                         }
                                                     ?>
                                                 </select>
@@ -100,14 +113,26 @@ if (isset($_SESSION['user'])){
                                                     <?php 
                                                         for ($i = 0; $i < 2; $i++){
                                                             echo '<option value="'.($i+1).'" '.($i+1===$row['division']?'selected':'').'>D'.($i+1).'</option>';
+                                                            if($can_push){
+                                                                $js_divs[]=array(
+                                                                    'id'=>$i+1,
+                                                                    'name' => 'D' . ($i+1)
+                                                                );
+                                                            }
                                                         }
                                                     ?>
                                                 </select>
                                                 <i class="bx bxs-checkbox-minus clickable"></i>
                                             </div>
                                     <?php } echo '</div>
-                                    <button class="save-btn save-teams clickable"><i class="bx bx-save"></i>Save</button>
-                                    '; ?>
+                                    <button class="save-btn save-teams clickable" style="display:none;"><i class="bx bx-save"></i>Save</button>
+                                    '; 
+                                    
+                                    echo '<script type="text/javascript">
+                                        const games = '.json_encode($js_games).'
+                                        const divs = '.json_encode($js_divs).'
+                                    </script>'
+                                    ?>
 
                                 </div>
 

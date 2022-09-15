@@ -14,36 +14,80 @@
         $('td.user-col').on('click', (e)=>{
             const name = $(e.target).text();
             const uname = $(e.target).attr('username');
-            const id = $(e.target).attr('user-id');
+            const pid = $(e.target).attr('user-id');
 
             $('.empty-player').hide();
             $('.player-info').show();
             $('.set-teams').show();
             $('#p-name').html(`<strong>Name:</strong> ${name}`);
             $('#p-uname').html(`<strong>Username:</strong> ${uname}`);
+
+            $('#save-pl-t').on('click', function(){
+                const tid = [];
+                $('.t-select > input').each(function() {
+
+                });
+            });
         });
 
         $('.save-teams').on('click', ()=>{
             save_teams();
+            $('.hide-rem').removeClass('.hide-rem');
         });
 
         $('#add-team').on('click', function(){
             $('#add-team').toggleClass('m-cancel');
             if (!$('#add-team').hasClass('m-cancel')){ //add mode
+                $('#add-team').addClass('bxs-plus-square');
+                $('#add-team').removeClass('bxs-x-square');
+                $('.save-teams').hide();
                 $('.game-time[st-id="pending"]').remove();
                 return;
             }
 
             //cancel mode
 
+            $('.save-teams').show();
+            $('#add-team').removeClass('bxs-plus-square');
+            $('#add-team').addClass('bxs-x-square');
+            
             const len = $('.game-time').length;
-            var add = $('<div>', {
-
-            })
+            var add = $('<div>')
             .attr('st-id', 'pending')
             .attr('id', `subteam-${len}`)
             .addClass('game-time');
-            $('.game-times').append($());
+
+            var _s = '';
+            var sel = '<select class="sel-gam" name="team-game" id="team-game">';
+            games.forEach(e => {
+                if(e.id===1){
+                    _s = ' selected';
+                }
+                sel += `<option value="${e.id}"${_s}>${e.name}</option>`;
+            });
+            sel += '</select>';
+
+            var sel2 = '<select class="sel-div" name="team-div" id="team-div">';
+            divs.forEach(e => {
+                _s='';
+                if(e.id===1){
+                    _s = ' selected';
+                }
+                sel2 += `<option value="${e.id}"${_s}>${e.name}</option>`;
+            });
+            sel2+='</select>';
+
+            var rem = $('<i>').addClass('bx bxs-checkbox-minus clickable hide-rem');
+            rem.on('click', function(){
+                remove_team($(this));
+            });
+
+            add.append(sel).append(sel2).append(rem);
+
+            $('.game-times').append(add);
+            var p = $('.game-times').parent()[0];
+            p.scrollTop = p.scrollHeight;
+
         });
 
         $('.game-time > i.bxs-checkbox-minus').on('click', function(){ //remove team
