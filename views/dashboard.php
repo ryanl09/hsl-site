@@ -1,5 +1,6 @@
 <?php
 
+
 $path = $_SERVER['DOCUMENT_ROOT'];
 require_once($path . '/documentelements.php');
 require_once($path . '/classes/general/Game.php');
@@ -82,10 +83,22 @@ if (isset($_SESSION['user'])){
                                         $cboxes='';
                                         $games = Game::get_all();
                                         echo '<div class="game-times">';
-
                                         $js_games=[]; //lazy
                                         $js_divs=[];
-                                        $can_push=true;
+
+                                        for ($i= 0; $i< count($games); $i++){
+                                            $js_games[] = array(
+                                                'id' => $games[$i]['id'],
+                                                'name' => $games[$i]['game_name']
+                                            );
+                                        }
+                                        for ($j=0;$j<2;$j++){
+                                            $js_divs[]=array(
+                                                'id'=>$j+1,
+                                                'name' => 'D' . ($j+1)
+                                            );
+                                        }
+
                                         foreach ($st as $i => $row) {
                                             if(count($js_games)>0){
                                                 $can_push=false;
@@ -100,12 +113,7 @@ if (isset($_SESSION['user'])){
                                                     <?php
                                                         for($i=0;$i<count($games);$i++){
                                                             echo '<option value="'.$games[$i]['id'].'" '.($games[$i]['id']===$row['game_id']?'selected':'').'>'.$games[$i]['game_name'].'</option>';
-                                                            if($can_push){
-                                                                $js_games[] = array(
-                                                                    'id' => $games[$i]['id'],
-                                                                    'name' => $games[$i]['game_name']
-                                                                );
-                                                            }
+                                                           
                                                         }
                                                     ?>
                                                 </select>
@@ -113,12 +121,6 @@ if (isset($_SESSION['user'])){
                                                     <?php 
                                                         for ($i = 0; $i < 2; $i++){
                                                             echo '<option value="'.($i+1).'" '.($i+1===$row['division']?'selected':'').'>D'.($i+1).'</option>';
-                                                            if($can_push){
-                                                                $js_divs[]=array(
-                                                                    'id'=>$i+1,
-                                                                    'name' => 'D' . ($i+1)
-                                                                );
-                                                            }
                                                         }
                                                     ?>
                                                 </select>
