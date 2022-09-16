@@ -1,19 +1,13 @@
 <?php 
-header('HTTP/1.1 404 Not Found'); ?>
+$path = $_SERVER['DOCUMENT_ROOT'];
+require_once($path . '/documentelements.php');
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>404 Error</title>
-</head>
-<body>
-    <?php print_navbar(); ?>
-    <h2 style="text-align:center">404 Error</h2>
-</body>
+start_content_full(1, '');
+?>
 
-<?php ui_script(); ?>
+<div style="text-align:center">
+    <h2>404 Error</h2>
+    <p>Page not found!</p>
+</div>
 
-</html>
+<?php end_content_full(1); ?>

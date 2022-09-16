@@ -1,6 +1,6 @@
 const ajax_url = '/ajax/';
 
-$(document).ready(()=>{
+$(document).ready(function(){
     const request_token = $('meta[name="request-token"]').attr('content') ?? 0;
     if (!request_token) {
         return;
@@ -8,6 +8,7 @@ $(document).ready(()=>{
     $.ajaxSetup({
         headers: { 'request_token': request_token }
     });
+    document.body.insertAdjacentHTML('afterbegin', '<div class="alerts"></div>');
 });
 
 function fix_date(date) {
@@ -36,4 +37,16 @@ function fix_time(time) {
         _h = _h || 12;
     }
     return `${_h}:${time.split(':')[1]}${suf}`;
+}
+
+function show_error() {
+
+}
+
+function show_success() {
+
+}
+
+function show_info() {
+
 }

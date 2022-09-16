@@ -86,6 +86,57 @@ function _s($page) {
     return $c;
 }
 
+function start_content_full($nav, $s) {
+    if (!$s){
+        $s = 'login';
+    }
+
+    $str = base_header(array('styles' => [$s],'scripts' => [$s]));
+    echo '<!DOCTYPE html><html>'.$str.' 
+    <body>';
+    $args = func_get_args();
+    if(count($args)>2){
+        $args = array_slice($args, 2);
+        start_content($nav, $args);
+        return;
+    }
+    start_content($nav);
+}
+
+function end_content_full($ui){
+    end_content($ui);
+    echo '
+        </body>
+    </html>';
+}
+
+function start_content($nav) {
+    $home = '';
+    if ($nav){
+        print_navbar();
+        $home = '<section class="'.$add_cl.' home">
+        <div class="page-content">';
+    }
+
+    $add_cl='';
+    $args=func_get_args();
+    if (count($args) > 1){
+        $add_cl = $args[1][0];
+    }
+
+    echo '
+    <input type="hidden" id="csrf" value="'. $_SESSION['csrf'] .'">'.$home;
+}
+
+function end_content($ui) {
+    if ($ui){
+        ui_script();
+        echo '
+        </div>
+    </section>';
+    }
+}
+
 function print_navbar() {
     $u = 0;
     $user='Guest';
@@ -97,7 +148,8 @@ function print_navbar() {
         $id = $u->get_id();
         $pfp = $u->profile_image();
     }
-    echo '<nav class="sidebar close">
+    echo '
+    <nav class="sidebar close">
             <header>
                 <div class="image-text">
                     <span class="image">

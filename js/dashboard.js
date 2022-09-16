@@ -121,6 +121,7 @@
 
                     console.log(data.success);
                     ctrl.parent().remove();
+                    window.location.reload();
                 },
                 error:(a,b,c)=>{
                     console.log(a+','+b+','+c);
@@ -147,9 +148,13 @@
                 url:`${ajax_url}tm-db-ajax.php`,
                 type:'post',
                 data:{'action':'save_teams', 'teams':JSON.stringify(teams), 'csrf':$('#csrf').val()},
-                dataType:'text',
+                dataType:'json',
                 success:(data)=>{
                     console.log(data);
+
+                    if (data.status){
+                        window.location.reload();
+                    }
                 },
                 error:(a,b,c)=>{
                     console.log(a+','+b+','+c);

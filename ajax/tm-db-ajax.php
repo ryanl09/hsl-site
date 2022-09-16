@@ -130,6 +130,25 @@ if ((isset($_SERVER['HTTP_X_REQUESTED_WITH'])) && ($_SERVER['HTTP_X_REQUESTED_WI
             echo ajaxerror::e('errors', ['Could not delete team']);
             die();
             break;
+        case 'allocate':
+            if (!isset($_POST['pl_id'])) {
+                echo ajaxerror::e('errors', ['Missing player id']);
+                die();
+            }
+
+            if (!isset($_POST['teams'])){ 
+                echo ajaxerror::e('errors', ['Missing teams']);
+                die();
+            }
+
+            $pl_id = $_POST['pl_id'];
+            $teams=json_decode($_POST['teams']);
+
+            foreach ($teams as $st) {
+                $s = new SubTeam($st);
+                $s->add_player($pl_id);
+            }
+            break;
         default:
             echo ajaxerror::e('errors', ['Invalid action']);
             die();

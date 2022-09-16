@@ -7,6 +7,8 @@ require_once($path . '/controllers/Error404Controller.php');
 require_once($path . '/controllers/EventPanelController.php');
 require_once($path . '/controllers/EventController.php');
 require_once($path . '/controllers/FeedController.php');
+require_once($path . '/controllers/ForgotController.php');
+require_once($path . '/controllers/GraphicsController.php');
 require_once($path . '/controllers/LeagueController.php');
 require_once($path . '/controllers/LoginController.php');
 require_once($path . '/controllers/MessagesController.php');
@@ -17,6 +19,7 @@ require_once($path . '/controllers/RegisterController.php');
 require_once($path . '/controllers/StatsController.php');
 require_once($path . '/controllers/TermsController.php');
 require_once($path . '/controllers/TickerController.php');
+require_once($path . '/controllers/UpdatesController.php');
 
 require_once($path . '/classes/services/LogoutService.php');
 
@@ -76,6 +79,12 @@ class ClientRequest {
                 break;
             case 'ticker':
                 $this->ctrl = new TickerController();
+                break;
+            case 'graphics':
+                $this->ctrl = new GraphicsController();
+                break;
+            case 'forgot':
+                $this->ctrl = new ForgotController();
                 break;
             default:
                 $this->ctrl = new Error404Controller();

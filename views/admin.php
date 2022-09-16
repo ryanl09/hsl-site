@@ -8,24 +8,11 @@ if (!isset($_SESSION['user']) || (isset($_SESSION['user']) && $_SESSION['user']-
 }
 ?>
 
-<html>
-    <?php 
-    base_header(array(
-        'styles' => ['login'],
-        'scripts' => ['login']
-        )
-    ); 
-    ?>
-    <body>
-        <?php print_navbar();?>
-        <section class="home">
-            <div class="page-content">
-                <input type="hidden" id="csrf" value="<?php echo $_SESSION['csrf']; ?>">
-                <a href="/eventpanel">Event panel</a>
-            </div>
-        </section>
 
-        <?php ui_script(); ?>
+<?php start_content_full(1, 'login'); ?>
 
-    </body>
-</html>
+<a href="/eventpanel">Event panel</a>
+<br>
+<a href="/graphics">Graphics</a>
+
+<?php end_content_full(1); ?>

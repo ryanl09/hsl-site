@@ -14,14 +14,21 @@ $fill = '';
 $can_edit = false;
 $edit_style = '';
 
-if ($view->get_id() === $_SESSION['user']->get_id()) {
-    $can_edit=true;
-    $fill = ' edit--fill';
-    $edit_style = array(
-        '.p-c' => 'display:none;',
-        '.p-c[style*="display: block"]' => 'display:flex !important;',
-    );
+if (isset($_SESSION['user'])){
+    if ($view->get_id() === $_SESSION['user']->get_id()) {
+        $can_edit=true;
+        $fill = ' edit--fill';
+        $edit_style = array(
+            '.p-c' => 'display:none;',
+            '.p-c[style*="display: block"]' => 'display:flex !important;',
+        );
+    }else {
+        $edit_style=array(
+            '.e-c' => 'display:none;'
+        );
+    }
 }
+
 
 ?>
 
@@ -212,7 +219,10 @@ base_header(
                         </div>
                     </div>
                 </div>
-            <? } else { //user doesn't exist ?>
+            <?php } else {  ?>
+                <div class="user-dne">
+                    <p>User not found!</p>
+                </div>
             <?php } ?>
         </section>
 

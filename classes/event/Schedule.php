@@ -17,8 +17,8 @@ class Schedule {
         $len = count($team_ids);
         if ($len % 2 !== 0) {
             $team_ids[] = 0; // 'bye' week
+            $len++;
         }
-        $len++;
 
         $t_count = count($times);
         $d_count = count($days);
@@ -49,11 +49,22 @@ class Schedule {
         
         if ($start !== $d_arr) { //find the closest day after the start date if its not first day of days list
             if ($d_arr < $start) {
-                while ($d_arr < $start) {
-                    $d_idx = ($d_idx + 1) % $d_count;
-                    $d_arr = $days[$d_idx];
+                if (!in_array($start, $days)){ //if the start day is not one of the days you can start on
+                    $_a = 0;
+                    while (($start + $_a)%7 !== $d_arr){ //loop through week adding 1 day until we get to the first day of the next week
+                        $_a++;
+                    }
+                    
+                    $dt->modify("+" . $_a . " day"); //add the extra days needed, push the date forward
+                } else {
+                    while ($d_arr < $start) { //
+                        $added=0;
+                        $d_idx = ($d_idx + 1) % $d_count;
+                        $d_arr = $days[$d_idx];
+                    }
+                    $dt->modify("+" . ($d_arr - $start) . " day");
                 }
-                $dt->modify("+" . ($d_arr - $start) . " day");
+
             } else {
                 $dta = 0;//days to add
                 while ($start + $dta < $d_arr) {
@@ -104,7 +115,7 @@ class Schedule {
                 //$d1 = $days[(($d_idx - 1) % $d_count)];
                 $d2 = $days[$d_idx];
                 $add_days = $d2-$d1;
-                if ($add_days < 0) {
+                if ($add_days < 0 || $d1===$d2) {
                     $add_days = $add_days + 7;
                     $weeks++;
                 }

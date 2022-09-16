@@ -19,6 +19,17 @@
     --afm: both; 
 }
 
+.user-dne {
+    width:fit-content !important;
+    font-size: 30px;
+    color:#bbb;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+}
+
 .--tab {
     padding:20px;
     transition: .2s all ease;

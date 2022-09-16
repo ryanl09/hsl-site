@@ -12,10 +12,11 @@ if ((isset($_SERVER['HTTP_X_REQUESTED_WITH'])) && ($_SERVER['HTTP_X_REQUESTED_WI
         die();
     }
 
+    /*
     if (!isset($_SESSION['user'])) {
         echo 'Invalid request';
         die();
-    }
+    }*/
 
     /*
     if (isset($_SERVER['HTTP_ORIGIN'])) {
