@@ -25,7 +25,29 @@
             $('#save-pl-t').on('click', function(){
                 const tid = [];
                 $('.t-select > input').each(function() {
+                    var c = $(this);
+                    var ids = [];
+                    if (c.is(':checked')) {
+                        ids.push(parseInt(c.attr('id'), 10));
+                    }
 
+                    if (!c.length){
+                        console.log('No teams selected');
+                        return;
+                    }
+
+                    $.ajax({
+                        url:``,
+                        type:'post',
+                        data:{'action':'allocate','pl_id':pl_id,'teams':ids,'csrf':$('#csrf').val()},
+                        dataType:'text',
+                        success:(data)=>{
+                            console.log(data);
+                        },
+                        error:(a,b,c)=>{
+                            console.log(a+','+b+','+c);
+                        }
+                    });
                 });
             });
         });

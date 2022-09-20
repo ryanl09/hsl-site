@@ -113,15 +113,15 @@ function end_content_full($ui){
 function start_content($nav) {
     $home = '';
     if ($nav){
+
+        $add_cl='';
+        $args=func_get_args();
+        if (count($args) > 1){
+            $add_cl = $args[1][0];
+        }
         print_navbar();
         $home = '<section class="'.$add_cl.' home">
         <div class="page-content">';
-    }
-
-    $add_cl='';
-    $args=func_get_args();
-    if (count($args) > 1){
-        $add_cl = $args[1][0];
     }
 
     echo '

@@ -1,77 +1,43 @@
 <?php
 
+include_once('ajax-util.php');
+
 $path = $_SERVER['DOCUMENT_ROOT'];
+include_once($path . '/classes/security/csrf.php');
 include_once($path . '/classes/util/ajaxerror.php');
 require_once($path . '/classes/util/Sessions.php');
 
-if ((isset($_SERVER['HTTP_X_REQUESTED_WITH'])) && ($_SERVER['HTTP_X_REQUESTED_WITH']==='XMLHttpRequest')) {
-    if (!$_SERVER['REQUEST_METHOD']==='POST') {
-        echo 'Invalid request';
-        die();
-    }
+$post = check_post();
+if (!$post['status']) {
+    echo ajaxerror::e('errors', [$post['error']]);
+    die();
+}
 
-    /*
-    if (isset($_SERVER['HTTP_ORIGIN'])) {
-        $address = 'http://' . $_SERVER['SERVER_NAME'];
-        if (strpos($address, $_SERVER['HTTP_ORIGIN']) !== 0) {
-            echo json_encode(
-                array(
-                    'error' => 'Invalid origin header: ' . $_SERVER['HTTP_ORIGIN']
-                );
-            );
-            die();
-        }
-    } else {
-        echo json_encode(
-            array(
-                'error' => 'Missing origin header.'
-            )
-        );
-        die();
-    }
-    */
-    
-    if (isset($_POST['csrf'])) {
-        if ($_POST['csrf']!==$_SESSION['csrf']){
-            echo json_encode(
-                array(
-                    'error' => 'Invalid CSRF token'
-                )
-            );
-            die();
-        }
-    } else {
-        echo json_encode(
-            array(
-                'error' => 'Missing CSRF token'
-            )
-        );
-        die();
-    }
-    
-    if (!isset($_POST['action'])) {
-        echo json_encode(
-            array(
-                'error' => 'Missing action'
-            )
-        );
-        die();
-    }
+$csrf = CSRF::post();
+if (!$csrf) {
+    echo ajaxerror::('errors', ['Invalid CSRF token']);
+    die();
+}
 
-    $action = $_POST['action'];
+if (!isset($_POST['action'])) {
+    echo json_encode(
+        array(
+            'error' => 'Missing action'
+        )
+    );
+    die();
+}
 
-    switch ($action) {
-        case 'like':
-            break;
-        case 'follow':
-            break;
-        case 'save':
-            
-            break;
-    }
+$action = $_POST['action'];
 
-} else {
-    echo 'Access denied';
+switch ($action) {
+    case 'like':
+        break;
+    case 'follow':
+        break;
+    case 'save':
+        
+        break;
 }
 
 ?>
