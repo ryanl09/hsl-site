@@ -129,4 +129,4 @@ start_content_full(0, 'register'); ?>
         <a href="<?php echo href('login'); ?>">Click here to login</a>
     </div>
 </div>
-<?php end_content_full(1); ?>
+<?php end_content_full(0); ?>

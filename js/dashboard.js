@@ -12,6 +12,10 @@
         });
 
         $('td.user-col').on('click', (e)=>{
+            $('.t-select > input').each(function(){
+                $(this).prop('checked', false);
+            });
+            
             const name = $(e.target).text();
             const uname = $(e.target).attr('username');
             const pid = $(e.target).attr('user-id');
@@ -23,31 +27,31 @@
             $('#p-uname').html(`<strong>Username:</strong> ${uname}`);
 
             $('#save-pl-t').on('click', function(){
-                const tid = [];
+                var ids = [];
                 $('.t-select > input').each(function() {
                     var c = $(this);
-                    var ids = [];
                     if (c.is(':checked')) {
-                        ids.push(parseInt(c.attr('id'), 10));
+                        ids.push(parseInt(c.attr('id').split('-')[1], 10));
                     }
 
-                    if (!c.length){
-                        console.log('No teams selected');
-                        return;
-                    }
+                });
 
-                    $.ajax({
-                        url:``,
-                        type:'post',
-                        data:{'action':'allocate','pl_id':pl_id,'teams':ids,'csrf':$('#csrf').val()},
-                        dataType:'text',
-                        success:(data)=>{
-                            console.log(data);
-                        },
-                        error:(a,b,c)=>{
-                            console.log(a+','+b+','+c);
-                        }
-                    });
+                if (!ids.length){
+                    console.log('No teams selected');
+                    return;
+                }
+
+                $.ajax({
+                    url:`${ajax_url}tm-db-ajax.php`,
+                    type:'post',
+                    data:{'action':'allocate','pl_id':pid,'teams':JSON.stringify(ids),'csrf':$('#csrf').val()},
+                    dataType:'text',
+                    success:(data)=>{
+                        console.log(data);
+                    },
+                    error:(a,b,c)=>{
+                        console.log(a+','+b+','+c);
+                    }
                 });
             });
         });

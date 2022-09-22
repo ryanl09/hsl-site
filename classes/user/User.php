@@ -338,6 +338,30 @@ class User {
     }
 
     /**
+     * gets all subteams this user is on
+     * @param   mixed   $season
+     * @return  array
+     */
+
+    public function get_subteams($season='current') {
+        if (!$this->id){
+            return [];
+        }
+
+        if ($season === 'current'){
+            $season = Season::get_current();
+        }
+
+        $query=
+        "SELECT `subteam_id`
+        FROM `player_seasons`
+        WHERE `user_id` = ? AND `season_id` = ?";
+
+        $res = $this->db->query($query, $this->id, $season)->fetchAll();
+        return $res;
+    }
+
+    /**
      * Gets team name of the user
      * @return  string
      */

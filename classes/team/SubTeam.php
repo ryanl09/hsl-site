@@ -5,6 +5,7 @@ require_once('Team.php');
 
 $path = $_SERVER['DOCUMENT_ROOT'];
 require_once($path . '/classes/general/Season.php');
+require_once($path . '/classes/user/User.php');
 require_once($path . '/classes/user/TeamManager.php');
 
 class SubTeam extends TeamAbstract {
@@ -34,7 +35,7 @@ class SubTeam extends TeamAbstract {
      * @return  int
      */
 
-    public function get_parent_team() {
+    public function get_parent_team_id() {
         if (!$this->id || !$this->db) {
             return 0;
         }
@@ -45,7 +46,7 @@ class SubTeam extends TeamAbstract {
         WHERE `id` = ?";
 
         $team_id = $this->db->query($query, $this->id)->fetchArray();
-        return new Team($team_id['team_id'] ?? 0);
+        return $team_id['team_id'] ?? 0;
     }
 
     /**
@@ -54,12 +55,13 @@ class SubTeam extends TeamAbstract {
      */
 
     public function get_logo() {
-        $team = $this->get_parent_team();
+        $team_id = $this->get_parent_team_id();
 
-        if (!$team->get_id()) {
+        if (!$team_id) {
             return '';
         }
 
+        $team = new Team($team_id);
         return $team->get_logo();
     }
 
@@ -85,6 +87,41 @@ class SubTeam extends TeamAbstract {
 
         $res = $this->db->query($query, $this->id, $this->id, $c_s)->fetchAll();
         return $res;
+    }
+
+    /**
+     * adds a player to the subteam for current season
+     * @param   int $pid
+     * @return  boolean
+     */
+
+    public function add_player($pid) {
+        if (!$pid){
+            return false;
+        }
+
+        $player = new User($pid);
+        if (!session_id() || !isset($_SESSION['user'])){
+            return false;
+        }
+
+        $user = $_SESSION['user'];
+        if (!in_array($user->get_role(), ['team_manager', 'admin'])){
+            return false;
+        }
+
+        $parent = $this->get_parent_team_id();
+        if ($parent !== $user->get_team_id() || $parent !== $player->get_team_id()){
+            return false;
+        }
+
+        $c_s = Season::get_current();
+
+        $query=
+        "INSERT INTO `player_seasons` (`user_id`, `subteam_id`, `season_id`)
+        VALUES (?, ?, ?)";
+
+        $res = $this->db->query($query, $pid, $this->id, $c_s);
     }
 
     /**

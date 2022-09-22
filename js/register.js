@@ -5,10 +5,18 @@
         var _FOCUS=[]; //hold only 2 values, the last focused input and the current
         var pass_flags = [0,0,0,0,0];
 
+        var is_ymca = false;
+
         var code = '';
         var pn = window.location.pathname.split('/');
         if(pn.length>2){
-            $('#schoolcode').val(pn[2]);
+            if(pn[2]==='ymca'){
+                is_ymca=true;
+                $('#user-type').parent().hide();
+                $('.login-header > h1').text('YMCA Registration');
+            } else {
+                $('#schoolcode').val(pn[2]);
+            }
         }
 
         const ut = $('#user-type');
@@ -38,6 +46,17 @@
             }
         });
 
+        if (is_ymca){
+            $('#field-schoolinfo').show();
+            $('#field-schoolinfo2').show();
+            $('#disp-schoolcode').hide();
+
+            $('#school').attr('placeholder', 'YMCA Location');
+            $('#mascot').remove();
+            $('#school').parent().parent().removeClass('e2');
+            $('#field-schoolinfo2').css('margin-top', '0px');
+        }
+
         reg.on('click', (e)=>{
             e.preventDefault();
             errors.hide();
@@ -62,13 +81,17 @@
             reg.prop('disabled', true);
             reg.val('');
 
+            var mascot = $('#mascot').val() ?? '';
+            var ymca = is_ymca ? 'ymca' : 'hs';
+            var type = is_ymca ? 'team_manager' : ut.val();
+
             $.ajax({
                 type:'post',
                 url:`${ajax_url}register-ajax.php`,
                 data:{'f_name':$('#firstname').val(), 'l_name':$('#lastname').val(), 'pronouns': $('#pronouns').val(), 'email': $('#email').val(), 
                     'username':$('#username').val(), 'password':$('#password').val(), 'c_password':$('#c_password').val(), 'csrf':$('#csrf').val(),
-                    'terms':terms, 'type':ut.val(), 'discord': $('#discord').val(), 'school': $('#school').val(), 'mascot':$('#mascot').val(), 'phone':$('#phone').val(), 'primarycolor':$('#primarycolor').val(),
-                    'secondarycolor':$('#secondarycolor').val(), 'schoolcode':$('#schoolcode').val()},
+                    'terms':terms, 'type':type, 'discord': $('#discord').val(), 'school': $('#school').val(), 'mascot':mascot, 'phone':$('#phone').val(), 'primarycolor':$('#primarycolor').val(),
+                    'secondarycolor':$('#secondarycolor').val(), 'schoolcode':$('#schoolcode').val(), 'isymca':ymca},
                 dataType:'json',
                 success:(data)=>{
                     console.log(data);

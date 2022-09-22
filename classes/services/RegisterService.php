@@ -254,7 +254,8 @@ class RegisterService extends VerifyService {
                         'logo' => '',
                         'mascot' => $mascot,
                         'primarycolor' => $pcolor,
-                        'secondarycolor' => $scolor
+                        'secondarycolor' => $scolor,
+                        'ymca' => $_POST['isymca']
                     )
                 );
 

@@ -47,12 +47,13 @@ class CreateTeamService extends CreateService {
         $secondarycolor = $params['secondarycolor'];
         $schoolcode = $at->create();
         $slug = strtolower(str_replace(' ', '', $name));
+        $ymca = $params['ymca'];
         
         $query =
-        "INSERT INTO `teams` (team_name, `user_id`, team_logo, active, mascot, primarycolor, secondarycolor, schoolcode, slug)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        "INSERT INTO `teams` (team_name, `user_id`, team_logo, active, mascot, primarycolor, secondarycolor, schoolcode, slug, team_type)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-        $id = $this->db->query($query, $name, $user_id, $logo, $active, $mascot, $primarycolor, $secondarycolor, $schoolcode, $slug)->lastInsertID();
+        $id = $this->db->query($query, $name, $user_id, $logo, $active, $mascot, $primarycolor, $secondarycolor, $schoolcode, $slug, $ymca)->lastInsertID();
         return $id;
     }
 }
