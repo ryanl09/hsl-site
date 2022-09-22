@@ -166,6 +166,15 @@ tr:last-child td.user-col {
     color:rgb(224, 75, 75);
 }
 
+#p-delete{
+    color:rgb(224,75,75);
+
+}
+
+#p-delete:hover{
+    color:rgb(141, 40, 40);
+}
+
 @media only screen and (max-width:1024px) {
     .page-content {
         padding:10px 20px;

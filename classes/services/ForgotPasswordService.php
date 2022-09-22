@@ -79,6 +79,7 @@ class ForgotPasswordService extends VerifyService {
         $user = $this->db->query($query, $email)->fetchArray();
         $user=$user['username'];
 
+        /*
         $link = 'https://tecesports.com/forgot/' . $token;
 
         $subject = "Reset Password";
@@ -98,7 +99,7 @@ class ForgotPasswordService extends VerifyService {
         $headers .= "Content-Type: text/html; charset=UTF-8\r\n";
         $sent = mail($email, $subject, $body, $headers);
 
-        $sent = mail('ryan@theesportcompany.com', 'hi', 'hi');
+        $sent = mail('ryan@theesportcompany.com', 'hi', 'hi');*/
 
         if ($sent) {
             return array(

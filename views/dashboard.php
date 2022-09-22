@@ -133,6 +133,7 @@ switch ($role) {
                 <div class="player-info">
                     <p id="p-name"></p>
                     <p id="p-uname"></p>
+                    <p id="p-delete" pl-id="udf">Delete player</p>
                 </div>
                 <div class="set-teams">
                     <h3 class="box-title">Select Teams</h3>
