@@ -1,6 +1,6 @@
 <?php
 
-require_once($_SERVER['DOCUMENT_ROOT'] . '/classes/util/TECDB.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/classes/util/tecdb.php');
 
 class MessageService {
     private $db;

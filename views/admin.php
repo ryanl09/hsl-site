@@ -15,6 +15,4 @@ if (!isset($_SESSION['user']) || (isset($_SESSION['user']) && $_SESSION['user']-
 <br>
 <a href="/graphics">Graphics</a>
 
-<?php phpinfo();?>
-
 <?php end_content_full(1); ?>

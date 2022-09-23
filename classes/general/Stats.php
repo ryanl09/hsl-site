@@ -1,12 +1,12 @@
 <?php
 
-require_once($_SERVER['DOCUMENT_ROOT'] . '/classes/util/TECDB.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/classes/util/tecdb.php');
 
 class Stats {
     protected $db;
 
     public function __construct() {
-        $this->db = new TECDB();
+        $this->db = new tecdb();
     }
 
     /**

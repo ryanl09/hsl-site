@@ -9,7 +9,7 @@ require_once($path . '/classes/user/Player.php');
 require_once($path . '/classes/user/Production.php');
 require_once($path . '/classes/user/Staff.php');
 require_once($path . '/classes/user/TeamManager.php');
-require_once($path . '/classes/util/TECDB.php');
+require_once($path . '/classes/util/tecdb.php');
 
 require_once($path . '/classes/team/Team.php');
 
@@ -40,7 +40,7 @@ class User {
         }
 
         $this->role = $role;
-        $this->db = new TECDB();
+        $this->db = new tecdb();
         
         $query = 
         "SELECT `username`, `email`, `pfp_url`, `user_id`, `name`, `pronouns`, `team_id`, `role`
@@ -343,7 +343,7 @@ class User {
      * @return  array
      */
 
-    public function get_subteams($season='current') {
+    public function get_player_subteams($season='current') {
         if (!$this->id){
             return [];
         }

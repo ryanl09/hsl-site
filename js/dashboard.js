@@ -20,6 +20,26 @@
             const uname = $(e.target).attr('username');
             const pid = $(e.target).attr('user-id');
 
+            $.ajax({
+                url:`${ajax_url}tm-db-ajax.php`,
+                type:'get',
+                data:{'action':'get_teams', 'pl_id':pid},
+                dataType:'json',
+                success:(data)=>{
+                    if (data.errors){
+
+                        return;
+                    }
+
+                    data.forEach(e => {
+                        console.log(e);
+                        $(`#st-${e.subteam_id}`).prop('checked', true);
+                    });
+                },error:(a,b,c)=>{
+                    console.log(a+','+b+','+c);
+                }
+            });
+
             $('.empty-player').hide();
             $('.player-info').show();
             $('.set-teams').show();
@@ -48,6 +68,28 @@
                     dataType:'text',
                     success:(data)=>{
                         console.log(data);
+                    },
+                    error:(a,b,c)=>{
+                        console.log(a+','+b+','+c);
+                    }
+                });
+            });
+
+            $('#p-delete').on('click', function(){
+                $.ajax({
+                    url:`${ajax_url}tm-db-ajax.php`,
+                    type:'post',
+                    data:{'action':'remove','pl_id':pid,'csrf':$('#csrf').val()},
+                    dataType:'json',
+                    success:(data)=>{
+                        console.log(data);
+
+                        if (data.errors){
+
+                            return;
+                        }
+
+                        window.location.reload();
                     },
                     error:(a,b,c)=>{
                         console.log(a+','+b+','+c);

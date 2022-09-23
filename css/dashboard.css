@@ -118,10 +118,17 @@ tr:last-child td.user-col {
     font-size:14px;
 }
 
-.save-btn {
+.pl-btns{
     margin: 0px;
     margin-top:20px;
+    display:flex;
+    gap:10px;
+    flex-direction: row;
+}
+
+.save-btn {
     width:100%;
+    margin:0;
     display: flex;
     justify-content: center;
 }
@@ -167,12 +174,28 @@ tr:last-child td.user-col {
 }
 
 #p-delete{
-    color:rgb(224,75,75);
+    background-color:rgb(224,75,75);
+    width:100%;
+    color:#fff;
+    font-size:16px;
+    padding: 10px 16px;
+    outline:0;
+    border:none;
+    height:45px;
+    border-radius: 4px;
+    transition: all .2s ease;
+    display:flex;
+    align-items: center;
+    justify-content: center;
+}
 
+#p-delete i {
+    padding-right: 6px;
 }
 
 #p-delete:hover{
-    color:rgb(141, 40, 40);
+    background-color:rgb(158, 45, 45);
+    cursor: pointer;
 }
 
 @media only screen and (max-width:1024px) {

@@ -19,7 +19,7 @@ class Game {
         }
 
         $name = strtolower($name);
-        $db = new TECDB();
+        $db = new tecdb();
 
         $query =
         "SELECT `id`

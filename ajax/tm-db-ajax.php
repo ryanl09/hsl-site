@@ -5,37 +5,13 @@ $path = $_SERVER['DOCUMENT_ROOT'];
 require_once($path . '/classes/security/csrf.php');
 require_once($path . '/classes/services/CreateSubTeamService.php');
 require_once($path . '/classes/team/SubTeam.php');
+require_once($path . '/classes/user/User.php');
 include_once($path . '/classes/util/ajaxerror.php');
 require_once($path . '/classes/util/Sessions.php');
 
 if ((isset($_SERVER['HTTP_X_REQUESTED_WITH'])) && ($_SERVER['HTTP_X_REQUESTED_WITH']==='XMLHttpRequest')) {
-    if (!$_SERVER['REQUEST_METHOD']==='POST') {
-        echo 'Invalid request';
-        die();
-    }
-
-    /*
-    if (isset($_SERVER['HTTP_ORIGIN'])) {
-        $address = 'http://' . $_SERVER['SERVER_NAME'];
-        if (strpos($address, $_SERVER['HTTP_ORIGIN']) !== 0) {
-            echo json_encode(
-                array(
-                    'error' => 'Invalid origin header: ' . $_SERVER['HTTP_ORIGIN']
-                );
-            );
-            die();
-        }
-    } else {
-        echo json_encode(
-            array(
-                'error' => 'Missing origin header.'
-            )
-        );
-        die();
-    }
-    */
-
-    $perms = ['admin', 'team_manager'];
+    if ($_SERVER['REQUEST_METHOD']==='POST') {
+        $perms = ['admin', 'team_manager'];
     if (in_array($_SESSION['user'], $perms)) {
         echo ajaxerror::e('errors', ['Insufficient permissions']);
         die();
@@ -154,6 +130,56 @@ if ((isset($_SERVER['HTTP_X_REQUESTED_WITH'])) && ($_SERVER['HTTP_X_REQUESTED_WI
             die();
             break;
     }
+    } else if ($_SERVER['REQUEST_METHOD']==='GET'){
+        if (!isset($_GET['action'])){
+            echo ajaxerror::e('errors', ['Missing action']);
+            die();
+        }
+
+        $action = $_GET['action'];
+
+        switch ($action){
+            case 'get_teams':
+
+                if (!isset($_GET['pl_id'])) {
+                    echo ajaxerror::e('errors', ['Missing player']);
+                    die();
+                }
+
+                $pl = $_GET['pl_id'];
+                $user = new User($pl);
+
+                echo json_encode($user->get_player_subteams());
+                die();
+                break;
+        }
+    }else{
+        echo 'Invalid request';
+        die();
+    }
+
+    /*
+    if (isset($_SERVER['HTTP_ORIGIN'])) {
+        $address = 'http://' . $_SERVER['SERVER_NAME'];
+        if (strpos($address, $_SERVER['HTTP_ORIGIN']) !== 0) {
+            echo json_encode(
+                array(
+                    'error' => 'Invalid origin header: ' . $_SERVER['HTTP_ORIGIN']
+                );
+            );
+            die();
+        }
+    } else {
+        echo json_encode(
+            array(
+                'error' => 'Missing origin header.'
+            )
+        );
+        die();
+    }
+    */
+
+    
 
 } else {
     echo 'Access denied';

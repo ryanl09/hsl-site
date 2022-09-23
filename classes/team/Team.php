@@ -146,7 +146,7 @@ class Team extends TeamAbstract {
      */
 
     public static function count_total() {
-        $db = new TECDB();
+        $db = new tecdb();
 
         $query = 
         "SELECT COUNT(*)

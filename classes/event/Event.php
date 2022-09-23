@@ -1,7 +1,7 @@
 <?php
 
 require_once('IEvent.php');
-require_once($_SERVER['DOCUMENT_ROOT'] . '/classes/util/TECDB.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/classes/util/tecdb.php');
 
 class Event implements IEvent {
     private $id;
@@ -9,7 +9,7 @@ class Event implements IEvent {
 
     public function __construct($id) {
         $this->id = $id;
-        $this->db = new TECDB();
+        $this->db = new tecdb();
     }
 
     /**

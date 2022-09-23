@@ -1,6 +1,6 @@
 <?php
 
-require_once($_SERVER['DOCUMENT_ROOT'] . '/classes/util/TECDB.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/classes/util/tecdb.php');
 
 abstract class TeamAbstract {
     protected $db;
@@ -9,7 +9,7 @@ abstract class TeamAbstract {
     public function __construct($id) {
         $this->id = $id;
         if ($id) {
-            $this->db = new TECDB();
+            $this->db = new tecdb();
         }
     }
 

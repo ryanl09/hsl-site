@@ -1,6 +1,6 @@
 <?php
 
-require_once($_SERVER['DOCUMENT_ROOT'] . '/classes/util/TECDB.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/classes/util/tecdb.php');
 
 class Season {
     private function __construct() {}
@@ -11,7 +11,7 @@ class Season {
      */
 
     public static function get_current() {
-        $db = new TECDB();
+        $db = new tecdb();
         $today = getdate();
         
         //august
@@ -33,7 +33,7 @@ class Season {
      */
 
     public static function add($name) {
-        $db = new TECDB();
+        $db = new tecdb();
 
         $query = 
         "INSERT INTO `seasons` (season_name)

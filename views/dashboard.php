@@ -92,7 +92,7 @@ switch ($role) {
                         }
                         $text = $row['game_name'] . ' - Division ' . $row['division'];
                         $id = 'st-' . $row['id'];
-                        $cboxes .= '<div class="t-select"><input type="checkbox" id="'.$id.'"><label for="'.$id.'">'.$text.'</label></div>';
+                        $cboxes .= '<div class="t-select"><input class="add-team-opt" type="checkbox" id="'.$id.'"><label for="'.$id.'">'.$text.'</label></div>';
                         ?>
 
                         <div class="game-time" st-id="<?php echo $row['id']; ?>" id="subteam-<?php echo $i; ?>">
@@ -133,14 +133,16 @@ switch ($role) {
                 <div class="player-info">
                     <p id="p-name"></p>
                     <p id="p-uname"></p>
-                    <p id="p-delete" pl-id="udf">Delete player</p>
                 </div>
                 <div class="set-teams">
                     <h3 class="box-title">Select Teams</h3>
                     <div class="subteams">
                         <?php echo $cboxes; ?>
                     </div>
-                    <button id="save-pl-t" class="save-btn clickable"><i class='bx bx-save'></i>Save</button>
+                    <div class="pl-btns">
+                        <button id="save-pl-t" class="save-btn clickable"><i class='bx bx-save'></i>Save</button>
+                        <button id="p-delete" pl-id="udf"><i class='bx bxs-minus-circle'></i>Remove player</button>
+                    </div>
                 </div>
             </div>
             <div class="box tall s-events"></div>

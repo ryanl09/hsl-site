@@ -11,7 +11,7 @@
 
     <?php 
 
-        require_once($_SERVER['DOCUMENT_ROOT'] . '/TECDB.php');
+        require_once($_SERVER['DOCUMENT_ROOT'] . '/tecdb.php');
 
         $db = new tecdb();
 
