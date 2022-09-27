@@ -3,6 +3,7 @@
 $path = $_SERVER['DOCUMENT_ROOT'];
 require_once($path . '/classes/security/AuthToken.php');
 require_once($path . '/classes/security/PasswordHash.php');
+require_once($path . '/classes/services/EmailService.php');
 require_once($path . '/classes/services/VerifyService.php');
 
 class ForgotPasswordService extends VerifyService {
@@ -79,7 +80,7 @@ class ForgotPasswordService extends VerifyService {
         $user = $this->db->query($query, $email)->fetchArray();
         $user=$user['username'];
 
-        /*
+        
         $link = 'https://tecesports.com/forgot/' . $token;
 
         $subject = "Reset Password";
@@ -94,12 +95,14 @@ class ForgotPasswordService extends VerifyService {
         $body .= '</tbody>';
         $body .= "</table>";
 
+        $es = new EmailService();
+        $sent = $es->send($email, $subject, $body);
+
+        /*
         $headers = 'From: TEC Esports <no-reply@tecesports.com>' . "\r\n";
         $headers  = 'MIME-Version: 1.0' . "\r\n";
         $headers .= "Content-Type: text/html; charset=UTF-8\r\n";
-        $sent = mail($email, $subject, $body, $headers);
-
-        $sent = mail('ryan@theesportcompany.com', 'hi', 'hi');*/
+        $sent = mail($email, $subject, $body, $headers); */
 
         if ($sent) {
             return array(

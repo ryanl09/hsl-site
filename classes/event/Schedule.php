@@ -14,6 +14,7 @@ class Schedule {
      */
 
     public static function generate($start_day, $days, $times, $num_weeks, $team_ids) {
+        $num_weeks++;
         $len = count($team_ids);
         if ($len % 2 !== 0) {
             $team_ids[] = 0; // 'bye' week

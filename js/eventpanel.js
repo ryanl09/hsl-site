@@ -1,5 +1,5 @@
 $(document).ready(()=>{
-    get_teams(1);
+    get_teams();
 
     const games = $('#games');
     games.on('change', ()=>{
@@ -10,6 +10,18 @@ $(document).ready(()=>{
     div.on('change', ()=>{
         get_teams();
     });
+
+    function get_team_name(id, TEAMS) {
+        var name='';
+        for (var i = 0;i < TEAMS.length; i++){
+            var t = TEAMS[i];
+            if(t.subteam_id===parseInt(id, 10)){
+                name=t.team_name;
+                break;
+            }
+        }
+        return name;
+    }
 
     function add_time_box() {
         const time_count = document.getElementsByClassName('game-time').length;
@@ -37,7 +49,7 @@ $(document).ready(()=>{
         $('.game-times').append(w);
     }
 
-    async function get_teams() {
+    function get_teams() {
         if ($('#clear-fields').is(':checked')){
             $('input[name="day"]').prop('checked', false);
             $('.game-times').html('');
@@ -47,50 +59,56 @@ $(document).ready(()=>{
         $('#no-team-selected').text('');
         $('.teamlist').addClass('showloading');
         $('.team-cbox').remove();
+
+        var data = fetch_teams();
+
+        $('.teamlist').removeClass('showloading');
+        if (data.errors) {
+            return false;
+        }
+        if (!data.teams || data.teams.length < 1){
+            $('#no-team-selected').text('No teams for this game');
+            return false;
+        }
+        $('no-team-selected').hide();
+        data.teams.forEach(e => {
+            var c = $(document.createElement('input'));
+            c.attr('type', 'checkbox');
+            c.attr('id', e.slug);
+            c.attr('team-id', e.team_id);
+            c.attr('subteam-id', e.subteam_id);
+            c.attr('name', 'team-select');
+            c.prop('checked', true);
+
+            var l = $(document.createElement('label'));
+            l.attr('for', e.slug);
+            l.text(e.team_name);
+
+            var wrapper = $(document.createElement('div'));
+            wrapper.addClass('team-cbox');
+            wrapper.append(c);
+            wrapper.append(l);
+            $('.teamlist').append(wrapper);
+        })
+    }
+
+    function fetch_teams() {
+        var tms=[];
+
         $.ajax({
             type:'get',
             url:`${ajax_url}eventpanel-ajax.php`,
             data:{ 'action': 'get_teams', 'game_id': $('#games').val(), 'div':$('#div').val(), 'csrf':$('#csrf').val() },
             dataType:'json',
-            async: true,
+            async: false,
             success:(data)=>{
-                console.log(data);
-                $('.teamlist').removeClass('showloading');
-
-                if (data.errors) {
-                    return;
-                }
-
-                if (!data.teams || data.teams.length < 1){
-                    $('#no-team-selected').text('No teams for this game');
-                    return;
-                }
-
-                $('no-team-selected').hide();
-                data.teams.forEach(e => {
-                    var c = $(document.createElement('input'));
-                    c.attr('type', 'checkbox');
-                    c.attr('id', e.slug);
-                    c.attr('team-id', e.team_id);
-                    c.attr('subteam-id', e.subteam_id);
-                    c.attr('name', 'team-select');
-                    c.prop('checked', true);
-
-                    var l = $(document.createElement('label'));
-                    l.attr('for', e.slug);
-                    l.text(e.team_name);
-
-                    var wrapper = $(document.createElement('div'));
-                    wrapper.addClass('team-cbox');
-                    wrapper.append(c);
-                    wrapper.append(l);
-                    $('.teamlist').append(wrapper);
-                    
-                });
+                tms = data;
             },error:(a,b,c)=>{
                 console.log(a+','+b+','+c);
             }
         });
+
+        return tms;
     }
 
     let pull_schedule = () => {
@@ -167,6 +185,21 @@ $(document).ready(()=>{
                 var week=1;
                 var last_day = -1;
                 var idx=0;
+
+                var _t  =[];
+                var TEAMS = fetch_teams();
+
+                for (var j = 0; j < TEAMS.teams.length; j++){
+                    var c = TEAMS.teams[j];
+                    var o = {
+                        t_id: c.team_id,
+                        st_id: c.subteam_id,
+                        name: c.team_name,
+                        m: 0
+                    };
+                    _t.push(o);
+                }
+
                 data.forEach(e => {
                     idx++;
                     if (e.meta) {
@@ -178,24 +211,44 @@ $(document).ready(()=>{
                     }
                     var c=0;
                     var last_entry = idx >= data.length;
+
+
+                    console.log(TEAMS);
+
                     
                     e.matches.forEach(f => {
                         const row = $(document.createElement('tr'));
                         var border = (c === e.matches.length-1 && !last_entry) ? ' style="border-bottom: 1px solid #ddd;"' : '';
                         row.append(`<td${border}>${!c ? e.date : '&nbsp;'}</td>`);
                         row.append(`<td${border}>${f.time}</td>`);
-                        row.append(`<td${border}>${f.home}</td>`);
-                        row.append(`<td${border}>${f.away}</td>`);
+                        row.append(`<td${border}>${get_team_name(f.home, TEAMS.teams)}</td>`);
+                        row.append(`<td${border}>${get_team_name(f.away, TEAMS.teams)}</td>`);
                         tbl.append(row);
                         c++;
+
+                        var h = parseInt(f.home);
+                        var a = parseInt(f.away);
+
+                        for (var j=0; j < _t.length; j++){
+                            if(_t[j].st_id===h||_t[j].st_id===a){
+                                _t[j].m++;
+                            }
+                        }
+
+
+
                     });
+
+
                     if (e.day===last_day && !last_entry){
                         tbl.append(`<tr style="background-color:#ddd !important;"><td>Week ${week}</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>`);
                         week++;
                     }
                 });
 
-                console.log(data);
+                for (var j = 0; j < _t.length; j++){
+                    console.log(`${_t[j].name}: ${_t[j].m} matches`);
+                }
 
                 var p = document.getElementsByClassName('post-gen')[0];
                 var up = document.createElement('button');

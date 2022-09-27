@@ -1,6 +1,7 @@
 <?php
 
 $path = $_SERVER['DOCUMENT_ROOT'];
+
 require_once('ajax-util.php');
 include_once($path . '/classes/security/csrf.php');
 require_once($path . '/classes/services/ForgotPasswordService.php');

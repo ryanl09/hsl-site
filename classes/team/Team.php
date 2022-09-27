@@ -22,7 +22,7 @@ class Team extends TeamAbstract {
         $query =
         'SELECT `team_name`
         FROM `teams`
-        WHERE `team_id` = ?';
+        WHERE `id` = ?';
 
         $res = $this->db->query($query, $this->id)->fetchArray();
         return $res['team_name'];
