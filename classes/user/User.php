@@ -168,7 +168,7 @@ class User {
      */
 
     public function profile_image() {
-        return $this->pfp_url;
+        return $this->pfp_url==='https://tecesports.com/images/user.png' ? $this->pfp_url : 'https://tecesports.com/uploads/' . $this->pfp_url;
     }
 
     /**

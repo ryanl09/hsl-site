@@ -225,6 +225,36 @@ class Event implements IEvent {
         return $res;
     }
 
+    /**
+     * Gets all events for the current day for a certain game
+     * @param   int $game_id
+     * @return  array
+     */
+
+    public static function all_today_game($game_id) {
+        if (!$game_id) {
+            return [];
+        }
+
+
+        $d = date('Y-m-d');
+
+        $db = new tecdb();
+        $query=
+        "SELECT *
+        FROM `events`
+        WHERE `event_date` = ? AND `event_game` = ?";
+
+        $res = $db->query($query, $d, $game_id)->fetchAll();
+        return $res;
+    }
+
+    /**
+     * gets plays from a certain event
+     * @param   int $event_id
+     * @return  array
+     */
+
     public static function get_players($event_id) {
         if (!$event_id) {
             return [];

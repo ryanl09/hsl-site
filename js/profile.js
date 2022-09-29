@@ -15,8 +15,19 @@
                 xhr.open('post', 'https://tecesports.com/ajax/upload-pfp-ajax.php', true);
                 xhr.onreadystatechange=function(){
                     if (this.readyState===4 && this.status===200){
-                        var response = this.responseText;
-                        console.log(response);
+                        console.log(this.responseText);
+                        var data = JSON.parse(this.responseText);
+                        if (!data.status){
+                            console.log(data.errors);
+                            return;
+                        }
+
+                        console.log(data);
+
+                        var img = data.url;
+                        $('.pfp > img').attr('src', img);
+                        $('.image-text > .image > img').attr('src', img);
+                        //https://cdn.searchenginejournal.com/wp-content/uploads/2022/06/image-search-1600-x-840-px-62c6dc4ff1eee-sej-1280x720.png
                     }
                 }
                 xhr.send(formData);

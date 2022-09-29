@@ -13,7 +13,6 @@ require_once($path . '/controllers/GraphicsController.php');
 require_once($path . '/controllers/LeagueController.php');
 require_once($path . '/controllers/LoginController.php');
 require_once($path . '/controllers/MessagesController.php');
-require_once($path . '/controllers/MyGamesController.php');
 require_once($path . '/controllers/PrivacyController.php');
 require_once($path . '/controllers/ProfileController.php');
 require_once($path . '/controllers/RegisterController.php');
@@ -41,9 +40,6 @@ class ClientRequest {
                 break;
             case 'feed':
                 $this->ctrl = new FeedController();
-                break;
-            case 'mygames':
-                $this->ctrl = new MyGamesController();
                 break;
             case 'stats':
                 $this->ctrl = new StatsController();

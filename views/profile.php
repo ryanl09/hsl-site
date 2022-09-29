@@ -60,7 +60,7 @@ base_header(
                                 <img src="<?php echo $view->profile_image(); ?>">
                                 <?php if ($can_edit) { ?>
                                     <form id="pfp-form" action="https://tecesports.com/ajax/upload-pfp-ajax.php" method="post" enctype="multipart/form-data" style="display:none;">
-                                        <input type="file" name="fileToUpload" id="fileToUpload">
+                                        <input accept=".jpg, .png, .jpeg, .gif" type="file" name="fileToUpload" id="fileToUpload">
                                         <input type="submit" name="submit" class="e-c" value="+">
                                     </form>
                                     <span id="edit-pfp" class="e-c">+</span>

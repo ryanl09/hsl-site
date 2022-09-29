@@ -194,10 +194,10 @@ function print_navbar() {
                             </a>
                         </li>
 
-                        <li class="nav-link p-mygames">
-                            <a href="'.href('mygames').'" class="'._s('mygames').'">
+                        <li class="nav-link p-events">
+                            <a href="'.href('events').'" class="'._s('events').'">
                                 <i class="bx bx-calendar-event icon" ></i>
-                                <span class="text nav-text">My Games</span>
+                                <span class="text nav-text">Events</span>
                             </a>
                         </li>
 

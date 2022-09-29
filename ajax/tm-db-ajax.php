@@ -5,9 +5,11 @@ $path = $_SERVER['DOCUMENT_ROOT'];
 require_once($path . '/classes/security/csrf.php');
 require_once($path . '/classes/services/CreateSubTeamService.php');
 require_once($path . '/classes/team/SubTeam.php');
+require_once($path . '/classes/team/Team.php');
 require_once($path . '/classes/user/User.php');
 include_once($path . '/classes/util/ajaxerror.php');
 require_once($path . '/classes/util/Sessions.php');
+require_once($path . '/classes/util/tecdb.php');
 
 if ((isset($_SERVER['HTTP_X_REQUESTED_WITH'])) && ($_SERVER['HTTP_X_REQUESTED_WITH']==='XMLHttpRequest')) {
     if ($_SERVER['REQUEST_METHOD']==='POST') {
@@ -76,6 +78,37 @@ if ((isset($_SERVER['HTTP_X_REQUESTED_WITH'])) && ($_SERVER['HTTP_X_REQUESTED_WI
             die();
 
             break;
+        case 'remove':
+            if (!isset($_POST['pl_id'])) {
+                echo ajaxerror::e('errors', ['Missing player id']);
+                die();
+            }
+
+            if (!isset($_SESSION['user'])){
+                echo ajaxerror::e('errors', ['Missing user session']);
+                die();
+            }
+
+            $pl = $_POST['pl_id'];
+            $user = $_SESSION['user'];
+            $t_id = $user->get_team_id();
+
+            $team = new Team($t_id);
+            $removed = $team->remove_player($pl);
+
+            if ($removed){
+                echo json_encode(
+                    array(
+                        'status' => 1,
+                        'success' => 'Player removed'
+                    )
+                );
+                die();
+            }
+
+            echo ajaxerror::e('errors', ['Could not remove this player']);
+            die();
+            break;
         case 'delete':
             if (!isset($_POST['st_id'])) {
                 echo ajaxerror::e('errors', ['Missing team id']);
@@ -117,13 +150,40 @@ if ((isset($_SERVER['HTTP_X_REQUESTED_WITH'])) && ($_SERVER['HTTP_X_REQUESTED_WI
                 die();
             }
 
+            if (!isset($_SESSION['user'])){
+                echo ajaxerror::e('errors', ['Missing user session']);
+                die();
+            }
+
+            $user = $_SESSION['user'];
+
+            if (!in_array($user->get_role(), ['admin', 'team_manager'])){
+                echo ajaxerror::e('errors', ['Insufficient user permission']);
+                die();
+            }
+
             $pl_id = $_POST['pl_id'];
             $teams=json_decode($_POST['teams']);
+
+            $query = 
+            "DELETE FROM `player_seasons`
+            WHERE `user_id` = ?";
+
+            $db = new tecdb();
+            $db->query($query, $pl_id);
 
             foreach ($teams as $st) {
                 $s = new SubTeam($st);
                 $s->add_player($pl_id);
             }
+
+            echo json_encode(
+                array(
+                    'status' => 1,
+                    'success' => $pl_id
+                )
+            );
+
             break;
         default:
             echo ajaxerror::e('errors', ['Invalid action']);

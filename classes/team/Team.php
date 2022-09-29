@@ -132,6 +132,32 @@ class Team extends TeamAbstract {
     }
 
     /**
+     * removes player from team
+     * @param   int $pl_id
+     * @return  boolean
+     */
+
+    public function remove_player($pl_id){
+        if (!$pl_id || !$this->id){
+            return false;
+        }
+
+        $query=
+        "UPDATE `users`
+        SET `team_id` = 0
+        WHERE `user_id` = ?";
+        $res1 = $this->db->query($query, $pl_id)->affectedRows();
+
+        $query =
+        "DELETE FROM `player_seasons`
+        WHERE `user_id` = ?";
+        $res = $this->db->query($query, $pl_id)->affectedRows();
+
+        return $res1 > 0;
+
+    }
+
+    /**
      * Gets id of team
      * @return  int
      */

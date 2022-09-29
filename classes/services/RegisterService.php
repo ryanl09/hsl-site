@@ -262,6 +262,10 @@ class RegisterService extends VerifyService {
                 $query = "UPDATE users SET team_id = ? WHERE `user_id` = ?";
                 $this->db->query($query, $team_id, $user_id)->affectedRows();
                 break;
+            case 'player':
+                $query="INSERT INTO `user_profile_display` VALUES (?, 1, \"\", \"\", 0, 1)";
+                $this->db->query($query, $user_id)->affectedRows();
+                break;
         }
 
         $login_params = array(

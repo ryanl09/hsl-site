@@ -1,0 +1,149 @@
+@import 'event.css';
+
+.top-events{
+    height:100px;
+    width:100%;
+}
+
+.top-event{
+    background-color: #fff;
+    border:1px solid #bbb;
+    padding:10px;
+}
+
+.top-events .top-event:first-child{
+    border-right: none;
+}
+
+.top-section {
+    margin-bottom: 10px;
+}
+
+.today-top h3 {
+    font-weight: 500;
+    align-self: flex-end;
+}
+
+.table-today {
+    overflow-y: auto;
+}
+
+table {
+    width:100%;
+}
+
+.table-today table thead tr th:last-child {
+    width:10%;
+}
+
+hr.sep {
+    border: 0;
+    height:1px;
+    border-top: 1px #ddd solid;
+    width:100%;
+    margin: 10px 0;
+}
+
+.box {
+    padding:10px 20px;
+    border-radius: 6px;
+    background-color: #fff;
+    max-height: 450px;
+    overflow-y:auto;
+    position:relative;
+}
+
+.mid-section .row .box.events-today .today-top {
+    display:flex;
+    flex-direction: row;
+    justify-content: left;
+}
+
+.current-event {
+    background-color:#121212;
+    position:relative;
+    color:#fff;
+    min-height:300px;
+}
+
+.current-event .matchup {
+    width:80%;
+    display:flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin:0 auto;
+    margin-top: 50px;
+}
+
+.current-event h2 {
+    text-transform: uppercase;
+    font-weight: 500;
+    width:fit-content;
+    margin: 0 auto;
+}
+
+.current-event button {
+    position:absolute;
+    bottom:0;
+    left:0;
+    background-color: var(--primary-color);
+    text-align: center;
+    width:100%;
+    border:none;
+    outline:0;
+    height:50px;
+    font-size: 18px;
+    font-weight: 500;
+    transition: all .2s ease;
+}
+
+.current-event button:hover {
+    background-color:#27b76e;
+    cursor:pointer;
+}
+
+.game-icons {
+    margin-left: auto;
+    display:flex;
+    gap:12px;
+    align-items: center;
+    height:fit-content;
+}
+
+.game-icon{
+    padding:2px;
+    transition: var(--tran-03);
+    background-color: rgba(0,0,0,0);
+    border:none;
+}
+
+.game-icon.selected{
+    background-color:rgba(0,0,0,0.1);
+    border-radius: 2px;
+    border:1px solid #ccc;
+}
+
+.game-icon:hover {
+    opacity: 0.65;
+    cursor:pointer;
+}
+
+.mid-section .row .box .h3 {
+    width: fit-content;
+}
+
+.row {
+    display:grid;
+    gap:10px;
+}
+
+.e2thirds{
+    grid-template-columns: 66% 33%;
+}
+
+@media only screen and (max-width:1024px){
+    .e2thirds{
+        grid-template-columns: auto;
+    }
+}

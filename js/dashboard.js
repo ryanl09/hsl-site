@@ -46,6 +46,8 @@
             $('#p-name').html(`<strong>Name:</strong> ${name}`);
             $('#p-uname').html(`<strong>Username:</strong> ${uname}`);
 
+            $('#save-pl-t').unbind('click');
+
             $('#save-pl-t').on('click', function(){
                 var ids = [];
                 $('.t-select > input').each(function() {
@@ -56,52 +58,56 @@
 
                 });
 
-                if (!ids.length){
-                    console.log('No teams selected');
-                    return;
-                }
-
                 $.ajax({
                     url:`${ajax_url}tm-db-ajax.php`,
                     type:'post',
                     data:{'action':'allocate','pl_id':pid,'teams':JSON.stringify(ids),'csrf':$('#csrf').val()},
                     dataType:'text',
                     success:(data)=>{
-                        console.log(data);
+
                     },
                     error:(a,b,c)=>{
                         console.log(a+','+b+','+c);
                     }
                 });
             });
+
+            $('#p-delete').unbind('click');
 
             $('#p-delete').on('click', function(){
-                $.ajax({
-                    url:`${ajax_url}tm-db-ajax.php`,
-                    type:'post',
-                    data:{'action':'remove','pl_id':pid,'csrf':$('#csrf').val()},
-                    dataType:'json',
-                    success:(data)=>{
-                        console.log(data);
-
-                        if (data.errors){
-
-                            return;
+                var conf = confirm("Are you sure you want to remove this player from your team?");
+                if (conf){
+                    $.ajax({
+                        url:`${ajax_url}tm-db-ajax.php`,
+                        type:'post',
+                        data:{'action':'remove','pl_id':pid,'csrf':$('#csrf').val()},
+                        dataType:'json',
+                        success:(data)=>{
+                            console.log(data);
+    
+                            if (data.errors){
+    
+                                return;
+                            }
+    
+                            window.location.reload();
+                        },
+                        error:(a,b,c)=>{
+                            console.log(a+','+b+','+c);
                         }
-
-                        window.location.reload();
-                    },
-                    error:(a,b,c)=>{
-                        console.log(a+','+b+','+c);
-                    }
-                });
+                    });
+                }
             });
         });
+
+        $('.save-teams').unbind('click');
 
         $('.save-teams').on('click', ()=>{
             save_teams();
             $('.hide-rem').removeClass('.hide-rem');
         });
+
+        $('#add-team').unbind('click');
 
         $('#add-team').on('click', function(){
             $('#add-team').toggleClass('m-cancel');
@@ -172,29 +178,35 @@
                 return;
             }
 
-            $.ajax({
-                url:`${ajax_url}tm-db-ajax.php`,
-                type:'post',
-                data:{'action':'delete', 'csrf':$('#csrf').val(), 'st_id':s_id, 'game_id':gam.val(), 'div':div.val()},
-                dataType:'json',
-                success:(data)=>{
-                    if (!data.status || data.errors){
-                        var e_m = '';
-                        data.errors.forEach(e => {
-                            e_m+=e;
-                        });
-                        console.log(`Error: ${e_m}`);
-                        return;
-                    }
+            var conf = confirm("Are you sure you want to remove this team? If it's on the schedule, you won't be able to recover these games!");
 
-                    console.log(data.success);
-                    ctrl.parent().remove();
-                    window.location.reload();
-                },
-                error:(a,b,c)=>{
-                    console.log(a+','+b+','+c);
-                }
-            });
+            if (conf){
+                $.ajax({
+                    url:`${ajax_url}tm-db-ajax.php`,
+                    type:'post',
+                    data:{'action':'delete', 'csrf':$('#csrf').val(), 'st_id':s_id, 'game_id':gam.val(), 'div':div.val()},
+                    dataType:'json',
+                    success:(data)=>{
+                        if (!data.status || data.errors){
+                            var e_m = '';
+                            data.errors.forEach(e => {
+                                e_m+=e;
+                            });
+                            console.log(`Error: ${e_m}`);
+                            return;
+                        }
+
+                        console.log(data.success);
+                        ctrl.parent().remove();
+                        window.location.reload();
+                    },
+                    error:(a,b,c)=>{
+                        console.log(a+','+b+','+c);
+                    }
+                });
+            }
+
+            
 
             console.log(gam.val() + ',' + div.val() + ',' + s_id);
         }
