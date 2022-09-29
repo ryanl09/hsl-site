@@ -1,5 +1,31 @@
-(()=> {
+(function() {
     $(document).ready(()=>{
+        $('#edit-pfp').on('click', function(e){
+            e.preventDefault();
+            $('#fileToUpload').click();
+        });
+            
+        $('#fileToUpload').change(function() {
+            var file = $('#fileToUpload')[0].files;
+            if (file.length > 0){
+                var formData = new FormData();
+                formData.append("fileToUpload", file[0]);
+
+                var xhr = new XMLHttpRequest;
+                xhr.open('post', 'https://tecesports.com/ajax/upload-pfp-ajax.php', true);
+                xhr.onreadystatechange=function(){
+                    if (this.readyState===4 && this.status===200){
+                        var response = this.responseText;
+                        console.log(response);
+                    }
+                }
+                xhr.send(formData);
+            }
+        
+                console.log('submitted');
+
+            $('#pfp-form').submit();
+        });
 
         const win = $(window);
         const bio_e = $('.bio-text-edit') ?? 0;
@@ -198,6 +224,7 @@
                 break;
         }
     }
+
 
     function update_display(m) {
         if(m){//preview mode

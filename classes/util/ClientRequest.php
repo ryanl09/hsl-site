@@ -6,6 +6,7 @@ require_once($path . '/controllers/DashboardController.php');
 require_once($path . '/controllers/Error404Controller.php');
 require_once($path . '/controllers/EventPanelController.php');
 require_once($path . '/controllers/EventController.php');
+require_once($path . '/controllers/EventsController.php');
 require_once($path . '/controllers/FeedController.php');
 require_once($path . '/controllers/ForgotController.php');
 require_once($path . '/controllers/GraphicsController.php');
@@ -85,6 +86,9 @@ class ClientRequest {
                 break;
             case 'forgot':
                 $this->ctrl = new ForgotController();
+                break;
+            case 'events':
+                $this->ctrl = new EventsController();
                 break;
             default:
                 $this->ctrl = new Error404Controller();

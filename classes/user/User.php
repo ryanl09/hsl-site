@@ -431,6 +431,26 @@ class User {
     }
 
     /**
+     * Updates user's profile photo
+     * @param   string  $url
+     * @return  boolean
+     */
+
+    public function update_profile_photo($url){
+        if (!$url){
+            return false;
+        }
+
+        $query=
+        "UPDATE `users`
+        SET `pfp_url` = ?
+        WHERE `user_id` = ?";
+
+        $res = $this->db->query($query, $url, $this->id)->affectedRows();
+        return $res > 0;
+    }
+
+    /**
      * Gets all profile data for a user
      * @param   int $user_id
      * @return  array
