@@ -48,7 +48,7 @@ hr.sep {
     padding:10px 20px;
     border-radius: 6px;
     background-color: #fff;
-    max-height: 450px;
+    max-height: 350px;
     overflow-y:auto;
     position:relative;
 }
@@ -77,7 +77,6 @@ hr.sep {
 }
 
 .current-event h2 {
-    text-transform: uppercase;
     font-weight: 500;
     width:fit-content;
     margin: 0 auto;

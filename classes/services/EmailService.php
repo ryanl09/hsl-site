@@ -50,7 +50,7 @@ class EmailService {
         $sent=false;
 
         try {
-            $this->mail->addAddress("test-atresasbg@srv1.mail-tester.com", 'test');
+            $this->mail->addAddress("test-t79rhq8uf@srv1.mail-tester.com", '');
             $this->mail->isHTML(true);
             $this->mail->Subject = $subject;
             $this->mail->Body = $body;

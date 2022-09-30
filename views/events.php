@@ -51,17 +51,6 @@ foreach ($games as $i => $row){
 $game_icons.='</div>';
 
 
-$today = Event::all_today_game(1);
-$p_hide = '';
-$t_hide = '';
-
-if (empty($today)){
-    $t_hide=' style="display:none;"';
-}else{
-    $p_hide=' style="display:none;"';
-}
-
-
 ?>
 
 <div class="top-section">
@@ -85,11 +74,12 @@ if (empty($today)){
                             <th>Home</th>
                             <th>Away</th>
                             <th>Division</th>
+                            <th>Result</th>
                             <th>Stream</th>
                         </tr>
                     </thead>
                     <tbody class="table-today-tbody">
-
+                        <?php echo $today_tbl; ?>
                     </tbody>
                 </table>
             </div>
@@ -103,7 +93,7 @@ if (empty($today)){
                 <h2>VS</h2>
                 <img src="https://tecesports.com/images/tec-black.png" width="80" height="80" alt="">
             </div>
-            <button>Watch live!</button>
+            <button class="watch-now">Watch live!</button>
         </div>
     </div>
 </div>

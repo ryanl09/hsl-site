@@ -2,6 +2,7 @@ RewriteEngine On
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteRule ^([^.]+)$ $1.php [NC,L]
 
+Options -Indexes
 Options +FollowSymLinks
 RewriteEngine On
 # The first 2 conditions may or may not be relevant for your needs

@@ -238,12 +238,22 @@ class Event implements IEvent {
 
 
         $d = date('Y-m-d');
+        $d = date("2022-10-04");
 
         $db = new tecdb();
         $query=
-        "SELECT *
+        "SELECT t.team_name as event_home, t2.team_name as event_away, events.event_time, events.event_stream, s.division, s.id as h_id, s2.id as a_id, events.event_winner
         FROM `events`
-        WHERE `event_date` = ? AND `event_game` = ?";
+        INNER JOIN subteams s
+            ON s.id = events.event_home
+        INNER JOIN teams t
+            ON s.team_id = t.id
+        INNER JOIN subteams s2
+            ON s2.id = events.event_away
+        INNER JOIN teams t2
+            ON s2.team_id = t2.id
+        WHERE `event_date` = ? AND `event_game` = ?
+        ORDER BY s.division ASC";
 
         $res = $db->query($query, $d, $game_id)->fetchAll();
         return $res;
@@ -274,6 +284,64 @@ class Event implements IEvent {
 
         $res = $db->query($query, $event_id, $c_s)->fetchAll();
         return $res;
+    }
+
+    /**
+     * sees if an event is going on now, if there is then send all the stuff   DOESNT WORK
+     * @return  boolean|array
+     */
+
+    public static function is_now() {
+        $d = date('Y-m-d');
+        $t = date('H:i:s');
+        $t2 = date('H:i:s', strtotime('+1 hour'));
+
+        /** need to account different intervals for different games, 1 hour for now */
+
+        $db = new tecdb();
+        $query=
+        "SELECT t.team_name as event_home, t.team_logo as home_logo, t2.team_name as event_away, t2.team_logo as away_logo, events.event_time, events.event_stream, s.division
+        FROM `events`
+        INNER JOIN subteams s
+            ON s.id = events.event_home
+        INNER JOIN teams t
+            ON s.team_id = t.id
+        INNER JOIN subteams s2
+            ON s2.id = events.event_away
+        INNER JOIN teams t2
+            ON s2.team_id = t2.id
+        WHERE events.event_date = ? AND events.event_time >= ? AND events.event_time < ? LIMIT 1";
+
+        $res = $db->query($query, $d, $t, $t2)->fetchArray();
+        return empty($res) ? false : $res;
+    }
+
+    /**
+     * gets next event that hasnt started yet
+     * @return  array
+     */
+
+    public static function get_next() {
+        $d = date('Y-m-d');
+        $t = date('H:i:s');
+
+        $db = new tecdb();
+        $query=
+        "SELECT t.team_name as event_home, t.team_logo as home_logo, t2.team_name as event_away, t2.team_logo as away_logo, events.event_date, events.event_time, events.event_stream, s.division
+        FROM `events`
+        INNER JOIN subteams s
+            ON s.id = events.event_home
+        INNER JOIN teams t
+            ON s.team_id = t.id
+        INNER JOIN subteams s2
+            ON s2.id = events.event_away
+        INNER JOIN teams t2
+            ON s2.team_id = t2.id
+        WHERE events.event_date >= ? AND events.event_time > ?
+        ORDER BY s.division ASC LIMIT 1";
+
+        $res = $db->query($query, $d, $t)->fetchArray();
+        return empty($res) ? false : $res;
     }
 }
 
