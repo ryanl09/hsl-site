@@ -81,16 +81,15 @@ class Stats {
         INNER JOIN `stat_cols`
             ON stat_cols.id = stats.stat_id
         WHERE stats.user_id IN (
-            SELECT users.user_id
-            FROM `users`
-            INNER JOIN `subteams`
-                ON subteams.id = ?
+            SELECT event_rosters.user_id
+            FROM `event_rosters`
             INNER JOIN `player_seasons`
-                ON player_seasons.user_id = users.user_id AND player_seasons.subteam_id = ? AND player_seasons.season_id = ?
+                ON player_seasons.user_id = event_rosters.user_id AND player_seasons.subteam_id = ? AND player_seasons.season_id = ?
+            WHERE event_rosters.event_id = ?
             )
         AND stats.event_id = ?";
 
-        $res = $this->db->query($query, $subteam_id, $subteam_id, Season::get_current(), $event_id)->fetchAll();
+        $res = $this->db->query($query, $subteam_id, Season::get_current(), $event_id, $event_id)->fetchAll();
         return $res;
     }
 

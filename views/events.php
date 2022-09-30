@@ -40,15 +40,18 @@ start_content_full(1, 'events');
 
 $games = Game::get_all();
 
-$game_icons='<div class="game-icons">';
+$game_icons='<div class="game-icons e-today">';
+$game_icons2='<div class="game-icons e-all">';
 foreach ($games as $i => $row){
     $sel='';
     if (!$i){
         $sel=' selected';
     }
     $game_icons .= '<img class="game-icon'.$sel.'" game-id="'.$row['id'].'" src="'.$row['url'].'" width="35" height="35">';
+    $game_icons2 .= '<img class="game-icon'.$sel.'" game-id="'.$row['id'].'" src="'.$row['url'].'" width="35" height="35">';
 }
 $game_icons.='</div>';
+$game_icons2.='</div>';
 
 
 ?>
@@ -65,9 +68,9 @@ $game_icons.='</div>';
                 <?php echo $game_icons; ?>
             </div>
             <hr class="sep">
-            <p class="today-nogames"<?php echo $p_hide; ?>>No games today!</p>
-            <div class="table-today"<?php echo $t_hide; ?>>
-                <table>
+            <p class="today-nogames">No games today!</p>
+            <div class="table-today">
+                <table cellspacing="0">
                     <thead>
                         <tr>
                             <th>Time</th>
@@ -79,7 +82,6 @@ $game_icons.='</div>';
                         </tr>
                     </thead>
                     <tbody class="table-today-tbody">
-                        <?php echo $today_tbl; ?>
                     </tbody>
                 </table>
             </div>
@@ -94,6 +96,48 @@ $game_icons.='</div>';
                 <img src="https://tecesports.com/images/tec-black.png" width="80" height="80" alt="">
             </div>
             <button class="watch-now">Watch live!</button>
+        </div>
+    </div>
+    <div class="row e1">
+        <div class="box all-events">
+            <div class="all-header">
+                <div class="today-top">
+                    <h3>All events</h3>
+                    <?php echo $game_icons2; ?>
+                </div>
+                <div class="sort-by">
+                    <span>Sort By:</span>
+                    <select name="sort-team" id="sort-team">
+                        <option value="-1" selected>Any Team</option>
+                    </select>
+                    <select name="sort-div" id="sort-div">
+                        <option value="1">D1</option>
+                        <option value="2">D2</option>
+                    </select>
+                    <select name="sort-season" id="sort-season">
+                        <option value="-1" selected>Current Season</option>
+                    </select>
+                </div>
+            </div>
+            <hr class="sep">
+            <div class="all-table">
+                <table cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Time</th>
+                            <th>Home</th>
+                            <th>Away</th>
+                            <th>Division</th>
+                            <th>Result</th>
+                            <th>Stream</th>
+                        </tr>
+                    </thead>
+                    <tbody class="table-all-tbody">
+
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>

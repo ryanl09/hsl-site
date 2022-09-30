@@ -64,7 +64,7 @@
                     data:{'action':'allocate','pl_id':pid,'teams':JSON.stringify(ids),'csrf':$('#csrf').val()},
                     dataType:'text',
                     success:(data)=>{
-
+                        alert(data);
                     },
                     error:(a,b,c)=>{
                         console.log(a+','+b+','+c);
@@ -235,6 +235,157 @@
                     if (data.status){
                         window.location.reload();
                     }
+                },
+                error:(a,b,c)=>{
+                    console.log(a+','+b+','+c);
+                }
+            });
+        }
+
+        function update_events(){
+            
+            $.ajax({
+                url:`${ajax_url}tm-db-ajax.php`,
+                type:'get',
+                data:{'action':'get_events', 'team':$('#roster-team').val(), 'csrf':$('#csrf').val()},
+                dataType:'json',
+                success:(data)=>{
+                    console.log(data);
+
+                    if (!data.status){
+                        //error
+                        return;
+                    }
+
+                    $('.events-tbody').html('');
+                    data.ev.forEach(e => {
+
+                        var status = $('<td>', {
+                            html:`<i class="bx bxs-circle ${(e.has_roster ? 'green' : 'red')}"></i>`
+                        });
+                        var date = $('<td>', {
+                            text:`${fix_date(e.event_date)} @${fix_time(e.event_time)}`
+                        });
+                        var op = $('<td>', {
+                            text:`${parseInt($('#roster-team').val(),10)===e.a_id ? e.event_home : e.event_away}`
+                        });
+
+                        var tr = $('<tr>').attr('e-id', e.e_id)
+                        .attr('e-time', e.event_time)
+                        .attr('e-date', e.event_date)
+                        .addClass('tr-set');
+
+                        tr.append(status)
+                        .append(date)
+                        .append(op);
+
+                        tr.on('click', function(){
+                            var d = fix_date(e.event_date);
+                            var t = fix_time(e.event_time);
+                            var e_id = parseInt($(this).attr('e-id'),10);
+                
+                            do_trset(d, t, e_id);
+                        });
+
+                        $('.events-tbody').append(tr);
+                    });
+                },
+                error:(a,b,c)=>{
+                    console.log(a+','+b+','+c);
+                }
+            });
+        }
+
+        $('#roster-team').on('change', function(){
+            update_events();
+        });
+
+        $('.tr-set').on('click', function(){
+            var d = fix_date($(this).attr('e-date'));
+            var t = fix_time($(this).attr('e-time'));
+            var e_id = parseInt($(this).attr('e-id'),10);
+
+            do_trset(d, t, e_id);
+        });
+
+        function do_trset(d, t, e_id){
+             var a = $('.avail-pl');
+
+            a.html('');
+            var p = $('<p>', {
+                text: `Match on ${d} @${t}`
+            });
+            a.append(p);
+
+            /**
+             * get players
+             */
+            var d = [];
+
+            $.ajax({
+                url:`${ajax_url}tm-db-ajax.php`,
+                type:'get',
+                data:{'action':'get_players', 'st':$('#roster-team').val(), 'e_id':e_id, 'csrf':$('#csrf').val()},
+                dataType:'json',
+                async:false,
+                success:(data)=>{
+
+                    console.log(data);
+                    if (!data.status){
+                        //error
+                        return;
+                    }
+
+                    data.players.forEach(e => {
+
+                        var on_ros = '';
+
+                        data.roster.forEach(f => {
+                            if (e.user_id===f.user_id){
+                                on_ros='checked';
+                            }
+                        });
+
+                        var div = $('<div>',{
+                            html: `<input type="checkbox" id="pl-${e.user_id}" class="roster-box"${on_ros}><label for="pl-${e.user_id}">${e.name}</label>`
+                        });
+                        a.append(div);
+                    });
+
+                    var b = $('<button>', {
+                        html:'<i class="bx bx-save"></i>Save'
+                    }).on('click', function(){
+                        var pl=[];
+
+                        $('.roster-box').each(function(){
+                            if ($(this).is(':checked')){
+                                var jd = parseInt($(this).attr('id').split('-')[1]);
+                                pl.push(jd);
+                            }
+                        });
+
+                        $.ajax({
+                            url:`${ajax_url}tm-db-ajax.php`,
+                            type:'post',
+                            data:{'action':'set_roster', 'e_id':e_id, 'players':JSON.stringify(pl), 'csrf':$('#csrf').val()},
+                            dataType:'json',
+                            success:(data)=>{
+                                if (!data.status){
+                                    //error
+                                    return;
+                                }
+
+                                alert(data.success);
+                                window.location.reload();
+                            },
+                            error:(a,b,c)=>{
+                                console.log(a+','+b+','+c);
+                            }
+                        });
+                    });
+                    b.addClass('save-btn clickable');
+                    a.append(b);
+
                 },
                 error:(a,b,c)=>{
                     console.log(a+','+b+','+c);

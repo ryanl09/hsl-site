@@ -74,6 +74,33 @@ class Game {
         $res = $db->query($query, $game_id, $season_id, $div)->fetchAll();
         return $res;
     }
+    /**
+     * Gets all teams associated with a certain game
+     * @param   int $game_id
+     * @return  array
+     */
+
+    public static function get_teams_g($game_id) {
+        if(!$game_id){
+            return [];
+        }
+
+        $season_id = Season::get_current();
+
+        $db = new tecdb();
+
+        $query=
+        "SELECT teams.team_name, teams.id AS team_id, subteams.id AS subteam_id, teams.slug
+        FROM teams
+        INNER JOIN subteams
+            ON subteams.team_id = teams.id AND subteams.game_id = ?
+        INNER JOIN subteam_seasons
+            ON subteams.id = subteam_seasons.subteam_id AND subteam_seasons.season_id = ?
+        ORDER BY teams.team_name ASC";
+
+        $res = $db->query($query, $game_id, $season_id)->fetchAll();
+        return $res;
+    }
 }
 
 ?>

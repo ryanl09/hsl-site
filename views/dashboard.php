@@ -4,6 +4,7 @@
 $path = $_SERVER['DOCUMENT_ROOT'];
 require_once($path . '/documentelements.php');
 require_once($path . '/classes/general/Game.php');
+require_once($path . '/classes/event/Event.php');
 require_once($path . '/classes/user/User.php');
 require_once($path . '/classes/util/Sessions.php');
 require_once($path . '/classes/team/Team.php');
@@ -29,7 +30,7 @@ switch ($role) {
         </div>
         <?php break;
     case 'team_manager': ?>
-        <div class="row e3">
+        <div class="row e2">
             <div class="box tall">
                 <h3 class="box-title">Players</h3>
                 <p>Students will register with this link:</p>
@@ -145,7 +146,66 @@ switch ($role) {
                     </div>
                 </div>
             </div>
-            <div class="box tall s-events"></div>
+        </div>
+        <div class="row e2">
+            <div class="box s-events">
+                <h3 class="box-title">Set rosters</h3>
+                <div class="split">
+                    <div class="split-top">
+                        <div class="select-roster-team input">
+                            <label for="roster-team">Team:</label>
+                            <select id="roster-team">
+                            <?php
+                                $use = 0;
+                                foreach ($st as $i => $row){
+                                    if(!$i){
+                                        $use=$row['id'];
+                                    }
+                                    echo '<option value="'.$row['id'].'">'.$row['game_name'].' - D'.$row['division'].'</option>';
+                                }
+                            ?>
+                            </select>
+                        </div>
+                            
+                        <div class="events-table">
+                            <table cellspacing="0">
+                                <thead>
+                                    <tr>
+                                        <th>Status</th>
+                                        <th>Date</th>
+                                        <th>VS</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="events-tbody">
+                                    <?php
+                                        $e = Event::of_subteam($use);
+                                        foreach ($e as $i => $row){
+                                            echo '<tr class="tr-set" e-id="'.$row['e_id'].'" e-time="'.$row['event_time'].'" e-date="'.$row['event_date'].'">';
+                                            $class = 'red';
+                                            if (Event::has_roster($row['e_id'])){
+                                                $class='green';
+                                            }
+                                            echo '<td><i class="bx bxs-circle '.$class.'"></i></td>';
+                                            echo '<td>'.$row['event_date'].' @' . $row['event_time'] . '</td>';
+                                            $op = $row['event_away'];
+                                            if ($row['a_id']===$use){
+                                                $op = $row['event_home'];
+                                            }
+                                            echo '<td>'.$op.'</td>';
+                                            echo '</tr>';
+                                        }
+                                    ?>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="box">
+                <h3 class="box-title">Set rosters</h3>
+                <div class="avail-pl"></div>
+            </div>
         </div>
         <?php break;
     case 'caster': ?>

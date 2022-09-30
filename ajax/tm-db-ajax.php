@@ -2,6 +2,7 @@
 
 $path = $_SERVER['DOCUMENT_ROOT'];
 
+require_once($path . '/classes/event/Event.php');
 require_once($path . '/classes/security/csrf.php');
 require_once($path . '/classes/services/CreateSubTeamService.php');
 require_once($path . '/classes/team/SubTeam.php');
@@ -22,6 +23,7 @@ if ((isset($_SERVER['HTTP_X_REQUESTED_WITH'])) && ($_SERVER['HTTP_X_REQUESTED_WI
     $csrf = CSRF::post();
     if (!$csrf){
         echo ajaxerror::e('errors', ['Invalid CSRF token']);
+        die();
     }
     
     if (!isset($_POST['action'])) {
@@ -112,14 +114,17 @@ if ((isset($_SERVER['HTTP_X_REQUESTED_WITH'])) && ($_SERVER['HTTP_X_REQUESTED_WI
         case 'delete':
             if (!isset($_POST['st_id'])) {
                 echo ajaxerror::e('errors', ['Missing team id']);
+                die();
             }
 
             if (!isset($_POST['div'])) {
                 echo ajaxerror::e('errors', ['Missing division']);
+                die();
             }
 
             if (!isset($_POST['game_id'])) {
                 echo ajaxerror::e('errors', ['Missing game id']);
+                die();
             }
 
             $st_id = $_POST['st_id'];
@@ -183,7 +188,60 @@ if ((isset($_SERVER['HTTP_X_REQUESTED_WITH'])) && ($_SERVER['HTTP_X_REQUESTED_WI
                     'success' => $pl_id
                 )
             );
+            die();
 
+            break;
+        case 'set_roster':
+            if (!isset($_POST['e_id']) || !isset($_POST['players'])){
+                echo ajaxerror::e('errors', ['Missing fields']);
+                die();
+            }
+
+            $e_id = $_POST['e_id'];
+            if (!is_numeric($e_id)){
+                echo ajaxerror::e('errors', ['Invalid event']);
+                die();
+            }
+
+            $pl = json_decode($_POST['players'], true);
+            $query =
+            "DELETE FROM `event_rosters`
+            WHERE `event_id` = ?";
+            $db = new tecdb();
+            $r = $db->query($query, $e_id)->affectedRows();
+
+            if (empty($pl)){
+                echo json_encode(
+                    array(
+                        'status' => 1,
+                        'success' => 'Roster cleared'
+                    )
+                );
+                die();
+            }
+
+            $suc = 0;
+            for ($i = 0; $i < count($pl); $i++){
+                $query = 
+                "INSERT INTO `event_rosters` (`user_id`, `event_id`)
+                VALUES (?, ?);";
+
+                $id = $db->query($query, $pl[$i], $e_id);
+                $suc = ($id ? $id : 0);
+            }
+
+            if ($suc){
+                echo json_encode(
+                    array(
+                        'status' => 1,
+                        'success' => 'Roster set'
+                    )
+                );
+                die();
+            }
+
+            echo ajaxerror::e('errors',  ['Couldn\'t set roster']);
+            die();
             break;
         default:
             echo ajaxerror::e('errors', ['Invalid action']);
@@ -210,6 +268,48 @@ if ((isset($_SERVER['HTTP_X_REQUESTED_WITH'])) && ($_SERVER['HTTP_X_REQUESTED_WI
                 $user = new User($pl);
 
                 echo json_encode($user->get_player_subteams());
+                die();
+                break;
+            case 'get_players':
+                if (!isset($_GET['st']) || !isset($_GET['e_id'])){
+                    echo ajaxerror::e('errors', ['Missing some ids']);
+                    die();
+                }
+
+                $e = $_GET['e_id'];
+                $ros = Event::get_roster($e);
+                $s = new Subteam($_GET['st']);
+                echo json_encode(
+                    array(
+                        'status' => 1,
+                        'players' => $s->get_players(),
+                        'roster' => $ros
+                    )
+                );
+                die();
+                break;
+            case 'get_events':
+                if (!isset($_GET['team'])){
+                    echo ajaxerror::e('errors', ['Missing team']);
+                    die();
+                }
+
+                $t = $_GET['team'];
+                $e = Event::of_subteam($t);
+                foreach ($e as $i => $row){
+                    if (!isset($row['e_id'])){
+                        continue;
+                    }
+
+                    $e[$i]['has_roster'] = Event::has_roster($row['e_id']);
+                }
+
+                echo json_encode(
+                    array(
+                        'status' => 1,
+                        'ev' => $e
+                    )
+                );
                 die();
                 break;
         }
