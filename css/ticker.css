@@ -75,3 +75,12 @@ ul {
 .img > div {
     padding:10px;
 }
+.slide {
+    display:flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.slide span {
+    font-size:12px;
+}

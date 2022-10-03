@@ -32,6 +32,8 @@ require_once($path . '/classes/util/tecdb.php');
 
 start_content_full(1, 'events');
 
+echo '<script src="https://embed.twitch.tv/embed/v1.js"></script>';
+    
 // latest matchup
 //weekly matchup
 //breakdown by games
@@ -86,7 +88,8 @@ $game_icons2.='</div>';
                 </table>
             </div>
         </div>
-        <div class="box current-event">
+        <div class="box current-event" id="current-ev" style="padding:0px !important">
+            <!--
             <div class="ce-header">
                 <h2>Happening now</h2>
             </div>
@@ -95,8 +98,18 @@ $game_icons2.='</div>';
                 <h2>VS</h2>
                 <img src="https://tecesports.com/images/tec-black.png" width="80" height="80" alt="">
             </div>
-            <button class="watch-now">Watch live!</button>
+            <button class="watch-now">Watch live!</button>-->
         </div>
+        <script type="text/javascript">
+        var embed = new Twitch.Embed("current-ev", {
+        channel: "theesportcompany",
+        parent: ["tecesports.com"]
+        });
+
+        embed.addEventListener(Twitch.Embed.VIDEO_READY, function() {
+            $('.ce-te__chat').remove();
+        });
+        </script>
     </div>
     <div class="row e1">
         <div class="box all-events">

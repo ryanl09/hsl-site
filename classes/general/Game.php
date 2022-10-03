@@ -101,6 +101,40 @@ class Game {
         $res = $db->query($query, $game_id, $season_id)->fetchAll();
         return $res;
     }
+
+    /**
+     * gets all events for a game this week
+     * @param   int $game_id
+     * @return  array
+     */
+
+    public static function get_events_week($game_id){
+        if (!$game_id){
+            return [];
+        }
+
+        $mon = date( 'Y-m-d', strtotime( 'monday this week' ) );
+        $fri = date( 'Y-m-d', strtotime( 'friday this week' ) );
+
+        $db = new tecdb();
+
+        $query=
+        "SELECT t.team_name AS home, t2.team_name AS away, events.event_time, s.division
+        FROM events
+        INNER JOIN subteams s
+            ON s.id = events.event_home
+        INNER JOIN teams t
+            ON s.team_id = t.id
+        INNER JOIN subteams s2
+            ON s2.id = events.event_away
+        INNER JOIN teams t2
+            ON s2.team_id = t2.id
+        WHERE events.event_date >= ? AND events.event_date <= ? AND events.event_game = ?
+        ORDER BY s.division ASC, events.event_time ASC";
+
+        $res = $db->query($query, $mon, $fri, $game_id)->fetchAll();
+        return $res;
+    }
 }
 
 ?>

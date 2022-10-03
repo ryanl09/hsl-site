@@ -185,34 +185,43 @@ base_header(
                         <div class="tab">
                             <div class="row">
                                 <div class="box">
-                                    <div class="selector">
-                                        <label for="season">Season:</label>
-                                        <select name="season" id="season">
-                                            <?php
-                                                $c_s = Season::get_current();
-                                                $a = Season::get_all_prior();
-                                                foreach ($a as $i => $row){
-                                                    echo '<option value="'.$row['id'].'">'.$row['season_name'].'</option>';
-                                                }
-                                            ?>
-                                        </select>
-                                    </div>
-                                    <div class="selector">
-                                        <label for="game">Game:</label>
-                                        <select name="game" id="game">
-                                            <?php
-                                                $u = $view->games_competing_in($c_s);
-                                                print_r($u);
-                                                foreach($u as $i => $row){
-                                                    echo '<option value="'.$row['id'].'">'.$row['game_name'].'</option>';
-                                                }
-                                            ?>
-                                        </select>
+                                    <div class="selectors">
+                                        <div class="selector">
+                                            <label for="season">Season:</label>
+                                            <select name="season" id="season">
+                                                <?php
+                                                    $c_s = Season::get_current();
+                                                    $a = Season::get_all_prior();
+                                                    foreach ($a as $i => $row){
+                                                        echo '<option value="'.$row['id'].'">'.$row['season_name'].'</option>';
+                                                    }
+                                                ?>
+                                            </select>
+                                        </div>
+                                        <div class="selector">
+                                            <label for="game">Game:</label>
+                                            <select name="game" id="game">
+                                                <?php
+                                                    $u = $view->games_competing_in($c_s);
+                                                    print_r($u);
+                                                    foreach($u as $i => $row){
+                                                        echo '<option value="'.$row['id'].'">'.$row['game_name'].'</option>';
+                                                    }
+                                                ?>
+                                            </select>
+                                        </div>
                                     </div>
 
                                     <script type="text/javascript">
                                         $('#season').val(<?php echo $c_s; ?>);
                                     </script>
+
+                                    <div class="tbl-stats-wrapper">
+                                        <table cellspacing="0">
+                                            <thead class="tbl-stats-thead"></thead>
+                                            <tbody class="tbl-stats-tbody"></tbody>
+                                        </table>
+                                    </div>
                                 </div>
                             </div>
                         </div>

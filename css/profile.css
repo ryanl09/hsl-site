@@ -451,7 +451,7 @@ button.selected {
 }
 
 .stats-tab .tab .row .box .selector:first-child {
-    margin-bottom: 12px;
+    /*margin-bottom: 12px;*/
 }
 
 .selector select {
@@ -464,6 +464,46 @@ button.selected {
 .selector label {
     margin-right:12px;
 }
+
+.selectors {
+    display:flex;
+    align-items: center;
+    gap:10px;
+}
+
+.selectors .selector {
+    width:fit-content;
+}
+
+.tbl-stats-wrapper{
+    width: 100%;
+    max-height: 350px;
+    overflow-y: auto;
+    margin-top:10px
+}
+.tbl-stats-wrapper table {
+    width:100%;
+}
+
+.tbl-stats-wrapper th, .tbl-stats-wrapper td {
+    text-align: left;
+    padding: 10px;
+}
+
+.tbl-stats-wrapper th {
+    background-color: rgb(210, 232, 247);
+}
+
+.tbl-stats-wrapper th:first-child {
+    border-top-left-radius: 6px;
+    border-bottom-left-radius: 6px;
+}
+
+.tbl-stats-wrapper th:last-child {
+    border-top-right-radius: 6px;
+    border-bottom-right-radius: 6px;
+}
+
 
 @media only screen and (max-width: 1240px) {
 

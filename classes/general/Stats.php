@@ -36,13 +36,45 @@ class Stats {
 
     public function get($user_id, $season_id, $game_id) {
         if (!$user_id || !$season_id || !$game_id) {
-            return 0;
+            return [];
         }
+
+        $query=
+        "SELECT stat_cols.id, stat_cols.name, stats.stat_value
+        FROM `stat_cols`
+        INNER JOIN `stats`
+            ON stats.user_id = ? AND stats.stat_id = stat_cols.id
+        INNER JOIN `events`
+            ON events.id = stats.event_id
+        WHERE events.event_season = ? AND events.event_game = ?";
+
+        $res = $this->db->query($query, $user_id, $season_id, $game_id)->fetchAll();
+        return $res;
+    }
+
+    /**
+     * gets all cols for a game
+     * @param   $game_id
+     * @return  array
+     */
+
+    public function get_cols_game($game_id){
+        if (!$game_id){
+            return [];
+        }
+
+        $query=
+        "SELECT `id`, `name`
+        FROM `stat_cols`
+        WHERE `game_id` = ?";
+
+        $res = $this->db->query($query, $game_id)->fetchAll();
+        return $res;
     }
 
     /**
      * Gets all stat columns for an event
-     * @param   int $game_id
+     * @param   int $event_id
      * @return  array
      */
 

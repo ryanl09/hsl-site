@@ -63,8 +63,18 @@ if ((isset($_SERVER['HTTP_X_REQUESTED_WITH'])) && ($_SERVER['HTTP_X_REQUESTED_WI
         switch ($action){
             case 'init':
                 $res = Game::get_all();
+                $events=[];
+
+                unset($res[2]);
+                unset($res[3]);
+
+                foreach ($res as $i => $row){
+                    $events[$row['id']] = Game::get_events_week($row['id']);
+                }
+
                 echo json_encode(array(
-                        'games' => $res
+                        'games' => $res,
+                        'events' => $events
                     )
                 );
                 die();

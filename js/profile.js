@@ -4,6 +4,73 @@
             e.preventDefault();
             $('#fileToUpload').click();
         });
+
+        function get_pl_stats(){
+            var season = $('#season').val();
+            var game = $('#game').val();
+            var id = 0;
+
+            if (!season || !game){
+                //return;
+            }
+
+            var tbh = $('.tbl-stats-thead');
+            var tbb = $('.tbl-stats-tbody');
+
+            tbh.html('');
+            tbb.html('');
+
+            $.ajax({
+                url:`${ajax_url}get-profile-ajax.php`,
+                type:'get',
+                data:{'action':'get_stats', 'tab':'get_stats', 'pl_id':id, 'game':game, 'season':season, 'csrf':$('#csrf').val()},
+                dataType:'json',
+                success:(data)=>{
+                    console.log(data);
+
+                    if (!data.status){
+                        //error
+                        return;
+                    }
+
+                    var obj = {};
+
+                    var tr = $('<tr>');
+                    var tr2 = $('<tr>');
+                    data.cols.forEach(e => {
+                        var td = $('<th>', {
+                            text: e.name
+                        });
+                        tr.append(td);
+
+                        obj[e.name]={
+                            id: e.id,
+                            val: 0
+                        };
+                        var td2 = $('<td>').attr('id', `stat-${e.name}`);
+                        tr2.append(td2);
+                    });
+                    tbh.append(tr);
+                    tbb.append(tr2);
+                    
+                    data.stats.forEach(e => {
+                        obj[e.name].val += e.stat_value;
+                        $(`#stat-${e.name}`).text(obj[e.name].val);
+                    });
+                },
+                error:(a,b,c)=>{
+                    console.log(a+','+b+','+c);
+                }
+            });
+        }
+
+        $('#season').on('change', function(){
+            get_pl_stats();
+        });
+
+        $('#game').on('change', function() {
+            get_pl_stats();
+        })
             
         $('#fileToUpload').change(function() {
             var file = $('#fileToUpload')[0].files;
@@ -37,6 +104,8 @@
 
             $('#pfp-form').submit();
         });
+
+        get_pl_stats();
 
         const win = $(window);
         const bio_e = $('.bio-text-edit') ?? 0;

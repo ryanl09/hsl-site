@@ -35,20 +35,38 @@ $(document).ready(()=>{
                 tab_divs.push(el);
                 games.push({'id':e.id-1, 'url':e.url});
                 
-                var n = (e.id-1)*2;
+                var n = (e.id-1)*3;
                 if(tabs[n]===undefined){
                     tabs[n]='';
                 }
                 if(tabs[n+1]===undefined) {
                     tabs[n+1]='';
                 }
-                tabs[n+1] += `<img src="${e.url}" width="${e.id===3?'46':'30'}" height="30" style="margin-left:10px;">`;
+                if (tabs[n+2]===undefined){
+                    tabs[n+2]='';
+                }
+
+                var spans = '<span>D1</span>';
+                var spans2 = '<span>D2</span>';
+                data.events[e.id].forEach(f => {
+                    if(f.division===1){
+                        spans+=`<span>${f.home} vs ${f.away} @${fix_time(f.event_time)}</span>`;
+                    }else{
+                        spans2+=`<span>${f.home} vs ${f.away} @${fix_time(f.event_time)}</span>`;
+                    }
+                });
+
+                tabs[n+1] += `<div class="slide"><img src="${e.url}" width="${e.id===3?'46':'30'}" height="30" style="margin-left:10px;">${spans}</div>`;
+                tabs[n+2] += `<div class="slide"><img src="${e.url}" width="${e.id===3?'46':'30'}" height="30" style="margin-left:10px;">${spans2}</div>`;
             });
 
-            console.log(games);
+            tab_divs.forEach(e=>{
+                console.log(e.outerHTML());
+            });
+            console.log(tabs);
 
             for (var j = 0; j < games.length; j++) {
-                var eq = (games[j].id)*2;
+                var eq = ((games[j].id)*3);
 
                 for (var k = 0; k < tab_divs.length; k++) {
                     //console.log(eq +',' + tab_divs[k].attr('game-id'));
@@ -85,13 +103,15 @@ $(document).ready(()=>{
     function set_intv() {
         setInterval(()=>{
 
+            /*
             var c = '#';
             while (c.length < 7){
                 c += '0123456789ABCDEF'.charAt(Math.floor(Math.random() * '0123456789ABCDEF'.length));
             }
 
             console.log(m);
-    
+    */
+            var c = '#2dd881';
             if (m===0||m===3) {
 
                 //$('.progress').width('0px');
