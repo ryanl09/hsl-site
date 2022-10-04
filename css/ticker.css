@@ -75,12 +75,16 @@ ul {
 .img > div {
     padding:10px;
 }
-.slide {
+.slide, .slide span {
     display:flex;
     align-items: center;
     gap: 20px;
 }
 
 .slide span {
-    font-size:12px;
+    font-size:14px;
+}
+
+.div-mark {
+    margin-right:16px;
 }

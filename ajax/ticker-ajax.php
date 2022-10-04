@@ -9,6 +9,7 @@ require_once($path . '/classes/util/Sessions.php');
 
 if ((isset($_SERVER['HTTP_X_REQUESTED_WITH'])) && ($_SERVER['HTTP_X_REQUESTED_WITH']==='XMLHttpRequest')) {
 
+    /*
     if (!isset($_SESSION['user'])) {
         echo ajaxerror::e('errors',['Not signed in']);
         die();
@@ -19,7 +20,7 @@ if ((isset($_SERVER['HTTP_X_REQUESTED_WITH'])) && ($_SERVER['HTTP_X_REQUESTED_WI
     if (!$user->is_admin()) {
         echo ajaxerror::e('errors',['Invalid permissions']);
         die();
-    }
+    }*/
 
     /*
     if (isset($_SERVER['HTTP_ORIGIN'])) {

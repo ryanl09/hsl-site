@@ -15,8 +15,10 @@ require_once($path . '/controllers/LoginController.php');
 require_once($path . '/controllers/MessagesController.php');
 require_once($path . '/controllers/PrivacyController.php');
 require_once($path . '/controllers/ProfileController.php');
+require_once($path . '/controllers/RegController.php');
 require_once($path . '/controllers/RegisterController.php');
 require_once($path . '/controllers/StatsController.php');
+require_once($path . '/controllers/TeamController.php');
 require_once($path . '/controllers/TermsController.php');
 require_once($path . '/controllers/TickerController.php');
 require_once($path . '/controllers/UpdatesController.php');
@@ -85,6 +87,12 @@ class ClientRequest {
                 break;
             case 'events':
                 $this->ctrl = new EventsController();
+                break;
+            case 'reg':
+                $this->ctrl = new RegController();
+                break;
+            case 'team':
+                $this->ctrl = new TeamController();
                 break;
             default:
                 $this->ctrl = new Error404Controller();

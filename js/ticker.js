@@ -46,13 +46,13 @@ $(document).ready(()=>{
                     tabs[n+2]='';
                 }
 
-                var spans = '<span>D1</span>';
-                var spans2 = '<span>D2</span>';
+                var spans = '<span class="div-mark">D1</span>';
+                var spans2 = '<span class="div-mark">D2</span>';
                 data.events[e.id].forEach(f => {
                     if(f.division===1){
-                        spans+=`<span>${f.home} vs ${f.away} @${fix_time(f.event_time)}</span>`;
+                        spans+=`<span>|<span><img src="${f.home_logo}" width="30" height="30"></span><span>vs</span><span><img src="${f.away_logo}" width="30" height="30"></span><span> @${fix_time(f.event_time)}</span></span>`;
                     }else{
-                        spans2+=`<span>${f.home} vs ${f.away} @${fix_time(f.event_time)}</span>`;
+                        spans2+=`<span>|<span><img src="${f.home_logo}" width="30" height="30"></span><span>vs</span><span><img src="${f.away_logo}" width="30" height="30"></span><span> @${fix_time(f.event_time)}</span></span>`;
                     }
                 });
 

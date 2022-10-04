@@ -6,9 +6,7 @@ include_once($path . '/classes/general/Game.php');
 
 require_once($path . '/documentelements.php');
 
-if (!isset($_SESSION['user']) || (isset($_SESSION['user']) && $_SESSION['user']->get_role() !== 'admin')) {
-    header('Location: ' . href('dashboard'));
-}
+admin_block();
 
 start_content_full(1, 'eventpanel'); ?>
 

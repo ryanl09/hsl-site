@@ -307,4 +307,24 @@ function ui_script() {
     </script>";
 }
 
+/**
+ * make it easier to print table cells
+ * @param   string  $date
+ * @return  string
+ */
+
+function td($data){
+    return '<td>' . $date . '</td>';
+}
+
+/**
+ * used on pages to redirect if user is not an administrator
+ */
+
+function admin_block(){    
+    if (!isset($_SESSION['user']) || (isset($_SESSION['user']) && $_SESSION['user']->get_role() !== 'admin')) {
+        header('Location: ' . href('dashboard'));
+    }
+}
+
 ?>
