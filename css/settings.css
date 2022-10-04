@@ -1,0 +1,33 @@
+@import 'constants.css';
+
+.box {
+    display:flex;
+    flex-direction: column;
+    gap:10px;
+}
+
+.input {
+    gap:10px;
+    align-items: center;
+}
+
+.input label {
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+.btn-leave {
+    background-color: var(--red);
+}
+
+.btn-leave:hover{
+    background-color:var(--red-h);
+}
+
+.copy-api-token {
+    background-color: var(--blue);
+}
+
+.copy-api-token:hover {
+    background-color: var(--blue-h);
+}

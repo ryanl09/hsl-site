@@ -201,19 +201,20 @@ function print_navbar() {
                             </a>
                         </li>
 
-                        <li class="nav-link p-stats">
-                            <a href="'.href('stats').'" class="'._s('stats').'">
-                                <i class="bx bx-stats icon"></i>
-                                <span class="text nav-text">Stats</span>
-                            </a>
-                        </li>
-
                         <li class="nav-link p-messages">
                             <a href="'.href('messages').'" class="'._s('messages').'">
                                 <i class="bx bx-message icon" ></i>
                                 <span class="text nav-text">Messages</span>
                             </a>
                         </li>
+
+                        <li class="nav-link p-settings">
+                            <a href="'.href('settings').'" class="'._s('settings').'">
+                                <i class="bx bxs-cog icon"></i>
+                                <span class="text nav-text">Settings</span>
+                            </a>
+                        </li>
+
                         <li class="nav-link p-user">
                             <a href="'.href('profile').'" class="'._s('user').'">
                                 <i class="bx bx-user icon" ></i>

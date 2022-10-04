@@ -181,6 +181,29 @@ class User {
     }
 
     /**
+     * Get's the user's api token (hash activation key + request key)
+     * @return  string
+     */
+
+    public function get_api_token() {
+        if (!$this->db){
+            return 'NULL';
+        }
+
+        $query=
+        "SELECT `activation_key`, `request_key`
+        FROM `users`
+        WHERE `user_id` = ?";
+
+        $res = $this->db->query($query, $this->id)->fetchArray();
+
+        $a = $res['activation_key'];
+        $r = $res['request_key'];
+
+        return sha1($a . $r);
+    }
+
+    /**
      * Gets all users that follow this user
      */
 

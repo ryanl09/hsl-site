@@ -20,11 +20,12 @@ $(document).ready(()=>{
         dataType:'json',
         success:(data)=>{
             console.log(data);
-            tabs[0] = '';
 
             /**
              * creating each tab as an array then loop to the start
              */
+
+            /*
             
             data.games.forEach(e =>{
                 var el = $(document.createElement('div'));
@@ -35,19 +36,6 @@ $(document).ready(()=>{
                 tab_divs.push(el);
                 games.push({'id':e.id-1, 'url':e.url});
                 
-                var n = (e.id-1)*3;
-                if(tabs[n]===undefined){
-                    tabs[n]='';
-                }
-                if(tabs[n+1]===undefined) {
-                    tabs[n+1]='';
-                }
-                if (tabs[n+2]===undefined){
-                    tabs[n+2]='';
-                }
-
-                var spans = '<span class="div-mark">D1</span>';
-                var spans2 = '<span class="div-mark">D2</span>';
                 data.events[e.id].forEach(f => {
                     if(f.division===1){
                         spans+=`<span>|<span><img src="${f.home_logo}" width="30" height="30"></span><span>vs</span><span><img src="${f.away_logo}" width="30" height="30"></span><span> @${fix_time(f.event_time)}</span></span>`;
@@ -83,6 +71,57 @@ $(document).ready(()=>{
                 tabs.pop();
             }
 
+            */
+
+            data.games.forEach(e => {
+                var el = $(document.createElement('div'));
+                el.css({'display':'flex', 'justify-content':'center', 'align-items':'center', 'gap':'10px'});
+                el.attr('game-id', e.id);
+                el.append(`<img src="${e.url}" width="${e.id===3?'46':'30'}" height="30">`);
+                el.append(`<p>${e.game_name}</p>`);
+                tabs.push(el.outerHTML());
+
+                var ev = data.events[e.id];
+
+                console.log(ev);
+
+                for (var i = 0; i < ev.length; i++){
+
+                    var hr = '(0 - 0)';
+                    var ar = '(0 - 0)';
+                    var s = '';
+
+                    switch (ev[i].id){
+                        case 128:
+                            hr = '(1 - 0)';
+                            ar = '(0 - 1)';
+                            s = ev[i].home + ' wins 13 - 1';
+                            break;
+                        case 129:
+                            hr = '(0 - 1)';
+                            ar = '(1 - 0)';
+                            s = ev[i].away + ' wins 13 - 6';
+                            break;
+                        case 130:
+                            hr = '(1 - 0)';
+                            ar = '(0 - 1)';
+                            s = ev[i].home + ' wins 13 - 8';
+                            break;
+                        case 131:
+                            hr = '(0 - 1)';
+                            ar = '(1 - 0)';
+                            s = ev[i].away + ' wins 13 - 0';
+                            break;
+                    }
+
+
+                    var h = `<span><img src="${e.url}" width="30" height="30"></span><span class="div-mark">Division ${ev[i].division}</span>|<span>${fix_date(ev[i].event_date)}</span>|<span>${fix_time(ev[i].event_time)}</span>`;
+                    h += `|<span><img src="${ev[i].home_logo}" width="30" height="30"></span><span>${hr}</span><span>vs</span><span><img src="${ev[i].away_logo}" width="30" height="30"></span><span>${ar}</span>${s===''?s:`|<span>${s}</span>`}`;
+                    tabs.push(h);
+
+                }
+            });
+
             set_intv();
 
         },error:(a,b,c)=>{
@@ -101,7 +140,10 @@ $(document).ready(()=>{
 
     
     function set_intv() {
-        setInterval(()=>{
+
+        var to =0;
+
+        var inv = setInterval(()=>{
 
             /*
             var c = '#';
@@ -110,7 +152,24 @@ $(document).ready(()=>{
             }
 
             console.log(m);
-    */
+
+            
+    
+            if (!m){
+                to++;
+            }
+
+            if ( to > 1){
+                
+                if (m===0){
+                    clearInterval(inv);
+                    return;
+                }
+            }
+
+            console.log(m);
+
+            */
             var c = '#2dd881';
             if (m===0||m===3) {
 

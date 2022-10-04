@@ -119,7 +119,7 @@ class Game {
         $db = new tecdb();
 
         $query=
-        "SELECT t.team_name AS home, t.team_logo as home_logo, t2.team_name AS away, t2.team_logo as away_logo, events.event_time, s.division
+        "SELECT t.team_name AS home, t.team_logo as home_logo, t2.team_name AS away, t2.team_logo as away_logo, events.event_time, events.event_date, s.division, events.id
         FROM events
         INNER JOIN subteams s
             ON s.id = events.event_home

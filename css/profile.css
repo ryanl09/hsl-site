@@ -1,3 +1,4 @@
+@import 'constants.css';
 
 :root{
     /* ===== Colors ===== */
@@ -17,6 +18,10 @@
     --ad: 1.55s;
     --ttf: ease-in;
     --afm: both; 
+}
+
+button {
+    color:#000;
 }
 
 .user-dne {

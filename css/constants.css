@@ -6,10 +6,32 @@
     --primary-color-light: #F6F5FF;
     --toggle-color: #DDD;
     --text-color: #373f51;
+    --red:rgb(224,75,75);
+    --red-h:rgb(158, 45, 45);
+    --blue: rgb(107, 153, 223);
+    --blue-h:rgb(78 120 185);
 
     /* ====== Transition ====== */
     --tran-03: all 0.2s ease;
     --tran-03: all 0.3s ease;
     --tran-04: all 0.3s ease;
     --tran-05: all 0.3s ease;
+
+    --btn-t: all .2s ease;
+}
+
+button {
+    outline: 0;
+    border:none;
+    transition: var(--btn-t);
+    color:white;
+    padding:10px 16px;
+    display:flex;
+    align-content: center;
+    justify-content: center;
+    border-radius: 4px;
+}
+
+button:hover {
+    cursor: pointer;
 }

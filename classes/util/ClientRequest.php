@@ -17,6 +17,7 @@ require_once($path . '/controllers/PrivacyController.php');
 require_once($path . '/controllers/ProfileController.php');
 require_once($path . '/controllers/RegController.php');
 require_once($path . '/controllers/RegisterController.php');
+require_once($path . '/controllers/SettingsController.php');
 require_once($path . '/controllers/StatsController.php');
 require_once($path . '/controllers/TeamController.php');
 require_once($path . '/controllers/TermsController.php');
@@ -93,6 +94,9 @@ class ClientRequest {
                 break;
             case 'team':
                 $this->ctrl = new TeamController();
+                break;
+            case 'settings':
+                $this->ctrl = new SettingsController();
                 break;
             default:
                 $this->ctrl = new Error404Controller();

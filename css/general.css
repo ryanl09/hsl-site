@@ -111,12 +111,25 @@ input[type=submit]:disabled, button:disabled {
     gap:20px;
 }
 
+.e1 {
+    grid-template-columns: 1fr;
+}
+
 .e2 {
     grid-template-columns: 1fr 1fr;
 }
 
 .e3 {
-    grid-template-columns: 33% 33% 33%;
+    grid-template-columns: 1fr 1fr 1fr;
+}
+.box {
+    padding:10px 20px;
+    border-radius: 6px;
+    background-color: #fff;
+    height:300px;
+    max-height: 300px;
+    overflow-y:auto;
+    position:relative;
 }
 
 .save-btn {
@@ -148,8 +161,18 @@ input[type=submit]:disabled, button:disabled {
     bottom:0;
 }
 
+.half {
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    gap:10px;
+}
+
 @media only screen and (max-width: 1240px) {
     .e2, .e3 {
         grid-template-columns: auto;
+    }
+
+    .half {
+        grid-template-columns: 1fr;
     }
 }
