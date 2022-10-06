@@ -57,7 +57,7 @@ if ((isset($_SERVER['HTTP_X_REQUESTED_WITH'])) && ($_SERVER['HTTP_X_REQUESTED_WI
     
         switch ($action){
             case 'stats':
-                if (!$_SESSION['user']->is_admin()) {
+                if (!(isset($_SESSION['user']) && $_SESSION['user']->is_admin())) {
                     echo ajaxerror::e('errors', ['Insufficient user permissions']);
                     die();
                 }
@@ -144,6 +144,9 @@ if ((isset($_SERVER['HTTP_X_REQUESTED_WITH'])) && ($_SERVER['HTTP_X_REQUESTED_WI
                 $h_stats = $stats->get_stats($event_id, $home['t_id']);
                 $a_stats = $stats->get_stats($event_id, $away['t_id']);
 
+                $home['record'] = SubTeam::get_record($home['t_id']);
+                $away['record'] = SubTeam::get_record($away['t_id']);
+
                 $ret = array(
                     'img' => array(
                         'width' => '220',
@@ -157,8 +160,9 @@ if ((isset($_SERVER['HTTP_X_REQUESTED_WITH'])) && ($_SERVER['HTTP_X_REQUESTED_WI
                 );
 
                 include_once($_SERVER['DOCUMENT_ROOT'] . '/classes/user/User.php');
-                if ($_SESSION['user']->is_admin()) {
-                    $ret['p'] = 1;
+                $ret['p'] = 0;
+                if (isset($_SESSION['user']) && $_SESSION['user']->is_admin()){
+                    $res['p']=1;
                 }
 
                 echo json_encode($ret);

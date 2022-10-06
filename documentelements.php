@@ -228,6 +228,13 @@ function print_navbar() {
                             </a>
                         </li>' : '')
                         : '
+                        <li class="nav-link p-events">
+                            <a href="'.href('events').'" class="'._s('events').'">
+                                <i class="bx bx-calendar-event icon" ></i>
+                                <span class="text nav-text">Events</span>
+                            </a>
+                        </li>
+                        
                         <li class="nav-link">
                             <a href="'.href('login').'">
                             <i class="bx bxs-user-circle icon"></i>
@@ -273,36 +280,37 @@ function ui_script() {
     echo
     "<script>
     (function() {
-        const body = document.querySelector('body'),
-        sidebar = body.querySelector('nav'),
-        toggle = body.querySelector('.toggle'),
-        searchBtn = body.querySelector('.search-box'),
-        modeSwitch = body.querySelector('.toggle-switch'),
-        modeText = body.querySelector('.mode-text');
-
-        toggle.addEventListener('click' , () =>{
-            sidebar.classList.toggle('close');
-        })
-
-        searchBtn.addEventListener('click' , () =>{
-            sidebar.classList.remove('close');
-        })
-
-        modeSwitch.addEventListener('click' , () =>{
-            body.classList.toggle('dark');
-            
-            if(body.classList.contains('dark')){
-                modeText.innerText = 'Light mode';
-            }else{
-                modeText.innerText = 'Dark mode';
+        $(document).ready(function(){
+            const sidebar = $('.sidebar');
+            const toggle = $('.toggle');
+            const searchBtn = $('.search-box');
+            const modeSwitch = $('.toggle-switch');
+            const modeText = $('.mode-text');
+    
+            toggle.on('click' , function(){
+                sidebar.toggleClass('close');
+            })
+    
+            searchBtn.on('click' , function(){
+                sidebar.removeClass('close');
+            })
+    
+            modeSwitch.on('click' , function(){
+                $(body).toggleClass('dark');
                 
-            }
-        });
-
-        $(window).resize(function() {
-            if(window.innerWidth<=800){
-                sidebar.classList.add('close');
-            }
+                if($(body).hasClass('dark')){
+                    modeText.text('Light mode');
+                }else{
+                    modeText.text('Dark mode');
+                    
+                }
+            });
+    
+            $(window).resize(function() {
+                if(window.innerWidth<=800){
+                    sidebar.addClass('close');
+                }
+            });
         });
     })();
     </script>";
@@ -315,7 +323,7 @@ function ui_script() {
  */
 
 function td($data){
-    return '<td>' . $date . '</td>';
+    return '<td>' . $data . '</td>';
 }
 
 /**

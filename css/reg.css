@@ -8,3 +8,22 @@ td,th{
     text-align: left;
     padding:10px;
 }
+
+.copy-sc {
+    color:var(--blue);
+    display:flex;
+    align-items: center;
+    gap:10px;
+    transition: all .17s ease;
+    width:fit-content;
+}
+.copy-sc:hover {
+    color: var(--blue-h);
+    cursor:pointer;
+}
+
+.tbl-title {
+    display:flex;
+    align-items: center;
+    gap:10px;
+}

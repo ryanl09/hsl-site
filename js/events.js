@@ -23,17 +23,17 @@
                     $('.watch-now').hide();
                     $('.matchup img').remove();
                     var countDownDate = new Date(`${data.next.event_date} ${data.next.event_time}`).getTime();
-                    var myfunc = setInterval(function() {
-                        const now = new Date().getTime();
-                        const timeleft = countDownDate - now;
+                    // var myfunc = setInterval(function() {
+                    //     const now = new Date().getTime();
+                    //     const timeleft = countDownDate - now;
                             
-                        const days = Math.floor(timeleft / (1000 * 60 * 60 * 24));
-                        const hours = Math.floor((timeleft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                        const minutes = Math.floor((timeleft % (1000 * 60 * 60)) / (1000 * 60));
-                        const seconds = Math.floor((timeleft % (1000 * 60)) / 1000);
+                    //     const days = Math.floor(timeleft / (1000 * 60 * 60 * 24));
+                    //     const hours = Math.floor((timeleft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                    //     const minutes = Math.floor((timeleft % (1000 * 60 * 60)) / (1000 * 60));
+                    //     const seconds = Math.floor((timeleft % (1000 * 60)) / 1000);
                         
-                        $('.matchup > h2').text(`${days}d ${hours}h ${minutes}m ${seconds}s`);
-                        }, 1000);
+                    //     $('.matchup > h2').text(`${days}d ${hours}h ${minutes}m ${seconds}s`);
+                    //     }, 1000);
                 }
             },
             error:(a,b,c)=>{
@@ -146,7 +146,7 @@
                 data:{'action':'all_events','sort-team':$('#sort-team').val(),'sort-div':$('#sort-div').val(), 'game':game, 'csrf':$('#csrf').val()},
                 dataType:'json',
                 success:(data)=>{
-                    console.log(data);
+                    //console.log(data);
                     if (!data.status){
                         //error
                         return;

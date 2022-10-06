@@ -33,6 +33,7 @@ $(document).ready(()=>{
                     save.prop('disabled', false);
                     save.html(save_html);
                     console.log(data);
+                    alert(data);
                     if (!data.status && data.errors){
 
                         return;
@@ -54,7 +55,6 @@ $(document).ready(()=>{
         dataType:'json',
         async: true,
         success:(data)=>{
-            console.log(data);
             var p = data.p ?? 0;
             
             if (data.errors){
@@ -67,20 +67,22 @@ $(document).ready(()=>{
              */
 
             var h_name = $('<p>', {
-                text: data.home.t_name
+                text: `${data.home.t_name} (${data.home.record.wins} - ${data.home.record.losses})`
             });
             var h_logo = $('<img>', {
                 src: data.home.logo
             }).attr('width', data.img.width)
-            .attr('height', data.img.height);
+            .attr('height', data.img.height)
+            .addClass('img-ref');
 
             var a_name = $('<p>', {
-                text: data.away.t_name
+                text: `${data.away.t_name} (${data.away.record.wins} - ${data.away.record.losses})`
             });
             var a_logo = $('<img>', {
                 src: data.away.logo
             }).attr('width', data.img.width)
-            .attr('height', data.img.height);
+            .attr('height', data.img.height)
+            .addClass('img-ref');
 
             $('.home-team').append(h_logo).append(h_name);
             $('.away-team').append(a_logo).append(a_name);

@@ -87,7 +87,7 @@ class SubTeam extends TeamAbstract {
 
         $res = $this->db->query($query, $this->id, $this->id, $c_s)->fetchAll();
         return $res;
-    }
+    } 
 
     /**
      * adds a player to the subteam for current season
@@ -164,6 +164,46 @@ class SubTeam extends TeamAbstract {
 
         $res = $db->query($query, $st_id, $div, $game_id)->affectedRows();
         return $res;
+    }
+
+    /**
+     * gets record of team
+     * @param   int $team_id
+     * @return  array
+     */
+
+    public static function get_record($team_id){
+        if (!$team_id){
+            return [];
+        }
+
+        $db = new tecdb();
+
+        // $query=
+        // "SELECT COUNT(*) as total
+        // FROM events
+        // WHERE event_home = ? OR event_away = ?";
+
+        // $total = $db->query($query, $team_id, $team_id)->fetchArray();
+
+        $query=
+        "SELECT COUNT(*) as wins
+        FROM events
+        WHERE (event_home = ? AND event_winner = event_home) OR (event_away = ? AND event_winner = event_away)";
+
+        $wins = $db->query($query, $team_id, $team_id)->fetchArray();
+
+        $query=
+        "SELECT COUNT(*) as losses
+        FROM events
+        WHERE ((event_home = ? AND event_winner <> event_home) OR (event_away = ? AND event_winner <> event_away)) AND event_winner <> 0";
+
+        $losses = $db->query($query, $team_id, $team_id)->fetchArray();
+
+        return array(
+            'wins' => $wins['wins'],
+            'losses' => $losses['losses']
+        );
     }
 }
 

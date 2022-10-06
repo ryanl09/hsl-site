@@ -29,7 +29,14 @@ if (count($p) < 3){
         case 'hs':?>
             <div class="hs-table">
                 <div class="tbl-title">
-                    <h3>Teams</h3>
+                    <?php
+                        $query=
+                        "SELECT COUNT(*) as c
+                        FROM `teams`
+                        WHERE id NOT IN (1,2,3,24,25,26)";
+                        $res = $db->query($query)->fetchArray();
+                        echo '<h3>Teams (' . $res['c'] . ')</h3>';
+                    ?>
                 </div>
                 <hr class="sep">
                 <table>
@@ -39,14 +46,12 @@ if (count($p) < 3){
                             <th>School</th>
                             <th>Team Manager</th>
                             <th>Email</th>
-                            <th>Games</th>
                             <th>Registration Link</th>
                             <th>Slug</th>
                             <th>Player Count</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <pre>
                         <?php
                             $query=
                             "SELECT teams.id, teams.team_name, users.name, users.email, teams.slug, teams.schoolcode
@@ -58,30 +63,64 @@ if (count($p) < 3){
                                 FROM users
                                 WHERE users.role = \"team_manager\"
                             )
+                            AND users.team_id NOT IN (24, 25, 26)
                             AND teams.team_type = \"hs\"";
 
                             $res=$db->query($query)->fetchAll();
 
+                            $query=
+                            "SELECT team_id, COUNT(*) AS player_count
+                            FROM users
+                            WHERE `role` = \"player\"
+                                AND team_id NOT IN (24, 25, 26)
+                            GROUP BY team_id";
+                            $count = $db->query($query)->fetchAll();
+
+                            $counts = array();
+                            for ($i = 0; $i < count($count); $i++){
+                                $counts[$count[$i]['team_id']]=$count[$i]['player_count'];
+                            }
+
+                            $opts = '';
+
                             foreach ($res as $i => $row){
                                 $reg_link = 'https://tecesports.com/register/' . $row['schoolcode'];
-                                $ahref = '<a class="copy-sc" data-link="'.$reg_link.'"><i class="bx bx-copy"></i><a>';
+                                $ahref = '<a class="copy-sc" data-link="'.$reg_link.'"><i class="bx bx-copy"></i>Copy</a>';
 
-                                echo '<tr>'
+                                echo '<tr>';
                                 echo td($row['id']);
                                 echo td($row['team_name']);
                                 echo td($row['name']);
                                 echo td($row['email']);
-                                echo td($row['']);
-                                echo td($row['schoolcode']);
                                 echo td($ahref);
+                                echo td($row['slug']);
+                                echo td($counts[$row['id']] ?? 0);
                                 echo '</tr>';
-                                print_r($row);
+
+                                $opts .= '<option value="'.$row['id'].'">';
+                                $opts .= $row['team_name'];
+                                $opts .= '</option>'; 
                             }
                         ?>
-                        </pre>
                     </tbody>
                 </table>
             </div>
+            <div class="tbl-title">
+                <?php
+                    $query=
+                    "SELECT COUNT(*) as c
+                    FROM `users`
+                    WHERE `role` = \"player\"
+                        AND team_id NOT IN (1,2,3,24,25,26)";
+                    $res = $db->query($query)->fetchArray();
+                    echo '<h3>Players (' . $res['c'] . ')</h3>';
+                ?>
+                <select name="team" class="team">
+                    <option value="-1" selected>Any Team</option>
+                    <?php echo $opts; ?>
+                </select>
+            </div>
+            <hr class="sep">
             <div class="hs-players-table">
                 <table>
                     <thead>
@@ -94,7 +133,23 @@ if (count($p) < 3){
                     </thead>
                     <tbody>
                         <?php
+                            $query=
+                            "SELECT users.user_id, users.name, users.username, users.team_id, teams.team_name
+                            FROM `users`
+                            INNER JOIN `teams`
+                                ON users.team_id = teams.id
+                            WHERE users.role = \"player\" AND users.team_id NOT IN (1, 2, 3, 24, 25, 26)
+                            ORDER BY users.team_id";
+                            $res = $db->query($query)->fetchAll();
 
+                            foreach ($res as $i => $row){
+                                echo '<tr class="team-'.$row['team_id'].'">';
+                                echo td($row['user_id']);
+                                echo td($row['name']);
+                                echo td($row['username']);
+                                echo td($row['team_name']);
+                                echo '</tr>';
+                            }
                         ?>
                     </tbody>
                 </table>

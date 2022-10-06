@@ -8,12 +8,20 @@ require_once($path . '/documentelements.php');
 
 require_once($path . '/classes/general/Stats.php');
 
+require_once($path . '/classes/team/SubTeam.php');
+
 $event_id = count($_SESSION['current_page']) > 2 ? $_SESSION['current_page'][2] : 0;
 $e = Event::exists($event_id);
 
 start_content_full(1, 'event', 'loading c-auto');
 
+print_r($s);
+
 if ($e) { ?>
+    <div class="event-image">
+        <img src="<?php echo Event::game_image($event_id); ?>" width="50" height="50" alt="">
+    </div>
+
     <div class="match-header show-onload" style="display:none;">
         <div class="home-team"></div>
         <div class="vs"><p>vs</p></div>
@@ -41,7 +49,7 @@ if ($e) { ?>
 
 <?php } else { ?>
         <!-- upcoming matches -->
-<?php } if ($_SESSION['user']->is_admin()) { ?>
+<?php } if (isset($_SESSION['user']) && $_SESSION['user']->is_admin()) { ?>
     <button class="save-btn stats clickable"><i class='bx bx-save'></i>Save</button>
 <?php }
 

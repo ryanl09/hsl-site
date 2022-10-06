@@ -25,7 +25,7 @@ class Event implements IEvent {
         }
 
         $query =
-        "SELECT events.event_home AS t_id, teams.team_logo AS logo, teams.team_name AS t_name
+        "SELECT events.event_home AS t_id, teams.team_logo AS logo, teams.team_name AS t_name, teams.slug
         FROM `events`
         INNER JOIN `subteams`
             ON subteams.id = events.event_home
@@ -35,7 +35,7 @@ class Event implements IEvent {
 
         $res = $this->db->query($query, $this->id)->fetchArray();
         return $res;
-    }
+    }    
 
     /**
      * Gets the id and logo of event's away team
@@ -48,7 +48,7 @@ class Event implements IEvent {
         }
 
         $query =
-        "SELECT events.event_away AS t_id, teams.team_logo AS logo, teams.team_name AS t_name
+        "SELECT events.event_away AS t_id, teams.team_logo AS logo, teams.team_name AS t_name, teams.slug
         FROM `events`
         INNER JOIN `subteams`
             ON subteams.id = events.event_away
@@ -205,6 +205,30 @@ class Event implements IEvent {
             $ret = new Event($event_id);
         }
         return $ret;
+    }
+
+    /**
+     * gets game img for event
+     * @param   int $event_id
+     * @return  string
+     */
+
+    public static function game_image($event_id){
+        if (!$event_id){
+            return '';
+        }
+
+        $query=
+        "SELECT games.url
+        FROM games
+        INNER JOIN events
+            ON events.event_game = games.id
+        WHERE events.id = ?";
+
+        $db = new tecdb();
+
+        $res=$db->query($query, $event_id)->fetchArray();
+        return $res['url'] ?? '';
     }
 
     /**
