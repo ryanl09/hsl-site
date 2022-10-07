@@ -204,6 +204,25 @@ class User {
     }
 
     /**
+     * gets user's ign for game
+     * @param   int $game_id
+     * @return  string
+     */
+
+    public function get_ign($game_id){
+        if (!$game_id){
+            return 'None';
+        }
+
+        $query=
+        "SELECT `ign`
+        FROM `user_igns`
+        WHERE `user_id` = ? AND `game_id` = ?";
+        $res = $this->db->query($query, $this->id, $game_id)->fetchArray();
+        return $res['ign'] ?? 'None';
+    }
+
+    /**
      * Gets all users that follow this user
      */
 
@@ -564,6 +583,29 @@ class User {
         $res = $db->query($query, $username)->fetchArray();
 
         return $res['user_id'] ?? 0;
+    }
+
+    /**
+     * gets user's ign for game
+     * @param   int $user_id
+     * @param   int $game_id
+     * @return  string
+     */
+
+    public static function get_ign_with_id($user_id, $game_id){
+        if (!$user_id || !$game_id){
+            return 'None';
+        }
+
+        $query=
+        "SELECT `ign`
+        FROM `user_igns`
+        WHERE `user_id` = ? AND `game_id` = ?";
+
+        $db = new tecdb();
+
+        $res = $db->query($query, $user_id, $game_id)->fetchArray();
+        return $res['ign'] ?? 'None';
     }
 
     /**

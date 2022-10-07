@@ -67,13 +67,16 @@ class SubTeam extends TeamAbstract {
 
     /**
      * gets all players on this team for current season
+     * @param   boolean $temp_pl
      * @return  array
      */
 
-    public function get_players() {
+    public function get_players($temp_pl) {
         if (!$this->id) {
             return [];
         }
+
+        $temp = "WHERE `is_temp` = " . ($temp_pl ? '1' : '0');
 
         $c_s = Season::get_current();
 
@@ -83,7 +86,8 @@ class SubTeam extends TeamAbstract {
         INNER JOIN `subteams`
             ON subteams.id = ?
         INNER JOIN `player_seasons`
-            ON player_seasons.user_id = users.user_id AND player_seasons.subteam_id = ? AND player_seasons.season_id = ?";
+            ON player_seasons.user_id = users.user_id AND player_seasons.subteam_id = ? AND player_seasons.season_id = ?
+        $temp";
 
         $res = $this->db->query($query, $this->id, $this->id, $c_s)->fetchAll();
         return $res;
@@ -111,17 +115,22 @@ class SubTeam extends TeamAbstract {
         }
 
         $parent = $this->get_parent_team_id();
-        if ($parent !== $user->get_team_id() || $parent !== $player->get_team_id()){
-            return false;
+        if (!$user->is_admin()){
+            if (($parent !== $user->get_team_id()) || $parent !== $player->get_team_id()){
+                return false;
+            }
         }
 
         $c_s = Season::get_current();
 
         $query=
         "INSERT INTO `player_seasons` (`user_id`, `subteam_id`, `season_id`)
-        VALUES (?, ?, ?)";
+        VALUES (?, ?, ?)
+        ON DUPLICATE KEY UPDATE subteam_id = subteam_id";
 
         $res = $this->db->query($query, $pid, $this->id, $c_s);
+
+        return $pid;
     }
 
     /**

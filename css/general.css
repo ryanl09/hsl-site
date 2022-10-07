@@ -9,6 +9,12 @@
     cursor:pointer;
 }
 
+.input-container {
+    display:flex;
+    align-items: center;
+    gap:10px;
+}
+
 button.green {
     border:none;
     outline:none;

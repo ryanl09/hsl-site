@@ -25,7 +25,7 @@ class Event implements IEvent {
         }
 
         $query =
-        "SELECT events.event_home AS t_id, teams.team_logo AS logo, teams.team_name AS t_name, teams.slug
+        "SELECT events.event_home AS t_id, teams.team_logo AS logo, teams.team_name AS t_name, teams.slug, events.event_home_score AS score
         FROM `events`
         INNER JOIN `subteams`
             ON subteams.id = events.event_home
@@ -48,7 +48,7 @@ class Event implements IEvent {
         }
 
         $query =
-        "SELECT events.event_away AS t_id, teams.team_logo AS logo, teams.team_name AS t_name, teams.slug
+        "SELECT events.event_away AS t_id, teams.team_logo AS logo, teams.team_name AS t_name, teams.slug, events.event_away_score AS score
         FROM `events`
         INNER JOIN `subteams`
             ON subteams.id = events.event_away
@@ -58,6 +58,25 @@ class Event implements IEvent {
 
         $res = $this->db->query($query, $this->id)->fetchArray();
         return $res;
+    }
+
+    /**
+     * gets event game id
+     * @return  int
+     */
+
+    public function get_game_id(){
+        if (!$this->id){
+            return 0;
+        }
+
+        $query=
+        "SELECT event_game
+        FROM events
+        WHERE id = ?";
+        $res = $this->db->query($query, $this->id)->fetchArray();
+
+        return $res['event_game'] ?? 0;
     }
 
     /**
@@ -291,7 +310,7 @@ class Event implements IEvent {
      * @return  array
      */
 
-    public static function get_players($event_id) {
+    public static function get_players($event_id, $h, $a) {
         if (!$event_id) {
             return [];
         }
@@ -299,19 +318,13 @@ class Event implements IEvent {
         $db = new tecdb();
         $c_s = Season::get_current();
 
-        $query =
-        "SELECT users.name, event_rosters.user_id, player_seasons.subteam_id
-        FROM `event_rosters`
-        INNER JOIN `users`
-            ON users.user_id = event_rosters.user_id
-        INNER JOIN `events`
-            ON events.id = ?
-        INNER JOIN `player_seasons`
-            ON player_seasons.user_id = users.user_id AND player_seasons.season_id = ?
-        WHERE (player_seasons.subteam_id = events.event_home OR player_seasons.subteam_id = events.event_away)";
+        $h_h = self::has_roster($event_id, $h);
+        $h_p = self::get_roster($event_id, $h, $h_h);
 
-        $res = $db->query($query, $event_id, $c_s)->fetchAll();
-        return $res;
+        $a_h = self::has_roster($event_id, $a);
+        $a_p = self::get_roster($event_id, $a, $a_h);
+
+        return array_merge($h_p, $a_p);
     }
 
     /**
@@ -342,6 +355,29 @@ class Event implements IEvent {
 
         $res = $db->query($query, $d, $t, $t2)->fetchArray();
         return empty($res) ? false : $res;
+    }
+
+    /**
+     * update score for event
+     * @param   int $event_id
+     * @param   int $home_score
+     * @param   int $away_score
+     * @return  boolean
+     */
+
+    public static function set_score($event_id, $h, $a){
+        if (!$event_id){
+            return false;
+        }
+
+        $db = new tecdb();
+        $query = 
+        "UPDATE `events`
+        SET `home_score` = ?, `away_score` = ?
+        WHERE `event_id` = ?";
+
+        $res = $db->query($query, $h, $a, $event_id)->affectedRows();
+        return $res > 0;
     }
 
     /**
@@ -458,37 +494,49 @@ class Event implements IEvent {
     /**
      * gets roster for event
      * @param   int $event_id
+     * @param   int $team_id
      * @return  array
      */
 
-    public static function get_roster($event_id){
+    public static function get_roster($event_id, $team_id){
         if (!$event_id){
             return [];
         }
 
+        $temp="";
+        $args = func_get_args();
+        if (count($args) > 2){
+            $temp = $args[2] ? "" : "temp_";
+        }
+
         $query=
-        "SELECT event_rosters.user_id, users.name
-        FROM event_rosters
+        "SELECT ".$temp."event_rosters.user_id, users.name
+        FROM ".$temp."event_rosters
         INNER JOIN users
-            ON event_rosters.user_id = users.user_id
-        WHERE event_rosters.event_id = ?";
+            ON ".$temp."event_rosters.user_id = users.user_id
+        INNER JOIN teams
+            ON users.team_id = teams.id
+        INNER JOIN subteams
+            ON subteams.team_id = teams.id
+        WHERE ".$temp."event_rosters.event_id = ? AND subteams.id = ?";
 
         $db=new tecdb();
-        $res = $db->query($query, $event_id)->fetchAll();
+        $res = $db->query($query, $event_id, $team_id)->fetchAll();
         return $res;
     }
 
     /**
      * sees if event has a roster
      * @param   int $event_id
+     * @param   int $team_id
      * @return  array
      */
 
-    public static function has_roster($event_id){
+    public static function has_roster($event_id, $team_id){
         if (!$event_id){
             return [];
         }
-        $res = self::get_roster($event_id);
+        $res = self::get_roster($event_id, $team_id);
         return !empty($res);
     }
 }

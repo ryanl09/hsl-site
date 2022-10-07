@@ -1,0 +1,20 @@
+button {
+    background-color: var(--blue);
+}
+
+button:hover {
+    background-color: var(--blue-h);
+}
+
+.create-box {
+    display:flex;
+    align-items: left;
+    flex-direction: column;
+    width:50%;
+}
+
+@media only screen and (max-width:1024px){
+    .create-box{
+        width:100%;
+    }
+}

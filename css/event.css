@@ -15,6 +15,32 @@
     height:50px;
 }
 
+.add-player-admin {
+    display:flex;
+    gap:10px;
+    align-items: center;
+}
+
+.score {
+    margin-left: auto;
+}
+
+.score label {
+    margin-right: 6px;
+}
+
+.score input[type=number] {
+    max-width:70px;
+}
+
+.btn {
+    background-color:var(--blue);
+}
+
+.btn:hover{
+    background-color:var(--blue-h);
+}
+
 .img-ref {
     transition: all .13s ease;
 }

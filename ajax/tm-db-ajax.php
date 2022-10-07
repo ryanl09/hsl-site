@@ -226,7 +226,7 @@ if ((isset($_SERVER['HTTP_X_REQUESTED_WITH'])) && ($_SERVER['HTTP_X_REQUESTED_WI
                 "INSERT INTO `event_rosters` (`user_id`, `event_id`)
                 VALUES (?, ?);";
 
-                $id = $db->query($query, $pl[$i], $e_id);
+                $id = $db->query($query, $pl[$i], $e_id)->lastInsertID();
                 $suc = ($id ? $id : 0);
             }
 
@@ -277,12 +277,12 @@ if ((isset($_SERVER['HTTP_X_REQUESTED_WITH'])) && ($_SERVER['HTTP_X_REQUESTED_WI
                 }
 
                 $e = $_GET['e_id'];
-                $ros = Event::get_roster($e);
+                $ros = Event::get_roster($e, $_GET['st']);
                 $s = new Subteam($_GET['st']);
                 echo json_encode(
                     array(
                         'status' => 1,
-                        'players' => $s->get_players(),
+                        'players' => $s->get_players(false),
                         'roster' => $ros
                     )
                 );
@@ -301,7 +301,7 @@ if ((isset($_SERVER['HTTP_X_REQUESTED_WITH'])) && ($_SERVER['HTTP_X_REQUESTED_WI
                         continue;
                     }
 
-                    $e[$i]['has_roster'] = Event::has_roster($row['e_id']);
+                    $e[$i]['has_roster'] = Event::has_roster($row['e_id'], $t);
                 }
 
                 echo json_encode(

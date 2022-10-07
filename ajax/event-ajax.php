@@ -6,6 +6,7 @@ include_once($path . '/classes/general/Game.php');
 include_once($path . '/classes/general/Stats.php');
 
 require_once($path . '/classes/event/Event.php');
+require_once($path . '/classes/security/csrf.php');
 require_once($path . '/classes/team/SubTeam.php');
 include_once($path . '/classes/util/ajaxerror.php');
 require_once($path . '/classes/util/Sessions.php');
@@ -13,23 +14,9 @@ require_once($path . '/classes/util/Sessions.php');
 if ((isset($_SERVER['HTTP_X_REQUESTED_WITH'])) && ($_SERVER['HTTP_X_REQUESTED_WITH']==='XMLHttpRequest')) {
     if ($_SERVER['REQUEST_METHOD']==='POST') {
         
-        if (isset($_POST['csrf'])) {
-            if ($_POST['csrf']!==$_SESSION['csrf']){
-                echo json_encode(
-                    array(
-                        'status' => 0,
-                        'errors' => ['Invalid CSRF token']
-                    )
-                );
-                die();
-            }
-        } else {
-            echo json_encode(
-                array(
-                    'status' => 0,
-                    'errors' => ['Missing CSRF token']
-                )
-            );
+        $csrf = CSRF::post();
+        if (!$csrf) {
+            echo ajaxerror::e('errors', ['Invalid CSRF token']);
             die();
         }
 
@@ -62,15 +49,20 @@ if ((isset($_SERVER['HTTP_X_REQUESTED_WITH'])) && ($_SERVER['HTTP_X_REQUESTED_WI
                     die();
                 }
 
-                if (!isset($_POST['data'])) {
+                if (!isset($_POST['data']) || !isset($_POST['home_score']) || !isset($_POST['away_score'])) {
                     echo ajaxerror::e('errors', ['Missing data']);
                     die();
                 }
                 $obj = json_decode($_POST['data'], true);
 
+                $home_score = $_POST['home_score'];
+                $away_score = $_POST['away_score'];
+
                 $stats = new Stats();
 
                 $errors=[];
+
+                $score_set = Event::set_score($event_id, $home_score, $away_score);
 
                 foreach ($obj as $i => $row) {
                     $user_id = $row['u'];
@@ -88,9 +80,96 @@ if ((isset($_SERVER['HTTP_X_REQUESTED_WITH'])) && ($_SERVER['HTTP_X_REQUESTED_WI
                     array(
                         'status' => 1,
                         'success' => $pref . 'stats were entered',
+                        'set_score' => $score_set,
                         'errors' => $errors
                     )
                 );
+                break;
+            case 'add_roster':
+                if (!isset($_SESSION['user']) || !isset($_POST['pl_id'])){
+                    echo ajaxerror::e('errors', ['Missing fields']);
+                    die();
+                }
+
+                if (!$_SESSION['user']->is_admin()){
+                    echo ajaxerror::e('errors', ['Invalid permissions']);
+                    die();
+                }
+
+                $pl_id = $_POST['pl_id'];
+                $db = new tecdb();
+
+                $query =
+                "SELECT EXISTS(
+                    SELECT `id`
+                    FROM `temp_event_rosters`
+                    WHERE `user_id` = ? AND `event_id` = ?
+                ) AS ex";
+                $res = $db->query($query, $pl_id, $event_id)->fetchArray();
+
+                if ($res['ex']) {
+                    echo ajaxerror::e('errors', ['Player is already on the roster']);
+                    die();
+                }
+
+                $suc = 0;
+                
+                $query = 
+                "INSERT INTO `temp_event_rosters` (`user_id`, `event_id`)
+                VALUES (?, ?);";
+
+                $id = $db->query($query, $pl_id, $event_id)->lastInsertID();
+                $suc = ($id ? $id : 0);
+
+                if ($suc){
+                    echo json_encode(
+                        array(
+                            'status' => 1,
+                            'success' => 'Player added to roster'
+                        )
+                    );
+                    die();
+                }
+
+                echo ajaxerror::e('errors',  ['Couldn\'t set roster']);
+                die();
+                break;
+            case 'remove_roster':
+                if (!isset($_SESSION['user']) || !isset($_POST['pl_id'])){
+                    echo ajaxerror::e('errors', ['Missing fields']);
+                    die();
+                }
+
+                if (!$_SESSION['user']->is_admin()){
+                    echo ajaxerror::e('errors', ['Invalid permissions']);
+                    die();
+                }
+
+                $pl_id = $_POST['pl_id'];
+                $db = new tecdb();
+
+                $query = 
+                "DELETE FROM `temp_event_rosters`
+                WHERE `user_id` = ? AND `event_id` = ?";
+
+                $res = $db->query($query, $pl_id, $event_id)->affectedRows();
+                if ($res > 0){
+                    echo json_encode(
+                        array(
+                            'status' => 1,
+                            'success'=>'Player removed from roster'
+                        )
+                    );
+                    die();
+                }
+
+                echo ajaxerror::e('errors', ['Couldn\'t remove player from roster']);
+                die();
+
+                break;
+            default:
+                echo ajaxerror::e('errors', ['Invalid action']);
+                die();
                 break;
         }
         
@@ -156,13 +235,13 @@ if ((isset($_SERVER['HTTP_X_REQUESTED_WITH'])) && ($_SERVER['HTTP_X_REQUESTED_WI
                     'home' => $home,
                     'away' => $away,
                     'stats' => array_merge($h_stats, $a_stats),
-                    'players' => Event::get_players($event_id),
+                    'players' => Event::get_players($event_id, $home['t_id'], $away['t_id']),
                 );
 
                 include_once($_SERVER['DOCUMENT_ROOT'] . '/classes/user/User.php');
                 $ret['p'] = 0;
                 if (isset($_SESSION['user']) && $_SESSION['user']->is_admin()){
-                    $res['p']=1;
+                    $ret['p']=1;
                 }
 
                 echo json_encode($ret);

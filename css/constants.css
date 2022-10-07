@@ -20,6 +20,13 @@
     --btn-t: all .2s ease;
 }
 
+input[type=text], input[type=number], select {
+    font-size: 16px;
+    padding: 6px 12px;
+    border: 1px solid #aaa;
+    border-radius: 6px;
+}
+
 button {
     outline: 0;
     border:none;
@@ -30,6 +37,13 @@ button {
     align-content: center;
     justify-content: center;
     border-radius: 4px;
+}
+
+button.btn{
+    display:flex;
+    align-items: center;
+    justify-content: center;
+    gap:6px;
 }
 
 button:hover {

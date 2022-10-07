@@ -113,11 +113,11 @@ class Stats {
         INNER JOIN `stat_cols`
             ON stat_cols.id = stats.stat_id
         WHERE stats.user_id IN (
-            SELECT event_rosters.user_id
-            FROM `event_rosters`
+            SELECT temp_event_rosters.user_id
+            FROM `temp_event_rosters`
             INNER JOIN `player_seasons`
-                ON player_seasons.user_id = event_rosters.user_id AND player_seasons.subteam_id = ? AND player_seasons.season_id = ?
-            WHERE event_rosters.event_id = ?
+                ON player_seasons.user_id = temp_event_rosters.user_id AND player_seasons.subteam_id = ? AND player_seasons.season_id = ?
+            WHERE temp_event_rosters.event_id = ?
             )
         AND stats.event_id = ?";
 

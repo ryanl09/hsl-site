@@ -238,18 +238,22 @@ class Team extends TeamAbstract {
 
     /**
      * gets all players on team, regardless of game
+     * @param   boolean $temp_pl
      * @return  array
      */
 
-    public function get_players() {
+    public function get_players($temp_pl) {
         if (!$this->id){
             return [];
         }
+
+        $temp = " AND `is_temp` = " . ($temp_pl ? '1 ' : '0 ');
 
         $query=
         "SELECT `user_id`, `username`, `name`
         FROM `users`
         WHERE `team_id` = ? AND `role` <> \"team_manager\"
+            $temp
         ORDER BY `name` ASC";
         $res = $this->db->query($query, $this->id)->fetchAll();
         return $res;

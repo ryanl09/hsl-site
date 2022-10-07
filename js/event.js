@@ -24,10 +24,15 @@ $(document).ready(()=>{
                 obj.push(o);
             });
 
+            var home_score = $('#home-score').val() ?? 0;
+            var away_score = $('#away-score').val() ?? 0;
+            home_score = Number.isInteger(home_score) ? home_score : 0;
+            away_score = Number.isInteger(away_score) ? away_score : 0;
+
             $.ajax({
                 url:`${ajax_url}event-ajax.php`,
                 type:'post',
-                data:{'action':'stats', 'data':JSON.stringify(obj), 'event_id':e_id, 'csrf':$('#csrf').val()},
+                data:{'action':'stats', 'data':JSON.stringify(obj), 'event_id':e_id, 'home_score':home_score, 'away_score':away_score, 'csrf':$('#csrf').val()},
                 dataType:'json',
                 success:(data)=>{
                     save.prop('disabled', false);
@@ -48,6 +53,68 @@ $(document).ready(()=>{
         });
     }
 
+    $('.rem-pl').on('click', function(){
+        var pl_id = parseInt($(this).attr('pl-id'), 10);
+        remove_from_roster(pl_id);
+    });
+
+    function remove_from_roster(id){
+        $.ajax({
+            url:`${ajax_url}event-ajax.php`,
+            type:'post',
+            data:{'action':'remove_roster', 'event_id':e_id, 'pl_id':id, 'csrf':$('#csrf').val()},
+            dataType:'json',
+            success:(data)=>{
+                console.log(data);
+                if(!data.status){
+                    //error
+                    return;
+                }
+
+                window.location.reload();
+            },
+            error:(a,b,c)=>{
+                console.log(a+','+b+','+c);
+            }
+        });
+    }
+
+    function add_to_roster(team){
+        if (team!=='away'&&team!=='home'){
+            console.log('cant');
+            return;
+        }
+        var team_id = $(`${team}-team-id`).val();
+        var pl_id = $(`#temp-${team}`).val();
+
+        $.ajax({
+            url:`${ajax_url}event-ajax.php`,
+            type:'post',
+            data:{'action':'add_roster', 'event_id':e_id, 'pl_id':pl_id, 'csrf':$('#csrf').val()},
+            dataType:'json',
+            success:(data)=>{
+                console.log(data);
+                if(!data.status){
+                    //error
+                    return;
+                }
+
+                window.location.reload();
+            },
+            error:(a,b,c)=>{
+                console.log(a+','+b+','+c);
+            }
+        });
+    }
+
+    $('.btn-add-home').on('click', function(){
+        add_to_roster('home');
+    });
+
+    $('.btn-add-away').on('click', function(){
+        add_to_roster('away');
+    });
+
     $.ajax({
         url:`${ajax_url}event-ajax.php`,
         type:'get',
@@ -55,6 +122,7 @@ $(document).ready(()=>{
         dataType:'json',
         async: true,
         success:(data)=>{
+            console.log(data);
             var p = data.p ?? 0;
             
             if (data.errors){
@@ -86,6 +154,9 @@ $(document).ready(()=>{
 
             $('.home-team').append(h_logo).append(h_name);
             $('.away-team').append(a_logo).append(a_name);
+
+            $('#home-score').val(data.home.score);
+            $('#away-score').val(data.away.score);
 
             /**
              * construct stat table headers
@@ -130,7 +201,7 @@ $(document).ready(()=>{
                         text: t[l]
                     });
 
-                    if(1&&l){
+                    if(data.p&&l){
                         add = $('<td>').append(`<input type="text" value="${t[l]}" class="st-mod" user-id="${pl.user_id}" stat-id="${l}">`);
                     }
                     tr.append(add);

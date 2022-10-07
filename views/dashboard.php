@@ -49,7 +49,7 @@ switch ($role) {
                     <table class="r-players" cellspacing="0">
                         <tbody>
                             <?php
-                                $pl = $team->get_players();
+                                $pl = $team->get_players(false);
                                 foreach ($pl as $i => $row) {
                                     echo '<tr>
                                             <td user-id="'.$row['user_id'].'" username="'.$row['username'].'" class="user-col">
@@ -182,7 +182,7 @@ switch ($role) {
                                         foreach ($e as $i => $row){
                                             echo '<tr class="tr-set" e-id="'.$row['e_id'].'" e-time="'.$row['event_time'].'" e-date="'.$row['event_date'].'">';
                                             $class = 'red';
-                                            if (Event::has_roster($row['e_id'])){
+                                            if (Event::has_roster($row['e_id'], $use)){
                                                 $class='green';
                                             }
                                             echo '<td><i class="bx bxs-circle '.$class.'"></i></td>';
