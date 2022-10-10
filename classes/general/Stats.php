@@ -107,17 +107,23 @@ class Stats {
             return [];
         }
 
+        $temp = "";
+        $a = func_get_args();
+        if (count($a) > 2){
+            $temp = $a[2] ? "" : "temp_";
+        }
+
         $query = 
         "SELECT stats.user_id, stats.stat_id, stats.stat_value
         FROM `stats`
         INNER JOIN `stat_cols`
             ON stat_cols.id = stats.stat_id
         WHERE stats.user_id IN (
-            SELECT temp_event_rosters.user_id
-            FROM `temp_event_rosters`
+            SELECT ".$temp."event_rosters.user_id
+            FROM ".$temp."event_rosters
             INNER JOIN `player_seasons`
-                ON player_seasons.user_id = temp_event_rosters.user_id AND player_seasons.subteam_id = ? AND player_seasons.season_id = ?
-            WHERE temp_event_rosters.event_id = ?
+                ON player_seasons.user_id = ".$temp."event_rosters.user_id AND player_seasons.subteam_id = ? AND player_seasons.season_id = ?
+            WHERE ".$temp."event_rosters.event_id = ?
             )
         AND stats.event_id = ?";
 

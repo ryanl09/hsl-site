@@ -1,6 +1,7 @@
 <?php
 
 $path = $_SERVER['DOCUMENT_ROOT'];
+include_once($path . '/classes/event/Event.php');
 include_once($path . '/classes/event/Schedule.php');
 include_once($path . '/classes/general/Game.php');
 include_once($path . '/classes/general/Stats.php');
@@ -86,7 +87,7 @@ if ((isset($_SERVER['HTTP_X_REQUESTED_WITH'])) && ($_SERVER['HTTP_X_REQUESTED_WI
                 );
                 break;
             case 'add_roster':
-                if (!isset($_SESSION['user']) || !isset($_POST['pl_id'])){
+                if (!isset($_SESSION['user']) || !isset($_POST['pl_id']) || !isset($_POST['team_id'])){
                     echo ajaxerror::e('errors', ['Missing fields']);
                     die();
                 }
@@ -95,6 +96,7 @@ if ((isset($_SERVER['HTTP_X_REQUESTED_WITH'])) && ($_SERVER['HTTP_X_REQUESTED_WI
                     echo ajaxerror::e('errors', ['Invalid permissions']);
                     die();
                 }
+                $team_id = $_POST['team_id'];
 
                 $pl_id = $_POST['pl_id'];
                 $db = new tecdb();
@@ -103,9 +105,9 @@ if ((isset($_SERVER['HTTP_X_REQUESTED_WITH'])) && ($_SERVER['HTTP_X_REQUESTED_WI
                 "SELECT EXISTS(
                     SELECT `id`
                     FROM `temp_event_rosters`
-                    WHERE `user_id` = ? AND `event_id` = ?
+                    WHERE `user_id` = ? AND `event_id` = ? AND `subteam_id` = ?
                 ) AS ex";
-                $res = $db->query($query, $pl_id, $event_id)->fetchArray();
+                $res = $db->query($query, $pl_id, $event_id, $team_id)->fetchArray();
 
                 if ($res['ex']) {
                     echo ajaxerror::e('errors', ['Player is already on the roster']);
@@ -115,10 +117,10 @@ if ((isset($_SERVER['HTTP_X_REQUESTED_WITH'])) && ($_SERVER['HTTP_X_REQUESTED_WI
                 $suc = 0;
                 
                 $query = 
-                "INSERT INTO `temp_event_rosters` (`user_id`, `event_id`)
-                VALUES (?, ?);";
+                "INSERT INTO `temp_event_rosters` (`user_id`, `event_id`, `subteam_id`)
+                VALUES (?, ?, ?);";
 
-                $id = $db->query($query, $pl_id, $event_id)->lastInsertID();
+                $id = $db->query($query, $pl_id, $event_id, $team_id)->lastInsertID();
                 $suc = ($id ? $id : 0);
 
                 if ($suc){
@@ -220,8 +222,13 @@ if ((isset($_SERVER['HTTP_X_REQUESTED_WITH'])) && ($_SERVER['HTTP_X_REQUESTED_WI
 
                 $home = $e->get_home_team();
                 $away = $e->get_away_team();
-                $h_stats = $stats->get_stats($event_id, $home['t_id']);
-                $a_stats = $stats->get_stats($event_id, $away['t_id']);
+
+                
+                $h_h = Event::has_roster($event_id, $home['t_id']);
+                $a_h = Event::has_roster($event_id, $away['t_id']);
+
+                $h_stats = $stats->get_stats($event_id, $home['t_id'], $h_h);
+                $a_stats = $stats->get_stats($event_id, $away['t_id'], $a_h);
 
                 $home['record'] = SubTeam::get_record($home['t_id']);
                 $away['record'] = SubTeam::get_record($away['t_id']);

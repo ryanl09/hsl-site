@@ -373,8 +373,8 @@ class Event implements IEvent {
         $db = new tecdb();
         $query = 
         "UPDATE `events`
-        SET `home_score` = ?, `away_score` = ?
-        WHERE `event_id` = ?";
+        SET `event_home_score` = ?, `event_away_score` = ?
+        WHERE `id` = ?";
 
         $res = $db->query($query, $h, $a, $event_id)->affectedRows();
         return $res > 0;
@@ -510,18 +510,18 @@ class Event implements IEvent {
         }
 
         $query=
-        "SELECT ".$temp."event_rosters.user_id, users.name
+        "SELECT ".$temp."event_rosters.user_id, users.name, ".$temp."event_rosters.subteam_id, user_igns.ign
         FROM ".$temp."event_rosters
         INNER JOIN users
             ON ".$temp."event_rosters.user_id = users.user_id
-        INNER JOIN teams
-            ON users.team_id = teams.id
-        INNER JOIN subteams
-            ON subteams.team_id = teams.id
-        WHERE ".$temp."event_rosters.event_id = ? AND subteams.id = ?";
+        INNER JOIN events
+            ON events.id = ?
+        INNER JOIN user_igns
+            ON user_igns.user_id = users.user_id AND user_igns.game_id = events.event_game
+        WHERE ".$temp."event_rosters.event_id = ? AND ".$temp."event_rosters.subteam_id = ?";
 
         $db=new tecdb();
-        $res = $db->query($query, $event_id, $team_id)->fetchAll();
+        $res = $db->query($query, $event_id, $event_id, $team_id)->fetchAll();
         return $res;
     }
 

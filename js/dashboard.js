@@ -367,7 +367,7 @@
                         $.ajax({
                             url:`${ajax_url}tm-db-ajax.php`,
                             type:'post',
-                            data:{'action':'set_roster', 'e_id':e_id, 'players':JSON.stringify(pl), 'csrf':$('#csrf').val()},
+                            data:{'action':'set_roster', 'e_id':e_id, 'players':JSON.stringify(pl), 'team_id': $('#roster-team').val(), 'csrf':$('#csrf').val()},
                             dataType:'json',
                             success:(data)=>{
                                 if (!data.status){

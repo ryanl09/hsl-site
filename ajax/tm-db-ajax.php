@@ -192,7 +192,7 @@ if ((isset($_SERVER['HTTP_X_REQUESTED_WITH'])) && ($_SERVER['HTTP_X_REQUESTED_WI
 
             break;
         case 'set_roster':
-            if (!isset($_POST['e_id']) || !isset($_POST['players'])){
+            if (!isset($_POST['e_id']) || !isset($_POST['players']) || !isset($_POST['team_id'])){
                 echo ajaxerror::e('errors', ['Missing fields']);
                 die();
             }
@@ -203,12 +203,15 @@ if ((isset($_SERVER['HTTP_X_REQUESTED_WITH'])) && ($_SERVER['HTTP_X_REQUESTED_WI
                 die();
             }
 
+            $team_id = $_POST['team_id'];
+
             $pl = json_decode($_POST['players'], true);
             $query =
             "DELETE FROM `event_rosters`
-            WHERE `event_id` = ?";
+            WHERE `event_id` = ?
+            AND `subteam_id` = ?";
             $db = new tecdb();
-            $r = $db->query($query, $e_id)->affectedRows();
+            $r = $db->query($query, $e_id, $team_id)->affectedRows();
 
             if (empty($pl)){
                 echo json_encode(
@@ -223,10 +226,10 @@ if ((isset($_SERVER['HTTP_X_REQUESTED_WITH'])) && ($_SERVER['HTTP_X_REQUESTED_WI
             $suc = 0;
             for ($i = 0; $i < count($pl); $i++){
                 $query = 
-                "INSERT INTO `event_rosters` (`user_id`, `event_id`)
-                VALUES (?, ?);";
+                "INSERT INTO `event_rosters` (`user_id`, `event_id`, `subteam_id`)
+                VALUES (?, ?, ?);";
 
-                $id = $db->query($query, $pl[$i], $e_id)->lastInsertID();
+                $id = $db->query($query, $pl[$i], $e_id, $team_id)->lastInsertID();
                 $suc = ($id ? $id : 0);
             }
 

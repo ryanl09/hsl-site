@@ -33,7 +33,7 @@ $(document).ready(()=>{
                 url:`${ajax_url}event-ajax.php`,
                 type:'post',
                 data:{'action':'stats', 'data':JSON.stringify(obj), 'event_id':e_id, 'home_score':home_score, 'away_score':away_score, 'csrf':$('#csrf').val()},
-                dataType:'json',
+                dataType:'text',
                 success:(data)=>{
                     save.prop('disabled', false);
                     save.html(save_html);
@@ -84,14 +84,14 @@ $(document).ready(()=>{
             console.log('cant');
             return;
         }
-        var team_id = $(`${team}-team-id`).val();
+        var team_id = $(`#${team}-team-id`).val();
         var pl_id = $(`#temp-${team}`).val();
 
         $.ajax({
             url:`${ajax_url}event-ajax.php`,
             type:'post',
-            data:{'action':'add_roster', 'event_id':e_id, 'pl_id':pl_id, 'csrf':$('#csrf').val()},
-            dataType:'json',
+            data:{'action':'add_roster', 'event_id':e_id, 'pl_id':pl_id, 'team_id':team_id, 'csrf':$('#csrf').val()},
+            dataType:'text',
             success:(data)=>{
                 console.log(data);
                 if(!data.status){
@@ -193,7 +193,7 @@ $(document).ready(()=>{
                     _s.splice(k, 1);
                     k--;
                 }
-                t.unshift(pl.name);
+                t.unshift(pl.ign);
                 var tbl = pl.subteam_id === data.home.t_id ? 'home' : 'away';
                 var tr = $('<tr>');
                 for(var l = 0; l < t.length; l++){
