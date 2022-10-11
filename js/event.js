@@ -24,11 +24,12 @@ $(document).ready(()=>{
                 obj.push(o);
             });
 
+            console.log($('#home-score').val());
+
             var home_score = $('#home-score').val() ?? 0;
             var away_score = $('#away-score').val() ?? 0;
-            home_score = Number.isInteger(home_score) ? home_score : 0;
-            away_score = Number.isInteger(away_score) ? away_score : 0;
 
+            console.log(home_score);
             $.ajax({
                 url:`${ajax_url}event-ajax.php`,
                 type:'post',
@@ -157,6 +158,8 @@ $(document).ready(()=>{
 
             $('#home-score').val(data.home.score);
             $('#away-score').val(data.away.score);
+
+
 
             /**
              * construct stat table headers
