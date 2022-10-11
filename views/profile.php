@@ -166,7 +166,7 @@ base_header(
                                         <div class="info">
                                             <h4>Upcoming Matches</h4>
                                         </div>
-                                        <table style="width:100%;">
+                                        <table style="width:100%;" cellspacing="0">
                                             <thead>
                                                 <th>Game</th>
                                                 <th>Date</th>

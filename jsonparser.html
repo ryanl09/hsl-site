@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+    <script>
+
+        let teams = [
+
+        ];
+
+        let stats = [
+            [], []
+        ];
+
+        let team = (n) => {
+            return { name: n.name, score: n.score };
+        }
+
+        $(document).ready(function(){
+
+            $('.jsonupload').on('change', function(){
+                for (let i = 0; i < this.files.length; i++){
+                    (function(file, index){
+                        const reader = new FileReader();
+                        reader.addEventListener('load', (event) => {
+                            //console.log(event.target.result);
+                            const data = JSON.parse(event.target.result);
+                            if (index>0){
+                                teams[0].score += data.game.teams[0].score;
+                                teams[1].score += data.game.teams[1].score;
+                            }else{
+                                teams = [team(data.game.teams[0]), team(data.game.teams[1])];
+                            }
+
+                            $('.team-0-name').text(teams[0].name);
+                            $('.team-1-name').text(teams[1].name);
+
+                            var keys = Object.keys(data.players);
+                            for (let j = 0; j < keys.length; j++){
+                                var pl = data.players[keys[j]];
+                                console.log(pl + ',' + index);
+                                if (index > 0){
+                                    var idx= stats[pl.team].findIndex((x) => x.name === pl.name);
+                                    console.log(idx);
+                                    $(`#${pl.name}-goals`).text(parseInt($(`#${pl.name}-goals`).text(),10)+pl.goals);
+                                    $(`#${pl.name}-assists`).text(parseInt($(`#${pl.name}-assists`).text(),10)+pl.assists);
+                                    $(`#${pl.name}-saves`).text(parseInt($(`#${pl.name}-saves`).text(),10)+pl.saves);
+                                    $(`#${pl.name}-shots`).text(parseInt($(`#${pl.name}-shots`).text(),10)+pl.shots);
+                                    continue;
+                                }
+
+                                var tr = $('<tr>',{
+                                    html: `<td>${pl.name}</td>
+                                    <td id="${pl.name}-goals">${pl.goals}</td>
+                                    <td id="${pl.name}-assists">${pl.assists}</td>
+                                    <td id="${pl.name}-saves">${pl.saves}</td>
+                                    <td id="${pl.name}-shots">${pl.shots}</td>`
+                                }).attr('id', pl.name);
+                                $(`.team-${pl.team}`).append(tr);
+
+                                stats[pl.team].push({
+                                    name: pl.name,
+                                    goals: pl.goals,
+                                    assists: pl.assists,
+                                    saves: pl.saves,
+                                    shots: pl.shots
+                                });
+                            }
+                        });
+                        reader.readAsText(file);
+                    })(this.files[i], i);
+                }
+            });
+        });
+    </script>
+</head>
+<body>
+    <input type="file" class="jsonupload" multiple="multiple">
+
+    <h2 class="team-0-name"></h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Player</th>
+                <th>Goals</th>
+                <th>Assists</th>
+                <th>Saves</th>
+                <th>Shots</th>
+            </tr>
+        </thead>
+        <tbody class="team-0"></tbody>
+    </table>
+
+    <h2 class="team-1-name"></h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Player</th>
+                <th>Goals</th>
+                <th>Assists</th>
+                <th>Saves</th>
+                <th>Shots</th>
+            </tr>
+        </thead>
+        <tbody class="team-1"></tbody>
+    </table>
+
+
+</body>
+</html>

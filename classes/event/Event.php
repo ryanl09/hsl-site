@@ -377,6 +377,38 @@ class Event implements IEvent {
         WHERE `id` = ?";
 
         $res = $db->query($query, $h, $a, $event_id)->affectedRows();
+
+        $query = 
+        "SELECT `event_home`, `event_away`
+        FROM `events`
+        WHERE `id` = ?";
+        $re = $db->query($query, $event_id)->fetchArray();
+        $team = $h > $a ? $re['event_home'] : $re['event_away'];
+        $set_win = self::set_winner($event_id, $team);
+
+        return $res > 0 && $set_win;
+    }
+
+    
+    /**
+     * sets winner
+     * @param   int $event_id
+     * @param   int $team_id
+     * @return  boolean
+     */
+
+    public static function set_winner($event_id, $team_id){
+        if (!$event_id){
+            return false;
+        }
+
+        $db = new tecdb();
+        $query=
+        "UPDATE `events`
+        SET `event_winner` = ?
+        WHERE `id` = ?";
+
+        $res = $db->query($query, $team_id, $event_id)->affectedRows();
         return $res > 0;
     }
 
@@ -441,7 +473,8 @@ class Event implements IEvent {
         $where = $team_str . $div_str;
 
         $query =
-        "SELECT t.team_name as event_home, t.team_logo as home_logo, t2.team_name as event_away, t2.team_logo as away_logo, events.event_winner, events.event_date, events.event_time, events.event_stream, s.division, events.id as event_id
+        "SELECT t.team_name as event_home, t.team_logo as home_logo, t2.team_name as event_away, t2.team_logo as away_logo, events.event_winner, events.event_date, 
+        events.event_time, events.event_stream, s.division, events.id as event_id, events.event_home_score as home_score, events.event_away_score as away_score
         FROM `events`
         INNER JOIN subteams s
             ON s.id = events.event_home

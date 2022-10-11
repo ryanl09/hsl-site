@@ -43,19 +43,19 @@
                         });
                         tr.append(td);
 
-                        obj[e.name]={
+                        obj[e.id]={
                             id: e.id,
                             val: 0
                         };
-                        var td2 = $('<td>').attr('id', `stat-${e.name}`);
+                        var td2 = $('<td>').attr('id', `stat-${e.id}`);
                         tr2.append(td2);
                     });
                     tbh.append(tr);
                     tbb.append(tr2);
                     
                     data.stats.forEach(e => {
-                        obj[e.name].val += e.stat_value;
-                        $(`#stat-${e.name}`).text(obj[e.name].val);
+                        obj[e.id].val += e.stat_value;
+                        $(`#stat-${e.id}`).text(obj[e.id].val);
                     });
                 },
                 error:(a,b,c)=>{
@@ -290,6 +290,9 @@
                         var idx = data.games.map(object => object.id).indexOf(e.event_game);
                         var url=data.games[idx].url;
                         row.append(`<td><img src="${url}" width="24" height="24"></td><td>${fix_date(e.event_date)}</td><td>${fix_time(e.event_time)}</td>`);
+                        row.on('click', function(){
+                            window.open(`https://tecesports.com/event/${e.id}`, '_blank');
+                        });
                         uc.append(row);
                     });
                 }

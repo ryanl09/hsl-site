@@ -192,7 +192,7 @@ $(document).ready(()=>{
                     if (_s[k].user_id!==pl.user_id){
                         continue;
                     }
-                    t[_s[k].stat_id-1] = _s[k].stat_value;
+                    t[_s[k].stat_id-cols[1].id] = _s[k].stat_value;
                     _s.splice(k, 1);
                     k--;
                 }
@@ -205,7 +205,10 @@ $(document).ready(()=>{
                     });
 
                     if(data.p&&l){
-                        add = $('<td>').append(`<input type="text" value="${t[l]}" class="st-mod" user-id="${pl.user_id}" stat-id="${l}">`);
+                        console.log(t);
+                        console.log(cols);
+                        console.log(cols[l].id + ',' + l);
+                        add = $('<td>').append(`<input type="text" value="${t[l]}" class="st-mod" user-id="${pl.user_id}" stat-id="${cols[l].id}">`);
                     }
                     tr.append(add);
                 }

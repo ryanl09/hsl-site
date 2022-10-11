@@ -146,7 +146,7 @@
                 data:{'action':'all_events','sort-team':$('#sort-team').val(),'sort-div':$('#sort-div').val(), 'game':game, 'csrf':$('#csrf').val()},
                 dataType:'json',
                 success:(data)=>{
-                    //console.log(data);
+                    console.log(data);
                     if (!data.status){
                         //error
                         return;
@@ -158,12 +158,8 @@
 
                         data.events.forEach(e =>{
                             var res = 'TBD';
-                            if (e.event_winner === e.h_id){
-                                res = '1 - 0';
-                            } else {
-                                if (e.event_winner!==0){
-                                    res = '0 - 1';
-                                }
+                            if (e.event_winner!==0){
+                                res = `${e.home_score} - ${e.away_score}`;
                             }
                             var tr = $('<tr>', {
                                 html:`<td>${fix_date(e.event_date)}</td><td>${fix_time(e.event_time)}</td><td>${e.event_home}</td><td>${e.event_away}</td><td>${e.division}</td><td>${res}</td><td><a href="${e.event_stream}"><i class='bx bxl-twitch'></i></a></td>`
