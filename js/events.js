@@ -179,7 +179,7 @@
                                 res = `${e.home_score} - ${e.away_score}`;
                             }
                             var tr = $('<tr>', {
-                                html:`<td>${fix_date(e.event_date)}</td><td>${fix_time(e.event_time)}</td><td>${e.event_home}</td><td>${e.event_away}</td><td>${e.division}</td><td>${res}</td><td><a href="${e.event_stream}"><i class='bx bxl-twitch'></i></a></td>`
+                                html:`<td>${fix_date(e.event_date)}</td><td>${fix_time(e.event_time)}</td><td>${e.event_home} ${e.home_tag}</td><td>${e.event_away} ${e.away_tag}</td><td>${e.division}</td><td>${res}</td><td><a href="${e.event_stream}"><i class='bx bxl-twitch'></i></a></td>`
                             });
 
                             tr.on('click', function(){

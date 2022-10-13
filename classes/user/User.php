@@ -219,7 +219,30 @@ class User {
         FROM `user_igns`
         WHERE `user_id` = ? AND `game_id` = ?";
         $res = $this->db->query($query, $this->id, $game_id)->fetchArray();
-        return $res['ign'] ?? 'None';
+        return $res['ign'] ?? '';
+    }
+
+    /**
+     * sets user's ign
+     * @param   int     $game_id
+     * @param   string  $ign
+     * @return  boolean
+     */
+
+    public function set_ign($game_id, $ign){
+        if (!$this->id || !$game_id){
+            return false;
+        }
+
+        $query=
+        "INSERT INTO `user_igns`
+        VALUES (?, ?, ?)
+        ON DUPLICATE KEY UPDATE `ign` = ?";
+
+        $res = $this->db->query($query, $this->id, $game_id, $ign, $ign);
+        $af = $res->affectedRows();
+        $nr = $res->numRows();
+        return $af > 0 || $nr > 0;
     }
 
     /**

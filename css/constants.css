@@ -10,6 +10,7 @@
     --red-h:rgb(158, 45, 45);
     --blue: rgb(107, 153, 223);
     --blue-h:rgb(78 120 185);
+    --save-h:#23a362;
 
     /* ====== Transition ====== */
     --tran-03: all 0.2s ease;
@@ -48,4 +49,12 @@ button.btn{
 
 button:hover {
     cursor: pointer;
+}
+
+.save {
+    background-color:var(--primary-color);
+}
+
+.save:hover{
+    background-color:var(--save-h);
 }

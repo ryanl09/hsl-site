@@ -15,7 +15,7 @@ if (!$post['status']) {
 
 $csrf = CSRF::post();
 if (!$csrf) {
-    echo ajaxerror::('errors', ['Invalid CSRF token']);
+    echo ajaxerror::e('errors', ['Invalid CSRF token']);
     die();
 }
 

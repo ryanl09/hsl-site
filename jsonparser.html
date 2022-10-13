@@ -20,6 +20,10 @@
             return { name: n.name, score: n.score };
         }
 
+        let n = (name) => {
+            return name.replace(/\s/g, '').replace(/[^a-z0-9_-]/gi, '');
+        }
+
         $(document).ready(function(){
 
             $('.jsonupload').on('change', function(){
@@ -42,28 +46,26 @@
                             var keys = Object.keys(data.players);
                             for (let j = 0; j < keys.length; j++){
                                 var pl = data.players[keys[j]];
-                                console.log(pl + ',' + index);
                                 if (index > 0){
                                     var idx= stats[pl.team].findIndex((x) => x.name === pl.name);
-                                    console.log(idx);
-                                    $(`#${pl.name}-goals`).text(parseInt($(`#${pl.name}-goals`).text(),10)+pl.goals);
-                                    $(`#${pl.name}-assists`).text(parseInt($(`#${pl.name}-assists`).text(),10)+pl.assists);
-                                    $(`#${pl.name}-saves`).text(parseInt($(`#${pl.name}-saves`).text(),10)+pl.saves);
-                                    $(`#${pl.name}-shots`).text(parseInt($(`#${pl.name}-shots`).text(),10)+pl.shots);
+                                    $(`#${n(pl.name)}-goals`).text(parseInt($(`#${n(pl.name)}-goals`).text(),10)+pl.goals);
+                                    $(`#${n(pl.name)}-assists`).text(parseInt($(`#${n(pl.name)}-assists`).text(),10)+pl.assists);
+                                    $(`#${n(pl.name)}-saves`).text(parseInt($(`#${n(pl.name)}-saves`).text(),10)+pl.saves);
+                                    $(`#${n(pl.name)}-shots`).text(parseInt($(`#${n(pl.name)}-shots`).text(),10)+pl.shots);
                                     continue;
                                 }
 
                                 var tr = $('<tr>',{
-                                    html: `<td>${pl.name}</td>
-                                    <td id="${pl.name}-goals">${pl.goals}</td>
-                                    <td id="${pl.name}-assists">${pl.assists}</td>
-                                    <td id="${pl.name}-saves">${pl.saves}</td>
-                                    <td id="${pl.name}-shots">${pl.shots}</td>`
-                                }).attr('id', pl.name);
+                                    html: `<td>${n(pl.name)}</td>
+                                    <td id="${n(pl.name)}-goals">${pl.goals}</td>
+                                    <td id="${n(pl.name)}-assists">${pl.assists}</td>
+                                    <td id="${n(pl.name)}-saves">${pl.saves}</td>
+                                    <td id="${n(pl.name)}-shots">${pl.shots}</td>`
+                                }).attr('id', n(pl.name));
                                 $(`.team-${pl.team}`).append(tr);
 
                                 stats[pl.team].push({
-                                    name: pl.name,
+                                    name: n(pl.name),
                                     goals: pl.goals,
                                     assists: pl.assists,
                                     saves: pl.saves,

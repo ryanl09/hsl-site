@@ -31,11 +31,21 @@ if (count($p) < 3){
                 <div class="tbl-title">
                     <?php
                         $query=
+                        "SELECT teams.team_name
+                        FROM users
+                        INNER JOIN teams
+                            ON users.team_id = teams.id
+                        WHERE users.user_id = ?";
+
+                        $re = $db->query($query, $_SESSION['user']->get_id())->fetchArray();
+                        $team = $re['team_name'];
+
+                        $query=
                         "SELECT COUNT(*) as c
                         FROM `teams`
                         WHERE id NOT IN (1,2,3,24,25,26)";
                         $res = $db->query($query)->fetchArray();
-                        echo '<h3>Teams (' . $res['c'] . ')</h3>';
+                        echo '<h3>Teams (' . $res['c'] . ') | Your current team: '.$team.'</h3>';
                     ?>
                 </div>
                 <hr class="sep">
@@ -88,7 +98,7 @@ if (count($p) < 3){
                                 $ahref = '<a class="copy-sc" data-link="'.$reg_link.'"><i class="bx bx-copy"></i>Copy</a>';
 
                                 echo '<tr>';
-                                echo td($row['id']);
+                                echo td($row['id'], 'team-id');
                                 echo td($row['team_name']);
                                 echo td($row['name']);
                                 echo td($row['email']);

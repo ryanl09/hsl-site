@@ -18,5 +18,22 @@
             $('.hs-players-table tbody tr').not(`.team-${t.val()}`).hide();
             $(`.hs-players-table tbody tr.team-${t.val()}`).show();
         });
+
+
+        $('.team-id').on('click', function(){
+            $.ajax({
+                url:`${ajax_url}reg-ajax.php`,
+                type:'post',
+                data:{'update_team':$(this).text(), 'csrf':$('#csrf').val()},
+                dataType:'json',
+                success:(data)=>{
+                    if (data.status){
+                        window.location.reload();
+                    }else{
+                        console.log(data);
+                    }
+                }
+            });
+        });
     });
 })();

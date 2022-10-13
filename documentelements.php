@@ -323,7 +323,14 @@ function ui_script() {
  */
 
 function td($data){
-    return '<td>' . $data . '</td>';
+    $args = func_get_args();
+    $class='';
+    if (count($args) > 1){
+        array_shift($args);
+        $arg = implode(' ', $args);
+        $class=' class="'.$arg.'"';
+    }
+    return '<td'.$class.'>' . $data . '</td>';
 }
 
 /**

@@ -27,3 +27,13 @@ td,th{
     align-items: center;
     gap:10px;
 }
+
+.hs-table td:first-child{
+    transition: all .17s ease;
+    border-radius: 4px;
+}
+
+.hs-table td:first-child:hover{
+    background-color: rgba(0,0,0,0.1);
+    cursor:pointer;
+}

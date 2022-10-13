@@ -52,7 +52,22 @@ switch ($role){
                 </div>
             </div>
             <div class="row e1">
-                <div class="box"></div>
+                <div class="box">
+                    <h3>IGNs</h3>
+                    <?php
+                        $games = $user->games_competing_in('current');
+                        foreach ($games as $i => $row){
+                            $val = $user->get_ign($row['id']);
+                            $pl = !$val ? ' placeholder="Not set"' : '';
+                            echo '<div class="ign-entry">';
+                            echo '<img src="'.$row['url'].'" width="30" height"30">';
+                            echo '<label for="ign-'.$row['id'].'">'.$row['game_name'].':</label>';
+                            echo '<input game-id="'.$row['id'].'" class="ign-box" type="text" id="ign-'.$row['id'].'" value="'.$val.'" '.$pl.'>';
+                            echo '</div>';
+                        }
+                    ?>
+                    <button class="btn save save-ign"><i class="bx bx-save"></i>Save</button>
+                </div>
             </div>
         </div>
     <?php break;

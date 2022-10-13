@@ -18,6 +18,36 @@ admin_block();
 <br>
 <a href="/reg/ymca">YMCA Registrations</a>
 <br>
+
+<?php
+
+
+/*
+$query = 
+"SELECT events.event_date as d, events.event_time as t, t.team_name as home, t2.team_name as away, events.event_stream, s.tag as st, s2.tag as st2
+FROM events
+INNER JOIN subteams s
+    ON s.id = events.event_home
+INNER JOIN teams t
+    ON t.id = s.team_id
+INNER JOIN subteams s2
+    ON s2.id = events.event_away
+INNER JOIN teams t2
+    ON t2.id = s2.team_id
+WHERE events.event_game = 3";
+
+$d = new tecdb();
+
+$res = $d->query($query)->fetchAll();
+
+echo 'Date,Time,Home,Away,Stream<br>';
+
+foreach ($res as $i => $row){
+    echo $row['d'] . ',' . date('g:i a', strtotime($row['t'])) . ',' . $row['home'] . ' ' . $row['st'] . ',' . $row['away'] . ' ' . $row['st2'] .  ',' . $row['event_stream'] . '<br>';
+}*/
+
+?>
+
 <div class="create-box">
     <div class="create-pl">
         <div class="input-container">

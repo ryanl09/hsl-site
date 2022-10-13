@@ -221,7 +221,7 @@ class SubTeam extends TeamAbstract {
      * @return  array
      */
 
-    public function get_records($team_ids){
+    public static function get_records($team_ids){
         if (empty($team_ids)){
             return [];
         }
@@ -232,8 +232,7 @@ class SubTeam extends TeamAbstract {
             if (isset($res[$id])){
                 continue;
             }
-            $s = new SubTeam($id);
-            $res[$id] = $s->get_record();
+            $res[$id] = self::get_record($id);
         }
 
         return $res;
