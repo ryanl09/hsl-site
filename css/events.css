@@ -217,6 +217,30 @@ select {
     display:none !important;
 }
 
+.top-section {
+    display:flex;
+    align-items: center;
+    width:100%;
+}
+
+.display-opts {
+    margin-left: auto;
+    display:flex;
+    align-items: center;
+}
+
+.display-opts button {
+    font-size: 30px;
+    color:black;
+    padding:4px;
+    background-color: rgba(0,0,0,0);
+}
+
+.display-opts button.selected {
+    outline: 1px solid #aaa;
+    background-color: rgba(0,0,0,0.1);
+}
+
 @media only screen and (max-width:1024px){
     .e2thirds{
         grid-template-columns: auto;

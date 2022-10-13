@@ -25,7 +25,7 @@ class Event implements IEvent {
         }
 
         $query =
-        "SELECT events.event_home AS t_id, teams.team_logo AS logo, teams.team_name AS t_name, teams.slug, events.event_home_score AS score
+        "SELECT events.event_home AS t_id, teams.team_logo AS logo, teams.team_name AS t_name, teams.slug, events.event_home_score AS score, subteams.tag
         FROM `events`
         INNER JOIN `subteams`
             ON subteams.id = events.event_home
@@ -48,7 +48,7 @@ class Event implements IEvent {
         }
 
         $query =
-        "SELECT events.event_away AS t_id, teams.team_logo AS logo, teams.team_name AS t_name, teams.slug, events.event_away_score AS score
+        "SELECT events.event_away AS t_id, teams.team_logo AS logo, teams.team_name AS t_name, teams.slug, events.event_away_score AS score, subteams.tag
         FROM `events`
         INNER JOIN `subteams`
             ON subteams.id = events.event_away
@@ -287,7 +287,8 @@ class Event implements IEvent {
 
         $db = new tecdb();
         $query=
-        "SELECT t.team_name as event_home, t2.team_name as event_away, events.event_time, events.event_stream, s.division, s.id as h_id, s2.id as a_id, events.event_winner, events.id as event_id
+        "SELECT t.team_name as event_home, t2.team_name as event_away, events.event_time, events.event_stream, s.division, s.id as h_id, s2.id as a_id, 
+        events.event_winner, events.id as event_id, s.tag as home_tag, s2.tag as away_tag
         FROM `events`
         INNER JOIN subteams s
             ON s.id = events.event_home
@@ -341,7 +342,8 @@ class Event implements IEvent {
 
         $db = new tecdb();
         $query=
-        "SELECT t.team_name as event_home, t.team_logo as home_logo, t2.team_name as event_away, t2.team_logo as away_logo, events.event_time, events.event_stream, s.division
+        "SELECT t.team_name as event_home, t.team_logo as home_logo, t2.team_name as event_away, t2.team_logo as away_logo, 
+        events.event_time, events.event_stream, s.division, s.tag as home_tag, s2.tag as away_tag
         FROM `events`
         INNER JOIN subteams s
             ON s.id = events.event_home
@@ -423,7 +425,8 @@ class Event implements IEvent {
 
         $db = new tecdb();
         $query=
-        "SELECT t.team_name as event_home, t.team_logo as home_logo, t2.team_name as event_away, t2.team_logo as away_logo, events.event_date, events.event_time, events.event_stream, s.division
+        "SELECT t.team_name as event_home, t.team_logo as home_logo, t2.team_name as event_away, t2.team_logo as away_logo, 
+        events.event_date, events.event_time, events.event_stream, s.division, s.tag as home_tag, s2.tag as away_tag
         FROM `events`
         INNER JOIN subteams s
             ON s.id = events.event_home
@@ -474,7 +477,8 @@ class Event implements IEvent {
 
         $query =
         "SELECT t.team_name as event_home, t.team_logo as home_logo, t2.team_name as event_away, t2.team_logo as away_logo, events.event_winner, events.event_date, 
-        events.event_time, events.event_stream, s.division, events.id as event_id, events.event_home_score as home_score, events.event_away_score as away_score
+        events.event_time, events.event_stream, s.division, events.id as event_id, events.event_home_score as home_score, events.event_away_score as away_score,
+        s.tag as home_tag, s2.tag as away_tag
         FROM `events`
         INNER JOIN subteams s
             ON s.id = events.event_home
@@ -507,7 +511,8 @@ class Event implements IEvent {
         $db = new tecdb();
 
         $query =
-        "SELECT t.team_name as event_home, t.team_logo as home_logo, t2.team_name as event_away, t2.team_logo as away_logo, events.event_date, events.event_time, events.event_away as a_id, events.id as e_id
+        "SELECT t.team_name as event_home, t.team_logo as home_logo, t2.team_name as event_away, t2.team_logo as away_logo, 
+        events.event_date, events.event_time, events.event_away as a_id, events.id as e_id, s.tag as home_tag, s2.tag as away_tag
         FROM `events`
         INNER JOIN subteams s
             ON s.id = events.event_home

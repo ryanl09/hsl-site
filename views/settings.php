@@ -20,7 +20,7 @@ if ($user->get_username()==='ryan'){
     $role='player';
 }
 
-echo '<h2>Settings</h2>';
+echo '<h2 style="margin-bottom:10px;">Settings</h2>';
 
 switch ($role){
     case 'player':?>

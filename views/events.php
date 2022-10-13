@@ -1,28 +1,4 @@
 <?php
-/*
-$db = new tecdb();
-
-$query=
-"SELECT events.event_date, events.event_time, teams.team_name, events.event_stream
-FROM `events`
-INNER JOIN subteams
-    ON subteams.id = events.event_home OR subteams.id = events.event_away
-INNER JOIN `teams`
-    ON subteams.team_id = teams.id
-WHERE events.event_game=2  AND events.event_stream=\"https://www.twitch.tv/techighschoolgroup\"
-ORDER BY events.event_date ASC";
-
-$csv = "Date,Time,Home,Away,Stream\n";
-
-$row = $db->query($query)->fetchAll();
-
-for ($j = 0; $j < count($row); $j += 2){
-    $csv .= $row[$j]['event_date'] . ',' . $row[$j]['event_time'] . ',' . $row[$j]['team_name'] . ','
-        . $row[($j+1)]['team_name'] . ',' . $row[$j]['event_stream'] ."\n";
-}*/
-?>
-
-<?php
 
 $path = $_SERVER['DOCUMENT_ROOT'];
 require_once($path . '/documentelements.php');
@@ -60,6 +36,10 @@ $game_icons2.='</div>';
 
 <div class="top-section">
     <h2>Events</h2>
+    <div class="display-opts">
+        <button class="default-view selected"><i class='bx bx-checkbox'></i></button>
+        <button class="calendar-view"><i class='bx bxs-calendar' ></i></button>
+    </div>
 </div>
 
 <div class="mid-section">
@@ -153,6 +133,9 @@ $game_icons2.='</div>';
             </div>
         </div>
     </div>
+</div>
+<div class="mid-section2">
+
 </div>
 
 

@@ -64,7 +64,7 @@ switch ($action){
 
         $db = new tecdb();
         $sql = 
-        "SELECT teams.team_name AS parent, teams.primarycolor, teams.secondarycolor, teams.team_logo, teams.id, subteams.id AS sub_id, subteams.division, games.game_name
+        "SELECT teams.team_name AS parent, teams.primarycolor, teams.secondarycolor, teams.team_logo, teams.id, subteams.id AS sub_id, subteams.division, games.game_name, subteams.tag
         FROM teams
         INNER JOIN subteams
             ON subteams.team_id = teams.id

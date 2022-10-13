@@ -82,7 +82,7 @@ $(document).ready(()=>{
 
             var l = $(document.createElement('label'));
             l.attr('for', e.slug);
-            l.text(e.team_name);
+            l.text(`${e.team_name} ${e.tag}`);
 
             var wrapper = $(document.createElement('div'));
             wrapper.addClass('team-cbox');

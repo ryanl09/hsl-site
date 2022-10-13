@@ -91,6 +91,23 @@
             });
         }
 
+        $('.default-view').on('click', function(){
+            if (!$(this).hasClass('selected')){
+                $(this).addClass('selected');
+                $('.calendar-view').removeClass('selected');
+                $('.mid-section').show();
+                $('.mid-section2').hide();
+            }
+        });
+
+        $('.calendar-view').on('click', function(){
+            if (!$(this).hasClass('selected')){
+                $(this).addClass('selected');
+                $('.default-view').removeClass('selected');
+                $('.mid-section').hide();
+                $('.mid-section2').show();
+            }
+        });
         /**
          * populate teams select
          */
@@ -114,7 +131,7 @@
                     data.teams.forEach(e => {
                         let opt = $('<option>',{
                             value:e.subteam_id,
-                            text:e.team_name
+                            text:`${e.team_name} ${e.tag}`
                         });
                         $('#sort-team').append(opt);
                     });

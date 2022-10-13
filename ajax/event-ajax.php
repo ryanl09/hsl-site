@@ -223,7 +223,6 @@ if ((isset($_SERVER['HTTP_X_REQUESTED_WITH'])) && ($_SERVER['HTTP_X_REQUESTED_WI
                 $home = $e->get_home_team();
                 $away = $e->get_away_team();
 
-                
                 $h_h = Event::has_roster($event_id, $home['t_id']);
                 $a_h = Event::has_roster($event_id, $away['t_id']);
 

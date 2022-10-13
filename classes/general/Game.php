@@ -63,7 +63,7 @@ class Game {
         $db = new tecdb();
 
         $query=
-        "SELECT teams.team_name, teams.id AS team_id, subteams.id AS subteam_id, teams.slug
+        "SELECT teams.team_name, teams.id AS team_id, subteams.id AS subteam_id, teams.slug, subteams.tag
         FROM teams
         INNER JOIN subteams
             ON subteams.team_id = teams.id AND subteams.game_id = ?
@@ -90,7 +90,7 @@ class Game {
         $db = new tecdb();
 
         $query=
-        "SELECT teams.team_name, teams.id AS team_id, subteams.id AS subteam_id, teams.slug
+        "SELECT teams.team_name, teams.id AS team_id, subteams.id AS subteam_id, teams.slug, subteams.tag
         FROM teams
         INNER JOIN subteams
             ON subteams.team_id = teams.id AND subteams.game_id = ?
@@ -119,7 +119,8 @@ class Game {
         $db = new tecdb();
 
         $query=
-        "SELECT t.team_name AS home, t.team_logo as home_logo, t2.team_name AS away, t2.team_logo as away_logo, events.event_time, events.event_date, s.division, events.id
+        "SELECT t.team_name AS home, t.team_logo as home_logo, t2.team_name AS away, t2.team_logo as away_logo, 
+        events.event_time, events.event_date, s.division, events.id, s.tag as home_tag, s2.tag as away_tag
         FROM events
         INNER JOIN subteams s
             ON s.id = events.event_home

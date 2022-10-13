@@ -160,12 +160,6 @@ body.dark .sidebar header .toggle{
     transform: translateY(-50%) rotate(0deg);
 }
 
-@media only screen and (max-width:800px) {
-    .sidebar header .toggle {
-        display:none;
-    }
-}
-
 .sidebar .menu{
     margin-top: 40px;
 }
@@ -330,4 +324,36 @@ body.dark .home{
 
 .current-select span {
     color: #fff !important;
+}
+
+@media only screen and (max-width:800px) {
+    .sidebar {
+        width:100%;
+
+    }
+
+    .sidebar .toggle {
+        right:0px !important;
+    }
+
+    .sidebar.close {
+        width:0px;
+        padding: 0px;
+    }
+
+    .sidebar.close .image-text {
+        display:none;
+    }
+
+    .sidebar.close .toggle {
+        top:50px;
+        height:50px;
+        right:-25px !important;
+        border-radius: 0px;
+    }
+
+    .sidebar ~ .home {    
+        left: 0px !important;
+        width:100% !important;
+    }
 }
