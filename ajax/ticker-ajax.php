@@ -5,6 +5,7 @@ include_once($path . '/classes/util/ajaxerror.php');
 
 require_once($path . '/classes/event/Schedule.php');
 require_once($path . '/classes/general/Game.php');
+require_once($path . '/classes/team/SubTeam.php');
 require_once($path . '/classes/util/Sessions.php');
 
 if ((isset($_SERVER['HTTP_X_REQUESTED_WITH'])) && ($_SERVER['HTTP_X_REQUESTED_WITH']==='XMLHttpRequest')) {
@@ -65,17 +66,28 @@ if ((isset($_SERVER['HTTP_X_REQUESTED_WITH'])) && ($_SERVER['HTTP_X_REQUESTED_WI
             case 'init':
                 $res = Game::get_all();
                 $events=[];
+                $team_ids=[];
+                $recs = [];
 
                 unset($res[2]);
                 unset($res[3]);
 
                 foreach ($res as $i => $row){
-                    $events[$row['id']] = Game::get_events_week($row['id']);
+                    $r_id = $row['id'];
+                    $events[$r_id] = Game::get_events_week($r_id);
+
+                    for ($j = 0; $j < count($events[$r_id]); $j++){
+                        $team_ids[] = $events[$r_id][$j]['h_id'];
+                        $team_ids[] = $events[$r_id][$j]['a_id'];
+                    }
                 }
+
+                $recs = SubTeam::get_records($team_ids);
 
                 echo json_encode(array(
                         'games' => $res,
-                        'events' => $events
+                        'events' => $events,
+                        'records' => $recs
                     )
                 );
                 die();

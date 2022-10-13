@@ -120,7 +120,44 @@ class Game {
 
         $query=
         "SELECT t.team_name AS home, t.team_logo as home_logo, t2.team_name AS away, t2.team_logo as away_logo, 
-        events.event_time, events.event_date, s.division, events.id, s.tag as home_tag, s2.tag as away_tag
+        events.event_time, events.event_date, s.division, events.id, s.tag as home_tag, s2.tag as away_tag,
+        s.id as h_id, s2.id as a_id
+        FROM events
+        INNER JOIN subteams s
+            ON s.id = events.event_home
+        INNER JOIN teams t
+            ON s.team_id = t.id
+        INNER JOIN subteams s2
+            ON s2.id = events.event_away
+        INNER JOIN teams t2
+            ON s2.team_id = t2.id
+        WHERE events.event_date >= ? AND events.event_date <= ? AND events.event_game = ?
+        ORDER BY s.division ASC, events.event_time ASC";
+
+        $res = $db->query($query, $mon, $fri, $game_id)->fetchAll();
+        return $res;
+    }
+
+    /**
+     * get events last week
+     * @param   int $game_id
+     * @return  array
+     */
+
+    public static function get_events_last_week($game_id){
+        if (!$game_id){
+            return [];
+        }
+
+        $mon = date( 'Y-m-d', strtotime( 'monday last week' ) );
+        $fri = date( 'Y-m-d', strtotime( 'friday last week' ) );
+
+        $db = new tecdb();
+
+        $query=
+        "SELECT t.team_name AS home, t.team_logo as home_logo, t2.team_name AS away, t2.team_logo as away_logo, 
+        events.event_time, events.event_date, s.division, events.id, s.tag as home_tag, s2.tag as away_tag,
+        s.id as h_id, s2.id as a_id
         FROM events
         INNER JOIN subteams s
             ON s.id = events.event_home

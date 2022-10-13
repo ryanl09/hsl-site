@@ -214,6 +214,30 @@ class SubTeam extends TeamAbstract {
             'losses' => $losses['losses']
         );
     }
+
+    /**
+     * get all records of teams
+     * @param   array   $team_ids
+     * @return  array
+     */
+
+    public function get_records($team_ids){
+        if (empty($team_ids)){
+            return [];
+        }
+
+        $res=[];
+        for ($i = 0; $i < count($team_ids); $i++){
+            $id = $team_ids[$i];
+            if (isset($res[$id])){
+                continue;
+            }
+            $s = new SubTeam($id);
+            $res[$id] = $s->get_record();
+        }
+
+        return $res;
+    }
 }
 
 ?>

@@ -91,28 +91,7 @@ $(document).ready(()=>{
                     var ar = '(0 - 0)';
                     var s = '';
 
-                    switch (ev[i].id){
-                        case 128:
-                            hr = '(1 - 0)';
-                            ar = '(0 - 1)';
-                            s = ev[i].home + ' wins 13 - 1';
-                            break;
-                        case 129:
-                            hr = '(0 - 1)';
-                            ar = '(1 - 0)';
-                            s = ev[i].away + ' wins 13 - 6';
-                            break;
-                        case 130:
-                            hr = '(1 - 0)';
-                            ar = '(0 - 1)';
-                            s = ev[i].home + ' wins 13 - 8';
-                            break;
-                        case 131:
-                            hr = '(0 - 1)';
-                            ar = '(1 - 0)';
-                            s = ev[i].away + ' wins 13 - 0';
-                            break;
-                    }
+                    
 
 
                     var h = `<span><img src="${e.url}" width="30" height="30"></span><span class="div-mark">Division ${ev[i].division}</span>|<span>${fix_date(ev[i].event_date)}</span>|<span>${fix_time(ev[i].event_time)}</span>`;
