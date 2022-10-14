@@ -426,7 +426,7 @@ class Event implements IEvent {
         $db = new tecdb();
         $query=
         "SELECT t.team_name as event_home, t.team_logo as home_logo, t2.team_name as event_away, t2.team_logo as away_logo, 
-        events.event_date, events.event_time, events.event_stream, s.division, s.tag as home_tag, s2.tag as away_tag
+        events.event_date, events.event_time, events.event_stream, s.division, s.tag as home_tag, s2.tag as away_tag, games.url as game_logo
         FROM `events`
         INNER JOIN subteams s
             ON s.id = events.event_home
@@ -436,10 +436,12 @@ class Event implements IEvent {
             ON s2.id = events.event_away
         INNER JOIN teams t2
             ON s2.team_id = t2.id
-        WHERE events.event_date >= now()
-        ORDER BY events.event_date ASC, s.division ASC LIMIT 1";
+        INNER JOIN games
+            ON events.event_game = games.id
+        WHERE events.event_date >= now() AND events.event_time >= ?
+        ORDER BY events.event_date ASC, events.event_time, s.division ASC LIMIT 1";
 
-        $res = $db->query($query)->fetchArray();
+        $res = $db->query($query, $t)->fetchArray();
         return empty($res) ? false : $res;
     }
 

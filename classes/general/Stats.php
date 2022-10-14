@@ -150,6 +150,45 @@ class Stats {
         $ret = $db->query($query, $user_id, $event_id, $stat_id, $stat_value, $stat_value)->lastInsertID();
         return $ret;
     }
+
+    /**
+     * stats page
+     * @param   int $game
+     * @param   int $div
+     * @return  array
+     */
+
+    public function stats_page_any($game, $div){
+        if (!$game || !$div){
+            return [];
+        }
+
+        $query=
+        "SELECT SUM(stats.stat_value) AS total, stat_cols.id, user_igns.ign, teams.team_name
+        FROM stats
+        INNER JOIN stat_cols
+            ON stat_cols.id = stats.stat_id
+        INNER JOIN user_igns
+            ON user_igns.user_id = stats.user_id
+        INNER JOIN users
+            ON stats.user_id = users.user_id
+        INNER JOIN teams
+            ON users.team_id = teams.id
+        WHERE stat_cols.game_id = ?
+        GROUP BY stat_cols.id, user_igns.ign, teams.team_name
+        ORDER BY user_igns.ign";
+
+        $res = $this->db->query($query, $game)->fetchAll();
+        $ret=array();
+        foreach ($res as $i => $row){ //format stats
+
+            $ret[$row['ign']][$row['id']]=$row['total'];
+            $ret[$row['ign']]['team']=$row['team_name'];
+            unset($res[$i]);
+        }
+
+        return $ret;
+    }
 }
 
 ?>

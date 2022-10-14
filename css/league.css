@@ -1,1 +1,109 @@
 @import 'constants.css';
+
+.btn-cont {
+    position:absolute;
+    width:100%;
+    left:0;
+    bottom:0;
+    padding:10px;
+}
+
+.btn.smooth {
+    width:100%;
+    color:#000;
+    background-color:#fff;
+    font-weight: 500;
+    padding:10px;
+}
+
+.btn.smooth > span {
+    margin-left: auto;
+}
+
+.btn.smooth i {
+    font-size: 20px;
+}
+
+.btn.smooth:hover, .watch-next:hover {
+    background-color:var(--lb-h);
+}
+
+.box > h3:first-child {
+    font-weight: 500;
+}
+
+.playing-next {
+    height:200px;
+    max-height: 200px;
+}
+
+.playing-next > h3:first-child{
+    text-align: center;
+}
+
+.box-title {
+    display:flex;
+    align-items: center;
+    width: 100%;
+}
+
+.box-title i {
+    margin-left: auto;
+    font-size: 20px;
+}
+
+.sm {
+    height:100px;
+    max-height: 100px;
+}
+
+.next-matchup {
+    width:400px;
+    display:flex;
+    gap:40px;
+    margin:0 auto;
+    align-items: center;
+    justify-content: center;
+}
+
+.next-info {
+    width:100%;
+    text-align: center;
+    font-weight: 400;
+}
+
+.next-game, .next-stream {
+    position:absolute;
+    padding:10px;
+}
+
+.next-game {
+    top:0;
+    left:0;
+    padding:14px;
+}
+
+.next-stream {
+    bottom:0;
+    right:0;
+}
+
+.watch-next {
+    background-color: #fff;
+    padding:10px;
+}
+
+.watch-next i {
+    font-size: 30px;
+    color: #9146FF;
+}
+
+.playing-next > h3:first-child, .next-matchups {
+    margin-bottom:10px;
+}
+
+@media only screen and (max-width:1024px){
+    .playing-next {
+        width:100%;
+    }
+}

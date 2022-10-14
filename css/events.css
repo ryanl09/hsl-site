@@ -36,14 +36,6 @@ table {
     width:10%;
 }
 
-hr.sep {
-    border: 0;
-    height:1px;
-    border-top: 1px #ddd solid;
-    width:100%;
-    margin: 10px 0;
-}
-
 .box {
     padding:10px 20px;
     border-radius: 6px;
@@ -109,32 +101,6 @@ hr.sep {
     cursor:pointer;
 }
 
-.game-icons {
-    margin-left: auto;
-    display:flex;
-    gap:12px;
-    align-items: center;
-    height:fit-content;
-}
-
-.game-icon{
-    padding:2px;
-    transition: var(--tran-03);
-    background-color: rgba(0,0,0,0);
-    border:none;
-}
-
-.game-icon.selected{
-    background-color:rgba(0,0,0,0.1);
-    border-radius: 2px;
-    border:1px solid #ccc;
-}
-
-.game-icon:hover {
-    opacity: 0.65;
-    cursor:pointer;
-}
-
 .mid-section .row .box .h3 {
     width: fit-content;
 }
@@ -152,13 +118,6 @@ hr.sep {
     gap:10px;
 }
 
-.e1 {
-    grid-template-columns: 100%;
-}
-
-.e2thirds{
-    grid-template-columns: 66% 33%;
-}
 
 tbody tr{
     transition:all .2s ease;

@@ -12,6 +12,8 @@
     --blue-h:rgb(78 120 185);
     --save-h:#23a362;
 
+    --lb-h:rgb(210, 232, 247);
+
     /* ====== Transition ====== */
     --tran-03: all 0.2s ease;
     --tran-03: all 0.3s ease;
@@ -19,6 +21,16 @@
     --tran-05: all 0.3s ease;
 
     --btn-t: all .2s ease;
+}
+
+
+
+hr.sep {
+    border: 0;
+    height:1px;
+    border-top: 1px #ddd solid;
+    width:100%;
+    margin: 10px 0;
 }
 
 input[type=text], input[type=number], select {
