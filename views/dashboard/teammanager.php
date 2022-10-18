@@ -192,6 +192,8 @@
     <div class="row">
         <div class="box">
             <h3>Announcements</h3>
+            <pre><?php require_once($_SERVER['DOCUMENT_ROOT'] .'/classes/general/Announcements.php');
+            print_r(Announcements::get_all()); ?></pre>
         </div>
     </div>
 </div>
