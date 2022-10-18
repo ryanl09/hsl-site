@@ -189,12 +189,27 @@
 
 
 <div class="tab" tab--id="2" style="display:none;">
-    <div class="row">
+    <div class="row announce">
+
+
         <div class="box">
-            <h3>Announcements</h3>
-            <pre><?php require_once($_SERVER['DOCUMENT_ROOT'] .'/classes/general/Announcements.php');
-            print_r(Announcements::get_all()); ?></pre>
+            <div class="ann">
+                <h2 class="ann-title"></h2>
+                <div class="ann-body">
+                    <p class="body-text"></p>
+                </div>
+                <div class="ann-info">
+                    <div class="ann-author">
+                        <img src="https://tecesports.com/uploads/" alt="" width="40" height="40">
+                        <p class="author"></p>
+                    </div>
+                    <p class="ann-time"></p>
+                </div>
+            </div>
         </div>
+
+
+
     </div>
 </div>
 

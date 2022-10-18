@@ -3,6 +3,7 @@
 $path = $_SERVER['DOCUMENT_ROOT'];
 
 require_once($path . '/classes/event/Event.php');
+require_once($path . '/classes/general/Announcements.php');
 require_once($path . '/classes/security/csrf.php');
 require_once($path . '/classes/services/CreateSubTeamService.php');
 require_once($path . '/classes/team/SubTeam.php');
@@ -314,6 +315,18 @@ if ((isset($_SERVER['HTTP_X_REQUESTED_WITH'])) && ($_SERVER['HTTP_X_REQUESTED_WI
                     )
                 );
                 die();
+            break;
+            case 'get_announcements':
+                $a = Announcements::get_all();
+
+                echo json_encode(
+                    array(
+                        'status' => 1,
+                        'announcements' => $a
+                    )
+                );
+                die();
+
                 break;
         }
     }else{

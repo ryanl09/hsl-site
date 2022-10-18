@@ -300,6 +300,47 @@ tbody tr:hover{
     margin-right:6px;
 }
 
+.ann-title {
+    font-weight: 600;
+    margin-bottom:10px;
+}
+
+.ann-author{
+    display:flex;
+    align-items: center;
+    gap:10px;
+}
+
+.ann-author img {
+    border-radius: 50%;
+}
+
+.ann-author p {
+    font-size: 18px;
+    font-weight: 500;
+}
+
+.ann-info {
+    width:calc(100% - 40px);
+    position:absolute;
+    bottom:20;
+    display:flex;
+    align-items: center;
+}
+
+.ann-time {
+    margin-left: auto;
+    align-self: flex-end;
+    font-size: 16px;
+    color:#333;
+}
+
+.ann-body{
+    max-height: 186px;
+    overflow-y:auto;
+}
+
+
 @media only screen and (max-width:1024px) {
     .page-content {
         padding:10px 20px;
