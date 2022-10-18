@@ -25,54 +25,6 @@ $(document).ready(()=>{
              * creating each tab as an array then loop to the start
              */
 
-            /*
-            
-            data.games.forEach(e =>{
-                var el = $(document.createElement('div'));
-                el.css({'display':'flex', 'justify-content':'center', 'align-items':'center', 'gap':'10px'});
-                el.attr('game-id', e.id);
-                el.append(`<img src="${e.url}" width="${e.id===3?'46':'30'}" height="30">`);
-                el.append(`<p>${e.game_name}</p>`);
-                tab_divs.push(el);
-                games.push({'id':e.id-1, 'url':e.url});
-                
-                data.events[e.id].forEach(f => {
-                    if(f.division===1){
-                        spans+=`<span>|<span><img src="${f.home_logo}" width="30" height="30"></span><span>vs</span><span><img src="${f.away_logo}" width="30" height="30"></span><span> @${fix_time(f.event_time)}</span></span>`;
-                    }else{
-                        spans2+=`<span>|<span><img src="${f.home_logo}" width="30" height="30"></span><span>vs</span><span><img src="${f.away_logo}" width="30" height="30"></span><span> @${fix_time(f.event_time)}</span></span>`;
-                    }
-                });
-
-                tabs[n+1] += `<div class="slide"><img src="${e.url}" width="${e.id===3?'46':'30'}" height="30" style="margin-left:10px;">${spans}</div>`;
-                tabs[n+2] += `<div class="slide"><img src="${e.url}" width="${e.id===3?'46':'30'}" height="30" style="margin-left:10px;">${spans2}</div>`;
-            });
-
-            tab_divs.forEach(e=>{
-                console.log(e.outerHTML());
-            });
-            console.log(tabs);
-
-            for (var j = 0; j < games.length; j++) {
-                var eq = ((games[j].id)*3);
-
-                for (var k = 0; k < tab_divs.length; k++) {
-                    //console.log(eq +',' + tab_divs[k].attr('game-id'));
-                    if(j+1===parseInt(tab_divs[k].attr('game-id'), 10)) {
-                        tab_divs[k].css({'background-color': '#0e0e0e'});
-                    }
-
-                    tabs[eq] += tab_divs[k].outerHTML();
-                    tab_divs[k].css({'background-color': '#222222'});
-                }
-            }
-
-            if (tabs[0]===tabs[tabs.length-1]){
-                tabs.pop();
-            }
-
-            */
-
             data.games.forEach(e => {
                 var el = $(document.createElement('div'));
                 el.css({'display':'flex', 'justify-content':'center', 'align-items':'center', 'gap':'10px'});
@@ -83,19 +35,29 @@ $(document).ready(()=>{
 
                 var ev = data.events[e.id];
 
-                console.log(ev);
-
                 for (var i = 0; i < ev.length; i++){
 
-                    var hr = '(0 - 0)';
-                    var ar = '(0 - 0)';
+                    var extra = '';
+                    if (ev[i].event_winner !== 0){
+                        var w = ev[i].home;
+                        var score = ev[i].h_score + ' - ' + ev[i].a_score;
+                        if(ev[i].event_winner === ev[i].a_id){
+                            w = ev[i].away;
+                            score = ev[i].a_score + ' - ' + ev[i].h_score;
+                        }
+
+                        extra = `${w} wins ${score}`;
+                    }
+
+                    var hr = `(` + data.records[ev[i].h_id].wins + ` - ` + data.records[ev[i].h_id].losses + `)`;
+                    var ar = `(` + data.records[ev[i].a_id].wins + ` - ` + data.records[ev[i].a_id].losses + `)`;
                     var s = '';
 
-                    
-
-
                     var h = `<span><img src="${e.url}" width="30" height="30"></span><span class="div-mark">Division ${ev[i].division}</span>|<span>${fix_date(ev[i].event_date)}</span>|<span>${fix_time(ev[i].event_time)}</span>`;
-                    h += `|<span><img src="${ev[i].home_logo}" width="30" height="30"></span><span>${hr}</span><span>vs</span><span><img src="${ev[i].away_logo}" width="30" height="30"></span><span>${ar}</span>${s===''?s:`|<span>${s}</span>`}`;
+                    h += `|<span><img src="${ev[i].home_logo}" width="30" height="30"></span><span>${ev[i].home_tag} ${hr}</span><span>vs</span><span><img src="${ev[i].away_logo}" width="30" height="30"></span><span>${ev[i].away_tag} ${ar}</span>${s===''?s:`|<span>${s}</span>`}`;
+                    if(extra){
+                        h+=`|<span>${extra}</span>`;
+                    }
                     tabs.push(h);
 
                 }

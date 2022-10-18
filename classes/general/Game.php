@@ -121,7 +121,7 @@ class Game {
         $query=
         "SELECT t.team_name AS home, t.team_logo as home_logo, t2.team_name AS away, t2.team_logo as away_logo, 
         events.event_time, events.event_date, s.division, events.id, s.tag as home_tag, s2.tag as away_tag,
-        s.id as h_id, s2.id as a_id
+        s.id as h_id, s2.id as a_id, events.event_home_score as h_score, events.event_away_score as a_score, events.event_winner
         FROM events
         INNER JOIN subteams s
             ON s.id = events.event_home

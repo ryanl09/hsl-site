@@ -93,10 +93,11 @@ if (count($p) < 3){
 
                             $opts = '';
 
+                            $csv='';
+
                             foreach ($res as $i => $row){
                                 $reg_link = 'https://tecesports.com/register/' . $row['schoolcode'];
                                 $ahref = '<a class="copy-sc" data-link="'.$reg_link.'"><i class="bx bx-copy"></i>Copy</a>';
-
                                 echo '<tr>';
                                 echo td($row['id'], 'team-id');
                                 echo td($row['team_name']);
@@ -163,6 +164,43 @@ if (count($p) < 3){
                         ?>
                     </tbody>
                 </table>
+            </div>
+            <div>
+                <pre>
+                <?php
+
+                    $db=new tecdb();
+                    $sql=
+                    "SELECT users.name, user_igns.ign, games.game_name, teams.team_name, subteams.division, users.team_id
+                    from `users`
+                    Inner JOIN `user_igns`
+                        ON users.user_id = user_igns.user_id
+                    INNER JOIN player_seasons
+                        ON player_seasons.user_id = users.user_id
+                    INNER JOIN subteams
+                        ON subteams.id = player_seasons.subteam_id
+                    INNER JOIN teams
+                        ON teams.id=users.team_id
+                    INNER JOIN games
+                        ON games.id = subteams.game_id
+                    where `role`=\"player\"
+                    ORDER BY users.team_id
+                    ";
+
+                    $res = $db->query($sql)->fetchAll();
+
+                    $csv = 'Name,IGN,Game,School,Team ID<br>';
+
+                    foreach ($res as $i => $row){
+                        //print_r($row);
+                        $csv .= $row['name'] . ',' . $row['ign'] . ',' . $row['game_name'] . ' - Division ' . $row['division'] . ',' . $row['team_name'] . ',' . $row['team_id'] . '<br>';
+                    }
+                ?>
+                </pre>
+
+                <h1>csvs</h1>
+                <p>ID,Name,Email,School</p>
+                <?php echo $csv; ?>
             </div>
         <?php break;
         case 'ymca': ?>
