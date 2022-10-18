@@ -117,7 +117,7 @@ class Game {
         $fri = date( 'Y-m-d', strtotime( 'friday this week' ) );
 
         $db = new tecdb();
-
+        
         $query=
         "SELECT t.team_name AS home, t.team_logo as home_logo, t2.team_name AS away, t2.team_logo as away_logo, 
         events.event_time, events.event_date, s.division, events.id, s.tag as home_tag, s2.tag as away_tag,

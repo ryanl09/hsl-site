@@ -1,4 +1,12 @@
-<div class="tab" tab-name="rosters">
+<div class="profile-tabs">
+    <button class="tab-change selected" tab-id="1">Rosters</button>
+    <button class="tab-change" tab-id="2">Announcements</button>
+    <button class="tab-change" tab-id="3">Rules</button>
+    <button class="tab-change" tab-id="4">Fundraising</button>
+</div>
+
+<div class="tab" tab--id="1">
+
     <div class="row e2">
         <div class="box tall">
             <h3 class="box-title">Players</h3>
@@ -174,6 +182,34 @@
         <div class="box">
             <h3 class="box-title">Set rosters</h3>
             <div class="avail-pl"></div>
+        </div>
+    </div>
+
+</div>
+
+
+<div class="tab" tab--id="2" style="display:none;">
+    <div class="row">
+        <div class="box">
+            <h3>Announcements</h3>
+        </div>
+    </div>
+</div>
+
+
+<div class="tab" tab--id="3" style="display:none;">
+    <div class="row">
+        <div class="box">
+            <h3>Rules</h3>
+        </div>
+    </div>
+</div>
+
+
+<div class="tab" tab--id="4" style="display:none;">
+    <div class="row">
+        <div class="box">
+            <h3>Fundraising</h3>
         </div>
     </div>
 </div>

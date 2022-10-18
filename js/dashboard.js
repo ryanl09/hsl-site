@@ -1,6 +1,32 @@
 (function(){
     $(document).ready(function(){
 
+
+        $('.tab-change').on('click', function(){
+            const id = $(this).attr('tab-id');
+
+            $('.tab').hide();
+            $('.tab-change').removeClass('selected');
+            $('.tab[tab--id='+id+']').show();
+            $(this).addClass('selected');
+        });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         /**
          * team manager
          */
