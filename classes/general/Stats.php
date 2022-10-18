@@ -180,14 +180,45 @@ class Stats {
 
         $res = $this->db->query($query, $game)->fetchAll();
         $ret=array();
-        foreach ($res as $i => $row){ //format stats
 
-            $ret[$row['ign']][$row['id']]=$row['total'];
-            $ret[$row['ign']]['team']=$row['team_name'];
+        $last_ign = '';
+        $idx=0;
+        foreach ($res as $i => $row){ //format stats
+            if (strcmp($row['ign'], $last_ign)!==0){
+                $idx = $this->index_of_name($ret, $row['ign']);
+                if($idx<0){
+                    $idx=count($ret);
+                }
+            }
+            $ret[$idx]['stats'][]=array(
+                'stat_id' => $row['id'],
+                'stat_total' => $row['total']
+            );
+            $ret[$idx]['ign']=$row['ign'];
+            $ret[$idx]['team']=$row['team_name'];
+            $last_ign = $row['ign'];
             unset($res[$i]);
         }
 
         return $ret;
+    }
+
+    /**
+     * temporary fix to format stats
+     * @param   array   $arr
+     * @param   string  $name
+     * @return  int
+     */
+
+    private function index_of_name($arr, $name){
+        $idx=-1;
+        for ($i = 0; $i < count($arr); $i++){
+            if (strcmp($arr['ign'], $name)===0){
+                $idx = $i;
+                break;
+            }
+        }
+        return $idx;
     }
 }
 

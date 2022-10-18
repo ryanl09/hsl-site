@@ -17,26 +17,35 @@ class EmailService {
     private $mail = NULL;
 
     public function __construct() {
-        $user = "AKIAYKMGARIXWCLUQZDD";
-        $pass = "BFhVUsVHhQjcoOAZ8sQSPvLQijquDRlhJluBgvynOYTa";
+        $this->host = 'smtp.gmail.com';
+        $user='ryan@theesportcompany.com';
+        $pass='P@ssword123*';
+        //$user = "AKIAYKMGARIXWCLUQZDD";
+        //$pass = "BFhVUsVHhQjcoOAZ8sQSPvLQijquDRlhJluBgvynOYTa";
+
+        //$user = "AKIAYKMGARIXY7LKPHMO";
+        //$pass = "BCaXA+wiPddair9kuKgBjgn1iAwRt9hrisIP3RLntDVt";
         $this->mail = new PHPMailer(true);
         try{
             $this->mail->SMTPDebug = SMTP::DEBUG_SERVER;
-            //$this->mail->isSMTP();
+            $this->mail->isSMTP();
+            $this->mail->SMTPAuth = true;
+            $this->mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+            /*
             $this->mail->SMTPOptions=array(
                 'ssl' => array(
                     'verify_peer' => false,
                     'verify_peer_name' => false,
                     'allow_self_signed' => true
                 )
-            );
-            $this->mail->SMTPAuth = true;
-            $this->mail->SMTPSecure = 'tls';
+            );*/
+            $this->mail->SMTPDebug = 4;
+            $this->mail->setFrom('no-reply@tecesports.com', 'TEC Esports');
+            //$this->mail->AuthType = 'LOGIN';
             $this->mail->Host = $this->host;
             $this->mail->Username = $this->user;
             $this->mail->Password = $this->pass;
             $this->mail->Port = 587;
-            $this->mail->setFrom('no-reply@tecesports.com', 'TEC Esports');
         } catch (Exception $e){
 
         }
@@ -50,12 +59,11 @@ class EmailService {
         $sent=false;
 
         try {
-            $this->mail->addAddress("test-t79rhq8uf@srv1.mail-tester.com", '');
+            $this->mail->addAddress("ryan@theesportcompany.com", 'Ryan');
             $this->mail->isHTML(true);
             $this->mail->Subject = $subject;
             $this->mail->Body = $body;
-            $this->mail->send();
-            $sent = true;
+            $sent = $this->mail->send();
         } catch (Exception $e){
             $sent=false;
         }

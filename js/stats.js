@@ -64,21 +64,20 @@
 
     function process_stats(tb){
         tb.html('');
-        const keys = Object.keys(_DATA.stats);
-        for(var i = 0; i < keys.length;i++){
-            const e = _DATA.stats[keys[i]];
+        for(var i = 0; i < _DATA.stats.length;i++){
+            const e = _DATA.stats[i];
             var blocks = '';
-            data.cols.forEach(f => {
-                blocks+=td(e[f.id]);
+            _DATA.cols.forEach(f => {
+                blocks+=td(e.stats[e.stats.map(e => e.stat_id).indexOf(f.id)].stat_total);
             });
             const row = $('<tr>', {
-                html:`${td(keys[i])}${td(e.team)}${blocks}`
+                html:`${td(e.ign)}${td(e.team)}${blocks}`
             });
             tb.append(row);
         }
     }
 
-    function _sort(){
+    function _sort(a, b){
         if ( a.stats[_SORT_BY] < b.stats[_SORT_BY] ){
             return -1;
         }
@@ -136,10 +135,11 @@
                 th.append(tr);
                 _DATA = data;
 
-                $('.sort').each(function(){
+                $('.sort').on('click', function(){
                     const by = $(this).attr('sort-by');
                     _SORT_BY = by;
                     sort_table();
+                    process_stats($('.stats-tbody'));
                 });
 
                 process_stats($('.stats-tbody'));
