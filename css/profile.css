@@ -20,6 +20,14 @@
     --afm: both; 
 }
 
+.pfp {
+    width:160px;
+    height:160px;
+    background-size: 160px;
+    border-radius:50%;
+    background-position: center center;
+}
+
 button {
     color:#000;
 }

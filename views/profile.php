@@ -56,8 +56,8 @@ base_header(
                 <div class="banner-wrapper">
                     <div class="banner">
                         <div class="profile-info">
-                            <div class="pfp">
-                                <img src="<?php echo $view->profile_image(); ?>">
+                            <div class="pfp" style="background: url(<?php echo $view->profile_image(); ?>) 50% 50% no-repeat;";>
+                                <!--<img src="<?php //echo $view->profile_image(); ?>">-->
                                 <?php if ($can_edit) { ?>
                                     <form id="pfp-form" action="https://tecesports.com/ajax/upload-pfp-ajax.php" method="post" enctype="multipart/form-data" style="display:none;">
                                         <input accept=".jpg, .png, .jpeg, .gif" type="file" name="fileToUpload" id="fileToUpload">
