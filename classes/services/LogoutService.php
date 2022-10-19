@@ -8,6 +8,13 @@ class LogoutService {
         session_destroy();
         $_SESSION = array();
 
+        $args = func_get_args();
+        if(count($args)){
+            if(!$args[0]){
+                return;
+            }
+        }
+
         header('Location: ' . href('login'));
     }
 }

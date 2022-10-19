@@ -17,17 +17,13 @@ class EmailService {
     private $mail = NULL;
 
     public function __construct() {
-        $this->host = 'smtp.gmail.com';
-        $user='ryan@theesportcompany.com';
-        $pass='P@ssword123*';
-        //$user = "AKIAYKMGARIXWCLUQZDD";
-        //$pass = "BFhVUsVHhQjcoOAZ8sQSPvLQijquDRlhJluBgvynOYTa";
+        $this->user = "AKIAYKMGARIXSXM63H7K";
+        $this->pass = "BMmWLnQNwyAEtm7rJUMb7vVcV0FKTv2pQsBmuVZNUS6D";
 
-        //$user = "AKIAYKMGARIXY7LKPHMO";
-        //$pass = "BCaXA+wiPddair9kuKgBjgn1iAwRt9hrisIP3RLntDVt";
+        //2JAWtdBTMQcTveX7qxPzd9JLB+FPsb1igZi3tFjF
         $this->mail = new PHPMailer(true);
         try{
-            $this->mail->SMTPDebug = SMTP::DEBUG_SERVER;
+            //$this->mail->SMTPDebug = SMTP::DEBUG_SERVER;
             $this->mail->isSMTP();
             $this->mail->SMTPAuth = true;
             $this->mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
@@ -39,10 +35,11 @@ class EmailService {
                     'allow_self_signed' => true
                 )
             );*/
-            $this->mail->SMTPDebug = 4;
+            //$this->mail->SMTPDebug = 4;
             $this->mail->setFrom('no-reply@tecesports.com', 'TEC Esports');
-            //$this->mail->AuthType = 'LOGIN';
+            $this->mail->AuthType = 'LOGIN';
             $this->mail->Host = $this->host;
+            $this->mail->Hostname = 'tecesports.com';
             $this->mail->Username = $this->user;
             $this->mail->Password = $this->pass;
             $this->mail->Port = 587;
@@ -59,7 +56,7 @@ class EmailService {
         $sent=false;
 
         try {
-            $this->mail->addAddress("ryan@theesportcompany.com", 'Ryan');
+            $this->mail->addAddress($to, '');
             $this->mail->isHTML(true);
             $this->mail->Subject = $subject;
             $this->mail->Body = $body;

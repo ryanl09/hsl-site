@@ -4,6 +4,7 @@ $path = $_SERVER['DOCUMENT_ROOT'];
 require_once($path . '/classes/security/AuthToken.php');
 require_once($path . '/classes/security/PasswordHash.php');
 require_once($path . '/classes/services/EmailService.php');
+require_once($path . '/classes/services/LogoutService.php');
 require_once($path . '/classes/services/VerifyService.php');
 
 class ForgotPasswordService extends VerifyService {
@@ -128,20 +129,17 @@ class ForgotPasswordService extends VerifyService {
             return false;
         }
 
-        $email='';
-        if (session_id() && isset($_SESSION['req_email'])){
-            $email=$_SESSION['req_email'];        
-        }
+        $token=strtolower($token);
 
         $query=
-        "SELECT LOWER(`req_key`), `req_time`
+        "SELECT LOWER(`req_key`) as req_key, `req_time`, `email`
         FROM `forgot_req`
-        WHERE `email` = ?";
+        WHERE LOWER(`req_key`) = ?";
 
-        $res = $this->db->query($query, $email)->fetchArray();
+        $res = $this->db->query($query, $token)->fetchArray();
 
         if(isset($res['req_key']) && $res['req_key']) {
-            $equals = strcmp($res['req_key'], strtolower($token)) === 0;
+            $equals = $res['req_key']===$token;
             $time = time()-strtotime($res['req_time']) <= 900;
             return $equals && $time;
         }
@@ -155,17 +153,25 @@ class ForgotPasswordService extends VerifyService {
      */
 
     public function reset($password, $login=true){
-        if(!$pass){
+        if(!$password){
             return false;
         }
 
-        $email='';
-        if (session_id() && isset($_SESSION['req_email'])){
-            $email=$_SESSION['req_email'];
-        }
-        else {
+        if (!session_id() || !isset($_SESSION['forgot_pass_token'])){
             return false;
         }
+
+        $token=$_SESSION['forgot_pass_token'];
+
+        $query=
+        "SELECT LOWER(`email`) as email
+        FROM `forgot_req`
+        WHERE `req_key` = ?";
+        $res=$this->db->query($query,$token)->fetchArray();
+        if(!isset($res['email'])){
+            return false;
+        }
+        $email=$res['email'];
 
         $ph = new PasswordHash($password);
         $pass = $ph->create();
@@ -175,6 +181,10 @@ class ForgotPasswordService extends VerifyService {
         SET `password` = ?
         WHERE `email` = ?";
         $res = $this->db->query($query, $pass, $email)->affectedRows();
+
+        if ($res){
+            LogoutService::logout(false);
+        }
 
         return $res;
     }

@@ -23,7 +23,7 @@
 .pfp {
     width:160px;
     height:160px;
-    background-size: 160px;
+    background-size: 160px !important;
     border-radius:50%;
     background-position: center center;
 }

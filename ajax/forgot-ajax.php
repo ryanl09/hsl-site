@@ -45,18 +45,26 @@ switch ($action) {
 
         if ($res['status']===1){
             echo json_encode($res);
+            die();
         }
 
         echo ajaxerror::e('errors', [$res['error']]);
-
+        die();
         break;
     case 'reset':
-        if (!isset($_POST['pass'])){
+        if (!isset($_POST['password']) || !isset($_POST['cpassword'])){
             echo ajaxerror::e('errors', ['Missing password']);
             die();
         }
 
-        $pass=$_POST['pass'];
+        $pass=$_POST['password'];
+        $cpass=$_POST['cpassword'];
+
+        if (strcmp($pass, $cpass) !== 0){
+            echo ajaxerror::e('errors', ['Passwords must match!']);
+            die();
+        }
+
         $r = $fps->reset($pass);
 
         if ($r) {
@@ -66,6 +74,7 @@ switch ($action) {
                     'success' => 'Your password has been reset!'
                 )
             );
+            die();
         }
 
         echo ajaxerror::e('errors', ['Could not reset your password. Please try again later']);
