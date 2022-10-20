@@ -11,7 +11,11 @@
             var game = parseInt($(this).attr('game-id'), 10);
             fetch_teams(game);
             fetch_stats(game);
-            get_top_pl(game);
+        });
+
+        
+        $('#top-stat').on('change', function(){
+            get_top_pl();
         });
     });
 
@@ -130,14 +134,21 @@
                     text:'Team'
                 }).addClass('team-col');
                 tr.append(te);
+
+                const sel = $('#top-stat');
+                sel.html('');
                 cols.forEach(e => {
                     const th = $('<th>',{
                         html: `${e.name}<i class='bx bx-sort-alt-2 clickable sort' sort-by="${e.id}"></i>`
                     });
                     tr.append(th);
+
+                    sel.append($('<option>', {text: e.name}).val(e.id));
                 });
                 th.append(tr);
                 _DATA = data;
+
+                
 
                 $('.sort').on('click', function(){
                     const by = $(this).attr('sort-by');
@@ -148,6 +159,7 @@
                 });
 
                 process_stats($('.stats-tbody'));
+                get_top_pl();
             },
             error:(a,b,c)=>{
                 console.log(a+','+b+','+c);
@@ -155,7 +167,9 @@
         });
     }
 
-    function get_top_pl(game){
+
+    function get_top_pl(){
+        const game=parseInt($('.game-icon.selected').attr('game-id'),10);
         const stat_id=parseInt($('#top-stat').val(),10);
         const div=parseInt($('#div').val(),10);
         
@@ -173,7 +187,7 @@
 
                 const body = $('.top-tbody');
                 body.html('');
-                data.players.forEach(e => {
+                data.stats.forEach(e => {
                     const tr = $('<tr>');
                     tr.append($('<td>', { text: e.ign }).on('click', function(){
                         window.location=`https://tecesports.com/user/${e.username}`;

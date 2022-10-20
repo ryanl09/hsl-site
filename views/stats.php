@@ -52,6 +52,7 @@ $game_icons.='</div>';
     <div class="panel">
         <div class="box">
             <h3>Top players of the week</h3>
+            <select name="top-stat" id="top-stat"></select>
             <table>
                 <thead>
                     <tr>
@@ -62,9 +63,6 @@ $game_icons.='</div>';
                 </thead>
                 <tbody class="top-tbody"></tbody>
             </table>
-        </div>
-        <div class="box">
-            <h3>Upcoming events</h3>
         </div>
     </div>
 </div>

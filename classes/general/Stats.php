@@ -175,7 +175,7 @@ class Stats {
         INNER JOIN teams
             ON users.team_id = teams.id
         WHERE stat_cols.game_id = ?
-        GROUP BY stat_cols.id, user_igns.ign, teams.team_name
+        GROUP BY stat_cols.id, user_igns.ign, users.username, teams.team_name
         ORDER BY user_igns.ign, stat_cols.id";
 
         $res = $this->db->query($query, $game)->fetchAll();
@@ -239,7 +239,7 @@ class Stats {
         echo "');</script>";*/
 
         $query=
-        "SELECT SUM(stats.stat_value) AS total, stat_cols.id, user_igns.ign, teams.team_name
+        "SELECT SUM(stats.stat_value) AS total, stat_cols.id, user_igns.ign, teams.team_name, users.username
         FROM stats
         INNER JOIN stat_cols
             ON stat_cols.id = stats.stat_id
@@ -252,7 +252,7 @@ class Stats {
         INNER JOIN events
             ON stats.event_id = events.id
         WHERE stat_cols.game_id = ? AND stats.stat_id = ? AND events.event_date >= \"$start_week\"
-        GROUP BY stat_cols.id, user_igns.ign, teams.team_name
+        GROUP BY stat_cols.id, user_igns.ign, users.username, teams.team_name
         ORDER BY total DESC LIMIT 5";
 
         $res = $this->db->query($query, $game, $stat_id)->fetchAll();
