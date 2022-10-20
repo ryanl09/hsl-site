@@ -145,6 +145,7 @@
 
         $('#sort-team').on('change', function(){
             var game = parseInt($('.e-all .game-icon.selected').attr('game-id'),10);
+            $('#sort-time').val('all');
             all_events_sort(game);
         });
 
@@ -153,6 +154,11 @@
             all_events_sort(game);
             fetch_teams(game);
         });
+
+        $('#sort-time').on('change', function(){
+            var game = parseInt($('.e-all .game-icon.selected').attr('game-id'),10);
+            all_events_sort(game);
+        });
         
         all_events_sort(1);
 
@@ -160,7 +166,7 @@
             $.ajax({
                 url:`${ajax_url}events-ajax.php`,
                 type:'get',
-                data:{'action':'all_events','sort-team':$('#sort-team').val(),'sort-div':$('#sort-div').val(), 'game':game, 'csrf':$('#csrf').val()},
+                data:{'action':'all_events','sort-team':$('#sort-team').val(),'sort-div':$('#sort-div').val(), 'game':game, 'time': $('#sort-time').val(), 'csrf':$('#csrf').val()},
                 dataType:'json',
                 success:(data)=>{
                     console.log(data);

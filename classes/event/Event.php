@@ -453,8 +453,8 @@ class Event implements IEvent {
      * @return  array
      */
 
-    public static function sort_by($game, $team, $div){
-        if (!$team || !$div){
+    public static function sort_by($game, $team, $div, $time){
+        if (!$team || !$div || !$time){
             return [];
         }
 
@@ -475,7 +475,16 @@ class Event implements IEvent {
             $div_str = "AND s.division <> ? ";
         }
 
-        $where = $team_str . $div_str;
+        $time_str = "";
+        $today = date('Y-m-d'); //todays date
+        $toda = date("H:i:s"); //time now
+        if (strcmp($time, 'upcoming')===0){
+            $time_str = "AND events.event_date >= \"$today\"";
+        } else if (strcmp($time,'past')===0){
+            $time_str = "AND events.event_date <= \"$today\"";
+        }
+
+        $where = $team_str . $div_str . $time_str;
 
         $query =
         "SELECT t.team_name as event_home, t.team_logo as home_logo, t2.team_name as event_away, t2.team_logo as away_logo, events.event_winner, events.event_date, 

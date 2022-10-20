@@ -69,14 +69,21 @@ switch ($action) {
         $game=$_GET['game'];
         $team = $_GET['sort-team'];
         $div = $_GET['sort-div'];
+        $time = $_GET['time'];
 
         if (!is_numeric($team) || !is_numeric($div) || !is_numeric($game)){
-            echo ajaxerror::e('errors', ['Invalid team or division, ' . $team . ', ' . $div]);
+            echo ajaxerror::e('errors', ['Invalid team or division']);
+            die();
+        }
+
+        $times=['all','upcoming','past'];
+        if (!in_array($time, $times)){
+            echo ajaxerror::e('errors', ['Invalid time']);
             die();
         }
 
         $e = [];
-        $e = Event::sort_by($game, $team, $div);
+        $e = Event::sort_by($game, $team, $div, $time);
 
         echo json_encode(
             array(

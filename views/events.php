@@ -110,6 +110,11 @@ $game_icons2.='</div>';
                     <select name="sort-season" id="sort-season">
                         <option value="-1" selected>Current Season</option>
                     </select>
+                    <select name="sort-time" id="sort-time">
+                        <option value="all" selected>All</option>
+                        <option value="upcoming">Upcoming</option>
+                        <option value="past">Past</option>
+                    </select>
                 </div>
             </div>
             <hr class="sep">
