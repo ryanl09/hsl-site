@@ -11,6 +11,7 @@
             var game = parseInt($(this).attr('game-id'), 10);
             fetch_teams(game);
             fetch_stats(game);
+            get_top_pl(game);
         });
     });
 
@@ -147,6 +148,41 @@
                 });
 
                 process_stats($('.stats-tbody'));
+            },
+            error:(a,b,c)=>{
+                console.log(a+','+b+','+c);
+            }
+        });
+    }
+
+    function get_top_pl(game){
+        const stat_id=parseInt($('#top-stat').val(),10);
+        const div=parseInt($('#div').val(),10);
+        
+        $.ajax({
+            url:`${ajax_url}events-ajax.php`,
+            type:'get',
+            data:{'action':'get_top_players', 'game':game, 'div':div, 'stat_id':stat_id, 'csrf':$('#csrf').val()},
+            dataType:'json',
+            success:(data)=>{
+                console.log(data);
+                if (!data.status){
+                    //error
+                    return;
+                }
+
+                const body = $('.top-tbody');
+                body.html('');
+                data.players.forEach(e => {
+                    const tr = $('<tr>');
+                    tr.append($('<td>', { text: e.ign }).on('click', function(){
+                        window.location=`https://tecesports.com/user/${e.username}`;
+                    }));
+                    tr.append($('<td>', { text: e.total }));
+                    tr.append($('<td>', { text: e.team_name }));
+                    body.append(tr);
+                });
+                
             },
             error:(a,b,c)=>{
                 console.log(a+','+b+','+c);

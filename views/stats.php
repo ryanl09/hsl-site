@@ -52,6 +52,16 @@ $game_icons.='</div>';
     <div class="panel">
         <div class="box">
             <h3>Top players of the week</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>IGN</th>
+                        <th>Total</th>
+                        <th>Team</th>
+                    </tr>
+                </thead>
+                <tbody class="top-tbody"></tbody>
+            </table>
         </div>
         <div class="box">
             <h3>Upcoming events</h3>
