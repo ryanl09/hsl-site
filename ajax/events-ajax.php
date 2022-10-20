@@ -129,6 +129,10 @@ switch ($action) {
         die();
 
         break;
+
+    case 'get_top_players':
+        
+        break;
     default:
         echo ajaxerror::e('errors', ['Invalid action']);
         break;
