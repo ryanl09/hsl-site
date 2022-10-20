@@ -228,7 +228,15 @@ class Stats {
      * @param   int     $stat_id
      */
     public function get_top_players_of_week($game, $division, $stat_id) {
-        $d = strtotime("today");
+        $previous_week = strtotime("+1 day");
+        $start_week = strtotime("last sunday midnight", $previous_week);
+        $end_week = strtotime("next saturday", $start_week);
+        $start_week = date("Y-m-d", $start_week);
+        $end_week = date("Y-m-d", $end_week);
+
+        echo "<script>console.log('";
+        echo $start_week.' '.$end_week ;
+        echo "');</script>";
 
         $query=
         "SELECT SUM(stats.stat_value) AS total, stat_cols.id, user_igns.ign, teams.team_name
@@ -243,11 +251,11 @@ class Stats {
             ON users.team_id = teams.id
         INNER JOIN events
             ON stats.event_id = events.id
-        WHERE stat_cols.game_id = ? AND stats.stat_id = ?
+        WHERE stat_cols.game_id = ? AND stats.stat_id = ? AND events.event_date >= \"$start_week\"
         GROUP BY stat_cols.id, user_igns.ign, teams.team_name
-        ORDER BY user_igns.ign, stat_cols.id";
+        ORDER BY total DESC LIMIT 5";
 
-        $res = $this->db->query($query, $game)->fetchAll();
+        $res = $this->db->query($query, $game, $stat_id)->fetchAll();
 
         return $res;
     }
