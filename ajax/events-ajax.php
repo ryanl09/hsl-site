@@ -124,7 +124,6 @@ switch ($action) {
         $stats = new Stats();
         $cols = $stats->get_cols_game($g);
         $s = $stats->stats_page_any($g, $d);
-        $pl = array();
 
         echo json_encode(
             array(
@@ -138,7 +137,26 @@ switch ($action) {
         break;
 
     case 'get_top_players':
+        // check for inputs
+        if (!isset($_GET['game']) || !isset($_GET['div']) || !isset($_GET['stat_id'])){
+            echo ajaxerror::e('errors', ['No game or division or stat_id set']);
+            die();
+        }
         
+        $game = $_GET['game'];
+        $div = $_GET['div'];
+        $stat_id = $_GET['stat_id'];
+
+        $stats = new Stats();
+        $s = $stats->get_top_players_of_week($game, $div, $stat_id);
+
+        echo json_encode(
+            array(
+                'status' => 1,
+                'stats' => $s
+            )
+        );
+
         break;
     default:
         echo ajaxerror::e('errors', ['Invalid action']);

@@ -164,7 +164,7 @@ class Stats {
         }
 
         $query=
-        "SELECT SUM(stats.stat_value) AS total, stat_cols.id, user_igns.ign, teams.team_name
+        "SELECT SUM(stats.stat_value) AS total, stat_cols.id, user_igns.ign, teams.team_name, users.username
         FROM stats
         INNER JOIN stat_cols
             ON stat_cols.id = stats.stat_id
@@ -234,9 +234,9 @@ class Stats {
         $start_week = date("Y-m-d", $start_week);
         $end_week = date("Y-m-d", $end_week);
 
-        echo "<script>console.log('";
+        /*echo "<script>console.log('";
         echo $start_week.' '.$end_week ;
-        echo "');</script>";
+        echo "');</script>";*/
 
         $query=
         "SELECT SUM(stats.stat_value) AS total, stat_cols.id, user_igns.ign, teams.team_name
