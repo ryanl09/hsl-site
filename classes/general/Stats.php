@@ -220,6 +220,37 @@ class Stats {
         }
         return $idx;
     }
+
+    /**
+     * returns top players of the week
+     * @param   int     $game
+     * @param   int     $division
+     * @param   int     $stat_id
+     */
+    public function get_top_players_of_week($game, $division, $stat_id) {
+        $d = strtotime("today");
+
+        $query=
+        "SELECT SUM(stats.stat_value) AS total, stat_cols.id, user_igns.ign, teams.team_name
+        FROM stats
+        INNER JOIN stat_cols
+            ON stat_cols.id = stats.stat_id
+        INNER JOIN user_igns
+            ON user_igns.user_id = stats.user_id
+        INNER JOIN users
+            ON stats.user_id = users.user_id
+        INNER JOIN teams
+            ON users.team_id = teams.id
+        INNER JOIN events
+            ON stats.event_id = events.id
+        WHERE stat_cols.game_id = ? AND stats.stat_id = ?
+        GROUP BY stat_cols.id, user_igns.ign, teams.team_name
+        ORDER BY user_igns.ign, stat_cols.id";
+
+        $res = $this->db->query($query, $game)->fetchAll();
+
+        return $res;
+    }
 }
 
 ?>
