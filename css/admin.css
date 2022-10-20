@@ -13,6 +13,19 @@ button:hover {
     width:50%;
 }
 
+.post-announce {
+    display:flex;
+    flex-direction: column;
+    gap:10px;
+}
+
+textarea {
+    font-size: 16px;
+    padding: 6px 12px;
+    border:1px solid #aaa;
+    border-radius:6px;
+}
+
 @media only screen and (max-width:1024px){
     .create-box{
         width:100%;

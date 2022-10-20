@@ -89,4 +89,13 @@ foreach ($res as $i => $row){
     </div>
 </div>
 
+<div class="row">
+    <div class="box post-announce">
+        <h3>Make Announcement</h3>
+        <input type="text" name="a-title">
+        <textarea name="a-body" id="a-body" cols="30" rows="10"></textarea>
+        <button class="btn save post-a"><i class='bx bx-edit' ></i>Post</button>
+    </div>
+</div>
+
 <?php end_content_full(1); ?>

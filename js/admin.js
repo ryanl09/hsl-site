@@ -1,5 +1,14 @@
 (function(){
     $(document).ready(function() {
+
+        
+
+
+
+
+
+
+
         $('.btn-create').on('click', function(){
             $.ajax({
                 url:`${ajax_url}admin-ajax.php`,
