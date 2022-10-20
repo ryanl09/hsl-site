@@ -77,20 +77,23 @@
         }
     }
 
-    function _sort(a, b){
-        if ( a.stats[_SORT_BY] < b.stats[_SORT_BY] ){
-            return -1;
+    let do_sort = (d, by) => {
+        for(let i = 0; i<d.length;i++){
+            for(let j=i+1;j<d.length;j++){
+                var k = d[i].stats.map(e => e.stat_id).indexOf(parseInt(by,10));
+                const x = parseInt(d[i].stats[k].stat_total);
+                const y = parseInt(d[j].stats[k].stat_total);
+                if(x<y){
+                    const temp=d[i];
+                    d[i]=d[j];
+                    d[j]=temp;
+                }
+            }
         }
-        if ( a.stats[_SORT_BY] > b.stats[_SORT_BY] ){
-            return 1;
-        }
-        return 0;
+        return d;
     }
     
     function sort_table(){
-        const tb = $('.stats-tbody');
-        _DATA.stats.sort(_sort);
-        process_stats(tb);
     }
 
     /**
@@ -139,6 +142,7 @@
                     const by = $(this).attr('sort-by');
                     _SORT_BY = by;
                     sort_table();
+                    _DATA.stats = do_sort(_DATA.stats, by);
                     process_stats($('.stats-tbody'));
                 });
 

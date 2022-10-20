@@ -176,7 +176,7 @@ class Stats {
             ON users.team_id = teams.id
         WHERE stat_cols.game_id = ?
         GROUP BY stat_cols.id, user_igns.ign, teams.team_name
-        ORDER BY user_igns.ign";
+        ORDER BY user_igns.ign, stat_cols.id";
 
         $res = $this->db->query($query, $game)->fetchAll();
         $ret=array();
