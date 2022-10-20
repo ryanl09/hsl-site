@@ -36,6 +36,27 @@ if (!$csrf) {
 
 $action = $_POST["action"];
 switch ($action){
+    case 'add_announcement':
+        if (!isset($_POST['a-title']) || !isset($_POST['a-body'])){
+            echo ajaxerror::e('errors', ['Missing fields']);
+            die();
+        }
+
+        $title = $_POST['a-title'];
+        $body = $_POST['a-body'];
+        require_once($path . '/classes/general/Announcements.php');
+
+        $created = Announcements::create($title, $body);
+
+        echo json_encode(
+            array(
+                'status' => 1,
+                'created' => $created
+            )
+        );
+
+        break;
+
     case 'add_temp_pl':
         if (!isset($_POST['ign']) || !isset($_POST['team'])){
             echo ajaxerror::e('errors', ['Missing fields']);

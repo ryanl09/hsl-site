@@ -1,7 +1,24 @@
 (function(){
     $(document).ready(function() {
 
-        
+        $('.post-a').on('click', function() {
+            $.ajax({
+                url:`${ajax_url}admin-ajax.php`,
+                type:'post',
+                data:{'action':'add_announcement', 'a-title':$('#a-title').val(), 'a-body': $('#a-body').val(), 'csrf':$('#csrf').val()},
+                dataType:'json',
+                success:(data)=>{
+                    console.log(data);
+                    if (!data.status){
+                        //error
+                        return;
+                    }
+                },
+                error:(a,b,c)=>{
+                    console.log(a+','+b+','+c);
+                }
+            });
+        });
 
 
 
