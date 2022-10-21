@@ -1,6 +1,15 @@
 (function(){
     $(document).ready(function() {
 
+        $('.tab-change').on('click', function(){
+            const id = $(this).attr('tab-id');
+
+            $('.tab').hide();
+            $('.tab-change').removeClass('selected');
+            $('.tab[tab--id='+id+']').show();
+            $(this).addClass('selected');
+        });
+
         $('.post-a').on('click', function() {
             $.ajax({
                 url:`${ajax_url}admin-ajax.php`,
@@ -19,12 +28,6 @@
                 }
             });
         });
-
-
-
-
-
-
 
         $('.btn-create').on('click', function(){
             $.ajax({

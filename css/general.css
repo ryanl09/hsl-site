@@ -185,6 +185,46 @@ input[type=submit]:disabled, button:disabled {
     bottom:0;
 }
 
+.sm {
+    height:150px;
+    max-height:150px;
+}
+
+.box-title {
+    display:flex;
+    align-items: center;
+    width:100%;
+}
+
+.box-title i{
+    margin-left: auto;
+    font-size: 20px;
+}
+
+.btn-cont {
+    position: absolute;
+    width: 100%;
+    left: 0;
+    bottom: 0;
+    padding: 10px;
+}
+.btn.smooth {
+    width: 100%;
+    color: #000;
+    background-color: #fff;
+    font-weight: 500;
+    padding: 10px;
+}
+.btn.smooth > span {
+    margin-left: auto;
+}
+.btn-smooth i{
+    font-size: 20px;
+}
+
+.btn.smooth:hover, .watch-next:hover {
+    background-color:var(--lb-h);
+}
 
 .game-icons {
     margin-left: auto;

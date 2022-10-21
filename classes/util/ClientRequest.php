@@ -24,6 +24,7 @@ require_once($path . '/controllers/TeamController.php');
 require_once($path . '/controllers/TermsController.php');
 require_once($path . '/controllers/TickerController.php');
 require_once($path . '/controllers/UpdatesController.php');
+require_once($path . '/controllers/HomeController.php');
 
 require_once($path . '/classes/services/LogoutService.php');
 
@@ -32,10 +33,17 @@ class ClientRequest {
 
     public function __construct($arg) {
         if (!$arg){
-            $arg='dashboard';
+            if (session_id() && isset($_SESSION['user']) && $_SESSION['user']->get_id()){
+                $arg='dashboard';
+            }else{
+                $arg='home';
+            }
         }
 
         switch ($arg) {
+            case 'home':
+                $this->ctrl = new HomeController();
+                break;
             case 'dashboard':
                 $this->ctrl = new DashboardController();
                 break;
