@@ -13,7 +13,8 @@
 
             $query = 'SELECT a.user_id, a.title, a.body, a.time, users.name, users.pfp_url
                     FROM announcements a 
-                    INNER JOIN users ON users.user_id = a.user_id';
+                    INNER JOIN users ON users.user_id = a.user_id
+                    ORDER BY a.time DESC';
 
             $res = $db->query($query)->fetchAll();
             
