@@ -6,6 +6,7 @@ $(document).ready(()=>{
     }
 
     var save = $('.save-btn');
+    var eventFlag = $('.flag-btn');
 
     if(save){
         save.on('click', ()=>{
@@ -52,6 +53,14 @@ $(document).ready(()=>{
                 }
             });
         });
+    }
+
+    if (eventFlag) {
+
+    }
+
+    function add_event_flag(flag) {
+
     }
 
     $('.rem-pl').on('click', function(){

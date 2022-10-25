@@ -41,6 +41,14 @@
     background-color:var(--blue-h);
 }
 
+.flag-btn {
+    background-color:var(--red);
+}
+
+.flag-btn:hover{
+    background-color:var(--red-h);
+}
+
 .img-ref {
     transition: all .13s ease;
 }

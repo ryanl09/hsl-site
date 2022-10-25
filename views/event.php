@@ -97,6 +97,8 @@ if ($e) { ?>
         <!-- upcoming matches -->
 <?php } if (isset($_SESSION['user']) && $_SESSION['user']->is_admin()) { ?>
     <button class="save-btn stats clickable"><i class='bx bx-save'></i>Save</button>
+    <button class="flag-btn clickable"><i class='bx bxs-flag-alt'></i>Add Event Flag</button>
+
 <?php }
 
 end_content_full(1); ?>
