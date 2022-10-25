@@ -201,7 +201,10 @@ $(document).ready(()=>{
                     if (_s[k].user_id!==pl.user_id){
                         continue;
                     }
-                    t[_s[k].stat_id-cols[1].id] = _s[k].stat_value;
+                    console.log(data.cols);
+                    const m = data.cols.map(e => e.id);
+                    var idx = m.indexOf(_s[k].stat_id);
+                    t[idx-1] = _s[k].stat_value;
                     _s.splice(k, 1);
                     k--;
                 }
