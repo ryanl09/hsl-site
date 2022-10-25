@@ -1,5 +1,9 @@
 @import 'constants.css';
-@import url('https://fonts.cdnfonts.com/css/bahnschrift');
+
+@font-face{
+    font-family: "Bahnschrift";
+    src: url("https://tecesports.com/fonts/BAHNSCHRIFT.TTF") format("ttf");
+}
 
 #canv{
     width:960px;
