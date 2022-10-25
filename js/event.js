@@ -6,7 +6,6 @@ $(document).ready(()=>{
     }
 
     var save = $('.save-btn');
-    var eventFlag = $('.flag-btn');
 
     if(save){
         save.on('click', ()=>{
@@ -55,12 +54,31 @@ $(document).ready(()=>{
         });
     }
 
-    if (eventFlag) {
+    $('.flag-btn').on('click', function(){
+        var flag_type = $(this).attr('flag_type');
+        var flag_reason = $(this).attr('flag_reason');
+        add_event_flag(flag_type, flag_reason);
+    });
 
-    }
+    function add_event_flag(type, reason) {
+        $.ajax({
+            url:`${ajax_url}event-ajax.php`,
+            type:'post',
+            data:{'action':'add_flag', 'event_id':e_id, 'flag_type':type, 'flag_reason':reason, 'csrf':$('#csrf').val()},
+            dataType:'text',
+            success:(data)=>{
+                console.log(data);
+                if(!data.status){
+                    //error
+                    return;
+                }
 
-    function add_event_flag(flag) {
-
+                window.location.reload();
+            },
+            error:(a,b,c)=>{
+                console.log(a+','+b+','+c);
+            }
+        });
     }
 
     $('.rem-pl').on('click', function(){

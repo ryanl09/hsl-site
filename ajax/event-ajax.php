@@ -44,6 +44,40 @@ if ((isset($_SERVER['HTTP_X_REQUESTED_WITH'])) && ($_SERVER['HTTP_X_REQUESTED_WI
         $action = $_POST['action'];
     
         switch ($action){
+            case 'add_flag':
+                if (!(isset($_SESSION['user']) && $_SESSION['user']->is_admin())) {
+                    echo ajaxerror::e('errors', ['Insufficient user permissions']);
+                    die();
+                }
+                if (!isset($_POST['flag_type']) || !isset($_POST['flag_reason'])){
+                    echo ajaxerror::e('errors', ['Missing fields']);
+                    die();
+                }
+
+                $flagtype = json_decode($_POST['flag_type']);
+                $flagreason = json_decode($_POST['flag_reason']);
+
+                $db = new tecdb();
+
+                $query = 'INSERT INTO event_flags
+                            (event_id, flag_type, flag_reason)
+                            VALUES (?, ?, ?)';
+                $res = $db->query($query, $event_id, $flag_type, $flag_reason)->lastInsertID();
+                $suc = ($res ? $res : 0);
+
+                if ($suc){
+                    echo json_encode(
+                        array(
+                            'status' => 1,
+                            'success' => 'Event flag added to current event'
+                        )
+                    );
+                    die();
+                }
+
+                echo ajaxerror::e('errors',  ['Couldn\'t add event flag']);
+                die();
+                break;
             case 'stats':
                 if (!(isset($_SESSION['user']) && $_SESSION['user']->is_admin())) {
                     echo ajaxerror::e('errors', ['Insufficient user permissions']);
