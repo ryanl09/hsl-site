@@ -9,10 +9,52 @@
             $('.tab-change').removeClass('selected');
             $('.tab[tab--id='+id+']').show();
             $(this).addClass('selected');
+
+            if (id == 2) {
+                get_announcements();
+            }
         });
 
+        function get_announcements(){
+            $.ajax({
+                url:`${ajax_url}tm-db-ajax.php`,
+                type:'get',
+                data:{'action':'get_announcements', 'csrf':$('#csrf').val()}, 
+                dataType:'json',
+                success:(data)=>{
+                    console.log(data);
 
+                    if (!data.status){
+                        //error
+                        return;
+                    }
 
+                    $('.tab .announce').html('');
+                    data.announcements.forEach(e => {
+                        $('.tab .announce').append(`
+                        <div class="box">
+                            <div class="ann">
+                                <h2 class="ann-title">${e.title}</h2>
+                                <div class="ann-body">
+                                    <p class="body-text">${e.body}</p>
+                                </div>
+                                <div class="ann-info">
+                                    <div class="ann-author">
+                                        <img src="https://tecesports.com/uploads/${e.pfp_url}" alt="" width="40" height="40">
+                                        <p class="author">${e.name}</p>
+                                    </div>
+                                    <p class="ann-time">${e.time}</p>
+                                </div>
+                            </div>
+                        </div>`);
+                        console.log(e);
+                    });
+                },
+                error:(a,b,c)=>{
+                    console.log(a+','+b+','+c);
+                }
+            });
+        }
 
 
 
