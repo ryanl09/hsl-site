@@ -7,9 +7,14 @@
         img.onload = function(){
             ctx.drawImage(img,0,0);
 
-            ctx.font='40px bahnschrift';
-            ctx.fillStyle='#ffffff';
-            ctx.fillText('aaaaaaaaa', 200, 320);
+            const f = new FontFace('bahn', 'url(fonts/bahn.tff)');
+            f.onload().then(function(font){
+                document.fonts.add(font);
+                ctx.font='600 34px bahnschrift';
+                ctx.fillStyle='#000000';
+                ctx.fillText('GATEWAY', 200, 320);
+            });
+
         }
     });
 })();

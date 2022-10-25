@@ -154,7 +154,7 @@ input[type=submit]:disabled, button:disabled {
     padding:10px 16px;
     outline:0;
     border:none;
-    margin:10px;
+    /*margin:10px;*/
     display:flex;
     align-items: center;
     background-color: var(--primary-color);
@@ -179,11 +179,6 @@ input[type=submit]:disabled, button:disabled {
     cursor: not-allowed;
 }
 
-.stats {
-    position:fixed;
-    right:0;
-    bottom:0;
-}
 
 .sm {
     height:150px;

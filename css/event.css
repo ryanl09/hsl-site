@@ -21,8 +21,88 @@
     align-items: center;
 }
 
+.flag-box-wrapper{
+    display:block;
+    transition:.3s all ease;
+    width:100vw;
+    height:100vh;
+    background-color:rgba(0,0,0,0.5);
+    position:fixed;
+    top:0px;
+    left:0px;
+    z-index:999;
+}
+
+.flag-box{
+    width:600px;
+    height:300px;
+    position:absolute;
+    position:absolute;
+    left:50%;
+    top:25%;
+    transform: translate(-50%, -25%);
+    background-color:#fff;
+    border-radius:6px;
+    padding:20px;
+    display:flex;
+    flex-direction: column;
+    gap:10px;
+}
+
+.flag-footer{
+    width:100%;
+    position:absolute;
+    left:0;
+    bottom:0;
+    padding:10px;
+}
+
+.set-flag{
+    width:100%;
+}
+
+.set-flag:hover{
+    background-color:var(--save-h);
+}
+
+.hide-box{
+    display:none;
+    width:0px;
+    height:0px;
+}
+
+.flag-header h3{
+    font-weight: 500;
+}
+
 .score {
     margin-left: auto;
+}
+
+.stats{
+    background-color: var(--primary-color);
+}
+
+.stats:hover{
+    background-color: var(--save-h);
+}
+
+.admin-btns {
+    position:fixed;
+    right:0;
+    bottom:0;
+    display:flex;
+    align-items: center;
+    justify-content:center;
+    gap:10px;
+    padding:10px;
+}
+
+.flag-btn{
+    height: 45px;
+    display:flex;
+    align-items: center;
+    font-size: 16px;
 }
 
 .score label {
@@ -128,5 +208,10 @@ th, td {
 @media only screen and (max-width: 1024px) {
     .match-details, .info-container {
         grid-template-columns: 100%;
+    }
+
+    .flag-box{
+        width:95%;
+        margin:0 auto;
     }
 }

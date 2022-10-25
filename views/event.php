@@ -14,6 +14,28 @@ start_content_full(1, 'event', 'loading c-auto');
 $admin = $_SESSION['user'] && $_SESSION['user']->is_admin();
 
 if ($e) { ?>
+
+
+    <div class="flag-box-wrapper hide-box">
+        <div class="flag-box">
+            <div class="flag-header">
+                <h3>Set event flag</h3>
+            </div>
+            <div class="flag-body">
+                <div class="inputs">
+                    <select name="flagtype" id="flagtype">
+                        <option value="Forfeit">Forfeit</option>
+                        <option value="Reschedule">Reschedule</option>
+                    </select>
+                    <input type="text" name="reason" id="reason" placeholder="Reason">
+                </div>
+            </div>
+            <div class="flag-footer">
+                <button class="save-btn set-flag"><i class='bx bx-save'></i>Save</button>
+            </div>
+        </div>
+    </div>
+
     <div class="event-image">
         <img src="<?php echo Event::game_image($event_id); ?>" width="50" height="50" alt="">
     </div>
@@ -93,12 +115,15 @@ if ($e) { ?>
         </div>
     </div>
 
-<?php } else { ?>
+    <?php 
+        if (isset($_SESSION['user']) && $_SESSION['user']->is_admin()) { ?>
+        <div class="admin-btns">
+            <button class="save-btn stats"><i class='bx bx-save'></i>Save</button>
+            <button class="btn flag-btn"><i class='bx bxs-flag-alt'></i></button>
+        </div>
+    <?php } 
+ } else { ?>
         <!-- upcoming matches -->
-<?php } if (isset($_SESSION['user']) && $_SESSION['user']->is_admin()) { ?>
-    <button class="save-btn stats clickable"><i class='bx bx-save'></i>Save</button>
-    <button class="flag-btn clickable"><i class='bx bxs-flag-alt'></i>Add Event Flag</button>
-    
 <?php }
 
 end_content_full(1); ?>

@@ -54,15 +54,15 @@ if ((isset($_SERVER['HTTP_X_REQUESTED_WITH'])) && ($_SERVER['HTTP_X_REQUESTED_WI
                     die();
                 }
 
-                $flagtype = json_decode($_POST['flag_type']);
-                $flagreason = json_decode($_POST['flag_reason']);
+                $flagtype = $_POST['flag_type'];
+                $flagreason = $_POST['flag_reason'];
 
                 $db = new tecdb();
 
                 $query = 'INSERT INTO event_flags
                             (event_id, flag_type, flag_reason)
                             VALUES (?, ?, ?)';
-                $res = $db->query($query, $event_id, $flag_type, $flag_reason)->lastInsertID();
+                $res = $db->query($query, $event_id, $flagtype, $flagreason)->lastInsertID();
                 $suc = ($res ? $res : 0);
 
                 if ($suc){

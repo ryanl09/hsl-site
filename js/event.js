@@ -5,7 +5,24 @@ $(document).ready(()=>{
         return;
     }
 
-    var save = $('.save-btn');
+    var save = $('.save-btn.stats');
+
+    const fb = $('.flag-box-wrapper');
+
+    window.onclick = function(event){
+        if (event.target === fb[0]){
+            fb.addClass('hide-box');
+        }
+    }
+
+    const set_flag=$('.set-flag');
+    if(set_flag){
+        set_flag.on('click', function(){
+            var flag_type = $('#flagtype').val();
+            var flag_reason = $('#reason').val();
+            add_event_flag(flag_type, flag_reason);
+        });
+    }
 
     if(save){
         save.on('click', ()=>{
@@ -55,9 +72,12 @@ $(document).ready(()=>{
     }
 
     $('.flag-btn').on('click', function(){
+        /*
         var flag_type = $(this).attr('flag_type');
         var flag_reason = $(this).attr('flag_reason');
-        add_event_flag(flag_type, flag_reason);
+        add_event_flag(flag_type, flag_reason);*/
+
+        $('.flag-box-wrapper').removeClass('hide-box');
     });
 
     function add_event_flag(type, reason) {
@@ -65,13 +85,15 @@ $(document).ready(()=>{
             url:`${ajax_url}event-ajax.php`,
             type:'post',
             data:{'action':'add_flag', 'event_id':e_id, 'flag_type':type, 'flag_reason':reason, 'csrf':$('#csrf').val()},
-            dataType:'text',
+            dataType:'json',
             success:(data)=>{
                 console.log(data);
                 if(!data.status){
                     //error
                     return;
                 }
+
+                alert(data.success);
 
                 window.location.reload();
             },
@@ -219,7 +241,6 @@ $(document).ready(()=>{
                     if (_s[k].user_id!==pl.user_id){
                         continue;
                     }
-                    console.log(data.cols);
                     const m = data.cols.map(e => e.id);
                     var idx = m.indexOf(_s[k].stat_id);
                     t[idx-1] = _s[k].stat_value;
@@ -235,9 +256,6 @@ $(document).ready(()=>{
                     });
 
                     if(data.p&&l){
-                        console.log(t);
-                        console.log(cols);
-                        console.log(cols[l].id + ',' + l);
                         add = $('<td>').append(`<input type="text" value="${t[l]}" class="st-mod" user-id="${pl.user_id}" stat-id="${cols[l].id}">`);
                     }
                     tr.append(add);
