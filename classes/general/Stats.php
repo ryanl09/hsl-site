@@ -213,6 +213,11 @@ class Stats {
     private function index_of_name($arr, $name){
         $idx=-1;
         for ($i = 0; $i < count($arr); $i++){
+
+            if (!isset($arr['ign'])){
+                return $idx;
+            }
+
             if (strcmp($arr['ign'], $name)===0){
                 $idx = $i;
                 break;
