@@ -55,6 +55,8 @@
             return false;
         }
 
+        reset();
+
         canv[0].onclick=function(e){
             const w = canv[0].width;
             const h = canv[0].height;
@@ -72,39 +74,60 @@
             let left = false;
             let up = false;
 
-            const offset = 5;
-            let ox = 0;
-            let oy = 0;
+            const o = 5;
             let x = mx;
             let y = my;
             const s = [0,0,0,0];
 
-            while (!right && !down && !left && !up){
+            //calculate right bound relative to click
+
+            while(!right){
+                if (x + o >= w){
+                    right=true;
+                    break;
+                }
+                x+=o;
+                s[0]+=o;
+                const r = get_pixel(x, y);
+                if (!cmp(px, r)){
+                    var a = o;
+                    while (a > 0){
+                        const nr = get_pixel(x-(o-a), y);
+                        if(cmp(px, nr)){
+                            s[0]-=(o-a);
+                            right=true;
+                            console.log(a);
+                            break;
+                        }
+                        a--;
+                    }
+                }
+            }
+            console.log(s[0]);
+
+            ctx.fillStyle=`rgba(255,0,0,1)`;
+            for(let i = 0; i < s[0]; i++){
+                ctx.fillRect(mx+i, y, 1, 1);
+            }
+
+            while(!down){
+                down=true;
+            }
+            return;
+
+            while(!left){
+
+            }
+
+            while (!up){
+
+            }
                 ox += offset;
                 oy += offset;
 
                 console.log(`r: ${x+ox}, d: ${y+oy}, l: ${x-ox}, u: ${y-oy}`);
 
                 if (!right){
-                    const r = get_pixel(x + ox, y);
-                    if (!cmp(px, r)){
-                        var a = 0;
-                        while (a < offset){
-                            const nr = get_pixel(x+ox+a, y);
-                            if(!cmp(px, nr)){
-                                s[0]+=a;
-                                right=true;
-                                break;
-                            }
-                            a++;
-                        }
-                    }
-
-                    if (x + ox >= w){
-                        right=true;
-                    }else{
-                        s[0]+=offset;
-                    }
                 }
 
                 if (!down){
@@ -173,14 +196,13 @@
                         s[3]+=offset;
                     }
                 }
-            }
 
             console.log(s);
         }
 
         function reset(){
             const img = new Image();
-            img.src='https://tecesports.com/images/test1.png';
+            img.src='https://tecesports.com/images/graphics/match-rl.png';
             img.onload = function(){
                 ctx.drawImage(img,0,0);
 

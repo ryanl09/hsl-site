@@ -29,7 +29,7 @@ start_content_full(1, 'graphics'); ?>
     </div>
     <div class="img-list">
         <?php
-            $dir = $path . '/images';
+            $dir = $path . '/images/graphics';
             $imgs = glob($dir . '/*.*');
             foreach($imgs as $img){
                 $url = str_replace('/var/www/html/','https://tecesports.com/',$img);

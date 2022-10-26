@@ -47,6 +47,7 @@
 .img-box{
     padding:20px;
     transition:.17s all ease;
+    border-radius: 6px;
 }
 
 .img-box img {
