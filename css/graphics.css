@@ -10,6 +10,26 @@
     height:540px;
 }
 
+#canv.select-mode:hover {
+    cursor:crosshair;
+}
+
+.gsel {
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.gsel select {
+    width: fit-content;
+}
+
+.gsel label {
+    font-size: 16px;
+    text-transform: uppercase;
+    font-weight: 500;
+}
+
 .footer-bar {
     position:fixed;
     top:0;

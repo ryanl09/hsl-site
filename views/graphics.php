@@ -2,6 +2,7 @@
 
 $path = $_SERVER['DOCUMENT_ROOT'];
 require_once($path . '/documentelements.php');
+require_once($path . '/classes/general/Game.php');
 
 $redir=false;
 if (isset($_SESSION['user'])) {
@@ -20,7 +21,29 @@ if ($redir){
 
 start_content_full(1, 'graphics'); ?>
 
-<canvas width="1920" height="1080" id="canv"></canvas>
+<div class='img-data'>
+    <h3>Image Data</h3>
+    <div class="inputs">
+        <div class="gsel">
+            <label for="game">Game</label>
+            <select name="games" id="games">
+                <?php
+                    $games = Game::get_all();
+
+                    foreach ($games as $i => $row){
+                        echo '<option value="'.$row['id'].'">';
+                        echo $row['game_name'];
+                        echo '</option>';
+                    }
+                ?>
+            </select>
+        </div>
+    </div>
+</div>
+<canvas width="1920" height="1080" id="canv" class="select-mode"></canvas>
+<div class="btns">
+    <button></button>
+</div>
 
 <div class="footer-bar">
     <div class="add-image">

@@ -1,6 +1,8 @@
 (function(){
     $(document).ready(function(){
 
+        var is_select = false;
+
         const canv = $('#canv');
         const ctx = canv[0].getContext('2d');
 
@@ -116,8 +118,6 @@
             };
         }
 
-        reset();
-
         canv[0].onclick=function(e){
             const w = canv[0].width;
             const h = canv[0].height;
@@ -227,7 +227,6 @@
                 s.u+=o;
                 const r = get_pixel(x, y);
                 if (!cmp(px, r)){
-                    console.log(r);
                     var a = o;
                     while (a >= 0){
                         const nr = get_pixel(x, y+(o-a));
@@ -241,43 +240,48 @@
                 }
             }
 
-            const bx = box(my-s.l, my-s.u, s.l+s.r, s.u+s.d);
-            draw_text('VS', bx);=
+            const bx = box(mx-s.l, my-s.u, s.l+s.r, s.u+s.d);
+            //draw_text('VS', bx);
 
+            //console.log(s);
+        }
 
-            /**
-             * //prints lines in + shape
-             * 
-
+        function draw_lines(s, mx, my){
             ctx.fillStyle=`rgba(255,0,0,1)`;
-            for(let i = 0; i < s[0]; i++){
+            for(let i = 0; i < s.r; i++){
                 ctx.fillRect(mx+i, my, 1, 1);
             }
 
-
             ctx.fillStyle=`rgba(0,0,0,1)`;
-            for(let i = 0; i < s[1]; i++){
+            for(let i = 0; i < s.d; i++){
                 ctx.fillRect(mx, my+i, 1, 1);
             }
             
             ctx.fillStyle=`rgba(0,0,255,1)`;
-            for(let i = 0; i < s[2]; i++){
+            for(let i = 0; i < s.l; i++){
                 ctx.fillRect(mx-i, my, 1, 1);
             }
             
             ctx.fillStyle=`rgba(255,0,255,1)`;
-            for(let i = 0; i < s[3]; i++){
+            for(let i = 0; i < s.u; i++){
                 ctx.fillRect(mx, my-i, 1, 1);
             }
-             */
-
-            console.log(s);
         }
+
+        $('img').on('click', function(){
+            const url = $(this).attr('src');
+            const img = new Image();
+            img.src = url;
+            img.onload = function(){
+                ctx.drawImage(img,0,0);
+            }
+        });
 
         function draw_text(text, bx){
 
             const size = text2dim(text);
-            
+            const tx = bx.x + (bx.w / 2) - (size.w / 2);
+            const ty = bx.y + (bx.h / 2) + (size.h / 2);
 
             const f = new FontFace('Bahnschrift', 'url(https://tecesports.com/fonts/BAHNSCHRIFT.TTF)');
             f.load().then(function(font){
@@ -285,7 +289,7 @@
                 console.log(font);
                 ctx.font='400 30px Bahnschrift Condensed';
                 ctx.fillStyle='#000000';
-                ctx.fillText('BERLIN BROTHERSVALLEY', 200, 320);
+                ctx.fillText(text, tx, ty);
             });
         }
 
@@ -310,26 +314,10 @@
                     w+=1;
                 }
             }
-            return [Math.floor(w), FONT_SIZE * 0.7];
-
-        }
-
-        function reset(){
-            const img = new Image();
-            img.src='https://tecesports.com/images/graphics/match-rl.png';
-            img.onload = function(){
-                ctx.drawImage(img,0,0);
-
-                const f = new FontFace('Bahnschrift', 'url(https://tecesports.com/fonts/BAHNSCHRIFT.TTF)');
-                f.load().then(function(font){
-                    document.fonts.add(font);
-                    console.log(font);
-                    ctx.font='400 30px Bahnschrift Condensed';
-                    ctx.fillStyle='#000000';
-                    //ctx.fillText('BERLIN BROTHERSVALLEY', 200, 320);
-                });
-
-            }
+            return {
+                w: Math.floor(w), 
+                h:FONT_SIZE * 0.7
+            };
         }
     });
 })();
