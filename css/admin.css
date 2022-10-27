@@ -102,22 +102,6 @@ button:hover {
     overflow-y: auto;
 }
 
-.remove-current-ann-btn{
-    height: 15px;
-    width: 15px;
-    display:flex;
-    align-items: center;
-    font-size: 20px;
-}
-
-.remove-current-ann-btn {
-    background-color:var(--red);
-}
-
-.remove-current-ann-btn:hover{
-    background-color:var(--red-h);
-}
-
 textarea {
     font-size: 16px;
     padding: 6px 12px;
