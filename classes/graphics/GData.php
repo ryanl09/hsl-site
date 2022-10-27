@@ -3,6 +3,10 @@
     require_once($path . '/classes/util/tecdb.php');
 
     class GData {
+        private function __construct() {
+
+        }
+
         public static function get_boxes() {
             $db = new tecdb();
 
