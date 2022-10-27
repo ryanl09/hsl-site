@@ -11,7 +11,7 @@
         static function get_all() {
             $db = new tecdb();
 
-            $query = 'SELECT a.user_id, a.title, a.body, a.time, users.name, users.pfp_url
+            $query = 'SELECT a.user_id, a.title, a.body, a.time, users.name, users.pfp_url, a.announcement_id
                     FROM announcements a 
                     INNER JOIN users ON users.user_id = a.user_id
                     ORDER BY a.time DESC';
@@ -45,13 +45,11 @@
 
             $db = new tecdb();
 
-            $query = 'DELETE FROM announcements a
-                        WHERE a.announcement_id = announcement_id';
+            $query = 'DELETE FROM `announcements`
+                        WHERE `announcement_id` = ?';
 
             $res = $db->query($query, $announcement_id)->lastInsertID();
             return $res;
         }
-
-        
     }
 ?>

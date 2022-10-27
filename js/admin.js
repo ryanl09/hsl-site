@@ -9,14 +9,6 @@
         }
     }
 
-    const del_ann=$('.del_ann');
-    if(del_ann){
-        del_ann.on('click', function(){
-            var announcement_id = $('#announcement_id').val();
-            remove_announcement(announcement_id);
-        });
-    }
-
     $('.del-ann-btn').on('click', function(){
         $('.announcement-box-wrapper').removeClass('hide-box');
         get_announcements();
@@ -50,16 +42,11 @@
             });
         });
 
-        $('.del-ann').on('click', function(){
-            var announcement_id = parseInt($(this).attr('announcement_id'), 10);
-            remove_announcement(announcement_id);
-        });
-
         function remove_announcement(id){
             $.ajax({
                 url:`${ajax_url}admin-ajax.php`,
                 type:'post',
-                data:{'action':'delete_announcement', 'announcement_id':$('#announcement_id').val(), 'csrf':$('#csrf').val()},
+                data:{'action':'delete_announcement', 'announcement_id':id, 'csrf':$('#csrf').val()},
                 dataType:'json',
                 success:(data)=>{
                     console.log(data);
@@ -67,6 +54,7 @@
                         //error
                         return;
                     }
+                    get_announcements();
                 },
                 error:(a,b,c)=>{
                     console.log(a+','+b+','+c);
@@ -78,7 +66,7 @@
             $.ajax({
                 url:`${ajax_url}tm-db-ajax.php`,
                 type:'get',
-                data:{'action':'get_announcements', 'csrf':$('#csrf').val()}, 
+                data:{'action':'get_announcements', 'announcement_id':$('#announcement_id').val(), 'csrf':$('#csrf').val()}, 
                 dataType:'json',
                 success:(data)=>{
                     console.log(data);
@@ -91,7 +79,7 @@
                     $('.tab .announce').html('');
                     data.announcements.forEach(e => {
                         $('.tab .announce').append(`
-                        <div class="box ann-box">
+                        <div class="box ann-box" announcement-id="${e.announcement_id}">
                             <div class="ann">
                                 <h2 class="ann-title">${e.title}</h2>
                                 <div class="ann-info">
@@ -103,6 +91,11 @@
                             </div>
                         </div>`);
                         console.log(e);
+                    });
+
+                    $('.ann-box').on('click', function(){
+                        var announcement_id = parseInt($(this).attr('announcement-id'), 10);
+                        remove_announcement(announcement_id);
                     });
                 },
                 error:(a,b,c)=>{

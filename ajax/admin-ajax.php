@@ -69,14 +69,17 @@ switch ($action){
         }
 
         $announcement_id = $_POST['announcement_id'];
-        $db = new tecdb();
+        require_once($path . '/classes/general/Announcements.php');
 
-        $query = 
-        "DELETE FROM `announcements`
-        WHERE `announcement_id` = ?";
+        $created = Announcements::delete($announcement_id);
+        //$db = new tecdb();
 
-        $res = $db->query($query, $announcement_id)->affectedRows();
-        if ($res > 0){
+        //$query = 
+        //"DELETE FROM `announcements`
+        //WHERE `announcement_id` = ?";
+
+        //$res = $db->query($query, $announcement_id)->affectedRows();
+        //if ($res > 0){
             echo json_encode(
                 array(
                     'status' => 1,
@@ -84,7 +87,7 @@ switch ($action){
                 )
             );
             die();
-        }
+        //}
 
         echo ajaxerror::e('errors', ['Couldn\'t remove player from roster']);
         die();
