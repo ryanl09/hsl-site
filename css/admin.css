@@ -33,7 +33,6 @@ button:hover {
 
 .announcement-box{
     width:900px;
-    height:600px;
     position:absolute;
     position:absolute;
     left:50%;
@@ -69,6 +68,10 @@ button:hover {
     font-weight: 500;
 }
 
+.ann-title {
+    font-size: 17px;
+}
+
 .del-ann-btn{
     height: 45px;
     display:flex;
@@ -93,13 +96,22 @@ button:hover {
     padding:10px 20px;
     border-radius: 6px;
     background-color: #fff;
-    max-height: 150px;
+    max-height: 110px;
     overflow-y:auto;
     position:relative;
+    transition: .17s all ease;
+    border:1px solid #fff;
+}
+
+.ann-box:hover{
+    cursor:pointer;
+    border:1px solid rgba(243, 86, 86, .5);
+    background-color:rgba(243, 86, 86,.2);
 }
 
 .announcement-body {
     overflow-y: auto;
+    border-radius: 6px;
 }
 
 textarea {
