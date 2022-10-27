@@ -145,6 +145,34 @@ foreach ($res as $i => $row){
             <button class="btn save post-a"><i class='bx bx-edit' ></i>Post</button>
         </div>
     </div>
+
+    <div class="del-ann-btns">
+        <button class="btn del-ann-btn"><i class='bx bxs-flag-alt'></i>Delete An Announcement</button>
+    </div>
+
+    <div class="announcement-box-wrapper hide-box">
+        <div class="announcement-box">
+            <div class="announcement-header">
+                <h3>Delete Announcement</h3>
+            </div>
+            <div class="announcement-body">
+                    
+                <div class="row announce">
+
+
+                    <div class="box ann-box">
+                        <div class="ann">
+                            <h2 class="ann-title"></h2>
+                                <div class="ann-author">
+                                    <p class="author"></p>
+                                </div>
+                                <p class="ann-time"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </div>
+    </div>
 </div>
 
 <?php end_content_full(1); ?>

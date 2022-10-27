@@ -57,6 +57,40 @@ switch ($action){
 
         break;
 
+    case 'delete_announcement':
+        if (!isset($_SESSION['user']) || !isset($_POST['announcement_id'])){
+            echo ajaxerror::e('errors', ['Missing fields']);
+            die();
+        }
+
+        if (!$_SESSION['user']->is_admin()){
+            echo ajaxerror::e('errors', ['Invalid permissions']);
+            die();
+        }
+
+        $announcement_id = $_POST['announcement_id'];
+        $db = new tecdb();
+
+        $query = 
+        "DELETE FROM `announcements`
+        WHERE `announcement_id` = ?";
+
+        $res = $db->query($query, $announcement_id)->affectedRows();
+        if ($res > 0){
+            echo json_encode(
+                array(
+                    'status' => 1,
+                    'success'=>'Announcement removed'
+                )
+            );
+            die();
+        }
+
+        echo ajaxerror::e('errors', ['Couldn\'t remove player from roster']);
+        die();
+
+        break;
+
     case 'add_temp_pl':
         if (!isset($_POST['ign']) || !isset($_POST['team'])){
             echo ajaxerror::e('errors', ['Missing fields']);

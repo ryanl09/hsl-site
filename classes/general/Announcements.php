@@ -38,6 +38,20 @@
             return $res;
         }
 
+        static function delete($announcement_id) {
+            if (!isset($_SESSION['user'])) {
+                return false;
+            }
+
+            $db = new tecdb();
+
+            $query = 'DELETE FROM announcements a
+                        WHERE a.announcement_id = announcement_id';
+
+            $res = $db->query($query, $announcement_id)->lastInsertID();
+            return $res;
+        }
+
         
     }
 ?>

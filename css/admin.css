@@ -19,6 +19,89 @@ button:hover {
     gap:10px;
 }
 
+.announcement-box-wrapper{
+    display:block;
+    transition:.3s all ease;
+    width:100vw;
+    height:100vh;
+    background-color:rgba(0,0,0,0.5);
+    position:fixed;
+    top:0px;
+    left:0px;
+    z-index:999;
+}
+
+.announcement-box{
+    width:900px;
+    height:600px;
+    position:absolute;
+    position:absolute;
+    left:50%;
+    top:25%;
+    transform: translate(-50%, -25%);
+    background-color:#fff;
+    border-radius:6px;
+    padding:20px;
+    display:flex;
+    flex-direction: column;
+    gap:10px;
+}
+
+.announcement-footer{
+    width:100%;
+    position:absolute;
+    left:0;
+    bottom:0;
+    padding:10px;
+}
+
+.del-ann{
+    width:100%;
+}
+
+.hide-box{
+    display:none;
+    width:0px;
+    height:0px;
+}
+
+.announcement-header h3{
+    font-weight: 500;
+}
+
+.del-ann-btn{
+    height: 45px;
+    display:flex;
+    align-items: center;
+    font-size: 16px;
+}
+
+.del-ann-btn {
+    background-color:var(--red);
+}
+
+.del-ann-btn:hover{
+    background-color:var(--red-h);
+}
+
+.ann-body{
+    max-height: 60px;
+    overflow-y:auto;
+}
+
+.ann-box {
+    padding:10px 20px;
+    border-radius: 6px;
+    background-color: #fff;
+    max-height: 150px;
+    overflow-y:auto;
+    position:relative;
+}
+
+.announcement-body {
+    overflow-y: auto;
+}
+
 textarea {
     font-size: 16px;
     padding: 6px 12px;
