@@ -29,7 +29,6 @@ $view = User::get_class_instance(0, $username);
     <div id="uLeft">
       <!-- CURRENT USER -->
       <div id="uNow">
-      <div id="uNow">
       <img src="<?php echo $view->profile_image(); ?>" width="50" height="50" alt="">
         <?=$_SESSION["user"]["name"]?>
       </div>
