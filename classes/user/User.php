@@ -2,7 +2,7 @@
 
 $path = $_SERVER['DOCUMENT_ROOT'];
 require_once($path . '/classes/general/Season.php');
-require_once($path . '/classes/services/MessageService.php');
+//require_once($path . '/classes/services/MessageService.php');
 require_once($path . '/classes/user/Admin.php');
 require_once($path . '/classes/user/Caster.php');
 require_once($path . '/classes/user/Player.php');
@@ -313,7 +313,7 @@ class User {
      */
 
     public function send_message($to) {
-        $ms = new MessageService();
+
 
     }
 

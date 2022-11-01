@@ -24,7 +24,7 @@ class TempUser{
 
         $query =
         "INSERT INTO `users` (`name`, `email`, `pronouns`, `username`, `password`, `activation_key`, `activated`, `role`, `team_id`, `discord`, `request_key`, `is_temp`)
-        VALUES (\"TEC Player\", \"temp@tecesports.com\", ?, ?, \"nopass\", \"noactivation\", 0, \"player\", ?, \"nodiscord\", \"norequest\", 1)";
+        VALUES (\"(TEC) Player\", \"temp@tecesports.com\", ?, ?, \"nopass\", \"noactivation\", 0, \"player\", ?, \"nodiscord\", \"norequest\", 1)";
 
         $user_id = $db->query($query, $pronouns, $ign, $team_id)->lastInsertID();
 

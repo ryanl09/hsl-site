@@ -45,9 +45,9 @@ start_content_full(0, 'home'); ?>
     <div class="sp200"></div>
 
     <div class="subsec">
-        <p>Quick Links</p>
+        <p>What's Included?</p>
         <div class="cards c3 small">
-            <div class="card">
+            <div class="card hov">
                 <div class="card-top">
                     <i class='bx bxs-user-circle' ></i>User Profiles
                 </div>
@@ -55,7 +55,7 @@ start_content_full(0, 'home'); ?>
                     For students to display their basic info, stats, and VODS.
                 </div>
             </div>
-            <div class="card">
+            <div class="card hov">
                 <div class="card-top">
                     <i class='bx bx-stats' ></i>Stat Tracking
                 </div>
@@ -63,7 +63,7 @@ start_content_full(0, 'home'); ?>
                     Every student's stats are tracked for each season.
                 </div>
             </div>
-            <div class="card">
+            <div class="card hov">
                 <div class="card-top">
                     <i class='bx bx-list-ol' ></i>League Standings
                 </div>
@@ -71,76 +71,82 @@ start_content_full(0, 'home'); ?>
                     View any team's standings, all in one place.
                 </div>
             </div>
+            <div class="card hov">
+                <div class="card-top">
+                    <i class='bx bx-chat' ></i>Messaging
+                </div>
+                <div class="card-body">
+                    Instantly connect with recruiters!
+                </div>
+            </div>
+            <div class="card hov">
+                <div class="card-top">
+                    <i class='bx bxs-t-shirt'></i>Jerseys
+                </div>
+                <div class="card-body">
+                    Each team gets up to 15 jerseys for free!
+                </div>
+            </div>
+            <div class="card hov">
+                <div class="card-top">
+                    <i class='bx bxl-twitch' ></i>Livestreamed Events
+                </div>
+                <div class="card-body">
+                    Every game is streamed to one of our Twitch channels
+                </div>
+            </div>
         </div>
     </div>
 
-    <div class="endsec">
+    <div class="sp200"></div>
+
+    <div class="subsec">
+        <p>Quick Links</p>
+        <div class="cards c3 small">
         
-    </div>
-</div>
-
-<div class="section sec2">
-    <h2>Hi</h2>
-    <p>h</p>
-    <p>h</p>
-    <p>h</p>
-    <p>h</p>
-    <p>h</p>
-
-
-<div class="subsec">
-    <p>Quick Links</p>
-    <div class="cards c3 small">
-        <div class="card">
-            <div class="card-top">
-                <i class='bx bxs-user-circle' ></i>User Profiles
+            <div class="card">
+                <div class="card-top">
+                    <i class='bx bxs-user-circle' ></i>Teams
+                </div>
+                <div class="btn-cont">
+                    <a href="/teams">
+                        <button class="btn smooth view-graphics">
+                            <span>View teams this season</span>
+                            <i class="bx bx-chevron-right"></i>
+                        </button>
+                    </a>
+                </div>
             </div>
-            <div class="card-body">
-                For students to display their basic info, stats, and VODS.
+            <div class="card">
+                <div class="card-top">
+                    <i class='bx bx-stats' ></i>Stats
+                </div>
+                <div class="btn-cont">
+                    <a href="/stats">
+                        <button class="btn smooth view-graphics">
+                            <span>View all stats</span>
+                            <i class="bx bx-chevron-right"></i>
+                        </button>
+                    </a>
+                </div>
             </div>
-        </div>
-        <div class="card">
-            <div class="card-top">
-                <i class='bx bx-stats' ></i>Stat Tracking
-            </div>
-            <div class="card-body">
-                Every student's stats are tracked for each season.
-            </div>
-        </div>
-        <div class="card">
-            <div class="card-top">
-                <i class='bx bx-list-ol' ></i>League Standings
-            </div>
-            <div class="card-body">
-                View any team's standings, all in one place.
-            </div>
-        </div>
-        <div class="card">
-            <div class="card-top">
-                <i class='bx bx-chat' ></i>Messaging
-            </div>
-            <div class="card-body">
-                Instantly connect with recruiters!
-            </div>
-        </div>
-        <div class="card">
-            <div class="card-top">
-                <i class='bx bxs-t-shirt'></i>Jerseys
-            </div>
-            <div class="card-body">
-                Each team gets up to 15 jerseys for free!
-            </div>
-        </div>
-        <div class="card">
-            <div class="card-top">
-                <i class='bx bxl-twitch' ></i>Livestreamed Events
-            </div>
-            <div class="card-body">
-                Every game is streamed to one of our twitch channels
+            <div class="card">
+                <div class="card-top">
+                    <i class='bx bx-calendar-event' ></i>Schedule
+                </div>
+                <div class="btn-cont">
+                    <a href="/events">
+                        <button class="btn smooth view-graphics">
+                            <span>View all events</span>
+                            <i class="bx bx-chevron-right"></i>
+                        </button>
+                    </a>
+                </div>
             </div>
         </div>
     </div>
-</div>
+    
+
     <div class="endsec">
         
     </div>

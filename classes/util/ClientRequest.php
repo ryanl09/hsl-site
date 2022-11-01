@@ -21,6 +21,7 @@ require_once($path . '/controllers/SettingsController.php');
 require_once($path . '/controllers/StandingsController.php');
 require_once($path . '/controllers/StatsController.php');
 require_once($path . '/controllers/TeamController.php');
+require_once($path . '/controllers/TeamsController.php');
 require_once($path . '/controllers/TermsController.php');
 require_once($path . '/controllers/TickerController.php');
 require_once($path . '/controllers/UpdatesController.php');
@@ -109,6 +110,12 @@ class ClientRequest {
                 break;
             case 'standings':
                 $this->ctrl = new StandingsController();
+                break;
+            case 'team':
+                $this->ctrl = new TeamController();
+                break;
+            case 'teams':
+                $this->ctrl = new TeamsController();
                 break;
             default:
                 $this->ctrl = new Error404Controller();

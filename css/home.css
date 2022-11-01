@@ -127,6 +127,7 @@ a {
     font-weight: 500;
     font-size: 16px;
     z-index: 3;
+    position:relative;
 }
 
 .card-top {
@@ -137,11 +138,25 @@ a {
     margin-bottom:40px;
 }
 
+.btn-cont {
+    background-color:#11172b;
+    color:#fff;
+}
+
+.btn.smooth {
+    background-color:#11172b;
+    color:#fff;
+}
+
+.btn.smooth:hover{
+    background-color: #232e50;
+}
+
 .card-top i {
     font-size: 30px;
 }
 
-.card:hover {
+.card.hov:hover {
     background-color: #1a223b;
     cursor:pointer;
 }
