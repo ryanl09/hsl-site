@@ -285,6 +285,28 @@ class Team extends TeamAbstract {
 
         return $res['id'] ?? 0;
     }
+
+    /**
+     * gets team from slug / url
+     * @param   $team_name
+     * @return  Team|int
+     */
+
+    public static function from_slug($team_name){
+        if (!$team_name){
+            return 0;
+        }
+
+        $db= new tecdb();
+        $query=
+        "SELECT `id`
+        FROM `teams`
+        WHERE slug = ?";
+
+        $res = $db->query($query)->fetchArray();
+
+        return $res['id'] ?? 0;
+    }
 }
 
 ?>
