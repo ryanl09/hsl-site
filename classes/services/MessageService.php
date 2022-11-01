@@ -40,6 +40,43 @@ class MessageService {
         return $res;
     }
 
+
+    /**
+     * Gets all users and number of unread messages
+     */
+    public function getUsers($for) {
+        // Get Users
+        $this->query("SELECT * FROM `users` WHERE `user_id`!=?", [$for]);
+        $users = [];
+        while ($r = $this->stmt->fetch()) { $users[$r["user_id"]] = $r; }
+        
+        // Count Unread Messages
+        $this->query(
+        "SELECT `id_from`, COUNT(*) `ur`
+        FROM `messages` WHERE `id_to`=? AND `time_seen` IS NULL
+        GROUP BY `id_from`", [$for]);
+        while ($r = $this->stmt->fetch()) { $users[$r["id_from"]]["unread"] = $r["ur"]; }
+
+        // Results
+        return $users;
+    }
+
+    public function getMsg ($from, $to, $limit=30)  {
+        // Mark all messages as "read"
+        $this->query(
+            "UPDATE `messages` SET `time_seen`=NOW()
+            WHERE `id_from`=? AND `id_to`=? AND `time_seen` IS NULL", [$from, $to]);
+    
+        // Get messages
+        $this->query(
+            "SELECT m.*, u.`user_name` FROM `messages` m
+            JOIN `users` u ON (m.`id_from`=u.`user_id`)
+            WHERE `id_from` IN (?,?) AND `id_to` IN (?,?)
+            ORDER BY `time_sent` DESC
+            LIMIT 0, $limit", [$from, $to, $from, $to]);
+        return $this->stmt->fetchAll();
+    }
+
     /**
      * delete a message
      * @param   int $message_id
