@@ -82,16 +82,31 @@
         }
     }
 
-    let do_sort = (d, by) => {
-        for(let i = 0; i<d.length;i++){
-            for(let j=i+1;j<d.length;j++){
-                var k = d[i].stats.map(e => e.stat_id).indexOf(parseInt(by,10));
-                const x = parseInt(d[i].stats[k].stat_total);
-                const y = parseInt(d[j].stats[k].stat_total);
-                if(x<y){
-                    const temp=d[i];
-                    d[i]=d[j];
-                    d[j]=temp;
+    let do_sort = (d, by, state) => {
+        if (state == 1) {
+            for(let i = 0; i < d.length; i++){
+                for(let j = i + 1; j < d.length; j++){
+                    var k = d[i].stats.map(e => e.stat_id).indexOf(parseInt(by,10));
+                    const x = parseInt(d[i].stats[k].stat_total);
+                    const y = parseInt(d[j].stats[k].stat_total);
+                    if(x<y){
+                        const temp=d[i];
+                        d[i]=d[j];
+                        d[j]=temp;
+                    }
+                }
+            }
+        } else {
+            for(let i = 0; i < d.length; i++){
+                for(let j = i + 1; j < d.length; j++){
+                    var k = d[i].stats.map(e => e.stat_id).indexOf(parseInt(by,10));
+                    const x = parseInt(d[i].stats[k].stat_total);
+                    const y = parseInt(d[j].stats[k].stat_total);
+                    if(x > y){
+                        const temp=d[i];
+                        d[i]=d[j];
+                        d[j]=temp;
+                    }
                 }
             }
         }
@@ -139,7 +154,7 @@
                 sel.html('');
                 cols.forEach(e => {
                     const th = $('<th>',{
-                        html: `${e.name}<i class='bx bx-sort-alt-2 clickable sort' sort-by="${e.id}"></i>`
+                        html: `${e.name}<i class='bx bx-sort-alt-2 clickable sort' sort-by="${e.id}" state="0"></i>`
                     });
                     tr.append(th);
 
@@ -151,10 +166,18 @@
                 
 
                 $('.sort').on('click', function(){
+                    let attribute = $(this).attr('state');
+                    if (attribute == "1") {
+                        $(this).attr('state', "2");
+                    } else {
+                        $(this).attr('state', "1");
+                    }
                     const by = $(this).attr('sort-by');
+                    const state = $(this).attr('state');
+
                     _SORT_BY = by;
                     sort_table();
-                    _DATA.stats = do_sort(_DATA.stats, by);
+                    _DATA.stats = do_sort(_DATA.stats, by, state);
                     process_stats($('.stats-tbody'));
                 });
 
