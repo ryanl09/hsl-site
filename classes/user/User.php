@@ -683,31 +683,6 @@ class User {
                 return new User($user_id);
         }
     }
-
-    /**
-     * Gets the badges for a user's page
-     * @param   int $user_id
-     * @return  array
-     */
-
-    public static function get_badges($user_id) {
-        if (!$user_id) {
-            return [];
-        }
-
-        $db = new tecdb();
-
-        $query = 
-        "SELECT badge_types.url
-        FROM `badges`
-        INNER JOIN `badge_types`
-            ON badge_types.id = badges.badge_id
-        WHERE `user_id` = ?";
-
-        $res = $db->query($query, $user_id)->fetchAll();
-
-        return $res;
-    }
 }
 
 ?>

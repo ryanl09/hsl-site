@@ -3,35 +3,16 @@
 $path = $_SERVER['DOCUMENT_ROOT'];
 require_once($path . '/documentelements.php');
 require_once($path . '/classes/general/Season.php');
+require_once($path . '/classes/team/Team.php');
 require_once($path . '/classes/user/User.php');
 require_once($path . '/classes/util/tecdb.php');
 
 $arg_arr = $_SESSION['current_page'];
 $team_name = strtolower($arg_arr[2]);
-$team = Team::from_slug($team_name);
+$team_id = Team::from_slug($team_name);
+$team = new Team($team_id);
 
-/*
-$fill = '';
-$can_edit = false;
-$edit_style = '';
-
-if (isset($_SESSION['user'])){
-    if ($view->get_id() === $_SESSION['user']->get_id()) {
-        $can_edit=true;
-        $fill = ' edit--fill';
-        $edit_style = array(
-            '.p-c' => 'display:none;',
-            '.p-c[style*="display: block"]' => 'display:flex !important;',
-        );
-    }else {
-        $edit_style=array(
-            '.e-c' => 'display:none;'
-        );
-    }
-}
-
-*/
-
+$edit_style='';
 
 ?>
 
@@ -48,35 +29,25 @@ base_header(
 ?>
     <body>
         <?php print_navbar();?>
-        <?php if ($can_edit) { ?>
-            <div class="editprev">
-                 <button id="edit" class="c-mode"><i class='bx bx-edit-alt' ></i>Edit</button>
-                <button id="prev"><i class='bx bx-search-alt' ></i>Preview</button>
-            </div>
-        <?php } ?>
         <section class="home">
-            <?php if ($view->get_id()) { //if user exists ?>
+            <?php if ($team->get_id()) { //if user exists ?>
                 <div class="banner-wrapper">
                     <div class="banner">
                         <div class="profile-info">
-                            <div class="pfp" style="background: url(<?php echo $view->profile_image(); ?>) 50% 50% no-repeat;";>
+                            <div class="pfp" style="background: url(<?php echo $team->get_logo(); ?>) 50% 50% no-repeat;";>
                                 <!--<img src="<?php //echo $view->profile_image(); ?>">-->
                                 <?php if ($can_edit) { ?>
+                                    <!--
                                     <form id="pfp-form" action="https://tecesports.com/ajax/upload-pfp-ajax.php" method="post" enctype="multipart/form-data" style="display:none;">
                                         <input accept=".jpg, .png, .jpeg, .gif" type="file" name="fileToUpload" id="fileToUpload">
                                         <input type="submit" name="submit" class="e-c" value="+">
                                     </form>
-                                    <span id="edit-pfp" class="e-c">+</span>
+                                    <span id="edit-pfp" class="e-c">+</span> -->
                                 <?php } ?>
-                                <div class="online-status <?php echo ($can_edit ? 'set-online-status' : ''); ?>">
-                                    <?php if ($can_edit) { ?>
-                                        <i class='bx bx-dots-horizontal-rounded e-c' ></i>
-                                    <?php } ?>
-                                </div>
                             </div>
                             <div class="username">
-                                <h1 class="username-big">@<?php echo $view->get_username(); ?><i class='bx bxs-check-square'></i></h1>
-                                <p class="name"><?php echo $view->get_name(); ?></p>
+                                <h1 class="username-big">@<?php echo $team_name; ?><i class='bx bxs-check-square'></i></h1>
+                                <p class="name"><?php echo $team->get_team_name(); ?></p>
                                 <p class="pronouns"><?php echo $view->get_pronouns(); ?></p>
                             </div>
                         </div>

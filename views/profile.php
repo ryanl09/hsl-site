@@ -2,6 +2,7 @@
 
 $path = $_SERVER['DOCUMENT_ROOT'];
 require_once($path . '/documentelements.php');
+require_once($path . '/classes/general/Badge.php');
 require_once($path . '/classes/general/Season.php');
 require_once($path . '/classes/user/User.php');
 require_once($path . '/classes/util/tecdb.php');
@@ -83,7 +84,7 @@ base_header(
                             </div>
                             <div class="badges">
                                 <?php
-                                    $badges = User::get_badges($view->get_id());
+                                    $badges = Badge::get_user($view->get_id());
                                     if (empty($badges)) {
                                         echo '<p class="e-c">You don\'t have any badges yet!</p>';
                                         echo '<p class="p-c">No badges on display</p>';
