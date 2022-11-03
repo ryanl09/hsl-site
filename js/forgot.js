@@ -11,9 +11,9 @@ $(document).ready(function() {
         errors.html('');
 
         $.ajax({
-            url:`${ajax_url}forgot-ajax.php`,
+            url:ajaxurl,
             type:'post',
-            data:{'action':'request', 'email':$('#username').val(),'csrf':$('#csrf').val()},
+            data:{'page':'forgot', 'action':'request', 'email':$('#username').val(),'csrf':$('#csrf').val()},
             dataType:'json',
             success:(data)=>{
                 console.log(data);
@@ -45,9 +45,9 @@ $(document).ready(function() {
         const p = $('#password').val();
         const p2 = $('#cpassword').val();
         $.ajax({
-            url:`${ajax_url}forgot-ajax.php`,
+            url:ajaxurl,
             type:'post',
-            data:{'action':'reset', 'password':p, 'cpassword':p2,'csrf':$('#csrf').val()},
+            data:{'page':'forgot', 'action':'reset', 'password':p, 'cpassword':p2,'csrf':$('#csrf').val()},
             dataType:'json',
             success:(data)=>{
 

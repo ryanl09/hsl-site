@@ -7,9 +7,9 @@ abstract class VerifyService {
     protected $db;
     protected $params;
 
-    public function __construct($params) {
+    public function __construct($db, $params) {
         $this->params = $params;
-        $this->db = new tecdb();
+        $this->db = $db;
     }
 
     final protected function check_input($key) {

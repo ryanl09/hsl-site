@@ -8,8 +8,8 @@ require_once($path . '/classes/services/LogoutService.php');
 require_once($path . '/classes/services/VerifyService.php');
 
 class ForgotPasswordService extends VerifyService {
-    public function __construct(){
-        parent::__construct(array());
+    public function __construct($db){
+        parent::__construct($db, array());
     }
 
     /**

@@ -6,8 +6,8 @@ require_once('CreateService.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/classes/event/Event.php');
 
 class CreateEventService extends CreateService {
-    public function __construct($tecdb) {
-        parent::__construct($tecdb);
+    public function __construct($db) {
+        parent::__construct($db);
     }
 
     /**

@@ -102,6 +102,7 @@ foreach ($res as $i => $row){
                 <input type="text" name="ign" id="ign" placeholder="ign">
                 <select name="team" id="team">
                     <?php
+
                         $query = 
                         "SELECT id, team_name
                         FROM `teams`

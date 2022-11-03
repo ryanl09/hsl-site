@@ -4,8 +4,8 @@ require_once('CreateService.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/classes/user/Player.php');
 
 class CreatePlayerService extends CreateService {
-    public function __construct() {
-        parent::__construct();
+    public function __construct($db) {
+        parent::__construct($db);
     }
 
     public function create($params) {

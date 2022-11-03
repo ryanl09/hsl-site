@@ -8,8 +8,8 @@ require_once($path . '/classes/user/User.php');
 
 class LoginService extends VerifyService {
 
-    public function __construct($params) {
-        parent::__construct($params);
+    public function __construct($db, $params) {
+        parent::__construct($db, $params);
     }
 
     /**

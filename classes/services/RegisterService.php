@@ -19,8 +19,8 @@ class RegisterService extends VerifyService {
 
     private $type;
 
-    public function __construct($params, $type) {
-        parent::__construct($params);
+    public function __construct($db, $params, $type) {
+        parent::__construct($db, $params);
         $this->type = $type;
     }
 
