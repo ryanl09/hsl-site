@@ -13,14 +13,14 @@ if (!isset($_SESSION['user']))
     die();
 }
 
-if (!$_SESSION['user']->is_admin()) {
-    echo ajaxerror::e('errors', ['Invalid permissions']);
-    die();
-}
-
 $action = $_POST["action"];
 switch ($action){
     case 'add_announcement':
+        if (!$_SESSION['user']->is_admin()) {
+            echo ajaxerror::e('errors', ['Invalid permissions']);
+            die();
+        }
+
         if (!isset($_POST['a-title']) || !isset($_POST['a-body'])){
             echo ajaxerror::e('errors', ['Missing fields']);
             die();
@@ -41,6 +41,11 @@ switch ($action){
         break;
 
     case 'delete_announcement':
+        if (!$_SESSION['user']->is_admin()) {
+            echo ajaxerror::e('errors', ['Invalid permissions']);
+            die();
+        }
+
         if (!isset($_SESSION['user']) || !isset($_POST['announcement_id'])){
             echo ajaxerror::e('errors', ['Missing fields']);
             die();
@@ -65,6 +70,11 @@ switch ($action){
         break;
 
     case 'add_temp_pl':
+        if (!$_SESSION['user']->is_admin()) {
+            echo ajaxerror::e('errors', ['Invalid permissions']);
+            die();
+        }
+
         if (!isset($_POST['ign']) || !isset($_POST['team'])){
             echo ajaxerror::e('errors', ['Missing fields']);
             die();
@@ -83,6 +93,11 @@ switch ($action){
         die();
         break;
     case 'allocate_temp_pl':
+        if (!$_SESSION['user']->is_admin()) {
+            echo ajaxerror::e('errors', ['Invalid permissions']);
+            die();
+        }
+
         if (!isset($_POST['id']) || !isset($_POST['game']) || !isset($_POST['div'])){
             echo ajaxerror::e('errors', ['Missing fields']);
             die();

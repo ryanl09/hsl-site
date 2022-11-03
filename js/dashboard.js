@@ -17,9 +17,9 @@
 
         function get_announcements(){
             $.ajax({
-                url:`${ajax_url}tm-db-ajax.php`,
-                type:'get',
-                data:{'action':'get_announcements', 'csrf':$('#csrf').val()}, 
+                url:ajaxurl,
+                type:'post',
+                data:{'page':'admin', 'action':'get_announcements', 'csrf':$('#csrf').val()}, 
                 dataType:'json',
                 success:(data)=>{
                     console.log(data);
@@ -57,18 +57,6 @@
         }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
         /**
          * team manager
          */
@@ -89,9 +77,9 @@
             const pid = $(e.target).attr('user-id');
 
             $.ajax({
-                url:`${ajax_url}tm-db-ajax.php`,
+                url:ajaxurl,
                 type:'get',
-                data:{'action':'get_teams', 'pl_id':pid},
+                data:{'page':'tm-db', 'action':'get_teams', 'pl_id':pid},
                 dataType:'json',
                 success:(data)=>{
                     if (data.errors){
@@ -127,9 +115,9 @@
                 });
 
                 $.ajax({
-                    url:`${ajax_url}tm-db-ajax.php`,
+                    url:ajaxurl,
                     type:'post',
-                    data:{'action':'allocate','pl_id':pid,'teams':JSON.stringify(ids),'csrf':$('#csrf').val()},
+                    data:{'page':'tm-db', 'action':'allocate','pl_id':pid,'teams':JSON.stringify(ids),'csrf':$('#csrf').val()},
                     dataType:'text',
                     success:(data)=>{
                         alert(data);
@@ -146,9 +134,9 @@
                 var conf = confirm("Are you sure you want to remove this player from your team?");
                 if (conf){
                     $.ajax({
-                        url:`${ajax_url}tm-db-ajax.php`,
+                        url:ajaxurl,
                         type:'post',
-                        data:{'action':'remove','pl_id':pid,'csrf':$('#csrf').val()},
+                        data:{'page':'tm-db', 'action':'remove','pl_id':pid,'csrf':$('#csrf').val()},
                         dataType:'json',
                         success:(data)=>{
                             console.log(data);
@@ -250,9 +238,9 @@
 
             if (conf){
                 $.ajax({
-                    url:`${ajax_url}tm-db-ajax.php`,
+                    url:ajaxurl,
                     type:'post',
-                    data:{'action':'delete', 'csrf':$('#csrf').val(), 'st_id':s_id, 'game_id':gam.val(), 'div':div.val()},
+                    data:{'page':'tm-db', 'action':'delete', 'csrf':$('#csrf').val(), 'st_id':s_id, 'game_id':gam.val(), 'div':div.val()},
                     dataType:'json',
                     success:(data)=>{
                         if (!data.status || data.errors){
@@ -293,9 +281,9 @@
             });
 
             $.ajax({
-                url:`${ajax_url}tm-db-ajax.php`,
+                url:ajaxurl,
                 type:'post',
-                data:{'action':'save_teams', 'teams':JSON.stringify(teams), 'csrf':$('#csrf').val()},
+                data:{'page':'tm-db', 'action':'save_teams', 'teams':JSON.stringify(teams), 'csrf':$('#csrf').val()},
                 dataType:'json',
                 success:(data)=>{
                     console.log(data);
@@ -313,9 +301,9 @@
         function update_events(){
             
             $.ajax({
-                url:`${ajax_url}tm-db-ajax.php`,
+                url:ajaxurl,
                 type:'get',
-                data:{'action':'get_events', 'team':$('#roster-team').val(), 'csrf':$('#csrf').val()},
+                data:{'page':'tm-db', 'action':'get_events', 'team':$('#roster-team').val(), 'csrf':$('#csrf').val()},
                 dataType:'json',
                 success:(data)=>{
                     console.log(data);
@@ -391,9 +379,9 @@
             var d = [];
 
             $.ajax({
-                url:`${ajax_url}tm-db-ajax.php`,
+                url:ajaxurl,
                 type:'get',
-                data:{'action':'get_players', 'st':$('#roster-team').val(), 'e_id':e_id, 'csrf':$('#csrf').val()},
+                data:{'page':'tm-db', 'action':'get_players', 'st':$('#roster-team').val(), 'e_id':e_id, 'csrf':$('#csrf').val()},
                 dataType:'json',
                 async:false,
                 success:(data)=>{
@@ -433,9 +421,9 @@
                         });
 
                         $.ajax({
-                            url:`${ajax_url}tm-db-ajax.php`,
+                            url:ajaxurl,
                             type:'post',
-                            data:{'action':'set_roster', 'e_id':e_id, 'players':JSON.stringify(pl), 'team_id': $('#roster-team').val(), 'csrf':$('#csrf').val()},
+                            data:{'page':'tm-db', 'action':'set_roster', 'e_id':e_id, 'players':JSON.stringify(pl), 'team_id': $('#roster-team').val(), 'csrf':$('#csrf').val()},
                             dataType:'json',
                             success:(data)=>{
                                 if (!data.status){
