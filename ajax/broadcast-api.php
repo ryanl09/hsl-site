@@ -54,7 +54,9 @@ switch ($action){
             'presets' => []
         );
 
-        $c = Season::get_current();
+        $db = new tecdb();
+
+        $c = Season::get_current($db);
 
         $rocket_league = 1;
         $div = 1;

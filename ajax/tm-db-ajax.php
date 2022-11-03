@@ -269,7 +269,7 @@ if ((isset($_SERVER['HTTP_X_REQUESTED_WITH'])) && ($_SERVER['HTTP_X_REQUESTED_WI
                 }
 
                 $pl = $_GET['pl_id'];
-                $user = new User($pl);
+                $user = new User($db, $pl);
 
                 echo json_encode($user->get_player_subteams());
                 die();

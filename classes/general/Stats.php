@@ -108,7 +108,7 @@ class Stats {
             )
         AND stats.event_id = ?";
 
-        $res = $this->db->query($query, $subteam_id, Season::get_current(), $event_id, $event_id)->fetchAll();
+        $res = $this->db->query($query, $subteam_id, Season::get_current($this->db), $event_id, $event_id)->fetchAll();
         return $res;
     }
 

@@ -20,7 +20,7 @@ class Player extends User {
         }
 
         if ($season ==='current') {
-            $season = Season::get_current();
+            $season = Season::get_current($this->db);
         }
 
         $query = 

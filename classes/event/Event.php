@@ -309,8 +309,7 @@ class Event implements IEvent {
             return [];
         }
 
-        $db = new tecdb();
-        $c_s = Season::get_current();
+        $c_s = Season::get_current($db);
 
         $h_h = self::has_roster($db, $event_id, $h);
         $h_p = self::get_roster($db, $event_id, $h, $h_h);
@@ -447,7 +446,7 @@ class Event implements IEvent {
             return [];
         }
 
-        $c_s = Season::get_current();
+        $c_s = Season::get_current($db);
 
         $team=intval($team);
         $div=intval($div);
@@ -506,7 +505,7 @@ class Event implements IEvent {
             return [];
         }
 
-        $c_s=Season::get_current();
+        $c_s=Season::get_current($db);
 
         $query =
         "SELECT t.team_name as event_home, t.team_logo as home_logo, t2.team_name as event_away, t2.team_logo as away_logo, 

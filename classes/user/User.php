@@ -398,7 +398,7 @@ class User {
      */
 
     public function get_team() {
-        return new Team($this->team_id);
+        return new Team($this->db, $this->team_id);
     }
 
     /**
@@ -413,7 +413,7 @@ class User {
         }
 
         if ($season === 'current'){
-            $season = Season::get_current();
+            $season = Season::get_current($this->db);
         }
 
         $query=
@@ -452,7 +452,7 @@ class User {
 
     public function games_competing_in($c_s) {
         if($c_s==='current'){
-            $c_s=Season::get_current();
+            $c_s=Season::get_current($this->db);
         }
 
         if (!$this->id || !$c_s || !is_numeric($c_s)) {
@@ -563,7 +563,7 @@ class User {
             return [];
         }
 
-        $c_s = Season::get_current();
+        $c_s = Season::get_current($this->db);
 
         $query = 
         "SELECT events.id, events.event_home, events.event_away, events.event_time, events.event_date, events.event_game, player_seasons.subteam_id

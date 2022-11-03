@@ -226,7 +226,7 @@
         $.ajax({
             type: 'get',
             url: ajaxurl,
-            data: {'page':'get-profile',  'tab': 'info', 'csrf':$('#csrf').val() },
+            data: {'page':'get-profile', 'action':'0', 'tab': 'info', 'csrf':$('#csrf').val() },
             dataType: 'json',
             async: true,
             success:(data)=>{

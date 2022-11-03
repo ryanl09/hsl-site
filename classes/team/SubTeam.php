@@ -19,7 +19,7 @@ class SubTeam extends TeamAbstract {
         }
 
         if($season==='current'){
-            $season=Season::get_current();
+            $season=Season::get_current($this->db);
         }
 
         $query = 
@@ -78,7 +78,7 @@ class SubTeam extends TeamAbstract {
 
         $temp = "WHERE `is_temp` = " . ($temp_pl ? '1' : '0');
 
-        $c_s = Season::get_current();
+        $c_s = Season::get_current($this->db);
 
         $query =
         "SELECT users.name, users.user_id
@@ -104,7 +104,7 @@ class SubTeam extends TeamAbstract {
             return false;
         }
 
-        $player = new User($pid);
+        $player = new User($this->db, $pid);
         if (!session_id() || !isset($_SESSION['user'])){
             return false;
         }
@@ -121,7 +121,7 @@ class SubTeam extends TeamAbstract {
             }
         }
 
-        $c_s = Season::get_current();
+        $c_s = Season::get_current($this->db);
 
         $query=
         "INSERT INTO `player_seasons` (`user_id`, `subteam_id`, `season_id`)

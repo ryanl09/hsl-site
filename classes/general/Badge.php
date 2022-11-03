@@ -9,12 +9,10 @@ class Badge{
      * @return  array
      */
 
-    public static function get_user($user_id){
+    public static function get_user($db, $user_id){
         if (!$user_id) {
             return [];
         }
-
-        $db = new tecdb();
 
         $query = 
         "SELECT badge_types.url
@@ -34,7 +32,7 @@ class Badge{
      * @return  array
      */
 
-    public static function get_team($team_id){
+    public static function get_team($db, $team_id){
         if(!$team_id){
             return [];
         }

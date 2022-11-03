@@ -103,7 +103,7 @@ switch ($action){
         $s = new SubTeam($team_id);
         $done = $s->add_player($pl_id);
 
-        $u = new User($pl_id);
+        $u = new User($db, $pl_id);
 
         $added_ign = false;
 

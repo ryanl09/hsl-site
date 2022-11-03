@@ -5,11 +5,10 @@ require_once($path . '/documentelements.php');
 require_once($path . '/classes/general/Badge.php');
 require_once($path . '/classes/general/Season.php');
 require_once($path . '/classes/user/User.php');
-require_once($path . '/classes/util/tecdb.php');
 
 $arg_arr = $_SESSION['current_page'];
 $username = strtolower($arg_arr[2]);
-$view = User::get_class_instance(0, $username);
+$view = User::get_class_instance($db, 0, $username);
 
 $fill = '';
 $can_edit = false;
@@ -53,6 +52,7 @@ base_header(
             </div>
         <?php } ?>
         <section class="home">
+            <input type="hidden" id="csrf" value="<?php echo $_SESSION['csrf']; ?>">
             <?php if ($view->get_id()) { //if user exists ?>
                 <div class="banner-wrapper">
                     <div class="banner">
@@ -84,7 +84,7 @@ base_header(
                             </div>
                             <div class="badges">
                                 <?php
-                                    $badges = Badge::get_user($view->get_id());
+                                    $badges = Badge::get_user($db, $view->get_id());
                                     if (empty($badges)) {
                                         echo '<p class="e-c">You don\'t have any badges yet!</p>';
                                         echo '<p class="p-c">No badges on display</p>';
@@ -191,8 +191,8 @@ base_header(
                                             <label for="season">Season:</label>
                                             <select name="season" id="season">
                                                 <?php
-                                                    $c_s = Season::get_current();
-                                                    $a = Season::get_all_prior();
+                                                    $c_s = Season::get_current($db);
+                                                    $a = Season::get_all_prior($db);
                                                     foreach ($a as $i => $row){
                                                         echo '<option value="'.$row['id'].'">'.$row['season_name'].'</option>';
                                                     }

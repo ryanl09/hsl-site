@@ -78,7 +78,7 @@ class LoginService extends VerifyService {
     }
 
     public function login_user($user_id) {
-        $user = new User($user_id);
+        $user = new User($this->db, $user_id);
 
         if (session_id()) {
             session_regenerate_id();

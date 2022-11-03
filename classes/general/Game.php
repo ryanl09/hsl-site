@@ -54,7 +54,7 @@ class Game {
             return [];
         }
 
-        $season_id = Season::get_current();
+        $season_id = Season::get_current($db);
         $query=
         "SELECT teams.team_name, teams.id AS team_id, subteams.id AS subteam_id, teams.slug, subteams.tag
         FROM teams
@@ -78,7 +78,7 @@ class Game {
             return [];
         }
 
-        $season_id = Season::get_current();
+        $season_id = Season::get_current($db);
 
         $query=
         "SELECT teams.team_name, teams.id AS team_id, subteams.id AS subteam_id, teams.slug, subteams.tag

@@ -10,8 +10,7 @@ class Season {
      * @return  int
      */
 
-    public static function get_current() {
-        $db = new tecdb();
+    public static function get_current($db) {
         $today = getdate();
         
         //august
@@ -32,9 +31,7 @@ class Season {
      * @return  int
      */
 
-    public static function add($name) {
-        $db = new tecdb();
-
+    public static function add($db, $name) {
         $query = 
         "INSERT INTO `seasons` (season_name)
         VALUES (?)";
@@ -48,9 +45,8 @@ class Season {
      * @return  array
      */
 
-    public static function get_all_prior() {
-        $db=new tecdb();
-        $c_s = self::get_current();
+    public static function get_all_prior($db) {
+        $c_s = self::get_current($db);
 
         $query=
         "SELECT *

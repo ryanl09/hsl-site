@@ -35,7 +35,7 @@ class TeamManager extends User {
             return [];
         }
 
-        $c_s = Season::get_current();
+        $c_s = Season::get_current($this->db);
 
         $query=
         "SELECT subteams.id
