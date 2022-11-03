@@ -13,14 +13,12 @@ class Game {
      * @return  int
      */
 
-    public static function by_name($name) {
+    public static function by_name($db, $name) {
         if (!$name) {
             return 0;
         }
 
         $name = strtolower($name);
-        $db = new tecdb();
-
         $query =
         "SELECT `id`
         FROM `games`
@@ -35,9 +33,7 @@ class Game {
      * @return  array
      */
 
-    public static function get_all() {
-        $db = new tecdb();
-
+    public static function get_all($db) {
         $query =
         "SELECT `id`, `game_name`, `url`
         FROM `games`";
@@ -53,15 +49,12 @@ class Game {
      * @return  array
      */
 
-    public static function get_teams($game_id, $div) {
+    public static function get_teams($db, $game_id, $div) {
         if(!$game_id){
             return [];
         }
 
         $season_id = Season::get_current();
-
-        $db = new tecdb();
-
         $query=
         "SELECT teams.team_name, teams.id AS team_id, subteams.id AS subteam_id, teams.slug, subteams.tag
         FROM teams
@@ -80,14 +73,12 @@ class Game {
      * @return  array
      */
 
-    public static function get_teams_g($game_id) {
+    public static function get_teams_g($db, $game_id) {
         if(!$game_id){
             return [];
         }
 
         $season_id = Season::get_current();
-
-        $db = new tecdb();
 
         $query=
         "SELECT teams.team_name, teams.id AS team_id, subteams.id AS subteam_id, teams.slug, subteams.tag
@@ -108,7 +99,7 @@ class Game {
      * @return  array
      */
 
-    public static function get_events_week($game_id){
+    public static function get_events_week($db, $game_id){
         if (!$game_id){
             return [];
         }
@@ -116,8 +107,6 @@ class Game {
         $mon = date( 'Y-m-d', strtotime( 'monday this week' ) );
         $fri = date( 'Y-m-d', strtotime( 'friday this week' ) );
 
-        $db = new tecdb();
-        
         $query=
         "SELECT t.team_name AS home, t.team_logo as home_logo, t2.team_name AS away, t2.team_logo as away_logo, 
         events.event_time, events.event_date, s.division, events.id, s.tag as home_tag, s2.tag as away_tag,
@@ -144,16 +133,14 @@ class Game {
      * @return  array
      */
 
-    public static function get_events_last_week($game_id){
+    public static function get_events_last_week($db, $game_id){
         if (!$game_id){
             return [];
         }
 
         $mon = date( 'Y-m-d', strtotime( 'monday last week' ) );
         $fri = date( 'Y-m-d', strtotime( 'friday last week' ) );
-
-        $db = new tecdb();
-
+        
         $query=
         "SELECT t.team_name AS home, t.team_logo as home_logo, t2.team_name AS away, t2.team_logo as away_logo, 
         events.event_time, events.event_date, s.division, events.id, s.tag as home_tag, s2.tag as away_tag,

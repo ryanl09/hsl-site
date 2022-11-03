@@ -37,7 +37,7 @@ require_once($path . '/classes/user/User.php');
     
                 $div=$_GET['div'];
     
-                $teams = Game::get_teams($game_id,$div);
+                $teams = Game::get_teams($db, $game_id,$div);
                 echo json_encode(array('teams' => $teams));
                 break;
             case 'schedule':
@@ -100,8 +100,6 @@ require_once($path . '/classes/user/User.php');
                 }
 
                 $failed=[];
-
-                $db = new tecdb();
 
                 $s = json_decode($_POST['schedule'], true);
                 for ($i = 0; $i < count($s); $i++) {
