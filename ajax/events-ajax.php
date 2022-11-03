@@ -6,9 +6,6 @@ require_once('ajax-util.php');
 require_once($path . '/classes/event/Event.php');
 require_once($path . '/classes/general/Game.php');
 require_once($path . '/classes/general/Stats.php');
-include_once($path . '/classes/security/csrf.php');
-include_once($path . '/classes/util/ajaxerror.php');
-require_once($path . '/classes/util/Sessions.php');
 
 $action = $_GET['action'];
 
@@ -19,7 +16,7 @@ switch ($action) {
         }
 
         $game = $_GET['game'];
-        $events = Event::all_today_game($game);
+        $events = Event::all_today_game($db, $game);
         echo json_encode(
             array(
                 'status' => 1,
@@ -29,12 +26,12 @@ switch ($action) {
         die();
         break;
     case 'get_current':
-        $e = Event::is_now();
+        $e = Event::is_now($db);
         echo json_encode(
             array(
                 'status' => 1,
                 'now' => $e,
-                'next' => Event::get_next()
+                'next' => Event::get_next($db)
             )
         );
         die();
@@ -62,7 +59,7 @@ switch ($action) {
         }
 
         $e = [];
-        $e = Event::sort_by($game, $team, $div, $time);
+        $e = Event::sort_by($db, $game, $team, $div, $time);
 
         echo json_encode(
             array(
@@ -81,7 +78,7 @@ switch ($action) {
         $game = $_GET['game'];
         $div = $_GET['div'];
 
-        $t = Game::get_teams($game, $div);
+        $t = Game::get_teams($db, $game, $div);
         echo json_encode(
             array(
                 'status' => 1,

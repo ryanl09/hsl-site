@@ -97,8 +97,8 @@ $(document).ready(()=>{
 
         $.ajax({
             type:'get',
-            url:`${ajax_url}eventpanel-ajax.php`,
-            data:{ 'action': 'get_teams', 'game_id': $('#games').val(), 'div':$('#div').val(), 'csrf':$('#csrf').val() },
+            url:ajaxurl,
+            data:{'page': 'eventpanel', 'action': 'get_teams', 'game_id': $('#games').val(), 'div':$('#div').val(), 'csrf':$('#csrf').val() },
             dataType:'json',
             async: false,
             success:(data)=>{
@@ -165,8 +165,8 @@ $(document).ready(()=>{
 
         $.ajax({
             type:'get',
-            url:`${ajax_url}eventpanel-ajax.php`,
-            data:{'action':'schedule', 'teams':teams, 'days': days, 'start_day': date, 'weeks':weeks, 'times':times,'csrf':$('#csrf').val() },
+            url:ajaxurl,
+            data:{'page': 'eventpanel', 'action':'schedule', 'teams':teams, 'days': days, 'start_day': date, 'weeks':weeks, 'times':times,'csrf':$('#csrf').val() },
             dataType:'json',
             async:true,
             success:function(data){
@@ -260,8 +260,8 @@ $(document).ready(()=>{
                     $(up).prop('disabled', true);
                     $.ajax({
                         type:'post',
-                        url:`${ajax_url}eventpanel-ajax.php`,
-                        data:{'action':'upload', 'schedule':schedule, 'csrf':$('#csrf').val(), 'game_id':$('#games').val() },
+                        url:ajaxurl,
+                        data:{'page': 'eventpanel', 'action':'upload', 'schedule':schedule, 'csrf':$('#csrf').val(), 'game_id':$('#games').val() },
                         dataType:'text',
                         success:(dat)=>{
                             $(up).prop('disabled', false);
