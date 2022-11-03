@@ -4,8 +4,8 @@ require_once('User.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/classes/general/Season.php');
 
 class Player extends User {
-    public function __construct($id){
-        parent::__construct($id, 'player');
+    public function __construct($db, $id){
+        parent::__construct($db, $id, 'player');
     }
 
     /**
@@ -69,10 +69,14 @@ class Player extends User {
 
     }
 
-    public static function from_username($username) {
+    /**
+     * static functions
+     */
+
+    public static function from_username($db, $username) {
         if ($username && trim($username)) {
             $username = tec::safe($username);
-            $id = $this->db->query('SELECT * FROM players WHERE username = ?', $username)->fetchArray();
+            $id = $db->query('SELECT * FROM players WHERE username = ?', $username)->fetchArray();
             return new Player($id['user_id'] ?? 0);
         }
         return new Player(0);

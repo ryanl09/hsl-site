@@ -21,9 +21,9 @@
             tbb.html('');
 
             $.ajax({
-                url:`${ajax_url}get-profile-ajax.php`,
+                url:ajaxurl,
                 type:'get',
-                data:{'action':'get_stats', 'tab':'get_stats', 'pl_id':id, 'game':game, 'season':season, 'csrf':$('#csrf').val()},
+                data:{'page':'get-profile', 'action':'get_stats', 'tab':'get_stats', 'pl_id':id, 'game':game, 'season':season, 'csrf':$('#csrf').val()},
                 dataType:'json',
                 success:(data)=>{
                     console.log(data);
@@ -225,8 +225,8 @@
         console.log(tab);
         $.ajax({
             type: 'get',
-            url: `${ajax_url}get-profile-ajax.php`,
-            data: { 'tab': 'info', 'csrf':$('#csrf').val() },
+            url: ajaxurl,
+            data: {'page':'get-profile',  'tab': 'info', 'csrf':$('#csrf').val() },
             dataType: 'json',
             async: true,
             success:(data)=>{

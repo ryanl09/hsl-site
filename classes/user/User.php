@@ -25,7 +25,7 @@ class User {
     
     private $team_id;
 
-    public function __construct($id, $role='user') {
+    public function __construct($db, $id, $role='user') {
         $this->id = $id;
         if (!$this->id) {
             $this->role='user';
@@ -40,14 +40,13 @@ class User {
         }
 
         $this->role = $role;
-        $this->db = new tecdb();
+        $this->db = $db;
         
         $query = 
         "SELECT `username`, `email`, `pfp_url`, `user_id`, `name`, `pronouns`, `team_id`, `role`
         FROM `users`
         WHERE `user_id` = ?";
         $res = $this->db->query($query, $this->id)->fetchArray();
-
 
         $this->set_username($res['username']);
         $this->set_email($res['email']);
@@ -591,12 +590,10 @@ class User {
       * @return int
       */
     
-    public static function find_id($username) {
+    public static function find_id($db, $username) {
         if (!$username) {
             return 0;
         }
-
-        $db = new tecdb();
 
         $query =
         "SELECT `user_id`
@@ -615,7 +612,7 @@ class User {
      * @return  string
      */
 
-    public static function get_ign_with_id($user_id, $game_id){
+    public static function get_ign_with_id($db, $user_id, $game_id){
         if (!$user_id || !$game_id){
             return 'None';
         }
@@ -624,8 +621,6 @@ class User {
         "SELECT `ign`
         FROM `user_igns`
         WHERE `user_id` = ? AND `game_id` = ?";
-
-        $db = new tecdb();
 
         $res = $db->query($query, $user_id, $game_id)->fetchArray();
         return $res['ign'] ?? 'None';
@@ -637,12 +632,10 @@ class User {
      * @return  Player|Admin|Caster|Production|Staff|TeamManager
      */
 
-    public static function get_class_instance($user_id, $username='') {
+    public static function get_class_instance($db, $user_id, $username='') {
         if (!$user_id && !$username) {
-            return new User($user_id);
+            return new User($db, 0);
         }
-
-        $db = new tecdb();
 
         $sql = 
         "SELECT `role`, `user_id`
@@ -656,31 +649,31 @@ class User {
         }
         
         if (empty($res['role'])) {
-            return new User($user_id);
+            return new User($db, $user_id);
         }
 
         $role = $res['role'];
         switch ($role) {
             case 'admin':
-                return new Admin($user_id);
+                return new Admin($db, $user_id);
                 break;
             case 'caster':
-                return new Caster($user_id);
+                //return new Caster($user_id);
                 break;
             case 'player':
-                return new Player($user_id);
+                return new Player($db, $user_id);
                 break;
             case 'production':
-                return new Production($user_id);
+                //return new Production($user_id);
                 break;
             case 'staff':
-                return new Staff($user_id);
+                //return new Staff($user_id);
                 break;
             case 'team_manager':
-                return new TeamManager($user_id);
+                return new TeamManager($db, $user_id);
                 break;
             default:
-                return new User($user_id);
+                return new User($db, $user_id);
         }
     }
 }

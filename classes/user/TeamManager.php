@@ -5,8 +5,8 @@ require_once('User.php');
 require_once($path . '/classes/general/Season.php');
 
 class TeamManager extends User {
-    public function __construct($id) {
-        parent::__construct($id);
+    public function __construct($db, $id) {
+        parent::__construct($db, $id, 'team_manager');
     }
 
     public function get_team() {
