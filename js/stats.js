@@ -197,9 +197,9 @@
         const div=parseInt($('#div').val(),10);
         
         $.ajax({
-            url:`${ajax_url}events-ajax.php`,
+            url:ajaxurl,
             type:'get',
-            data:{'action':'get_top_players', 'game':game, 'div':div, 'stat_id':stat_id, 'csrf':$('#csrf').val()},
+            data:{'page': 'stats', 'action':'get_top_players', 'game':game, 'div':div, 'stat_id':stat_id, 'csrf':$('#csrf').val()},
             dataType:'json',
             success:(data)=>{
                 console.log(data);

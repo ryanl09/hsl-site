@@ -79,7 +79,7 @@
             $.ajax({
                 url:ajaxurl,
                 type:'get',
-                data:{'page':'tm-db', 'action':'get_teams', 'pl_id':pid},
+                data:{'page':'tm-db', 'action':'get_teams', 'pl_id':pid, 'csrf':$('#csrf').val()},
                 dataType:'json',
                 success:(data)=>{
                     if (data.errors){
