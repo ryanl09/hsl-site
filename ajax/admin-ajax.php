@@ -1,6 +1,4 @@
 <?php
-$path = $_SERVER["DOCUMENT_ROOT"];
-
 require_once($path . '/classes/general/Announcements.php');
 require_once($path . '/classes/general/Season.php');
 require_once($path . '/classes/team/SubTeam.php');

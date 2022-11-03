@@ -1,6 +1,5 @@
 <?php
 
-$path = $_SERVER['DOCUMENT_ROOT'];
 require_once($path . '/classes/services/RegisterService.php');
 
 if (!$_SERVER['REQUEST_METHOD']==='POST') {

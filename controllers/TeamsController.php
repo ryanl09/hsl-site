@@ -5,7 +5,7 @@ require_once($path . '/controllers/Controller.php');
 
 class TeamsController extends Controller {
     public function __construct() {
-        $this->render('taems');
+        $this->render('teams');
     }
 }
 

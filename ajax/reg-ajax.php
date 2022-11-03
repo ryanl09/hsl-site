@@ -3,8 +3,6 @@
 
 include_once('ajax-util.php');
 
-$path = $_SERVER['DOCUMENT_ROOT'];
-
 if (!isset($_SESSION['user'])){
     echo ajaxerror::e('errors', ['No user account found']);
     die();

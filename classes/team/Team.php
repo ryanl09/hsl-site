@@ -318,6 +318,22 @@ class Team extends TeamAbstract {
 
         return $res['id'] ?? 0;
     }
+
+    /**
+     * gets all teams for hs division
+     * @param   tecdb   $db
+     * @return  array
+     */
+
+    public static function get_all_hs($db, $type){
+        $query=
+        "SELECT teams.team_name, teams.team_logo, teams.slug
+        FROM teams
+        WHERE teams.id NOT IN (1, 2, 3, 24, 25, 26)
+            AND teams.team_type = \"hs\"";
+        $res = $db->query($query)->fetchAll();
+        return $res;
+    }
 }
 
 ?>

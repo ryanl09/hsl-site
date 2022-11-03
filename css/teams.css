@@ -1,0 +1,12 @@
+@import 'constants.css';
+
+.team-link img {}
+
+.teams {
+    width:100%;
+}
+
+.box {
+    height:150px;
+    max-height:150px;
+}

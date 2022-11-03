@@ -1,7 +1,5 @@
 <?php
 
-$path = $_SERVER['DOCUMENT_ROOT'];
-
 require_once('ajax-util.php');
 require_once($path . '/classes/services/ForgotPasswordService.php');
 

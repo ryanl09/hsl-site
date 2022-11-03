@@ -1,7 +1,5 @@
 <?php
 
-$path = $_SERVER['DOCUMENT_ROOT'];
-
 require_once($path . '/classes/event/Event.php');
 require_once($path . '/classes/services/CreateSubTeamService.php');
 require_once($path . '/classes/team/SubTeam.php');

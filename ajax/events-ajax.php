@@ -1,7 +1,5 @@
 <?php
 
-$path = $_SERVER['DOCUMENT_ROOT'];
-
 require_once('ajax-util.php');
 require_once($path . '/classes/event/Event.php');
 require_once($path . '/classes/general/Game.php');

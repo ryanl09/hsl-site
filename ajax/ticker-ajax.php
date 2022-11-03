@@ -1,8 +1,6 @@
 <?php
 
-$path = $_SERVER['DOCUMENT_ROOT'];
 include_once($path . '/classes/util/ajaxerror.php');
-
 require_once($path . '/classes/event/Schedule.php');
 require_once($path . '/classes/general/Game.php');
 require_once($path . '/classes/team/SubTeam.php');

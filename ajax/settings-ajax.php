@@ -2,7 +2,6 @@
 
 include_once('ajax-util.php');
 
-$path = $_SERVER['DOCUMENT_ROOT'];
 include_once($path . '/classes/security/csrf.php');
 include_once($path . '/classes/util/ajaxerror.php');
 require_once($path . '/classes/util/Sessions.php');

@@ -1,6 +1,5 @@
 <?php
 
-$path = $_SERVER['DOCUMENT_ROOT'];
 include_once($path . '/classes/event/Event.php');
 include_once($path . '/classes/event/Schedule.php');
 include_once($path . '/classes/general/Game.php');
