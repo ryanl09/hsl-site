@@ -87,8 +87,8 @@
 
             $.ajax({
                 type:'post',
-                url:`${ajax_url}register-ajax.php`,
-                data:{'f_name':$('#firstname').val(), 'l_name':$('#lastname').val(), 'pronouns': $('#pronouns').val(), 'email': $('#email').val(), 
+                url:ajaxurl,
+                data:{ 'page':'register', 'action':'0', 'f_name':$('#firstname').val(), 'l_name':$('#lastname').val(), 'pronouns': $('#pronouns').val(), 'email': $('#email').val(), 
                     'username':$('#username').val(), 'password':$('#password').val(), 'c_password':$('#c_password').val(), 'csrf':$('#csrf').val(),
                     'terms':terms, 'type':type, 'discord': $('#discord').val(), 'school': $('#school').val(), 'mascot':mascot, 'phone':$('#phone').val(), 'primarycolor':$('#primarycolor').val(),
                     'secondarycolor':$('#secondarycolor').val(), 'schoolcode':$('#schoolcode').val(), 'isymca':ymca},

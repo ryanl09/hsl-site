@@ -12,8 +12,8 @@
 
             $.ajax({
                 type:'post',
-                url:`${ajax_url}login-ajax.php`,
-                data:{'username':$('#username').val(), 'password':$('#password').val(), 'csrf':$('#csrf').val()},
+                url:ajaxurl,
+                data:{ 'page':'login', 'action':'0', 'username':$('#username').val(), 'password':$('#password').val(), 'csrf':$('#csrf').val()},
                 dataType:'json',
                 success:(data)=>{
                     console.log(data);

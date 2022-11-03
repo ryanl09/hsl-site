@@ -217,7 +217,7 @@ class RegisterService extends VerifyService {
         $team_id = 0;
         if($this->type === 'player'){
             $code = $_POST['schoolcode'];
-            $team_id = Team::from_schoolcode($code);
+            $team_id = Team::from_schoolcode($db, $code);
         }
 
         $discord = $_POST['discord'] ?? '';
@@ -246,7 +246,7 @@ class RegisterService extends VerifyService {
         switch ($this->type) {
             case 'team_manager':
             case 'college':
-                $cts = new CreateTeamService();
+                $cts = new CreateTeamService($this->db);
                 $team_id = $cts->create(
                     array(
                         'name' => $school,
@@ -276,7 +276,7 @@ class RegisterService extends VerifyService {
            
         }
 
-        $ls = new LoginService($login_params);
+        $ls = new LoginService($this->db, $login_params);
         $ls->login_user($user_id);
 
         return array(
