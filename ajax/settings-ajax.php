@@ -13,28 +13,6 @@ if (!isset($_SESSION['user'])){
 }
 
 $user = $_SESSION['user'];
-
-$post = check_post();
-if (!$post['status']) {
-    echo ajaxerror::e('errors', [$post['error']]);
-    die();
-}
-
-$csrf = CSRF::post();
-if (!$csrf) {
-    echo ajaxerror::e('errors', ['Invalid CSRF token']);
-    die();
-}
-
-if (!isset($_POST['action'])) {
-    echo json_encode(
-        array(
-            'error' => 'Missing action'
-        )
-    );
-    die();
-}
-
 $action = $_POST['action'];
 
 switch ($action) {
