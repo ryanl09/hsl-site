@@ -13,9 +13,9 @@
             });
 
             $.ajax({
-                url:`${ajax_url}settings-ajax.php`,
+                url:ajaxurl,
                 type:'post',
-                data:{'action':'set_ign', 'data':JSON.stringify(vals), 'csrf':$('#csrf').val()},
+                data:{'page': 'settings', 'action':'set_ign', 'data':JSON.stringify(vals), 'csrf':$('#csrf').val()},
                 dataType:'text',
                 success:(data)=>{
                     console.log(data);

@@ -14,9 +14,9 @@ $(document).ready(()=>{
 
     //grab all information for tabs when document loads
     $.ajax({
-        url:`${ajax_url}ticker-ajax.php`,
+        url:ajaxurl,
         type:'get',
-        data:{'action':'init','csrf':$('#csrf').val()},
+        data:{ 'page':'ticker', 'action':'init','csrf':$('#csrf').val()},
         dataType:'json',
         success:(data)=>{
             console.log(data);
@@ -197,9 +197,9 @@ $(document).ready(()=>{
 
     async function poll() {
         $.ajax({
-            url:`${ajax_url}ticker-ajax.php`,
+            url:ajaxurl,
             type:'get',
-            data:{},
+            data:{ 'page':'ticker', 'action':'0' },
             dataType:'json',
             success:(data)=>{
 
