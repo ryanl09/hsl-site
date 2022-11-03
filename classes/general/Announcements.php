@@ -1,6 +1,5 @@
 <?php
     $path = $_SERVER['DOCUMENT_ROOT'];
-    require_once($path . '/classes/util/tecdb.php');
     require_once($path . '/classes/util/Sessions.php');
 
     class Announcements {
@@ -8,9 +7,7 @@
 
         }
 
-        static function get_all() {
-            $db = new tecdb();
-
+        static function get_all($db) {
             $query = 'SELECT a.user_id, a.title, a.body, a.time, users.name, users.pfp_url, a.announcement_id
                     FROM announcements a 
                     INNER JOIN users ON users.user_id = a.user_id
@@ -21,14 +18,12 @@
             return $res;
         }
 
-        static function create($title, $body) {
+        static function create($db, $title, $body) {
             $id = 0;
             if (!isset($_SESSION['user'])) {
                 return false;
             }
             $id = $_SESSION['user']->get_id();
-
-            $db = new tecdb();
 
             $query = 'INSERT INTO announcements
                         (`user_id`, title, body)
@@ -38,13 +33,10 @@
             return $res;
         }
 
-        static function delete($announcement_id) {
+        static function delete($db, $announcement_id) {
             if (!isset($_SESSION['user'])) {
                 return false;
             }
-
-            $db = new tecdb();
-
             $query = 'DELETE FROM `announcements`
                         WHERE `announcement_id` = ?';
 

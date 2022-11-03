@@ -25,9 +25,9 @@
 
         $('.post-a').on('click', function() {
             $.ajax({
-                url:`${ajax_url}admin-ajax.php`,
+                url:ajaxurl,
                 type:'post',
-                data:{'action':'add_announcement', 'a-title':$('#a-title').val(), 'a-body': $('#a-body').val(), 'csrf':$('#csrf').val()},
+                data:{'page':'admin', 'action':'add_announcement', 'a-title':$('#a-title').val(), 'a-body': $('#a-body').val(), 'csrf':$('#csrf').val()},
                 dataType:'json',
                 success:(data)=>{
                     console.log(data);
@@ -44,9 +44,9 @@
 
         function remove_announcement(id){
             $.ajax({
-                url:`${ajax_url}admin-ajax.php`,
+                url:ajaxurl,
                 type:'post',
-                data:{'action':'delete_announcement', 'announcement_id':id, 'csrf':$('#csrf').val()},
+                data:{'page':'admin', 'action':'delete_announcement', 'announcement_id':id, 'csrf':$('#csrf').val()},
                 dataType:'json',
                 success:(data)=>{
                     console.log(data);
@@ -64,9 +64,9 @@
 
         function get_announcements(){
             $.ajax({
-                url:`${ajax_url}tm-db-ajax.php`,
-                type:'get',
-                data:{'action':'get_announcements', 'announcement_id':$('#announcement_id').val(), 'csrf':$('#csrf').val()}, 
+                url:ajaxurl,
+                type:'post',
+                data:{'page':'admin', 'action':'get_announcements', 'announcement_id':$('#announcement_id').val(), 'csrf':$('#csrf').val()}, 
                 dataType:'json',
                 success:(data)=>{
                     console.log(data);
@@ -106,9 +106,9 @@
 
         $('.btn-create').on('click', function(){
             $.ajax({
-                url:`${ajax_url}admin-ajax.php`,
+                url:ajaxurl,
                 type:'post',
-                data:{'action':'add_temp_pl', 'ign':$('#ign').val(), 'team': $('#team').val(), 'csrf':$('#csrf').val()},
+                data:{'page':'admin', 'action':'add_temp_pl', 'ign':$('#ign').val(), 'team': $('#team').val(), 'csrf':$('#csrf').val()},
                 dataType:'json',
                 success:(data)=>{
                     console.log(data);
@@ -127,9 +127,9 @@
 
         $('.btn-assign').on('click', function(){
             $.ajax({
-                url:`${ajax_url}admin-ajax.php`,
+                url:ajaxurl,
                 type:'post',
-                data:{'action':'allocate_temp_pl', 'id':$('#pl-id').val(), 'game':$('#game').val(), 'div':$('#div').val(), 'csrf':$('#csrf').val()},
+                data:{'page':'admin', 'action':'allocate_temp_pl', 'id':$('#pl-id').val(), 'game':$('#game').val(), 'div':$('#div').val(), 'csrf':$('#csrf').val()},
                 dataType:'text',
                 success:(data)=>{
                     console.log(data);

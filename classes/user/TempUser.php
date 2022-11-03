@@ -13,14 +13,12 @@ class TempUser{
      * @return  int
      */
 
-    public static function create($ign, $team_id) {
+    public static function create($db, $ign, $team_id) {
         if (!$ign){
             return 0;
         }
         
         $pronouns = "N/A";
-
-        $db=new tecdb();
 
         $query =
         "INSERT INTO `users` (`name`, `email`, `pronouns`, `username`, `password`, `activation_key`, `activated`, `role`, `team_id`, `discord`, `request_key`, `is_temp`)

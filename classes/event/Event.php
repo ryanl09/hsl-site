@@ -9,9 +9,9 @@ class Event implements IEvent {
     private $id;
     private $db;
 
-    public function __construct($id) {
+    public function __construct($id, $tecdb) {
         $this->id = $id;
-        $this->db = new tecdb();
+        $this->db = $tecdb;
     }
 
     /**
@@ -221,7 +221,7 @@ class Event implements IEvent {
         $res = $db->query($query, $event_id)->fetchArray();
         $ret = false;
         if ($res['ex']) {
-            $ret = new Event($event_id);
+            $ret = new Event($event_id, $this->db);
         }
         return $ret;
     }

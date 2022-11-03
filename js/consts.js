@@ -1,4 +1,5 @@
 const ajax_url = '/ajax/';
+const ajaxurl = 'https://tecesports.com/ajax/tec-ajax.php';
 
 $(document).ready(function(){
     const request_token = $('meta[name="request-token"]').attr('content') ?? 0;

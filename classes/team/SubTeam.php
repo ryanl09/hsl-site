@@ -237,6 +237,25 @@ class SubTeam extends TeamAbstract {
 
         return $res;
     }
+
+    /**
+     * sees if subteam exists
+     * @param   int $pl_id
+     * 
+     */
+
+    public static function exists($db, $pl_id, $div, $game){
+        $query=
+        "SELECT subteams.id
+        FROM subteams
+        INNER JOIN users
+            ON users.user_id = ?
+        WHERE subteams.team_id = users.team_id AND subteams.division = ? AND subteams.game_id = ?";
+
+        $res = $db->query($query, $pl_id, $div, $game)->fetchArray();
+
+        return !empty($res);
+    }
 }
 
 ?>

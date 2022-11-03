@@ -5,7 +5,6 @@ $path = $_SERVER['DOCUMENT_ROOT'];
 require_once('SubTeam.php');
 require_once('TeamAbstract.php');
 require_once($path . '/classes/services/CreateSubTeamService.php');
-require_once
 
 class Team extends TeamAbstract {
     public function __construct($id) {

@@ -316,18 +316,6 @@ if ((isset($_SERVER['HTTP_X_REQUESTED_WITH'])) && ($_SERVER['HTTP_X_REQUESTED_WI
                 );
                 die();
             break;
-            case 'get_announcements':
-                $a = Announcements::get_all();
-
-                echo json_encode(
-                    array(
-                        'status' => 1,
-                        'announcements' => $a
-                    )
-                );
-                die();
-
-                break;
         }
     }else{
         echo 'Invalid request';

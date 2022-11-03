@@ -6,8 +6,8 @@ require_once('CreateService.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/classes/event/Event.php');
 
 class CreateEventService extends CreateService {
-    public function __construct() {
-        parent::__construct();
+    public function __construct($tecdb) {
+        parent::__construct($tecdb);
     }
 
     /**
@@ -43,7 +43,7 @@ class CreateEventService extends CreateService {
         VALUES (?, ?, ?, ?, ?)";
 
         $event_id = $this->db->query($query, $home, $away, $time, $date, $game)->lastInsertID();
-        return new Event($event_id);
+        return new Event($event_id, $this->db);
     }
 }
 

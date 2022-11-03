@@ -1,13 +1,9 @@
 <?php
 $path = $_SERVER["DOCUMENT_ROOT"];
 
-require_once($path . '/ajax/ajax-util.php');
+require_once($path . '/classes/general/Announcements.php');
 require_once($path . '/classes/general/Season.php');
-include_once($path . '/classes/security/csrf.php');
 require_once($path . '/classes/team/SubTeam.php');
-include_once($path . '/classes/util/ajaxerror.php');
-include_once($path . '/classes/util/Sessions.php');
-require_once($path . '/classes/util/tecdb.php');
 require_once($path . '/classes/user/TempUser.php');
 require_once($path . '/classes/user/User.php');
 
@@ -22,18 +18,6 @@ if (!$_SESSION['user']->is_admin()) {
     die();
 }
 
-$post = check_post();
-if (!$post['status']) {
-    echo ajaxerror::e('errors', [$get['error']]);
-    die();
-}
-
-$csrf = CSRF::post();
-if (!$csrf) {
-    echo ajaxerror::e('errors', ['Invalid CSRF token']);
-    die();
-}
-
 $action = $_POST["action"];
 switch ($action){
     case 'add_announcement':
@@ -44,9 +28,8 @@ switch ($action){
 
         $title = $_POST['a-title'];
         $body = $_POST['a-body'];
-        require_once($path . '/classes/general/Announcements.php');
 
-        $created = Announcements::create($title, $body);
+        $created = Announcements::create($db, $title, $body);
 
         echo json_encode(
             array(
@@ -69,27 +52,14 @@ switch ($action){
         }
 
         $announcement_id = $_POST['announcement_id'];
-        require_once($path . '/classes/general/Announcements.php');
 
-        $created = Announcements::delete($announcement_id);
-        //$db = new tecdb();
-
-        //$query = 
-        //"DELETE FROM `announcements`
-        //WHERE `announcement_id` = ?";
-
-        //$res = $db->query($query, $announcement_id)->affectedRows();
-        //if ($res > 0){
-            echo json_encode(
-                array(
-                    'status' => 1,
-                    'success'=>'Announcement removed'
-                )
-            );
-            die();
-        //}
-
-        echo ajaxerror::e('errors', ['Couldn\'t remove player from roster']);
+        $created = Announcements::delete($db, $announcement_id);
+        echo json_encode(
+            array(
+                'status' => 1,
+                'success'=>'Announcement removed'
+            )
+        );
         die();
 
         break;
@@ -102,7 +72,7 @@ switch ($action){
 
         $ign = $_POST['ign'];
         $team_id = $_POST['team'];
-        $user_id = TempUser::create($ign, $team_id);
+        $user_id = TempUser::create($db, $ign, $team_id);
 
         echo json_encode(
             array(
@@ -122,18 +92,9 @@ switch ($action){
         $game = $_POST['game'];
         $div = $_POST['div'];
 
-        $db = new tecdb();
+        $exists = SubTeam::exists($db, $pl_id, $game, $div);
 
-        $query=
-        "SELECT subteams.id
-        FROM subteams
-        INNER JOIN users
-            ON users.user_id = ?
-        WHERE subteams.team_id = users.team_id AND subteams.division = ? AND subteams.game_id = ?";
-
-        $res = $db->query($query, $pl_id, $div, $game)->fetchArray();
-
-        if (empty($res)){
+        if (!$exists){
             echo ajaxerror::e('errors', ['No team found with that user, game, and division']);
             die();
         }
@@ -163,8 +124,15 @@ switch ($action){
                 'able_to_set_ign' => $added_ign
             )
         );
-        die();
-
+        break;
+    case 'get_announcements':
+        $a = Announcements::get_all($db);
+        echo json_encode(
+            array(
+                'status' => 1,
+                'announcements' => $a
+            )
+        );
         break;
     default:
         echo ajaxerror::e('errors', ['Unrecognized action.']);
