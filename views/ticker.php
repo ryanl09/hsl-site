@@ -5,11 +5,11 @@ $path = $_SERVER['DOCUMENT_ROOT'];
 require_once($path . '/documentelements.php');
 require_once($path . '/classes/event/Event.php');
 
-$today = Event::all_today();
+$today = Event::all_today($db);
 
 print_r($today);
 
-$e = Event::exists(1);
+$e = Event::exists($db, 1);
 
 if ($e){
     echo $e->get_time();
