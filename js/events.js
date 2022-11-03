@@ -3,9 +3,9 @@
 
         //fill in 'current event' box
         $.ajax({
-            url:`${ajax_url}events-ajax.php`,
+            url:ajaxurl,
             type:'get',
-            data:{'action': 'get_current', 'csrf':$('#csrf').val()},
+            data:{'page': 'events', 'action': 'get_current', 'csrf':$('#csrf').val()},
             dataType:'json',
             success:(data)=>{
 
@@ -45,9 +45,9 @@
 
         function get_game_today(game) {
             $.ajax({
-                url:`${ajax_url}events-ajax.php`,
+                url:ajaxurl,
                 type:'get',
-                data:{'action':'get_today', 'game':game, 'csrf':$('#csrf').val()},
+                data:{'page': 'events', 'action':'get_today', 'game':game, 'csrf':$('#csrf').val()},
                 dataType:'json',
                 success:(data)=>{
                     const tb = $('.table-today-tbody');
@@ -117,9 +117,9 @@
         function fetch_teams(game){
             var div = $('#sort-div').val();
             $.ajax({
-                url:`${ajax_url}events-ajax.php`,
+                url:ajaxurl,
                 type:'get',
-                data:{'action':'get_teams','game':game,'div':div, 'csrf':$('#csrf').val()},
+                data:{'page': 'events', 'action':'get_teams','game':game,'div':div, 'csrf':$('#csrf').val()},
                 dataType:'json',
                 success:(data)=>{
                     if (!data.status){
@@ -164,9 +164,9 @@
 
         function all_events_sort(game){
             $.ajax({
-                url:`${ajax_url}events-ajax.php`,
+                url:ajaxurl,
                 type:'get',
-                data:{'action':'all_events','sort-team':$('#sort-team').val(),'sort-div':$('#sort-div').val(), 'game':game, 'time': $('#sort-time').val(), 'csrf':$('#csrf').val()},
+                data:{'page': 'events', 'action':'all_events','sort-team':$('#sort-team').val(),'sort-div':$('#sort-div').val(), 'game':game, 'time': $('#sort-time').val(), 'csrf':$('#csrf').val()},
                 dataType:'json',
                 success:(data)=>{
                     console.log(data);

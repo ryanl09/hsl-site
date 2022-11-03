@@ -4,7 +4,6 @@ $path = $_SERVER['DOCUMENT_ROOT'];
 require_once($path . '/documentelements.php');
 require_once($path . '/classes/event/Event.php');
 require_once($path . '/classes/general/Game.php');
-require_once($path . '/classes/util/tecdb.php');
 
 start_content_full(1, 'events');
 
@@ -16,7 +15,7 @@ echo '<script src="https://embed.twitch.tv/embed/v1.js"></script>';
 //sort search
 
 
-$games = Game::get_all();
+$games = Game::get_all($db);
 
 $game_icons='<div class="game-icons e-today">';
 $game_icons2='<div class="game-icons e-all">';

@@ -12,7 +12,7 @@
             <h3 class="box-title">Players</h3>
             <p>Students will register with this link:</p>
             <?php 
-                $team = new Team($_SESSION['user']->get_team_id());
+                $team = new Team($db, $_SESSION['user']->get_team_id());
                 $href = 'https://tecesports.com/register/' . $team->get_schoolcode();
             ?>
             <span style="display:flex; gap:10px; align-items:center;">
@@ -46,7 +46,7 @@
             <?php
                 $st = $team->get_subteams_games();
                 $cboxes='';
-                $games = Game::get_all();
+                $games = Game::get_all($db);
                 echo '<div class="game-times">';
                 $js_games=[]; //lazy
                 $js_divs=[];
@@ -155,11 +155,11 @@
                             </thead>
                             <tbody class="events-tbody">
                                 <?php
-                                    $e = Event::of_subteam($use);
+                                    $e = Event::of_subteam($db, $use);
                                     foreach ($e as $i => $row){
                                         echo '<tr class="tr-set" e-id="'.$row['e_id'].'" e-time="'.$row['event_time'].'" e-date="'.$row['event_date'].'">';
                                         $class = 'red';
-                                        if (Event::has_roster($row['e_id'], $use)){
+                                        if (Event::has_roster($db, $row['e_id'], $use)){
                                             $class='green';
                                         }
                                         echo '<td><i class="bx bxs-circle '.$class.'"></i></td>';

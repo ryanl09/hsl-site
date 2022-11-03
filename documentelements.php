@@ -4,6 +4,10 @@ $path = $_SERVER['DOCUMENT_ROOT'];
 
 include_once($path . '/classes/user/User.php');
 
+require_once($path . '/ajax/ajaxdb.php');
+
+$db = ajaxdb::get_instance();
+
 function base_header($params = [], $nosidebar = false){
     $styles='';
     if (isset($params['styles'])) {
