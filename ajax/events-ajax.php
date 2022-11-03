@@ -10,27 +10,6 @@ include_once($path . '/classes/security/csrf.php');
 include_once($path . '/classes/util/ajaxerror.php');
 require_once($path . '/classes/util/Sessions.php');
 
-$get = check_get();
-if (!$get['status']) {
-    echo ajaxerror::e('errors', [$get['error']]);
-    die();
-}
-
-$csrf = CSRF::get();
-if (!$csrf) {
-    echo ajaxerror::e('errors', ['Invalid CSRF token']);
-    die();
-}
-
-if (!isset($_GET['action'])) {
-    echo json_encode(
-        array(
-            'error' => 'Missing action'
-        )
-    );
-    die();
-}
-
 $action = $_GET['action'];
 
 switch ($action) {
@@ -121,7 +100,7 @@ switch ($action) {
         $d = $_GET['div'];
         $t = $_GET['team'];
 
-        $stats = new Stats();
+        $stats = new Stats($db);
         $cols = $stats->get_cols_game($g);
         $s = $stats->stats_page_any($g, $d);
 
@@ -147,7 +126,7 @@ switch ($action) {
         $div = $_GET['div'];
         $stat_id = $_GET['stat_id'];
 
-        $stats = new Stats();
+        $stats = new Stats($db);
         $s = $stats->get_top_players_of_week($game, $div, $stat_id);
 
         echo json_encode(

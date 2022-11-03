@@ -48,9 +48,9 @@ $(document).ready(()=>{
 
             console.log(home_score);
             $.ajax({
-                url:`${ajax_url}event-ajax.php`,
+                url:ajaxurl,
                 type:'post',
-                data:{'action':'stats', 'data':JSON.stringify(obj), 'event_id':e_id, 'home_score':home_score, 'away_score':away_score, 'csrf':$('#csrf').val()},
+                data:{'page': 'event', 'action':'stats', 'data':JSON.stringify(obj), 'event_id':e_id, 'home_score':home_score, 'away_score':away_score, 'csrf':$('#csrf').val()},
                 dataType:'text',
                 success:(data)=>{
                     save.prop('disabled', false);
@@ -82,9 +82,9 @@ $(document).ready(()=>{
 
     function add_event_flag(type, reason) {
         $.ajax({
-            url:`${ajax_url}event-ajax.php`,
+            url:ajaxurl,
             type:'post',
-            data:{'action':'add_flag', 'event_id':e_id, 'flag_type':type, 'flag_reason':reason, 'csrf':$('#csrf').val()},
+            data:{'page': 'event', 'action':'add_flag', 'event_id':e_id, 'flag_type':type, 'flag_reason':reason, 'csrf':$('#csrf').val()},
             dataType:'json',
             success:(data)=>{
                 console.log(data);
@@ -110,9 +110,9 @@ $(document).ready(()=>{
 
     function remove_from_roster(id){
         $.ajax({
-            url:`${ajax_url}event-ajax.php`,
+            url:ajaxurl,
             type:'post',
-            data:{'action':'remove_roster', 'event_id':e_id, 'pl_id':id, 'csrf':$('#csrf').val()},
+            data:{'page': 'event', 'action':'remove_roster', 'event_id':e_id, 'pl_id':id, 'csrf':$('#csrf').val()},
             dataType:'json',
             success:(data)=>{
                 console.log(data);
@@ -138,9 +138,9 @@ $(document).ready(()=>{
         var pl_id = $(`#temp-${team}`).val();
 
         $.ajax({
-            url:`${ajax_url}event-ajax.php`,
+            url:ajaxurl,
             type:'post',
-            data:{'action':'add_roster', 'event_id':e_id, 'pl_id':pl_id, 'team_id':team_id, 'csrf':$('#csrf').val()},
+            data:{'page': 'event', 'action':'add_roster', 'event_id':e_id, 'pl_id':pl_id, 'team_id':team_id, 'csrf':$('#csrf').val()},
             dataType:'text',
             success:(data)=>{
                 console.log(data);
@@ -166,9 +166,9 @@ $(document).ready(()=>{
     });
 
     $.ajax({
-        url:`${ajax_url}event-ajax.php`,
+        url:ajaxurl,
         type:'get',
-        data:{'action':'stats', 'event_id':e_id, 'csrf':$('#csrf').val()},
+        data:{'page': 'event', 'action':'stats', 'event_id':e_id, 'csrf':$('#csrf').val()},
         dataType:'json',
         async: true,
         success:(data)=>{

@@ -7,8 +7,8 @@ require_once('TeamAbstract.php');
 require_once($path . '/classes/services/CreateSubTeamService.php');
 
 class Team extends TeamAbstract {
-    public function __construct($id) {
-        parent::__construct($id);
+    public function __construct($db, $id) {
+        parent::__construct($db, $id);
     }
 
     /**
@@ -17,7 +17,7 @@ class Team extends TeamAbstract {
      */
 
     public function get_team_name() {
-        if (!$this->id || !$this->db) {
+        if (!$this->id) {
             return '';
         }
 
@@ -36,7 +36,7 @@ class Team extends TeamAbstract {
      */
 
     public function get_subteams() {
-        if (!$this->id || !$this->db) {
+        if (!$this->id) {
             return [];
         }
 
@@ -79,7 +79,7 @@ class Team extends TeamAbstract {
      */
 
     public function add_subteam($division, $game) {
-        if (!$this->id || !$this->db) {
+        if (!$this->id) {
             return 0;
         }
 
@@ -102,7 +102,7 @@ class Team extends TeamAbstract {
      */
 
     public function remove_subteam($subteam) {
-        if (!$this->id || !$this->db) {
+        if (!$this->id) {
             return 0;
         }
 
@@ -121,7 +121,7 @@ class Team extends TeamAbstract {
      */
 
     public function remove() {
-        if (!$this->id || $this->db) {
+        if (!$this->id) {
             return 0;
         }
 
@@ -140,7 +140,7 @@ class Team extends TeamAbstract {
      */
 
     public function remove_player($pl_id){
-        if (!$pl_id || !$this->id){
+        if (!$pl_id){
             return false;
         }
 
@@ -166,24 +166,6 @@ class Team extends TeamAbstract {
 
     public function get_id() {
         return $this->id;
-    }
-
-    /**
-     * Gets total number of teams registered
-     * @return  int
-     */
-
-    public static function count_total() {
-        $db = new tecdb();
-
-        $query = 
-        "SELECT COUNT(*)
-        AS team_count
-        FROM `teams`
-        WHERE `active` = 0";
-
-        $res = $db->query($query)->fetchArray();
-        return intval($res['team_count']);
     }
 
     /**
@@ -223,11 +205,9 @@ class Team extends TeamAbstract {
      */
 
     public function get_logo() {
-        if (!$this->id || !$this->db) {
+        if (!$this->id) {
             return '';
         }
-
-        $team_id = $this->id;
 
         $query =
         "SELECT `team_logo`
@@ -236,6 +216,20 @@ class Team extends TeamAbstract {
 
         $logo = $this->db->query($query, $this->id)->fetchArray();
         return $logo['team_logo'] ?? '';
+    }
+
+    /**
+     * gets team manager for a team
+     * @param   int $id
+     * @return  int
+     */
+
+    public function get_team_manager(){
+        if (!$this->id){
+            return 0;
+        }
+
+        return 1;
     }
 
     /**
@@ -264,6 +258,24 @@ class Team extends TeamAbstract {
     /**
      * static functions
      */
+    
+
+    /**
+     * Gets total number of teams registered
+     * @return  int
+     */
+
+    public static function count_total($db) {
+        $query = 
+        "SELECT COUNT(*)
+        AS team_count
+        FROM `teams`
+        WHERE `active` = 0";
+
+        $res = $db->query($query)->fetchArray();
+        return intval($res['team_count']);
+    }
+
 
      /**
       * Finds team id from school code
@@ -271,12 +283,10 @@ class Team extends TeamAbstract {
       * @return int
       */
 
-    public static function from_schoolcode($code) {
+    public static function from_schoolcode($db, $code) {
         if (!$code) {
             return 0;
         }
-
-        $db = new tecdb();
 
         $query =
         "SELECT `id`
@@ -294,12 +304,11 @@ class Team extends TeamAbstract {
      * @return  Team|int
      */
 
-    public static function from_slug($team_name){
+    public static function from_slug($db, $team_name){
         if (!$team_name){
             return 0;
         }
 
-        $db= new tecdb();
         $query=
         "SELECT `id`
         FROM `teams`

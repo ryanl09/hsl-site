@@ -27,10 +27,20 @@ if ($post['status']){
         echo ajaxerror::e('errors', ['Invalid CSRF token']);
         die();
     }
+
+    if (!isset($_POST['action'])){
+        echo ajaxerror::e('errors', ['Action not set']);
+        die();
+    }
 } else {
     $csrf = CSRF::get();
     if (!$csrf){
         echo ajaxerror::e('errors', ['Invalid CSRF token']);
+        die();
+    }
+
+    if (!isset($_GET['action'])){
+        echo ajaxerror::e('errors', ['Action not set']);
         die();
     }
 }

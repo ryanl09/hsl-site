@@ -9,8 +9,8 @@ require_once($path . '/classes/user/User.php');
 require_once($path . '/classes/user/TeamManager.php');
 
 class SubTeam extends TeamAbstract {
-    public function __construct($id) {
-        parent::__construct($id);
+    public function __construct($db, $id) {
+        parent::__construct($db, $id);
     }
 
     public function register($season) {
@@ -145,12 +145,11 @@ class SubTeam extends TeamAbstract {
      * @return  boolean
      */
 
-    public static function delete($st_id, $div, $game_id) {
+    public static function delete($db, $st_id, $div, $game_id) {
         if (!$st_id || !$div || !$game_id) { //invalid values
             return false;
         }
 
-        $db=new tecdb();
         if (!isset($_SESSION['user'])) { //not signed in
             return false;
         }
@@ -181,19 +180,10 @@ class SubTeam extends TeamAbstract {
      * @return  array
      */
 
-    public static function get_record($team_id){
+    public static function get_record($db, $team_id){
         if (!$team_id){
             return [];
         }
-
-        $db = new tecdb();
-
-        // $query=
-        // "SELECT COUNT(*) as total
-        // FROM events
-        // WHERE event_home = ? OR event_away = ?";
-
-        // $total = $db->query($query, $team_id, $team_id)->fetchArray();
 
         $query=
         "SELECT COUNT(*) as wins
@@ -221,7 +211,7 @@ class SubTeam extends TeamAbstract {
      * @return  array
      */
 
-    public static function get_records($team_ids){
+    public static function get_records($db, $team_ids){
         if (empty($team_ids)){
             return [];
         }
@@ -232,7 +222,7 @@ class SubTeam extends TeamAbstract {
             if (isset($res[$id])){
                 continue;
             }
-            $res[$id] = self::get_record($id);
+            $res[$id] = self::get_record($db, $id);
         }
 
         return $res;

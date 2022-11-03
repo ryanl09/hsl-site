@@ -7,32 +7,11 @@ include_once($path . '/classes/general/Game.php');
 include_once($path . '/classes/general/Stats.php');
 
 require_once($path . '/classes/event/Event.php');
-require_once($path . '/classes/security/csrf.php');
 require_once($path . '/classes/team/SubTeam.php');
-include_once($path . '/classes/util/ajaxerror.php');
-require_once($path . '/classes/util/Sessions.php');
 
-if ((isset($_SERVER['HTTP_X_REQUESTED_WITH'])) && ($_SERVER['HTTP_X_REQUESTED_WITH']==='XMLHttpRequest')) {
     if ($_SERVER['REQUEST_METHOD']==='POST') {
-        
-        $csrf = CSRF::post();
-        if (!$csrf) {
-            echo ajaxerror::e('errors', ['Invalid CSRF token']);
-            die();
-        }
-
-
-        if (!isset($_POST['action'])) {
-            echo ajaxerror::e('errors', ['Missing action']);
-            die();
-        }
 
         if (!isset($_POST['event_id'])) {
-            echo ajaxerror::e('errors', ['Missing event id']);
-            die();
-        }
-
-        if (!isset($_POST['event_id'])){
             echo ajaxerror::e('errors', ['Missing event id']);
             die();
         }
@@ -56,8 +35,6 @@ if ((isset($_SERVER['HTTP_X_REQUESTED_WITH'])) && ($_SERVER['HTTP_X_REQUESTED_WI
 
                 $flagtype = $_POST['flag_type'];
                 $flagreason = $_POST['flag_reason'];
-
-                $db = new tecdb();
 
                 $query = 'INSERT INTO event_flags
                             (event_id, flag_type, flag_reason)
@@ -93,11 +70,11 @@ if ((isset($_SERVER['HTTP_X_REQUESTED_WITH'])) && ($_SERVER['HTTP_X_REQUESTED_WI
                 $home_score = $_POST['home_score'];
                 $away_score = $_POST['away_score'];
 
-                $stats = new Stats();
+                $stats = new Stats($db);
 
                 $errors=[];
 
-                $score_set = Event::set_score($event_id, $home_score, $away_score);
+                $score_set = Event::set_score($db, $event_id, $home_score, $away_score);
 
                 foreach ($obj as $i => $row) {
                     $user_id = $row['u'];
@@ -133,7 +110,6 @@ if ((isset($_SERVER['HTTP_X_REQUESTED_WITH'])) && ($_SERVER['HTTP_X_REQUESTED_WI
                 $team_id = $_POST['team_id'];
 
                 $pl_id = $_POST['pl_id'];
-                $db = new tecdb();
 
                 $query =
                 "SELECT EXISTS(
@@ -182,8 +158,6 @@ if ((isset($_SERVER['HTTP_X_REQUESTED_WITH'])) && ($_SERVER['HTTP_X_REQUESTED_WI
                 }
 
                 $pl_id = $_POST['pl_id'];
-                $db = new tecdb();
-
                 $query = 
                 "DELETE FROM `temp_event_rosters`
                 WHERE `user_id` = ? AND `event_id` = ?";
@@ -211,32 +185,6 @@ if ((isset($_SERVER['HTTP_X_REQUESTED_WITH'])) && ($_SERVER['HTTP_X_REQUESTED_WI
         
 
     } else if ($_SERVER['REQUEST_METHOD']==='GET'){
-
-        if (isset($_GET['csrf'])) {
-            if ($_GET['csrf']!==$_SESSION['csrf']){
-                echo json_encode(
-                    array(
-                        'status' => 0,
-                        'errors' => ['Invalid CSRF token']
-                    )
-                );
-                die();
-            }
-        } else {
-            echo json_encode(
-                array(
-                    'status' => 0,
-                    'errors' => ['Missing CSRF token']
-                )
-            );
-            die();
-        }
-
-        if (!isset($_GET['action'])) {
-            echo ajaxerror::e('errors', ['Missing action']);
-            die();
-        }
-
         if (!isset($_GET['event_id'])){
             echo ajaxerror::e('errors', ['Missing event id']);
             die();
@@ -247,24 +195,24 @@ if ((isset($_SERVER['HTTP_X_REQUESTED_WITH'])) && ($_SERVER['HTTP_X_REQUESTED_WI
         switch($action){
             case 'stats':
                 
-                $e = Event::exists($event_id);
+                $e = Event::exists($db, $event_id);
                 if (!$e){
                     echo ajaxerror::e('errors', ['Event does not exist']);
                     die();
                 }
-                $stats = new Stats();
+                $stats = new Stats($db);
 
                 $home = $e->get_home_team();
                 $away = $e->get_away_team();
 
-                $h_h = Event::has_roster($event_id, $home['t_id']);
-                $a_h = Event::has_roster($event_id, $away['t_id']);
+                $h_h = Event::has_roster($db, $event_id, $home['t_id']);
+                $a_h = Event::has_roster($db, $event_id, $away['t_id']);
 
                 $h_stats = $stats->get_stats($event_id, $home['t_id'], $h_h);
                 $a_stats = $stats->get_stats($event_id, $away['t_id'], $a_h);
 
-                $home['record'] = SubTeam::get_record($home['t_id']);
-                $away['record'] = SubTeam::get_record($away['t_id']);
+                $home['record'] = SubTeam::get_record($db, $home['t_id']);
+                $away['record'] = SubTeam::get_record($db, $away['t_id']);
 
                 $ret = array(
                     'img' => array(
@@ -275,7 +223,7 @@ if ((isset($_SERVER['HTTP_X_REQUESTED_WITH'])) && ($_SERVER['HTTP_X_REQUESTED_WI
                     'home' => $home,
                     'away' => $away,
                     'stats' => array_merge($h_stats, $a_stats),
-                    'players' => Event::get_players($event_id, $home['t_id'], $away['t_id']),
+                    'players' => Event::get_players($db, $event_id, $home['t_id'], $away['t_id']),
                 );
 
                 include_once($_SERVER['DOCUMENT_ROOT'] . '/classes/user/User.php');
@@ -294,31 +242,4 @@ if ((isset($_SERVER['HTTP_X_REQUESTED_WITH'])) && ($_SERVER['HTTP_X_REQUESTED_WI
         echo 'Invalid request';
         die();
     }
-
-    /*
-    if (isset($_SERVER['HTTP_ORIGIN'])) {
-        $address = 'http://' . $_SERVER['SERVER_NAME'];
-        if (strpos($address, $_SERVER['HTTP_ORIGIN']) !== 0) {
-            echo json_encode(
-                array(
-                    'error' => 'Invalid origin header: ' . $_SERVER['HTTP_ORIGIN']
-                );
-            );
-            die();
-        }
-    } else {
-        echo json_encode(
-            array(
-                'error' => 'Missing origin header.'
-            )
-        );
-        die();
-    }
-    */
-
-
-} else {
-    echo 'Access denied';
-}
-
 ?>

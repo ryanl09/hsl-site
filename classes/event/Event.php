@@ -206,13 +206,10 @@ class Event implements IEvent {
      * @return  boolean|Event
      */
 
-    public static function exists($event_id) {
+    public static function exists($db, $event_id) {
         if (!$event_id) {
             return false;
         }
-
-        $db = new tecdb();
-
         $query =
         "SELECT EXISTS(
             SELECT * 
@@ -221,7 +218,7 @@ class Event implements IEvent {
         $res = $db->query($query, $event_id)->fetchArray();
         $ret = false;
         if ($res['ex']) {
-            $ret = new Event($event_id, $this->db);
+            $ret = new Event($event_id, $db);
         }
         return $ret;
     }
@@ -232,7 +229,7 @@ class Event implements IEvent {
      * @return  string
      */
 
-    public static function game_image($event_id){
+    public static function game_image($db, $event_id){
         if (!$event_id){
             return '';
         }
@@ -244,8 +241,6 @@ class Event implements IEvent {
             ON events.event_game = games.id
         WHERE events.id = ?";
 
-        $db = new tecdb();
-
         $res=$db->query($query, $event_id)->fetchArray();
         return $res['url'] ?? '';
     }
@@ -255,11 +250,10 @@ class Event implements IEvent {
      * @return  array
      */
 
-    public static function all_today() {
+    public static function all_today($db) {
         $d = date('Y-m-d');
         $t = date('H:i:s');
 
-        $db = new tecdb();
         $query=
         "SELECT *
         FROM `events`
@@ -276,7 +270,7 @@ class Event implements IEvent {
      * @return  array
      */
 
-    public static function all_today_game($game_id) {
+    public static function all_today_game($db, $game_id) {
         if (!$game_id) {
             return [];
         }
@@ -285,7 +279,6 @@ class Event implements IEvent {
         $d = date('Y-m-d');
         //$d = date("2022-10-04");
 
-        $db = new tecdb();
         $query=
         "SELECT t.team_name as event_home, t2.team_name as event_away, events.event_time, events.event_stream, s.division, s.id as h_id, s2.id as a_id, 
         events.event_winner, events.id as event_id, s.tag as home_tag, s2.tag as away_tag
@@ -311,7 +304,7 @@ class Event implements IEvent {
      * @return  array
      */
 
-    public static function get_players($event_id, $h, $a) {
+    public static function get_players($db, $event_id, $h, $a) {
         if (!$event_id) {
             return [];
         }
@@ -319,11 +312,11 @@ class Event implements IEvent {
         $db = new tecdb();
         $c_s = Season::get_current();
 
-        $h_h = self::has_roster($event_id, $h);
-        $h_p = self::get_roster($event_id, $h, $h_h);
+        $h_h = self::has_roster($db, $event_id, $h);
+        $h_p = self::get_roster($db, $event_id, $h, $h_h);
 
-        $a_h = self::has_roster($event_id, $a);
-        $a_p = self::get_roster($event_id, $a, $a_h);
+        $a_h = self::has_roster($db, $event_id, $a);
+        $a_p = self::get_roster($db, $event_id, $a, $a_h);
 
         return array_merge($h_p, $a_p);
     }
@@ -333,14 +326,13 @@ class Event implements IEvent {
      * @return  boolean|array
      */
 
-    public static function is_now() {
+    public static function is_now($db) {
         $d = date('Y-m-d');
         $t = date('H:i:s');
         $t2 = date('H:i:s', strtotime('+1 hour'));
 
         /** need to account different intervals for different games, 1 hour for now */
 
-        $db = new tecdb();
         $query=
         "SELECT t.team_name as event_home, t.team_logo as home_logo, t2.team_name as event_away, t2.team_logo as away_logo, 
         events.event_time, events.event_stream, s.division, s.tag as home_tag, s2.tag as away_tag
@@ -367,12 +359,11 @@ class Event implements IEvent {
      * @return  boolean
      */
 
-    public static function set_score($event_id, $h, $a){
+    public static function set_score($db, $event_id, $h, $a){
         if (!$event_id){
             return false;
         }
 
-        $db = new tecdb();
         $query = 
         "UPDATE `events`
         SET `event_home_score` = ?, `event_away_score` = ?
@@ -386,7 +377,7 @@ class Event implements IEvent {
         WHERE `id` = ?";
         $re = $db->query($query, $event_id)->fetchArray();
         $team = $h > $a ? $re['event_home'] : $re['event_away'];
-        $set_win = self::set_winner($event_id, $team);
+        $set_win = self::set_winner($db, $event_id, $team);
 
         return $res > 0 && $set_win;
     }
@@ -399,12 +390,11 @@ class Event implements IEvent {
      * @return  boolean
      */
 
-    public static function set_winner($event_id, $team_id){
+    public static function set_winner($db, $event_id, $team_id){
         if (!$event_id){
             return false;
         }
 
-        $db = new tecdb();
         $query=
         "UPDATE `events`
         SET `event_winner` = ?
@@ -419,11 +409,10 @@ class Event implements IEvent {
      * @return  array
      */
 
-    public static function get_next() {
+    public static function get_next($db) {
         $d = date('Y-m-d');
         $t = date('H:i:s');
 
-        $db = new tecdb();
         $query=
         "SELECT t.team_name as event_home, t.team_logo as home_logo, t2.team_name as event_away, t2.team_logo as away_logo, 
         events.event_date, events.event_time, events.event_stream, s.division, s.tag as home_tag, s2.tag as away_tag, games.url as game_logo
@@ -453,7 +442,7 @@ class Event implements IEvent {
      * @return  array
      */
 
-    public static function sort_by($game, $team, $div, $time){
+    public static function sort_by($db, $game, $team, $div, $time){
         if (!$team || !$div || !$time){
             return [];
         }
@@ -502,7 +491,6 @@ class Event implements IEvent {
         WHERE $where AND events.event_game=? AND events.event_season = ?
         ORDER BY events.event_date ASC, s.division ASC";
 
-        $db =new tecdb();
         $res = $db->query($query, $team, $team, $div, $game, $c_s)->fetchAll();
         return $res;
     }
@@ -513,13 +501,12 @@ class Event implements IEvent {
      * @return  array
      */
 
-    public static function of_subteam($sid) {
+    public static function of_subteam($db, $sid) {
         if (!$sid){
             return [];
         }
 
         $c_s=Season::get_current();
-        $db = new tecdb();
 
         $query =
         "SELECT t.team_name as event_home, t.team_logo as home_logo, t2.team_name as event_away, t2.team_logo as away_logo, 
@@ -547,7 +534,7 @@ class Event implements IEvent {
      * @return  array
      */
 
-    public static function get_roster($event_id, $team_id){
+    public static function get_roster($db, $event_id, $team_id){
         if (!$event_id){
             return [];
         }
@@ -569,7 +556,6 @@ class Event implements IEvent {
             ON user_igns.user_id = users.user_id AND user_igns.game_id = events.event_game
         WHERE ".$temp."event_rosters.event_id = ? AND ".$temp."event_rosters.subteam_id = ?";
 
-        $db=new tecdb();
         $res = $db->query($query, $event_id, $event_id, $team_id)->fetchAll();
         return $res;
     }
@@ -581,11 +567,11 @@ class Event implements IEvent {
      * @return  array
      */
 
-    public static function has_roster($event_id, $team_id){
+    public static function has_roster($db, $event_id, $team_id){
         if (!$event_id){
             return [];
         }
-        $res = self::get_roster($event_id, $team_id);
+        $res = self::get_roster($db, $event_id, $team_id);
         return !empty($res);
     }
 }

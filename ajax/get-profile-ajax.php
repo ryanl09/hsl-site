@@ -132,7 +132,7 @@ if ((isset($_SERVER['HTTP_X_REQUESTED_WITH'])) && ($_SERVER['HTTP_X_REQUESTED_WI
             $game=$_GET['game'];
             $season=$_GET['season'];
 
-            $s=new Stats();
+            $s=new Stats($db);
             
             echo json_encode(
                 array(

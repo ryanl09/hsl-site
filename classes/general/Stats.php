@@ -1,29 +1,10 @@
 <?php
 
-require_once($_SERVER['DOCUMENT_ROOT'] . '/classes/util/tecdb.php');
-
 class Stats {
     protected $db;
 
-    public function __construct() {
-        $this->db = new tecdb();
-    }
-
-    /**
-     * Gets all stats for a user | array[season_id][game_id][key]
-     * @param   int $user_id
-     * @return  int|array
-     */
-
-    public function get_all($user_id) {
-        if (!$user_id) {
-            return 0;
-        }
-
-        $player = new Player($user_id);
-        $seasons = $player->get_all_seasons();
-
-
+    public function __construct($db) {
+        $this->db = $db;
     }
 
     /**
@@ -146,8 +127,7 @@ class Stats {
         VALUES (?, ?, ?, ?)
             ON DUPLICATE KEY UPDATE `stat_value` = ?";
 
-        $db = new tecdb();
-        $ret = $db->query($query, $user_id, $event_id, $stat_id, $stat_value, $stat_value)->lastInsertID();
+        $ret = $this->db->query($query, $user_id, $event_id, $stat_id, $stat_value, $stat_value)->lastInsertID();
         return $ret;
     }
 

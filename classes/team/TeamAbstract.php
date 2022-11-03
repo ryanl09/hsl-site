@@ -6,11 +6,9 @@ abstract class TeamAbstract {
     protected $db;
     protected $id;
 
-    public function __construct($id) {
+    public function __construct($db, $id) {
         $this->id = $id;
-        if ($id) {
-            $this->db = new tecdb();
-        }
+        $this->db = $db;
     }
 
     public abstract function get_logo();
