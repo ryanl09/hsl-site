@@ -78,12 +78,12 @@ class Team extends TeamAbstract {
      * @return  int|SubTeam
      */
 
-    public function add_subteam($division, $game) {
+    public function add_subteam($db, $division, $game) {
         if (!$this->id) {
             return 0;
         }
 
-        $cst = new CreateSubTeamService();
+        $cst = new CreateSubTeamService($db);
 
         $params = array(
             'team_id' => $this->id,
@@ -92,7 +92,7 @@ class Team extends TeamAbstract {
         );
 
         $id = $cst->create($params);
-        return new SubTeam($id);
+        return new SubTeam($db, $id);
     }
 
     /**

@@ -7,7 +7,7 @@ require_once($path . '/classes/util/tecdb.php');
 
 start_content_full(1, 'stats');
 
-$games = Game::get_all();
+$games = Game::get_all($db);
 
 $game_icons='<div class="game-icons e-game">';
 foreach ($games as $i => $row){

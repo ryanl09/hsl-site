@@ -2,7 +2,6 @@
 
 $path = $_SERVER['DOCUMENT_ROOT'];
 require_once($path . '/classes/general/Stats.php');
-require_once($path . '/classes/services/RegisterService.php');
 require_once($path . '/classes/user/User.php');
 include_once($path . '/classes/util/ajaxerror.php');
 require_once($path . '/classes/util/Sessions.php');

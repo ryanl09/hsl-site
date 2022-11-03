@@ -61,7 +61,7 @@ class SubTeam extends TeamAbstract {
             return '';
         }
 
-        $team = new Team($team_id);
+        $team = new Team($this->db, $team_id);
         return $team->get_logo();
     }
 
@@ -159,7 +159,7 @@ class SubTeam extends TeamAbstract {
             return false;
         }
 
-        $tm = new TeamManager($user->get_id());
+        $tm = new TeamManager($db, $user->get_id());
         $st = $tm->get_subteams();
 
         if (!in_array($st_id, $st)) { //user does not own this team

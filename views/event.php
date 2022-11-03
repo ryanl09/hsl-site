@@ -64,7 +64,7 @@ if ($e) { ?>
 
                     foreach ($h_pl as $i => $row){
                         echo '<option value="'.$row['user_id'].'">';
-                        $ign = User::get_ign_with_id($row['user_id'], $e->get_game_id());
+                        $ign = User::get_ign_with_id($db, $row['user_id'], $e->get_game_id());
                         echo $ign;
                         echo '</option>';
                     }
@@ -97,7 +97,7 @@ if ($e) { ?>
 
                     foreach ($a_pl as $i => $row){
                         echo '<option value="'.$row['user_id'].'">';
-                        $ign = User::get_ign_with_id($row['user_id'], $e->get_game_id());
+                        $ign = User::get_ign_with_id($db, $row['user_id'], $e->get_game_id());
                         echo $ign;
                         echo '</option>';
                     }

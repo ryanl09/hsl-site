@@ -18,7 +18,7 @@ $errors = '<div class="row errors" style="display:none;"></div>';
 if (count($page) > 2 && $page[2] != '') {
     $code = $page[2];
 
-    $fps = new ForgotPasswordService();
+    $fps = new ForgotPasswordService($db);
     $verify = $fps->verify($code);
 
     if (!$verify){

@@ -115,7 +115,7 @@ switch ($action){
         }
 
         $team_id = $res['id'];
-        $s = new SubTeam($team_id);
+        $s = new SubTeam($db, $team_id);
         $done = $s->add_player($pl_id);
 
         $u = new User($db, $pl_id);

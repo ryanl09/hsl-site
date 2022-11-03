@@ -15,7 +15,7 @@ start_content_full(1, 'league');
     <div class="box playing-next">
         <h3>Playing Next</h3>
         <?php
-            $n = Event::get_next();
+            $n = Event::get_next($db);
             $h_logo = '<img src="'.$n['home_logo'].'" width="80" height="80" class="clickable">';
             $a_logo = '<img src="'.$n['away_logo'].'" width="80" height="80" class="clickable">';
             $time = strtoupper(date('g:i a', strtotime($n['event_time'])));

@@ -27,7 +27,7 @@ start_content_full(1, 'eventpanel'); ?>
                     <label for="games">Game:</label>
                     <select name="game" id="games">
                         <?php
-                            $games = Game::get_all();
+                            $games = Game::get_all($db);
                             foreach ($games as $i => $row) {
                                 echo '<option value="'.$row['id'].'">'.$row['game_name'].'</option>';
                             }

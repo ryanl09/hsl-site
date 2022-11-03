@@ -64,7 +64,6 @@ switch ($action){
             $div = $_GET['division'];
         }
 
-        $db = new tecdb();
         $sql = 
         "SELECT teams.team_name AS parent, teams.primarycolor, teams.secondarycolor, teams.team_logo, teams.id, subteams.id AS sub_id, subteams.division, games.game_name, subteams.tag
         FROM teams
@@ -84,7 +83,7 @@ switch ($action){
         $res = $db->query($sql, $rocket_league, $c, $div)->fetchAll();
 
         for ($i = 0; $i < count($res); $i++){
-            $rec = SubTeam::get_record($res[$i]['sub_id']);
+            $rec = SubTeam::get_record($db, $res[$i]['sub_id']);
 
             array_push($arr['presets'], [
                 $res[$i]['parent'] . " - " . $res[$i]['game_name'] . ' D' . $res[$i]['division'],

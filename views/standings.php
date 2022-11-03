@@ -8,7 +8,7 @@ require_once($path . '/classes/general/Game.php');
 require_once($path . '/classes/team/SubTeam.php');
 
 
-$teams = Game::get_teams(2, 2);
+$teams = Game::get_teams($db, 2, 2);
 
 start_content_full(1, 'standings');
 

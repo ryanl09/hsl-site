@@ -11,7 +11,7 @@ class GImage {
      * checks if the image has data
      */
 
-    public static function has_data($id){
+    public static function has_data($db, $id){
         
     }
 }

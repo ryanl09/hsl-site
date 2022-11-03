@@ -3,7 +3,6 @@
 $path = $_SERVER['DOCUMENT_ROOT'];
 require_once($path . '/classes/event/Schedule.php');
 require_once($path . '/classes/general/Game.php');
-require_once($path . '/classes/services/RegisterService.php');
 require_once($path . '/classes/user/User.php');
 
     if (!isset($_SESSION['user'])) {

@@ -28,7 +28,7 @@ start_content_full(1, 'graphics'); ?>
             <label for="game">Game</label>
             <select name="games" id="games">
                 <?php
-                    $games = Game::get_all();
+                    $games = Game::get_all($db);
 
                     foreach ($games as $i => $row){
                         echo '<option value="'.$row['id'].'">';

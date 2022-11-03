@@ -7,9 +7,7 @@
 
         }
 
-        public static function get_boxes() {
-            $db = new tecdb();
-
+        public static function get_boxes($db) {
             $query = 'SELECT gd.id, gd.upload_id, gd.x, gd.y, gd.width, gd.height
                         FROM graphics_data gd
                         INNER JOIN uploads u ON u.id = gd.upload_id';
@@ -19,13 +17,11 @@
             return $res;
         }
 
-        public static function set_boxes($upload_id, $x, $y, $width, $height) {
+        public static function set_boxes($db, $upload_id, $x, $y, $width, $height) {
             if (!isset($_SESSION['user'])) {
                 return false;
             }
-
-            $db = new tecdb();
-
+            
             $query = 'INSERT INTO graphics_data
                         (`id`, upload_id, x, y, width, height))
                         VALUES (?, ?, ?, ?, ?, ?)';

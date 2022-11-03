@@ -13,7 +13,7 @@ class TeamManager extends User {
         $team_id = 0;
 
         if (!$this->id || !$this->db) {
-            return new Team($team_id);
+            return new Team($this->db, $team_id);
         }
 
         $query =

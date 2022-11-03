@@ -9,8 +9,8 @@ require_once($path . '/classes/util/tecdb.php');
 
 $arg_arr = $_SESSION['current_page'];
 $team_name = strtolower($arg_arr[2]);
-$team_id = Team::from_slug($team_name);
-$team = new Team($team_id);
+$team_id = Team::from_slug($db, $team_name);
+$team = new Team($db, $team_id);
 
 $edit_style='';
 
@@ -57,7 +57,7 @@ base_header(
                             </div>
                             <div class="badges">
                                 <?php
-                                    $badges = User::get_badges($view->get_id());
+                                    Badge::get_team($db, 0);
                                     if (empty($badges)) {
                                         echo '<p class="e-c">You don\'t have any badges yet!</p>';
                                         echo '<p class="p-c">No badges on display</p>';
