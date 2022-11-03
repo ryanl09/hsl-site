@@ -77,7 +77,7 @@ class Player extends User {
         if ($username && trim($username)) {
             $username = tec::safe($username);
             $id = $db->query('SELECT * FROM players WHERE username = ?', $username)->fetchArray();
-            return new Player(, $db$id['user_id'] ?? 0);
+            return new Player($db, $id['user_id'] ?? 0);
         }
         return new Player($db, 0);
     }

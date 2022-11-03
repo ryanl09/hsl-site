@@ -540,8 +540,8 @@ class Event implements IEvent {
 
         $temp="";
         $args = func_get_args();
-        if (count($args) > 2){
-            $temp = $args[2] ? "" : "temp_";
+        if (count($args) > 3){
+            $temp = $args[3] ? "" : "temp_";
         }
 
         $query=

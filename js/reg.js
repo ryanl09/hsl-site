@@ -22,9 +22,9 @@
 
         $('.team-id').on('click', function(){
             $.ajax({
-                url:`${ajax_url}reg-ajax.php`,
+                url:ajaxurl,
                 type:'post',
-                data:{'update_team':$(this).text(), 'csrf':$('#csrf').val()},
+                data:{'page':'reg', 'action':'0', 'update_team':$(this).text(), 'csrf':$('#csrf').val()},
                 dataType:'json',
                 success:(data)=>{
                     if (data.status){

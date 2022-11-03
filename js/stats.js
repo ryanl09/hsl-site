@@ -26,9 +26,9 @@
     function fetch_teams(game){
         var div = $('#div').val();
         $.ajax({
-            url:`${ajax_url}events-ajax.php`,
+            url:ajaxurl,
             type:'get',
-            data:{'action':'get_teams','game':game,'div':div, 'csrf':$('#csrf').val()},
+            data:{'page':'events', 'action':'get_teams','game':game,'div':div, 'csrf':$('#csrf').val()},
             dataType:'json',
             success:(data)=>{
                 console.log(data);
@@ -124,9 +124,9 @@
         var team = $('#team').val();
         var div = $('#div').val();
         $.ajax({
-            url:`${ajax_url}events-ajax.php`,
+            url:ajaxurl,
             type:'get',
-            data:{'action':'get_all_stats','team':team, 'game':game,'div':div, 'csrf':$('#csrf').val()},
+            data:{'page':'events', 'action':'get_all_stats','team':team, 'game':game,'div':div, 'csrf':$('#csrf').val()},
             dataType:'json',
             success:(data)=>{
                 console.log(data);
