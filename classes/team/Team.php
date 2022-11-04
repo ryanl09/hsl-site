@@ -4,6 +4,7 @@ $path = $_SERVER['DOCUMENT_ROOT'];
 
 require_once('SubTeam.php');
 require_once('TeamAbstract.php');
+require_once($path . '/classes/general/Season.php');
 require_once($path . '/classes/services/CreateSubTeamService.php');
 
 class Team extends TeamAbstract {
@@ -221,7 +222,7 @@ class Team extends TeamAbstract {
     /**
      * gets team manager for a team
      * @param   int $id
-     * @return  int
+     * @return  int|array
      */
 
     public function get_team_manager(){
@@ -229,7 +230,15 @@ class Team extends TeamAbstract {
             return 0;
         }
 
-        return 1;
+        $query=
+        "SELECT users.name, users.user_id
+        FROM users
+        INNER JOIN teams
+            ON teams.id = users.team_id
+        WHERE teams.id = ? LIMIT 1;";
+
+        $tm = $this->db->query($query, $this->id)->fetchArray();
+        return $tm;
     }
 
     /**
@@ -314,7 +323,7 @@ class Team extends TeamAbstract {
         FROM `teams`
         WHERE slug = ?";
 
-        $res = $db->query($query)->fetchArray();
+        $res = $db->query($query, $team_name)->fetchArray();
 
         return $res['id'] ?? 0;
     }
@@ -326,12 +335,21 @@ class Team extends TeamAbstract {
      */
 
     public static function get_all_hs($db, $type){
+        $c_s = Season::get_current($db);
+
         $query=
-        "SELECT teams.team_name, teams.team_logo, teams.slug
+        "SELECT DISTINCT teams.id, teams.team_name, teams.team_logo, teams.slug, subteams.game_id, games.url
         FROM teams
+        INNER JOIN subteams
+            ON subteams.team_id = teams.id
+        INNER JOIN subteam_seasons
+            ON subteam_seasons.season_id = ? AND subteam_seasons.subteam_id = subteams.id
+        INNER JOIN games
+            ON games.id = subteams.game_id
         WHERE teams.id NOT IN (1, 2, 3, 24, 25, 26)
-            AND teams.team_type = \"hs\"";
-        $res = $db->query($query)->fetchAll();
+            AND teams.team_type = \"hs\"
+        ORDER BY teams.team_name, subteams.game_id";
+        $res = $db->query($query, $c_s)->fetchAll();
         return $res;
     }
 }

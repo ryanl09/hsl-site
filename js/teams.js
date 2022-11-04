@@ -1,4 +1,29 @@
 (function() {
+
+    function add_team_box(e){
+
+        const teams = $('.teams');
+        const t = $('<div>');
+        t.addClass(`team-box box ${e.slug}`);
+
+        const a = $('<a>');
+        a.addClass('team-link');
+        a.css('display', 'block');
+        a.attr('href', `https://tecesports.com/team/${e.slug}`);
+        
+        const img = $('<img>');
+        img.attr('src', e.team_logo)
+            .attr('width', '80')
+            .attr('height', '80');
+
+        a.append(img);
+        t.append(a);
+        t.append($('<h3>', { text: e.team_name }));
+        t.append($('<div>').addClass('games')
+            .append($('<img>').attr('src', e.url).attr('width', '26').attr('height', '26')));
+        teams.append(t);
+    }
+
     $(document).ready(function(){
         $.ajax({
             url:ajaxurl,
@@ -7,26 +32,20 @@
             dataType:'json',
             success:(data)=>{
                 console.log(data);
-                const teams = $('.teams');
 
-                data.teams.forEach(e => {
-                    const t = $('<div>');
-                    t.addClass('team-box box');
+                add_team_box(data.teams[0]);
+                for (let i = 1; i < data.teams.length; i++){
+                    if(data.teams[i-1].id !== data.teams[i].id){
+                        add_team_box(data.teams[i]);
+                    }else{
+                        const b = $(`.${data.teams[i].slug}`);
+                        b.append($('<img>').attr('src', data.teams[i].url).attr('width', '26').attr('height', '26'));
+                            
+                    }
+                }
 
-                    const a = $('<a>');
-                    a.addClass('team-link');
-                    a.css('display', 'block');
-                    a.attr('href', `https://tecesports.com/team/${e.slug}`);
-                    
-                    const img = $('<img>');
-                    img.attr('src', e.team_logo)
-                        .attr('width', '100')
-                        .attr('height', '100');
-
-                    a.append(img);
-                    t.append(a);
-                    teams.append(t);
-                });
+            },error(a,b,c){
+                console.log(a+','+b+','+c);
             }
         });
     });

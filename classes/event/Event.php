@@ -426,7 +426,7 @@ class Event implements IEvent {
             ON s2.team_id = t2.id
         INNER JOIN games
             ON events.event_game = games.id
-        WHERE events.event_date >= now() AND events.event_time >= ?
+        WHERE (events.event_date = now() AND events.event_time >= ?) OR events.event_date > now()
         ORDER BY events.event_date ASC, events.event_time, s.division ASC LIMIT 1";
 
         $res = $db->query($query, $t)->fetchArray();

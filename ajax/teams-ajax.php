@@ -11,6 +11,7 @@ switch($action){
             die();
         }
 
+        $type = $_GET['type'];
         $teams = Team::get_all_hs($db, $type);
 
         echo json_encode(

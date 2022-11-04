@@ -7,6 +7,14 @@
 }
 
 .box {
-    height:150px;
-    max-height:150px;
+    height:120px;
+    max-height:120px;
+    overflow: hidden;
+    display:flex;
+    align-items: center;
+    gap:20px;
+}
+
+.games {
+    margin-left: auto;
 }

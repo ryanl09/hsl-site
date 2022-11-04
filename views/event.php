@@ -15,7 +15,11 @@ $event_id = count($_SESSION['current_page']) > 2 ? $_SESSION['current_page'][2] 
 $e = Event::exists($db, $event_id);
 start_content_full(1, 'event', 'loading c-auto');
 
-$admin = $_SESSION['user'] && $_SESSION['user']->is_admin();
+$admin = false
+
+if (isset($_SESSION['user'])){
+    $admin = $_SESSION['user'] && $_SESSION['user']->is_admin();
+}
 
 if ($e) { ?>
 

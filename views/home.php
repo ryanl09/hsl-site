@@ -15,16 +15,25 @@ start_content_full(0, 'home'); ?>
             <li class="mlink homelink"><a href="https://tecesports.com/pricing">Home</a></li>
             <li class="mlink"><a href="https://tecesports.com/pricing">About</a></li>
             <li class="mlink"><a href="https://tecesports.com/pricing">Pricing</a></li>
-            <li class="np">
-                <a href="https://tecesports.com/login">
-                    <button class="btn">Login</button>
-                </a>
-            </li>
-            <li class="np">
-                <a href="https://tecesports.com/register">
-                    <button class="btn">Register</button>
-                </a>
-            </li>
+            <?php if (isset($_SESSION['user']) && $_SESSION['user']->get_id()) { ?>
+                <li class="mlink">
+                    <a href="https://tecesports.com/user/<?php echo $_SESSION['user']->get_username(); ?>" style="display:flex; align-items:center;">
+                        <i class='bx bxs-user' style="margin-right:10px; font-size:18px;"></i>
+                        <span style="font-weight:600;"><?php echo $_SESSION['user']->get_username(); ?></span>
+                    </a>
+                </li>
+            <?php } else { ?>
+                <li class="np">
+                    <a href="https://tecesports.com/login">
+                        <button class="btn">Login</button>
+                    </a>
+                </li>
+                <li class="np">
+                    <a href="https://tecesports.com/register">
+                        <button class="btn">Register</button>
+                    </a>
+                </li>
+            <?php } ?>
         </ul>
     </nav>
 </div>

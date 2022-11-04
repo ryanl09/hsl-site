@@ -1,6 +1,90 @@
 (function(){
-    $(document).ready(function(){
+    String.prototype.stripSlashes = function(){
+        return this.replace(/\\(.)/mg, "$1");
+    }
 
+    String.prototype.replaceAt = function(index, replacement) {
+        return this.substring(0, index) + replacement + this.substring(index + replacement.length);
+    }
+
+    function locs(substring,string){
+        var a=[],i=-1;
+        while((i=string.indexOf(substring,i+1)) >= 0) a.push(i);
+        return a;
+    }
+
+    function rem_btw(s, e, str){
+        const si = locs(s, str);
+        const ei = locs(e, str);
+
+        //s = removed, e = kept
+
+        console.log(si);
+        console.log(ei);
+
+        for (let i = si.length-1; i >= 0; i--){
+            const _s = si[i];
+            const _e = ei[i];
+
+            const sub = str.substring(_s, _e+e.length);
+            str = str.replace(sub, '');
+           // console.log(_s + ' (' + str.charAt(_s) + '), ' + _e + ' (' + str.charAt(_e+e.length-1) + ')');
+        }
+
+        return str;
+    }
+
+    $(document).ready(function(){
+        get_blog_posts();
+
+        function get_blog_posts(){
+            $.ajax({
+                url:'https://theesportcompany.com/wp-content/tec-blog-post.php',
+                type:'get',
+                headers:{ 'Auth-User': 'tecesports', 'Auth-Token':'843nvasdj9244357t8bgbdfkw40723fslkdujf4937fhrebfsd' },
+                data:{'action':'get_blog_posts'},
+                dataType:'json',
+                success:(data)=>{
+                    console.log(data);
+                    if (!data.status){
+                        //error
+                        return;
+                    }
+
+                    $('.showloading').removeClass('showloading');
+                    const bp = $('.blog-posts');
+
+                    data.posts.forEach(e => {
+                        const a = $('<a>')
+                            .attr('href', e.url)
+                            .addClass('blog-link');
+
+                        //console.log(e.content.replace('/[].*[]+$/', ''));
+
+                        e.content = rem_btw('<!-- wp:image', 'wp:image -->', e.content);
+                        e.content = rem_btw('<h2>', '</h2>', e.content);
+
+                        //console.log(e.content);
+
+                        const words = e.content.split(' ');
+                        const cnt = (words.length > 26 ? words.slice(0, 26).join(' ') : e.content) + ' ...';
+
+                        const div = $('<div>')
+                            .addClass('blog-post')
+                            .html(`<div class="blog-img">${e.img.stripSlashes()}</div><div class="blog-title"><p>${e.title}</p>
+                                <p class="blog-date">${fix_date(e.date.split(' ')[0])}, ${fix_time(e.date.split(' ')[1])}</p>
+                                <span class="blog-content">${cnt}</span>
+                                <span class="read-all">Read<i class='bx bxs-chevrons-right'></span>`);
+
+                        a.append(div);
+                        bp.append(a);
+                    });
+                },
+                error:(a,b,c)=>{
+                    console.log(a+','+b+','+c);
+                }
+            });
+        }
 
         $('.tab-change').on('click', function(){
             const id = $(this).attr('tab-id');
@@ -10,7 +94,7 @@
             $('.tab[tab--id='+id+']').show();
             $(this).addClass('selected');
 
-            if (id == 2) {
+            if (id == 3) {
                 get_announcements();
             }
         });

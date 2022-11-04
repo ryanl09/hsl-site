@@ -2,10 +2,10 @@
 
 $path = $_SERVER['DOCUMENT_ROOT'];
 require_once($path . '/documentelements.php');
+require_once($path . '/classes/general/Badge.php');
 require_once($path . '/classes/general/Season.php');
 require_once($path . '/classes/team/Team.php');
 require_once($path . '/classes/user/User.php');
-require_once($path . '/classes/util/tecdb.php');
 
 $arg_arr = $_SESSION['current_page'];
 $team_name = strtolower($arg_arr[2]);
@@ -13,6 +13,7 @@ $team_id = Team::from_slug($db, $team_name);
 $team = new Team($db, $team_id);
 
 $edit_style='';
+$can_edit = false;
 
 ?>
 
@@ -48,7 +49,12 @@ base_header(
                             <div class="username">
                                 <h1 class="username-big">@<?php echo $team_name; ?><i class='bx bxs-check-square'></i></h1>
                                 <p class="name"><?php echo $team->get_team_name(); ?></p>
-                                <p class="pronouns"><?php echo $view->get_pronouns(); ?></p>
+                                <p class="name">
+                                    <?php
+                                        $tm = $team->get_team_manager();
+                                        echo $tm['name'];
+                                    ?>
+                                </p>
                             </div>
                         </div>
                         <div class="badge-wrapper">
@@ -57,9 +63,9 @@ base_header(
                             </div>
                             <div class="badges">
                                 <?php
-                                    Badge::get_team($db, 0);
+                                    $badges = Badge::get_team($db, $team->get_id());
+
                                     if (empty($badges)) {
-                                        echo '<p class="e-c">You don\'t have any badges yet!</p>';
                                         echo '<p class="p-c">No badges on display</p>';
                                     } else {
                                         foreach ($badges as $i => $row) {
@@ -70,7 +76,7 @@ base_header(
                             </div>
                         </div>
                         <div class="school-logo">
-                            <img src="<?php echo $view->get_team()->get_logo(); ?>" alt="logo" width="100" height="100">
+                            <img src="<?php echo $team->get_logo(); ?>" alt="logo" width="100" height="100">
                         </div>
                     </div>
                     <div class="banner-bottom">
@@ -79,28 +85,6 @@ base_header(
                                 <textarea class="bio-text-edit e-c <?php echo $fill; ?>"></textarea>
                             <?php } ?>
                             <p class="bio-text p-c"></p>
-                            <div class="profile-ctrls p-c">
-                                <button id="like" class="p-btn">
-                                    <i id="i-like" class='bx bx-heart'></i>
-                                    <p>Like</p>
-                                </button>
-                                <button id="follow" class="p-btn">
-                                    <i id="i-follow" class='bx bx-user-plus'></i>
-                                    <p>Follow</p>
-                                </button>
-                                <button id="dm" class="p-btn">
-                                    <i id="i-dm" class='bx bx-chat'></i>
-                                    <p>DM</p>
-                                </button>
-                                <button id="report" class="p-btn">
-                                    <i id="i-report" class='bx bx-alarm-exclamation'></i>
-                                    <p>Report</p>
-                                </button>
-                                <button id="block" class="p-btn">
-                                    <i class='bx bx-block' ></i></i>
-                                    <p>Block</p>
-                                </button>
-                            </div>
                     </div>
                 </div>
                 <div class="page-content">

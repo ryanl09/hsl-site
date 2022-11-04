@@ -1,12 +1,22 @@
 <div class="profile-tabs">
-    <button class="tab-change selected" tab-id="1">Rosters</button>
-    <button class="tab-change" tab-id="2">Announcements</button>
-    <button class="tab-change" tab-id="3">Rules</button>
-    <button class="tab-change" tab-id="4">Fundraising</button>
+    <button class="tab-change selected" tab-id="1">Home</button>
+    <button class="tab-change" tab-id="2">Rosters</button>
+    <button class="tab-change" tab-id="3">Announcements</button>
+    <button class="tab-change" tab-id="4">Rules</button>
+    <button class="tab-change" tab-id="5">Fundraising</button>
 </div>
 
 <div class="tab" tab--id="1">
+    <h3 class="sec-title">Blog posts<i class='bx bx-news' ></i></h3>
+    <hr class="sep">
+    <div class="row showloading">
+        <div class="blog-posts">
 
+        </div>
+    </div>
+</div>
+
+<div class="tab" tab--id="2" style="display:none;">
     <div class="row e2">
         <div class="box tall">
             <h3 class="box-title">Players</h3>
@@ -188,7 +198,7 @@
 </div>
 
 
-<div class="tab" tab--id="2" style="display:none;">
+<div class="tab" tab--id="3" style="display:none;">
     <div class="row announce">
 
 
@@ -214,7 +224,7 @@
 </div>
 
 
-<div class="tab" tab--id="3" style="display:none;">
+<div class="tab" tab--id="4" style="display:none;">
     <div class="row">
         <div class="box">
             <h3>Rules</h3>
@@ -223,7 +233,7 @@
 </div>
 
 
-<div class="tab" tab--id="4" style="display:none;">
+<div class="tab" tab--id="5" style="display:none;">
     <div class="row">
         <div class="box">
             <h3>Fundraising</h3>

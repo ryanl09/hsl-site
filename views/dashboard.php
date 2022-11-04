@@ -22,25 +22,21 @@ if (isset($_SESSION['user'])){
 start_content_full(1, 'dashboard');
 
 switch ($role) {
-    case 'player': ?>
-        <div class="row e3">
-            <div class="box tall">
-                <h4>Matches</h4>
-            </div>
-        </div>
-        <?php break;
+    case 'player':
+        include_once($path . '/views/dashboard/player.php');
+        break;
     case 'team_manager':
         include_once($path . '/views/dashboard/teammanager.php');
         break;
-    case 'caster': ?>
-
-        <?php break;
-    case 'college': ?>
-
-        <?php break;
-    case 'admin': ?>
-
-        <?php break;
+    case 'caster':
+        include_once($path . '/views/dashboard/caster.php');
+        break;
+    case 'college':
+        include_once($path . '/views/dashboard/college.php');
+        break;
+    case 'admin':
+        include_once($path . '/views/dashboard/admin.php');
+        break;
     default: ?>
         <?php break;
 } 

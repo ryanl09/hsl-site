@@ -36,6 +36,17 @@ class Badge{
         if(!$team_id){
             return [];
         }
+
+        $query=
+        "SELECT badge_types.url
+        FROM `badge_types`
+        INNER JOIN `team_badges`
+            ON badge_types.id = team_badges.badge_id
+        WHERE team_badges.team_id = ?";
+
+        $res = $db->query($query, $team_id)->fetchAll();
+
+        return $res;
     }
 }
 
