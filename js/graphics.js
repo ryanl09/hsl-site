@@ -320,4 +320,38 @@
             };
         }
     });
+
+    function get_data(id){
+        $.ajax({
+            url:ajaxurl,
+            type:'post',
+            data:{'page':'graphics', 'action':'get_data', 'upload_id':id},
+            dataType:'json',
+            success:(data)=>{
+                console.log(data);
+                if (!data.status){
+                    //error
+                    return;
+                }
+            }
+        });
+    }
+
+    function set_data(id){
+        const data = [];
+        
+        $.ajax({
+            url:ajaxurl,
+            type:'post',
+            data:{'page':'graphics', 'action':'set_data', 'upload_id':id, 'data':data},
+            dataType:'json',
+            success:(data)=>{
+                console.log(data);
+                if (!data.status){
+                    //error
+                    return;
+                }
+            }
+        });
+    }
 })();
