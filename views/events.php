@@ -39,6 +39,11 @@ class Calendar {
         $this->active_year = $date != null ? date('Y', strtotime($date)) : date('Y');
         $this->active_month = $date != null ? date('m', strtotime($date)) : date('m');
         $this->active_day = $date != null ? date('d', strtotime($date)) : date('d');
+        add_all_events_for_month();
+    }
+
+    public function add_all_events_for_month() {
+        
     }
 
     public function add_event($txt, $date, $days = 1, $color = '') {
@@ -66,8 +71,9 @@ class Calendar {
             ';
         }
         for ($i = $first_day_of_week; $i > 0; $i--) {
+            $c = '';
             $html .= '
-                <div class="day_num ignore">
+                <div class="day_num ignore'.$c.'">
                     ' . ($num_days_last_month-$i+1) . '
                 </div>
             ';
@@ -90,9 +96,16 @@ class Calendar {
             }
             $html .= '</div>';
         }
-        for ($i = 1; $i <= (42-$num_days-max($first_day_of_week, 0)); $i++) {
+        $chris  = (42-$num_days-max($first_day_of_week, 0));
+        $can=true;
+        for ($i = 1; $i <= $chris; $i++) {
+            $c='';
+            if ($chris-$i < 7&&$can){
+                $c=' b-left';
+                $can=false; 
+            }
             $html .= '
-                <div class="day_num ignore">
+                <div class="day_num ignore'.$c.'">
                     ' . $i . '
                 </div>
             ';

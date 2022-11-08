@@ -237,6 +237,11 @@ select {
 }
 .calendar .days .day_name:nth-child(7) {
     border: none;
+    border-radius: 0px 15px 0px 0px;
+}
+.calendar .days .day_name:nth-child(1) {
+    border: none;
+    border-radius: 15px 0px 0px 0px;
 }
 .calendar .days .day_num {
     display: flex;
@@ -276,6 +281,12 @@ select {
 }
 .calendar .days .day_num:nth-child(7n+1) {
     border-left: 1px solid #e6e9ea;
+}
+.calendar .days .day_num:nth-last-child(1) {
+    border-radius: 0px 0px 15px 0px;
+}
+.b-left {
+    border-bottom-left-radius: 15px;
 }
 .calendar .days .day_num:hover {
     background-color: #fdfdfd;
