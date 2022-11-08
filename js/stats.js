@@ -36,6 +36,7 @@
                     //error
                     return;
                 }
+                const val = $('#team').val();
                 $('#team').html('<option value="-1">Any team</option>');
                 data.teams.forEach(e => {
                     let opt = $('<option>',{
