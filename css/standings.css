@@ -1,1 +1,16 @@
 @import 'constants.css';
+table {
+    background-color:#fff;
+    border-radius: 4px;
+    width:100%;
+}
+
+td,th{
+    text-align: left;
+    padding:10px;
+}
+
+.table {
+    max-height: 300px;
+    overflow:auto;
+}

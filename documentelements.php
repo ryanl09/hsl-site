@@ -296,9 +296,9 @@ function ui_script() {
             })
     
             modeSwitch.on('click' , function(){
-                $(body).toggleClass('dark');
+                $(document.body).toggleClass('dark');
                 
-                if($(body).hasClass('dark')){
+                if($(document.body).hasClass('dark')){
                     modeText.text('Light mode');
                 }else{
                     modeText.text('Dark mode');

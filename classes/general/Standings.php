@@ -2,7 +2,8 @@
 
 $path = $_SERVER['DOCUMENT_ROOT'];
 
-require_once($path . '/classes/general/Game.php');
+require_once('Stats.php');
+require_once('Game.php');
 require_once($path . '/classes/team/SubTeam.php');
 
 class Standings {
@@ -17,6 +18,15 @@ class Standings {
 
     public static function get($db, $game_id, $div){
         $teams = Game::get_teams($db, $game_id, $div);
+        $st = new Stats($db);
+        $t_s = $st->team_stats($game_id, $div);
+
+        $ids = array_map(
+            function($n) {
+                return $n['st_id'];
+            }, $t_s
+        );
+
         foreach ($teams as $i => $row){
             $team_id = $row['subteam_id'];
             $query=
@@ -42,11 +52,19 @@ class Standings {
         
             $res = $db->query($query, $team_id)->fetchArray();
             $name = $res['team_name'];
+
+            $s1 = 0;
+            $idx = array_search($team_id, $ids);
+            if ($idx!==false){
+                $s1 = $t_s[$idx]['stats'][0]['stat_total'];
+            }
         
             $recs[] = array(
                 'name' => $name,
+                'st_id' => $team_id,
                 'wins' => $wins['wins'],
-                'losses' => $losses['losses']
+                'losses' => $losses['losses'],
+                's1' => $s1
             );
         }
         
@@ -57,11 +75,20 @@ class Standings {
         function cm2($a, $b){
             return $a['losses'] > $b['losses'];
         }
+
+        function cms1($a, $b){
+            return $a['s1'] < $b['s1'];
+        }
         
+        usort($recs, "cms1");
         usort($recs, "cm2");
         usort($recs, "cmp");
 
-        return $recs;
+        return array(
+            'recs' => $recs,
+            'cols' => $st->get_cols_game($game_id),
+            'stats' => $t_s
+        );
     }
 }
 

@@ -1,0 +1,6 @@
+@import 'constants.css';
+@import 'profile.css';
+
+.pfp {
+    border-radius: 0px;
+}
