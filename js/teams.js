@@ -3,13 +3,13 @@
     function add_team_box(e){
 
         const teams = $('.teams');
-        const t = $('<div>');
+        const t = $('<button>');
         t.addClass(`team-box box ${e.slug}`);
 
         const a = $('<a>');
         a.addClass('team-link');
         a.css('display', 'block');
-        a.attr('href', `https://tecesports.com/team/${e.slug}`);
+        t.attr('onClick', `window.location=\"https://tecesports.com/team/${e.slug}\"`);
         
         const img = $('<img>');
         img.attr('src', e.team_logo)

@@ -15,6 +15,14 @@
     gap:20px;
 }
 
+h3 {
+    color: #000;
+}
+
+.box:hover {
+    background-color: #E8F3F7;
+}
+
 .games {
     margin-left: auto;
 }
