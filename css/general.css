@@ -4,6 +4,22 @@ td, th {
     font-size: .9em;
 }
 
+.page-banner {
+    height:180px;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    background-size: cover;
+}
+
+.page-banner > h2 {
+    font-size: 2em;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 6px;
+    color:#fff;
+}
+
 ::-webkit-scrollbar {
     width:12px;
 }

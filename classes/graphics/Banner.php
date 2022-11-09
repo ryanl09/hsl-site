@@ -9,7 +9,7 @@ class Banner {
      * @return  string
      */
 
-    public static function get($page_name) {
+    public static function get($db, $page_name) {
         if (!$page_name){
             return '';
         }
