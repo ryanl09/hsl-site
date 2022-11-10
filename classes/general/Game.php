@@ -161,29 +161,6 @@ class Game {
         $res = $db->query($query, $mon, $fri, $game_id)->fetchAll();
         return $res;
     }
-
-    public static function get_all_events_for_month($db, $date) {
-        $first_day_of_month = date('m-01-Y', $date);
-        $last_day_of_month = date('m-t-Y', $date);
-
-        $query = 
-        "SELECT t.team_name AS home, t2.team_name AS away, events.event_time, events.event_date, s.division, events.id, s.tag as home_tag, s2.tag as away_tag,
-        s.id as h_id, s2.id as a_id
-        FROM events
-        INNER JOIN subteams s
-            ON s.id = events.event_home
-        INNER JOIN teams t
-            ON s.team_id = t.id
-        INNER JOIN subteams s2
-            ON s2.id = events.event_away
-        INNER JOIN teams t2
-            ON s2.team_id = t2.id
-        WHERE events.event_date >= ? AND events.event_date <= ?
-        ORDER BY events.event_time ASC";
-
-        $res = $db->query($query, $first_day_of_month, $last_day_of_month);
-        return $res;
-    }
 }
 
 ?>

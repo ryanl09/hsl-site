@@ -177,6 +177,9 @@
 
                     const tb = $('.table-all-tbody');
                     tb.html('');
+
+                    const calendar_table = $('.content');
+
                     if (data.events.length > 0){
 
                         data.events.forEach(e =>{
@@ -192,6 +195,11 @@
                                 window.open(`https://tecesports.com/event/${e.event_id}`, '_blank');
                             });
 
+                            var calendar_entry = $('<div class="event">', {
+                                html:`${e.event_home} ${e.event_away}`
+                            });
+                            calendar_table.append(calendar_entry);
+                            
                             tb.append(tr);
                         });
                     }
