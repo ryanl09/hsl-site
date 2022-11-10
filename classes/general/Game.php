@@ -62,7 +62,8 @@ class Game {
             ON subteams.team_id = teams.id AND subteams.game_id = ?
         INNER JOIN subteam_seasons
             ON subteams.id = subteam_seasons.subteam_id AND subteam_seasons.season_id = ?
-        WHERE subteams.division = ?";
+        WHERE subteams.division = ?
+            AND teams.id NOT IN (1,2,3,24,25,26)";
 
         $res = $db->query($query, $game_id, $season_id, $div)->fetchAll();
         return $res;

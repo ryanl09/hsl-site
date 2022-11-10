@@ -1,5 +1,7 @@
 <?php
 
+require_once('Season.php');
+
 class Stats {
     protected $db;
 
@@ -184,7 +186,66 @@ class Stats {
     }
 
     /**
-     * temporary fix to format stats
+     * team stats
+     * @param   int $game
+     * @param   int $div
+     * @return  array
+     */
+
+    public function team_stats($game, $div){
+        if (!$game || !$div){
+            return [];
+        }
+
+        $season = Season::get_current($this->db);
+
+        $query=
+        "SELECT SUM(stats.stat_value) AS total, stat_cols.id, subteams.id as st_id
+        FROM stats
+        INNER JOIN stat_cols
+            ON stat_cols.id = stats.stat_id
+        INNER JOIN users
+            ON stats.user_id = users.user_id
+        INNER JOIN player_seasons
+            ON player_seasons.user_id = stats.user_id
+                AND player_seasons.season_id = ?
+        INNER JOIN subteams
+            ON subteams.game_id = stat_cols.game_id
+                AND subteams.division = ?
+        INNER JOIN subteam_seasons
+            ON subteam_seasons.subteam_id = subteams.id
+                AND subteam_seasons.season_id = ?
+                AND player_seasons.subteam_id = subteams.id
+        WHERE stat_cols.game_id = ?
+        GROUP BY stat_cols.id, subteams.id
+        ORDER BY subteams.id, stat_cols.id";
+
+        $res = $this->db->query($query, $season, $div, $season, $game)->fetchAll();
+        $ret=array();
+
+        $last_team = 0;
+        $idx=0;
+        foreach ($res as $i => $row){ //format stats
+            if ($row['st_id']!==$last_team){
+                $idx = $this->index_of_team($ret, $row['st_id']);
+                if($idx<0){
+                    $idx=count($ret);
+                }
+            }
+            $ret[$idx]['stats'][]=array(
+                'stat_id' => $row['id'],
+                'stat_total' => $row['total']
+            );
+            $ret[$idx]['st_id']=$row['st_id'];
+            $last_team = $row['st_id'];
+            unset($res[$i]);
+        }
+
+        return $ret;
+    }
+
+    /**
+     * temporary fix to format player stats
      * @param   array   $arr
      * @param   string  $name
      * @return  int
@@ -193,12 +254,33 @@ class Stats {
     private function index_of_name($arr, $name){
         $idx=-1;
         for ($i = 0; $i < count($arr); $i++){
-
             if (!isset($arr['ign'])){
                 return $idx;
             }
 
             if (strcmp($arr['ign'], $name)===0){
+                $idx = $i;
+                break;
+            }
+        }
+        return $idx;
+    }
+
+    /**
+     * temporary fix to format team stats
+     * @param   array   $arr
+     * @param   int     $st_id
+     * @return  int
+     */
+
+    private function index_of_team($arr, $st_id){
+        $idx=-1;
+        for ($i = 0; $i < count($arr); $i++){
+            if (!isset($arr['st_id'])){
+                return $idx;
+            }
+
+            if ($arr['st_id']===$st_id){
                 $idx = $i;
                 break;
             }

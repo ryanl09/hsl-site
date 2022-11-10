@@ -4,6 +4,22 @@ td, th {
     font-size: .9em;
 }
 
+.page-banner {
+    height:180px;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    background-size: cover;
+}
+
+.page-banner > h2 {
+    font-size: 2em;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 6px;
+    color:#fff;
+}
+
 ::-webkit-scrollbar {
     width:12px;
 }
@@ -243,6 +259,39 @@ input[type=submit]:disabled, button:disabled {
     background-color:var(--lb-h);
 }
 
+
+.profile-tabs {
+    display:flex;
+    justify-content: center;
+    gap:10px;
+    padding: 20px 0;
+}
+
+.profile-tabs button {
+    background-color: #fff;
+    border-radius: 50vh;
+    border: 0;
+    outline: none;
+    padding:6px 16px;
+    font-weight: 500;
+    transition: var(--btn-t);
+    color:#000;
+}
+
+.profile-tabs button:hover {
+    background-color:var(--btn-h);
+}
+
+.profile-tabs button.selected {
+    background-color:var(--primary-color);
+    color:#fff;
+}
+
+.profile-tabs button.selected:hover {
+    background-color:#27b66c;
+}
+
+
 .game-icons {
     margin-left: auto;
     display:flex;
@@ -275,6 +324,14 @@ input[type=submit]:disabled, button:disabled {
     gap:10px;
 }
 
+.sort-by {
+    display:flex;
+    align-items: center;
+    justify-content: left;
+    gap:10px;
+    margin-top: 10px;
+}
+
 @media only screen and (max-width: 1240px) {
     .e2, .e3, .e2thirds {
         grid-template-columns: auto;
@@ -282,5 +339,11 @@ input[type=submit]:disabled, button:disabled {
 
     .half {
         grid-template-columns: 1fr;
+    }
+}
+
+@media only screen and (max-width: 1024px){
+    .profile-tabs {
+        flex-direction: column;
     }
 }

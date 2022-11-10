@@ -2,6 +2,7 @@
 
 $path = $_SERVER['DOCUMENT_ROOT'];
 
+include_once($path . '/classes/graphics/Banner.php');
 include_once($path . '/classes/user/User.php');
 
 function base_header($params = [], $nosidebar = false){
@@ -120,8 +121,18 @@ function start_content($nav) {
             $add_cl = $args[1][0];
         }
         print_navbar();
-        $home = '<section class="'.$add_cl.' home">
-        <div class="page-content">';
+        $home = '<section class="'.$add_cl.' home">';
+        $p = strtolower($_SESSION['current_page'][1]);
+        include_once($path . '/ajax/ajaxdb.php');
+        $db = ajaxdb::get_instance();
+        $banner = Banner::get($db, $p);
+        if ($banner){
+            $home .= '<div class="page-banner" style="background-image: url('.$banner.')">';
+            $home .= '<h2>'.$p.'</h2>';
+            $home .= '</div>';
+        }
+        $home .= '<div class="page-content">';
+        
     }
 
     echo '
@@ -296,9 +307,9 @@ function ui_script() {
             })
     
             modeSwitch.on('click' , function(){
-                $(body).toggleClass('dark');
+                $(document.body).toggleClass('dark');
                 
-                if($(body).hasClass('dark')){
+                if($(document.body).hasClass('dark')){
                     modeText.text('Light mode');
                 }else{
                     modeText.text('Dark mode');

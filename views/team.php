@@ -22,8 +22,8 @@ $can_edit = false;
 <?php 
 base_header(
     array(
-        'styles' => ['profile'],
-        'scripts' => ['profile'],
+        'styles' => ['team'],
+        'scripts' => ['team'],
         'custom_style' => $edit_style
     )
 ); 
