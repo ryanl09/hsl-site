@@ -7,7 +7,7 @@ require_once($path . '/classes/general/Season.php');
 require_once($path . '/classes/user/User.php');
 
 $arg_arr = $_SESSION['current_page'];
-$username = strtolower($arg_arr[2]);
+$username = $p2;
 $view = User::get_class_instance($db, 0, $username);
 
 $fill = '';
@@ -44,6 +44,7 @@ base_header(
 ); 
 ?>
     <body>
+        <input type="hidden" id="user" value="<?php echo $p2; ?>">
         <?php print_navbar();?>
         <?php if ($can_edit) { ?>
             <div class="editprev">

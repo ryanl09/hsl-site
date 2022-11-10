@@ -6,9 +6,9 @@ require_once($path . '/controllers/Controller.php');
 require_once($path . '/models/ProfileModel.php');
 
 class ProfileController extends Controller {
-    public function __construct() {
+    public function __construct($username) {
         $this->model = new ProfileModel();
-        $this->render('profile');
+        $this->render('profile', $username);
     }
 }
 

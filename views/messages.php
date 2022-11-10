@@ -2,38 +2,38 @@
 
 $path = $_SERVER['DOCUMENT_ROOT'];
 require_once($path . '/documentelements.php');
-require_once($path . '/classes/user/User.php');
-require_once($path . '/classes/services/MessageService.php')
 
-//start_content_full(1, 'messages');
-
-$id = $_SESSION['user']->get_id();
+start_content_full(1, 'messages');
 ?>
 
-
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>Users List</title>
-    <link rel="stylesheet" href="messages.css">
-    <script src="messages.js"></script>
-  </head>
-  <body>
-    <div id="chat-wrap">
-    <!-- (A) CHAT MESSAGES -->
-    <div id="chat-messages"></div>
-    
-    <!-- (B) SET NAME -->
-    <form id="chat-name" onsubmit="return chat.start()">
-        <input type="text" id="chat-name-set" placeholder="What is your name?" value="Jon Doe" required>
-        <input type="submit" id="chat-name-go" value="Start" disabled>
-    </form>
-    
-    <!-- (C) SEND MESSAGE -->
-    <form id="chat-send" onsubmit="return chat.send()">
-        <input type="text" id="chat-send-text" placeholder="Enter message" required>
-        <input type="submit" id="chat-send-go" value="Send">
-    </form>
+<div class="msg-box">
+  <div class="convos">
+    <div class="convo-h">
+      <h3>Conversations</h3>
+      <hr class="sep">
     </div>
-  </body>
-</html>
+
+    <div class="convo-box" user-id="14">
+      <div class='pfp-wrap'>
+        <div class="pfp"></div>
+      </div>
+      <div class="msg-info">
+        <p class="msg-sender">ryan</p>
+        <p class="msg-prev">Hey how's it going!</p>
+      </div>
+      <div class="msg-time">
+        <p>4:48 PM</p>
+      </div>
+      <div class="msg-view">
+        <span><i class='bx bx-chevron-right'></i></span>
+      </div>
+    </div>
+    <hr class="sep">
+
+  </div>
+  <div class="chat">
+
+  </div>
+</div>
+
+<?php end_content_full(1); ?>

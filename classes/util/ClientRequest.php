@@ -41,6 +41,12 @@ class ClientRequest {
             }
         }
 
+        $ex = explode('/', $arg);
+        if (count($ex) > 1){
+            $arg=$ex[0];
+            $ex=$ex[1];
+        }
+
         switch ($arg) {
             case 'home':
                 $this->ctrl = new HomeController();
@@ -61,7 +67,7 @@ class ClientRequest {
                 $this->ctrl = new MessagesController();
                 break;
             case 'user':
-                $this->ctrl = new ProfileController();
+                $this->ctrl = new ProfileController($ex);
                 break;
             case 'login':
                 $this->ctrl = new LoginController();
@@ -103,16 +109,13 @@ class ClientRequest {
                 $this->ctrl = new RegController();
                 break;
             case 'team':
-                $this->ctrl = new TeamController();
+                $this->ctrl = new TeamController($ex);
                 break;
             case 'settings':
                 $this->ctrl = new SettingsController();
                 break;
             case 'standings':
                 $this->ctrl = new StandingsController();
-                break;
-            case 'team':
-                $this->ctrl = new TeamController();
                 break;
             case 'teams':
                 $this->ctrl = new TeamsController();

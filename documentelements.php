@@ -123,6 +123,7 @@ function start_content($nav) {
         print_navbar();
         $home = '<section class="'.$add_cl.' home">';
         $p = strtolower($_SESSION['current_page'][1]);
+        $path = $_SERVER['DOCUMENT_ROOT'];
         include_once($path . '/ajax/ajaxdb.php');
         $db = ajaxdb::get_instance();
         $banner = Banner::get($db, $p);

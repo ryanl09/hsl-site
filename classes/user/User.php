@@ -627,6 +627,27 @@ class User {
     }
 
     /**
+     * sees if current instance is logged in
+     * @return  boolean
+     */
+
+    public static function logged_in(){
+        if (!session_id()){
+            return false;
+        }
+
+        if (!isset($_SESSION['user'])){
+            return false;
+        }
+
+        if (!$_SESSION['user']->get_id()){
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
      * Determines which class is needed for a specific user
      * @param   int $user_id
      * @return  Player|Admin|Caster|Production|Staff|TeamManager

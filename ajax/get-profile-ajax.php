@@ -34,18 +34,11 @@ $tab = $_GET['tab'];
 
 switch ($tab) {
     case 'info':
-        $args = $_SERVER['HTTP_REFERER'];
-        $arg_arr = explode("/",$args);
-        if ($arg_arr[3] !== 'user') {
-            echo json_encode(
-                array(
-                    'status' => 0,
-                    'error' => 'Bad request'
-                )
-            );
+        if (!isset($_GET['user'])){
+            echo ajaxerror::e('errors', ['Missing user']);
             die();
         }
-        $username = strtolower($arg_arr[4]);
+        $username = strtolower($_GET['user']);
         $user_id = User::find_id($db, $username);
 
         $user = new User($db, $user_id);
@@ -65,19 +58,12 @@ switch ($tab) {
             echo ajaxerror::e('errors', ['Missing fields']);
             die();
         }
-
-        $args = $_SERVER['HTTP_REFERER'];
-        $arg_arr = explode("/",$args);
-        if ($arg_arr[3] !== 'user') {
-            echo json_encode(
-                array(
-                    'status' => 0,
-                    'error' => 'Bad request'
-                )
-            );
+        
+        if (!isset($_GET['user'])){
+            echo ajaxerror::e('errors', ['Missing user']);
             die();
         }
-        $username = strtolower($arg_arr[4]);
+        $username = strtolower($_GET['user']);
         $user_id = User::find_id($db, $username);
         $game=$_GET['game'];
         $season=$_GET['season'];

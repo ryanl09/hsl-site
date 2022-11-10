@@ -23,7 +23,7 @@
             $.ajax({
                 url:ajaxurl,
                 type:'get',
-                data:{'page':'get-profile', 'action':'get_stats', 'tab':'get_stats', 'pl_id':id, 'game':game, 'season':season, 'csrf':$('#csrf').val()},
+                data:{'page':'get-profile', 'action':'get_stats', 'user':$('#user').val(), 'tab':'get_stats', 'pl_id':id, 'game':game, 'season':season, 'csrf':$('#csrf').val()},
                 dataType:'json',
                 success:(data)=>{
                     console.log(data);
@@ -226,7 +226,7 @@
         $.ajax({
             type: 'get',
             url: ajaxurl,
-            data: {'page':'get-profile', 'action':'0', 'tab': 'info', 'csrf':$('#csrf').val() },
+            data: {'page':'get-profile', 'action':'0', 'user':$('#user').val(), 'tab': 'info', 'csrf':$('#csrf').val() },
             dataType: 'json',
             async: true,
             success:(data)=>{
