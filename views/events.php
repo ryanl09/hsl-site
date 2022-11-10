@@ -43,7 +43,10 @@ class Calendar {
     }
 
     public function add_all_events_for_month() {
-        
+        $events_for_month = Game::get_all_games_for_month($db, date());
+        foreach($games as $i => $row) {
+            
+        }
     }
 
     public function add_event($txt, $date, $days = 1, $color = '') {
