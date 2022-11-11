@@ -13,6 +13,7 @@ start_content_full(1, 'messages');
       <hr class="sep">
     </div>
 
+    <!--
     <div class="convo-box" user-id="14">
       <div class='pfp-wrap'>
         <div class="pfp"></div>
@@ -29,10 +30,30 @@ start_content_full(1, 'messages');
       </div>
     </div>
     <hr class="sep">
+    -->
 
   </div>
   <div class="chat">
-
+    <div class="chat-h">
+      <div class="chat-h-inf">
+        <div class="pfp active"></div>
+        <p class="msg-sender active"></p>
+      </div>
+      <div class="chat-opts">
+        <div class="chat-block">
+          <i class='bx bx-block'></i>
+        </div>
+        <div class="chat-report">
+          <i class="bx bx-alarm-exclamation"></i>
+        </div>
+      </div>
+    </div>
+    <div class="chat-m">
+    </div>
+    <div class="chat-s">
+      <input type="text" class="msg" placeholder="Message">
+      <button class="send-msg">Send</button>
+    </div>
   </div>
 </div>
 

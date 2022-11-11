@@ -19,7 +19,6 @@ if (!$status){
     die();
 }
 
-$page = $_GET['page'];
 if ($post['status']){
     $page = $_POST['page'];
     $csrf = CSRF::post();
@@ -33,6 +32,7 @@ if ($post['status']){
         die();
     }
 } else {
+    $page = $_GET['page'];
     $csrf = CSRF::get();
     if (!$csrf){
         echo ajaxerror::e('errors', ['Invalid CSRF token']);

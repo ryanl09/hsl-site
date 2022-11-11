@@ -14,33 +14,30 @@ header('Content-Type: text/event-stream');
 header('Cache-Control: no-cache');
 
 if (!isset($_SESSION['user'])){
-    die();
+    //die();
 }
 
-$last = time();
-$started = time();
+$now = date('Y-m-d H:i:s');
+$last = $now;
+
+if (isset($_SESSION['last_check'])){
+    $last = $_SESSION['last_check'];
+}
 
 $db = ajaxdb::get_instance();
 $ms = new MessageService($db);
 
+$id = $ms->get_id();
+
+$msgs = $ms->get_since($last, $now);
+echo "data:";
+echo json_encode($msgs);
+echo "\n\n";
+flush();
+
+$_SESSION['last_check'] = $now;
+
 session_write_close();
-
-$msgs = $ms->get_since($last);
-if (!empty($msgs)){
-    foreach ($msgs as $i => $row){
-        echo "data:\n";
-        echo "from: " . $row['id_from'] . ', sent at: ' . $row['time_sent'] . ', msg: ' . $row['message'];
-        ob_flush();
-        flush();
-    }
-}
-
-if ((time() - $started) > 60) {
-    session_start();
-    die();
-}
-
-$last = time();
 sleep(2);
 
 ?>

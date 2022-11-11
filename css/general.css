@@ -25,13 +25,13 @@ td, th {
 }
 
 ::-webkit-scrollbar-track {
-    background:#eee;
+    background:#fff;
 }
 
 ::-webkit-scrollbar-thumb{
     background-color:#ccc;
     border-radius: 50vh;
-    border:3px solid #eee;
+    border:3px solid #fff;
 }
 
 ::-webkit-scrollbar-thumb:hover{
