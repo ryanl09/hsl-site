@@ -15,7 +15,7 @@ class Badge{
         }
 
         $query = 
-        "SELECT badge_types.url
+        "SELECT badge_types.url, badge_types.description
         FROM `badges`
         INNER JOIN `badge_types`
             ON badge_types.id = badges.badge_id
@@ -38,7 +38,7 @@ class Badge{
         }
 
         $query=
-        "SELECT badge_types.url
+        "SELECT badge_types.url, badge_types.description
         FROM `badge_types`
         INNER JOIN `team_badges`
             ON badge_types.id = team_badges.badge_id

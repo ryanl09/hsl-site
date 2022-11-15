@@ -69,7 +69,7 @@ base_header(
                                         echo '<p class="p-c">No badges on display</p>';
                                     } else {
                                         foreach ($badges as $i => $row) {
-                                            echo '<img src="'.$row['url'].'" width="100" height="100">';
+                                            echo '<span class="tooltiptext"><img src="'.$row['url'].'" width="100" height="100">'.$row['description'].'</span>';
                                         }
                                     }
                                 ?>

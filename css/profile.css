@@ -388,6 +388,37 @@ button:hover {
     font-weight: 500;
 }
 
+.tooltip {
+    position: relative;
+    display: inline-block;
+    border-bottom: 1px black;
+  }
+
+  .tooltiptext {
+    visibility: hidden;
+    width: 120px;
+    background-color: #555;
+    color: #fff;
+    text-align: center;
+    padding: 5px 0;
+    border-radius: 6px;
+  
+    /* position text */
+    position: absolute;
+    z-index: 1;
+    bottom: 125%;
+    left: 50%;
+    margin-left: -60px;
+  
+    /* fade in tooltip */
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+   .tooltiptext:hover {
+    visibility: visible;
+  }
+
 button.selected {
     background-color: var(--primary-color);
     color:#fff;
