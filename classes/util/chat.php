@@ -38,6 +38,5 @@ flush();
 $_SESSION['last_check'] = $now;
 
 session_write_close();
-sleep(2);
 
 ?>
