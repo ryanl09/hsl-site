@@ -270,7 +270,7 @@ function print_navbar() {
                             <span class="text nav-text">Logout</span>
                         </a>
                     </li>' : '') .
-                    '<li class="mode">
+                    '<li class="mode" style="display:none;">
                         <div class="sun-moon">
                             <i class="bx bx-moon icon moon"></i>
                             <i class="bx bx-sun icon sun"></i>
