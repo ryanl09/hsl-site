@@ -11,7 +11,7 @@ start_content_full(1, 'standings');
 <div class="profile-tabs"></div>
 
 <div class="row">
-    <div class="box" style="overflow-y: hidden !important; height:380px; max-height:380px;">
+    <div class="box">
         <div class="sort-by">
             <span>Sort by:</span>
             <select name="div" id="div">

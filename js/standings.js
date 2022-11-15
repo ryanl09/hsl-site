@@ -73,7 +73,7 @@
                     st.cols.forEach(e => {
                         const _th = $('<th>',{
                             text: e.name
-                        });
+                        }).addClass('is-stat');
                         th.append(_th);
                     });
 
@@ -88,18 +88,20 @@
                         i++;
                         const tr = $('<tr>',{
                             html:`
-                                <td>${i}</td>
-                                <td>${e.name}</td>
-                                <td>${e.wins}</td>
-                                <td>${e.losses}</td>`
+                                <td label="Rank">${i}</td>
+                                <td label="Team">${e.name}</td>
+                                <td label="Wins">${e.wins}</td>
+                                <td label="Losses">${e.losses}</td>`
                         });
 
                         const idx = st.stats.map(f => f.st_id).indexOf(e.st_id);
+                        const n = st.cols.map(f => f.id);
                         const s = st.stats[idx].stats;
                         s.forEach(f => {
                             tr.append($('<td>', {
                                 text: f.stat_total
-                            }));
+                            }).attr('label', st.cols[n.indexOf(f.stat_id)].name)
+                                .addClass('is-stat'));
                         });
 
                         tb.append(tr);

@@ -276,7 +276,7 @@
                 } else {
                     data.games.forEach(e => {
                         $('#games-info').append($('<div>', {
-                            class: 'info',
+                            class: 'info end',
                             html: `<div class="games-entry"><img src="${e.url}" width="24" height="24"><p>${e.game_name}<p></div>`
                         }));
                     });

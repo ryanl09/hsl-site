@@ -388,36 +388,34 @@ button:hover {
     font-weight: 500;
 }
 
-.tooltip {
+.hastooltip {
     position: relative;
     display: inline-block;
     border-bottom: 1px black;
-  }
+}
 
-  .tooltiptext {
-    visibility: hidden;
+.tooltip {
     width: 120px;
-    background-color: #555;
+    background-color: #000;
+    opacity:.9;
     color: #fff;
     text-align: center;
-    padding: 5px 0;
+    padding: 5px .2em;
     border-radius: 6px;
-  
+    transition:.17s opacity ease;
+    display:none;
+    font-size: .7em;
+
     /* position text */
     position: absolute;
     z-index: 1;
-    bottom: 125%;
-    left: 50%;
-    margin-left: -60px;
-  
-    /* fade in tooltip */
-    opacity: 0;
-    transition: opacity 0.3s;
-  }
+    top:100%;
+    display:none;
+}
 
-   .tooltiptext:hover {
-    visibility: visible;
-  }
+.hastooltip:hover + .tooltip {
+    display:block;
+}
 
 button.selected {
     background-color: var(--primary-color);

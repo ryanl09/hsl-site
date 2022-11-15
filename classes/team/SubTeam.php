@@ -81,12 +81,14 @@ class SubTeam extends TeamAbstract {
         $c_s = Season::get_current($this->db);
 
         $query =
-        "SELECT users.name, users.user_id
+        "SELECT users.name, users.user_id, user_igns.ign, users.username
         FROM `users`
         INNER JOIN `subteams`
             ON subteams.id = ?
         INNER JOIN `player_seasons`
             ON player_seasons.user_id = users.user_id AND player_seasons.subteam_id = ? AND player_seasons.season_id = ?
+        LEFT OUTER JOIN `user_igns`
+            ON user_igns.user_id = users.user_id
         $temp";
 
         $res = $this->db->query($query, $this->id, $this->id, $c_s)->fetchAll();

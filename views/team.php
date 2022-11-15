@@ -7,8 +7,7 @@ require_once($path . '/classes/general/Season.php');
 require_once($path . '/classes/team/Team.php');
 require_once($path . '/classes/user/User.php');
 
-$arg_arr = $_SESSION['current_page'];
-$team_name = strtolower($arg_arr[2]);
+$team_name = strtolower($p2);
 $team_id = Team::from_slug($db, $team_name);
 $team = new Team($db, $team_id);
 
@@ -31,6 +30,7 @@ base_header(
     <body>
         <?php print_navbar();?>
         <section class="home">
+            <input type="hidden" id="team" value="<?php echo $p2; ?>">
             <?php if ($team->get_id()) { //if user exists ?>
                 <div class="banner-wrapper">
                     <div class="banner">
@@ -69,15 +69,15 @@ base_header(
                                         echo '<p class="p-c">No badges on display</p>';
                                     } else {
                                         foreach ($badges as $i => $row) {
-                                            echo '<span class="tooltiptext"><img src="'.$row['url'].'" width="100" height="100">'.$row['description'].'</span>';
+                                            echo '<img src="'.$row['url'].'" width="100" height="100" class="hastooltip"><span style="display:none;">'.$row['description'].'</span>';
                                         }
                                     }
                                 ?>
                             </div>
                         </div>
-                        <div class="school-logo">
-                            <img src="<?php echo $team->get_logo(); ?>" alt="logo" width="100" height="100">
-                        </div>
+                        <!-- <div class="school-logo">
+                            <img src="<?php //echo $team->get_logo(); ?>" alt="logo" width="100" height="100">
+                        </div> -->
                     </div>
                     <div class="banner-bottom">
                         <div class="bio">
@@ -102,16 +102,12 @@ base_header(
                                 <div class="loading box-info"></div>
                                 <div class="box">
                                     <div class="info">
-                                        <h4><i class='bx bxs-school'></i>School</h4>
-                                        <p id="student-school-value"></p>
-                                    </div>
-                                    <div class="info grad-year-info">
-                                        <h4><i class='bx bxs-graduation' ></i>Year of Graduation</h4>
-                                        <p id="grad-year-value"></p>
-                                    </div>
-                                    <div class="info twitch-info end">
-                                        <h4><i class='bx bxl-twitch twitch'></i>Twitch</h4>
-                                        <a id="twitch-value"></a>
+                                        <h4><i class='bx bx-calendar' ></i></i>Seasons</h4>
+                                        <table>
+                                            <tbody class="team-seasons">
+                                                
+                                            </tbody>
+                                        </table>
                                     </div>
                                 </div>
                                 <div class="box">
@@ -122,13 +118,12 @@ base_header(
                                 <div class="box">
                                     <div class="info end">
                                         <div class="info">
-                                            <h4>Upcoming Matches</h4>
+                                            <h4><i class='bx bxs-user-detail'></i>Players</h4>
                                         </div>
                                         <table style="width:100%;" cellspacing="0">
                                             <thead>
-                                                <th>Game</th>
-                                                <th>Date</th>
-                                                <th>Time</th>
+                                                <th>Username</th>
+                                                <th>IGN</th>
                                             </thead>
                                             <tbody id="ucmatches">
 

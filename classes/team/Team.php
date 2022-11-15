@@ -61,13 +61,14 @@ class Team extends TeamAbstract {
         }
 
         $query=
-        "SELECT subteams.division, subteams.id, games.game_name, games.id AS game_id
+        "SELECT subteams.division, subteams.id, games.game_name, games.id AS game_id, games.url
         FROM `teams`
         INNER JOIN `subteams`
             ON subteams.team_id = teams.id
         INNER JOIN `games`
             ON subteams.game_id = games.id
-        WHERE teams.id = ?";
+        WHERE teams.id = ?
+        ORDER BY games.game_name, subteams.division";
         $res = $this->db->query($query, $this->id)->fetchAll();
         return $res;
     }
@@ -260,6 +261,29 @@ class Team extends TeamAbstract {
         WHERE `team_id` = ? AND `role` <> \"team_manager\"
             $temp
         ORDER BY `name` ASC";
+        $res = $this->db->query($query, $this->id)->fetchAll();
+        return $res;
+    }
+
+    /**
+     * get seasons of team
+     * @return  array
+     */
+
+    public function get_seasons(){
+        if (!$this->id){
+            return [];
+        }
+
+        $query=
+        "SELECT DISTINCT subteam_seasons.season_id, seasons.season_name
+        FROM `subteam_seasons`
+        INNER JOIN `seasons`
+            ON seasons.id = subteam_seasons.season_id
+        INNER JOIN `subteams`
+            ON subteams.id = subteam_seasons.subteam_id
+        WHERE subteams.team_id = ?";
+
         $res = $this->db->query($query, $this->id)->fetchAll();
         return $res;
     }
