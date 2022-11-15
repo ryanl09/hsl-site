@@ -270,7 +270,7 @@ function print_navbar() {
                             <span class="text nav-text">Logout</span>
                         </a>
                     </li>' : '') .
-                    '<li class="mode" style="display:none;">
+                    '<li class="mode">
                         <div class="sun-moon">
                             <i class="bx bx-moon icon moon"></i>
                             <i class="bx bx-sun icon sun"></i>
@@ -312,11 +312,16 @@ function ui_script() {
                 
                 if($(document.body).hasClass('dark')){
                     modeText.text('Light mode');
+                    localStorage.setItem('darkMode', 'enabled');
                 }else{
                     modeText.text('Dark mode');
-                    
+                    localStorage.setItem('darkMode', 'disabled');
                 }
             });
+
+            if(localStorage.getItem('darkMode') == 'enabled'){
+                $(document.body).toggleClass('dark');
+            }
     
             $(window).resize(function() {
                 if(window.innerWidth<=800){

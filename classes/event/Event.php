@@ -4,6 +4,7 @@ $path = $_SERVER['DOCUMENT_ROOT'];
 require_once('IEvent.php');
 require_once($path . '/classes/general/Season.php');
 require_once($path . '/classes/util/tecdb.php');
+require_once($path . '/classes/event/Calendar.php');
 
 class Event implements IEvent {
     private $id;
@@ -491,6 +492,66 @@ class Event implements IEvent {
         ORDER BY events.event_date ASC, s.division ASC";
 
         $res = $db->query($query, $team, $team, $div, $game, $c_s)->fetchAll();
+        return $res;
+    }
+
+    /**
+     * sort by (for calendar)
+     * @param   int $game
+     * @param   int $team
+     * @param   int $div
+     * @return  array
+     */
+
+    public static function sort_by_calendar($db, $game, $team, $div, $time){
+        if (!$team || !$div || !$time){
+            return [];
+        }
+
+        $c_s = Season::get_current($db);
+
+        $team=intval($team);
+        $div=intval($div);
+
+        $team_str = "events.event_home = ? OR events.event_away = ? ";
+
+        if ($team===-1){
+            $team_str = "events.event_home <> ? AND events.event_away <> ? ";
+        }
+
+        $div_str = "AND s.division = ? ";
+
+        if ($div===-1){
+            $div_str = "AND s.division <> ? ";
+        }
+
+        $time_str = "";
+        $today = date('Y-m-d'); //todays date
+        $toda = date("H:i:s"); //time now
+        if (strcmp($time, 'upcoming')===0){
+            $time_str = "AND events.event_date >= \"$today\"";
+        } else if (strcmp($time,'past')===0){
+            $time_str = "AND events.event_date <= \"$today\"";
+        }
+
+        $where = $team_str . $div_str . $time_str;
+
+        $query =
+        "SELECT t.team_name as event_home, t2.team_name as event_away, events.event_winner, events.event_date, 
+        events.event_time, s.division, events.id as event_id, s.tag as home_tag, s2.tag as away_tag
+        FROM `events`
+        INNER JOIN subteams s
+            ON s.id = events.event_home
+        INNER JOIN teams t
+            ON s.team_id = t.id
+        INNER JOIN subteams s2
+            ON s2.id = events.event_away
+        INNER JOIN teams t2
+            ON s2.team_id = t2.id
+        WHERE $where AND events.event_game=?
+        ORDER BY events.event_date ASC, s.division ASC";
+
+        $res = $db->query($query, $team, $team, $div, $game)->fetchAll();
         return $res;
     }
 

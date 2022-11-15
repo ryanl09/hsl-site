@@ -12,7 +12,7 @@ start_content_full(0, 'home'); ?>
                 <img src="https://tecesports.com/images/tec-black.png" alt="TEC" width="80" height="80">
             </li>
             <li>High School Series</li>
-            <li class="mlink homelink"><a href="https://tecesports.com/pricing">Home</a></li>
+            <li class="mlink homelink"><a href="https://tecesports.com">Home</a></li>
             <li class="mlink"><a href="https://tecesports.com/pricing">About</a></li>
             <li class="mlink"><a href="https://tecesports.com/pricing">Pricing</a></li>
             <?php if (isset($_SESSION['user']) && $_SESSION['user']->get_id()) { ?>
