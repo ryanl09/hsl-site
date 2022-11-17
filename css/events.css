@@ -220,6 +220,10 @@ select {
     .sort-by {
         flex-direction: column;
     }
+
+    .sort-by select{
+        width:100%;
+    }
 }
 
 .calendar {

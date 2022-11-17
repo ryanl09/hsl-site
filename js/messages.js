@@ -45,8 +45,11 @@
                             get_convo(uid);
                             $('.pfp.active').css('background-image', `url(${e.pfp_url})`);
                             $('.msg-sender.active').text(e.username);
+                            $('.hide-box').removeClass('hide-box');
+                            $('.convos').addClass('hide-box');
                         }
                         AC = uid;
+
                     });
                     c.append(cb);
                     c.append($('<hr>').addClass('sep'));
@@ -55,6 +58,13 @@
             error:(a,b,c)=>{
                 console.log(a+','+b+','+c);
             }
+        });
+
+        $('.back-btn').on('click', function(){
+            $('.hide-box').removeClass('hide-box');
+            $('.chat').addClass('hide-box');
+            $('.selected').removeClass('selected');
+            AC=-1;
         });
         
         $('.send-msg').on('click', function(){

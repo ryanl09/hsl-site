@@ -21,6 +21,10 @@
     max-height: 650px;
 }
 
+.stats-box table {
+    width:100%;
+}
+
 .stats-top {
     width:100%;
     display:flex;

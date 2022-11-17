@@ -33,8 +33,9 @@ start_content_full(1, 'messages');
     -->
 
   </div>
-  <div class="chat">
+  <div class="chat hide-box">
     <div class="chat-h">
+      <div class="back-btn"><i class='bx bx-arrow-back'></i></div>
       <div class="chat-h-inf">
         <div class="pfp active"></div>
         <p class="msg-sender active"></p>
