@@ -102,7 +102,7 @@
         
                 console.log('submitted');
 
-            $('#pfp-form').submit();
+            //$('#pfp-form').submit();
         });
 
         get_pl_stats();

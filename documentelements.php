@@ -129,7 +129,7 @@ function start_content($nav) {
         $banner = Banner::get($db, $p);
         if ($banner){
             $home .= '<div class="page-banner" style="background-image: url('.$banner.')">';
-            $home .= '<h2>'.$p.'</h2>';
+            $home .= '<div class="banner-text"><h2>'.$p.'</h2></div>';
             $home .= '</div>';
         }
         $home .= '<div class="page-content">';

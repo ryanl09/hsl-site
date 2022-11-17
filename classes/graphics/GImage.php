@@ -7,13 +7,13 @@ class GImage {
     private $owner;
     private $data;
 
-    public function __construct($db, $id){
+    public function __construct($db, $id, $load=false){
         $this->db = $db;
         if ($id){
-            $loaded = $this->load_img($id);
+            $loaded = $this->load_img($id, $load);
 
             if (!$loaded){
-                //error loading
+
             }
         }
     }
@@ -24,17 +24,13 @@ class GImage {
      * @return  boolean
      */
 
-    private function load_img($id){
-        if (!$id){
-            return;
-        }
-
+    private function load_img($id, $load){
         $query=
         "SELECT *
         FROM `uploads`
         WHERE `id` = ?";
 
-        $res = $this->db->query()->fetchArray();
+        $res = $this->db->query($query, $id)->fetchArray();
 
         if (empty($res)){
             return false;
@@ -44,7 +40,9 @@ class GImage {
         $this->owner = $res['user_id'];
         $this->url = $res['url'];
 
-        $this->data = get_data();
+        if ($load){
+            $this->data = get_data();
+        }
         return true;
     }
 
@@ -86,7 +84,7 @@ class GImage {
         FROM graphics_data
         WHERE upload_id = ?";
 
-        $res = $db->query($query, $this->id)->fetchAll();
+        $res = $this->db->query($query, $this->id)->fetchAll();
         return $res;
     }
 
@@ -97,28 +95,29 @@ class GImage {
      */
 
     public function set_data($data) {
+        $this->clear_data();
+        $this->data = $data;
+
         if (empty($data)){
             return true;
         }
 
-        $this->data = $data;
-
         $str='';
         $d=[];
         for ($i = 0; $i < count($data); $i++){
-            $d[] = $data['x'];
-            $d[] = $data['y'];
-            $d[] = $data['width'];
-            $d[] = $data['height'];
+            $d[] = $data[$i]['x'];
+            $d[] = $data[$i]['y'];
+            $d[] = $data[$i]['w'];
+            $d[] = $data[$i]['h'];
             
-            $str .= '(?, ?, ?, ?)' . ($i < count($data)-1 ? ', ' : '');
+            $str .= "($this->id, ?, ?, ?, ?)" . ($i < count($data)-1 ? ', ' : '');
         }
 
         $query=
-        "INSERT INTO `graphics_data`
+        "INSERT INTO `graphics_data` (`upload_id`, `x`, `y`, `width`, `height`)
         VALUES $str";
 
-        $res = $this->db->query($query, $d)->numRows();
+        $res = $this->db->query($query, $d)->affectedRows();
         return $res;
     }
 
@@ -138,6 +137,72 @@ class GImage {
 
         $res = $this->db->query($query, $this->id)->affectedRows();
         return $res > 0;
+    }
+
+    /**
+     * deletes an image
+     * @return  boolean
+     */
+
+    public function delete() {
+        if (!$this->id){
+            return false;
+        }
+
+        $d = unlink($_SERVER['DOCUMENT_ROOT'] . $this->url);
+        if ($d){
+            $query=
+            "DELETE FROM `uploads`
+            WHERE `id` = ?";
+
+            $res = $this->db->query($query, $this->id);
+        }
+        return $d;
+    }
+
+    /**
+     * 
+     * static functions
+     * 
+     */
+
+    /**
+     * inserts a newly uploaded image to db
+     * @param   string  $file
+     * @return  int
+     */
+
+    public static function insert($db, $file){
+        if (!$file){
+            return 0;
+        }
+
+        if (!session_id() || !isset($_SESSION['user'])){
+            return 0;
+        }
+
+        $user_id = $_SESSION['user']->get_id();
+
+        $query = 
+        "INSERT INTO `uploads` (`url`, `user_id`)
+        VALUES (?, ?)";
+
+        $res = $db->query($query, $file, $user_id)->lastInsertID();
+        return $res;
+    }
+
+    /**
+     * displays all
+     * @return  array
+     */
+
+    public static function display_all($db) {
+        $query=
+        "SELECT *
+        FROM `uploads`";
+
+        $res = $db->query($query)->fetchAll();
+        return $res;
     }
 }
 

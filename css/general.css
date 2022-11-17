@@ -5,15 +5,14 @@ td, th {
 }
 
 .page-banner {
-    height:200px;
+    height:300px;
     display:flex;
     justify-content: center;
     align-items: center;
     background-size: cover;
-    background-position-y: -50px;
 }
 
-.page-banner > h2 {
+.page-banner h2 {
     position: relative;
     mix-blend-mode: difference;
     font-size: 2em;

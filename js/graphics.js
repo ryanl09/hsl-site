@@ -1,10 +1,25 @@
 (function(){
     $(document).ready(function(){
 
+        const BX = [];
+        var id = -1;
+        
         var is_select = false;
 
         const canv = $('#canv');
         const ctx = canv[0].getContext('2d');
+
+        /**
+         * draws a red box on the image
+         * @param {object} bx 
+         */
+
+        function draw_bx(bx){
+            ctx.fillStyle = 'rgba(255,0,0,1)';
+            ctx.fillRect(bx.x, bx.y, bx.w, bx.h);
+            ctx.fillStyle = 'rgba(255,255,255,0.4)';
+            ctx.fillRect(bx.x+1, bx.y+1, bx.w-2, bx.h-2);
+        }
 
         function relMouseCoords(event){
             var totalOffsetX = 0;
@@ -26,21 +41,55 @@
         }
         HTMLCanvasElement.prototype.pos = relMouseCoords;
 
+        /**
+         * gets real x of scaled image
+         * @param {int} x scaled x
+         * @param {double} sf scale factor
+         * @returns {double}
+         */
+
         let nx = (x, sf) =>{
             return x * sf;
         }
+
+        /**
+         * gets real y of scaled image
+         * @param {int} y scaled y
+         * @param {double} sf scale factor
+         * @returns {double}
+         */
 
         let ny = (y, sf) =>{
             return y * sf;
         }
 
+        /**
+         * calculates scale factor of image (dim = w or h)
+         * @param {int} old_dim
+         * @param {int} new_dim
+         * @returns 
+         */
+
         let scale_factor = (old_dim, new_dim) =>{
             return old_dim / new_dim;
         }
 
+        /**
+         * gets pixel rgb at (x, y)
+         * @param {int} x 
+         * @param {int} y 
+         * @returns {object} { r, g, b }
+         */
+
         let get_pixel = (x, y) =>{
             return col(ctx.getImageData(x, y,1,1).data);
         }
+
+        /**
+         * converts rgb to lab
+         * @param {object} rgb 
+         * @returns {array} lab value of rgb
+         */
 
         function rgb2lab(rgb){
             var r = rgb[0] / 255,
@@ -81,6 +130,11 @@
             return i < 0 ? 0 : Math.sqrt(i);
           }
 
+          /**
+           * formats rgb array to object
+           * @param {object} px 
+           * @returns 
+           */
         let col = (px) => {
             return {
                 r: px[0],
@@ -88,6 +142,13 @@
                 b: px[2]
             }
         }
+
+        /**
+         * compares 2 colors to 10% similarity
+         * @param {object} p1 
+         * @param {object} p2 
+         * @returns {boolean} if the two colors are atleast 10% similar
+         */
 
         let cmp = (p1, p2) => {
             const lab1 = rgb2lab([p1.r, p1.g, p1.b]);
@@ -108,6 +169,15 @@
 
 
         }
+
+        /**
+         * formats coordinates & dimensions to an object
+         * @param {double} _x 
+         * @param {double} _y 
+         * @param {int} _w 
+         * @param {int} _h 
+         * @returns {object}
+         */
 
         let box = (_x, _y, _w, _h) => {
             return {
@@ -242,8 +312,49 @@
 
             const bx = box(mx-s.l, my-s.u, s.l+s.r, s.u+s.d);
             //draw_text('VS', bx);
+            add_bx(bx);
+            draw_bx(bx);
 
             //console.log(s);
+        }
+
+        $('#data').on('change', function(){
+            const val = parseInt($(this).val(),10);
+            switch(val){
+                case 1://matches
+                    
+                    break;
+                case 2://standings
+                    
+                    break;
+                case 3://final score
+                
+                    break;
+                case 4://roster
+
+                    break;
+            }
+        });
+
+        function add_bx(bx){
+            BX.push(bx);
+            const tr = $('<tr>')
+                .append($('<td>', {text: bx.x}))
+                .append($('<td>', {text: bx.y}))
+                .append($('<td>', {text: bx.w}))
+                .append($('<td>', {text: bx.h}));
+            $('.bx-pts').append(tr);
+        }
+
+        /**
+         * removes all selected boxes
+         */
+
+        function clear_bx(){
+            while (BX.length){
+                BX.pop();
+            }
+            $('.bx-pts').html('');
         }
 
         function draw_lines(s, mx, my){
@@ -268,14 +379,64 @@
             }
         }
 
-        $('img').on('click', function(){
-            const url = $(this).attr('src');
+        $('.img-box').on('click', function(){
+            const url = $($(this).children()[0]).attr('src');
+            id = parseInt($(this).attr('upload-id'), 10);
+
+            draw_img(url, get_data);
+        });
+
+        function draw_img(url, callback=function(){}){
             const img = new Image();
             img.src = url;
             img.onload = function(){
                 ctx.drawImage(img,0,0);
+                callback();
+            }
+        }
+
+        $('.btn-clear').on('click', function(){
+            clear_bx();
+
+            const url = $($(`[upload-id=${id}]`).children()[0]).attr('src');
+            draw_img(url);
+        });
+
+        $('.btn-save').on('click', function(){
+            set_data(id);
+        });
+
+        $('.btn-undo').on('click', function(){
+            if (BX.length){
+                BX.pop();
+                const c = $('.bx-pts').children();
+                c[c.length-1].remove();
+    
+                const url = $($(`[upload-id=${id}]`).children()[0]).attr('src');
+                draw_img(url, function(){
+                    BX.forEach(e=>{
+                        draw_bx(e);
+                    })
+                });
             }
         });
+
+        function fetch_data(){
+            const s = $('#season').val();
+            const g = $('#game').val();
+            const d = $('#div').val();
+            const a = `get-${['matches', 'standings', 'scores', 'roster'][parseInt($('#data').val(),10)]}`;
+
+            $.ajax({
+                url:ajaxurl,
+                type:'get',
+                data:{'page':'graphics', 'action':a, 'season':s,'game':g,'div':d,'csrf':$('#csrf').val()},
+                dataType:'text',
+                success:(data)=>{
+                    console.log(data);
+                }
+            });
+        }
 
         function draw_text(text, bx){
 
@@ -319,39 +480,90 @@
                 h:FONT_SIZE * 0.7
             };
         }
+        
+        $('#upload-image').on('click', function(e){
+            e.preventDefault();
+            $('.upload-img').click();
+        });
+
+        $('.upload-img').change(function(){
+            
+            var file = $(this)[0].files;
+            if (file.length > 0){
+                var formData = new FormData();
+                formData.append("fileToUpload", file[0]);
+
+                var xhr = new XMLHttpRequest;
+                xhr.open('post', 'https://tecesports.com/ajax/upload.php', true);
+                xhr.onreadystatechange=function(){
+                    if (this.readyState===4 && this.status===200){
+                        console.log(this.responseText);
+                        var data = JSON.parse(this.responseText);
+                        if (!data.status){
+                            console.log(data.errors);
+                            return;
+                        }
+
+                        console.log(data);
+
+                        var img = data.url;
+                        $('.img-list').append(
+                            $('<div>').append(
+                                $('<img>').attr('src', data.url)
+                            ).addClass('img-box')
+                                .attr('upload-id', data.id)
+                        );
+                    }
+                }
+                xhr.send(formData);
+            }
+        
+                console.log('submitted');
+
+            //$('#pfp-form').submit();
+        });
+
+        function get_data(){
+            $.ajax({
+                url:ajaxurl,
+                type:'get',
+                data:{'page':'graphics', 'action':'get_data', 'upload_id':id, 'csrf':$('#csrf').val()},
+                dataType:'json',
+                success:(data)=>{
+
+                    data.data.forEach(e=>{
+                        const bx = box(e.x, e.y, e.width, e.height);
+                        add_bx(bx);
+                        draw_bx(bx);
+                    });
+
+                },
+                error:(a,b,c)=>{
+                    console.log(a+','+b+','+c);
+                }
+            });
+        }
+
+        function set_data(id){
+            const data = JSON.stringify(BX);
+            
+            $.ajax({
+                url:ajaxurl,
+                type:'post',
+                data:{'page':'graphics', 'action':'set_data', 'upload_id':id, 'data':data, 'csrf':$('#csrf').val()},
+                dataType:'json',
+                success:(data)=>{
+                    console.log(data);
+                    if (!data.status){
+                        //error
+                        return;
+                    }
+                },
+                error:(a,b,c)=>{
+                    console.log(a+','+b+','+c);
+                }
+            });
+        }
     });
 
-    function get_data(id){
-        $.ajax({
-            url:ajaxurl,
-            type:'post',
-            data:{'page':'graphics', 'action':'get_data', 'upload_id':id},
-            dataType:'json',
-            success:(data)=>{
-                console.log(data);
-                if (!data.status){
-                    //error
-                    return;
-                }
-            }
-        });
-    }
-
-    function set_data(id){
-        const data = [];
-        
-        $.ajax({
-            url:ajaxurl,
-            type:'post',
-            data:{'page':'graphics', 'action':'set_data', 'upload_id':id, 'data':data},
-            dataType:'json',
-            success:(data)=>{
-                console.log(data);
-                if (!data.status){
-                    //error
-                    return;
-                }
-            }
-        });
-    }
 })();

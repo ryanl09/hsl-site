@@ -14,19 +14,65 @@
     cursor:crosshair;
 }
 
-.gsel {
+.inputs {
+    display:flex;
+    gap:10px;
+}
+
+.inputs div {
     display:flex;
     flex-direction: column;
     justify-content: center;
 }
 
-.gsel select {
+.btns {
+    display:flex;
+    gap:10px;
+}
+
+.btn-adddata {
+    background-color: var(--blue);
+}
+
+.btn-adddata:hover{
+    background-color:var(--blue-h);
+}
+
+.btn-clear {
+    background-color:var(--red);
+}
+
+.btn-clear:hover {
+    background-color:var(--red-h);
+}
+
+.btn-save {
+    background-color:var(--primary-color);
+}
+
+.btn-save:hover{
+    background-color:var(--save-h);
+}
+
+.btn-undo{
+    background-color: rgb(125, 73, 167);
+}
+
+.btn-undo:hover{
+    background-color: rgb(102, 60, 136);
+}
+
+td,th{
+    text-align: left;
+    padding:10px;
+}
+
+.inputs select {
     width: fit-content;
 }
 
-.gsel label {
+.inputs label {
     font-size: 16px;
-    text-transform: uppercase;
     font-weight: 500;
 }
 
