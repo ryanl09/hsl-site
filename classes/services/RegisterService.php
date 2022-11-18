@@ -5,6 +5,7 @@ require_once('CreateTeamService.php');
 require_once('LoginService.php');
 
 $path = $_SERVER['DOCUMENT_ROOT'];
+require_once($path . '/ajax/ajaxdb.php');
 require_once($path . '/classes/team/Team.php');
 require_once($path . '/classes/services/VerifyService.php');
 require_once($path . '/classes/security/AuthToken.php');
@@ -217,6 +218,7 @@ class RegisterService extends VerifyService {
         $team_id = 0;
         if($this->type === 'player'){
             $code = $_POST['schoolcode'];
+            $db = ajaxdb::get_instance();
             $team_id = Team::from_schoolcode($db, $code);
         }
 
