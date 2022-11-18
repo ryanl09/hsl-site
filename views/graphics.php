@@ -56,6 +56,7 @@ start_content_full(1, 'graphics'); ?>
         <div class="divsel">
             <label for="div">Divison</label>
             <select name="div" id="div">
+                <option value="-1">All</option>
                 <option value="1">D1</option>
                 <option value="2">D2</option>
             </select>
@@ -68,6 +69,10 @@ start_content_full(1, 'graphics'); ?>
                 <option value="3">Final Scores</option>
                 <option value="4">Rosters</option>
             </select>
+        </div>
+        <div class="wsel">
+            <label for="week">Week of</label>
+            <select name="week" id="week"></select>
         </div>
     </div>
 </div>

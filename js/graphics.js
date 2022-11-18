@@ -1,9 +1,16 @@
 (function(){
     $(document).ready(function(){
+        const f = new FontFace('Bahnschrift', 'url(https://tecesports.com/fonts/BAHNSCHRIFT.TTF)');
+        f.load().then(function(font){
+            document.fonts.add(font);
+            console.log(font);
+        });
 
         const BX = [];
         var id = -1;
         
+        get_weeks();
+
         var is_select = false;
 
         const canv = $('#canv');
@@ -19,6 +26,30 @@
             ctx.fillRect(bx.x, bx.y, bx.w, bx.h);
             ctx.fillStyle = 'rgba(255,255,255,0.4)';
             ctx.fillRect(bx.x+1, bx.y+1, bx.w-2, bx.h-2);
+        }
+
+        function get_weeks(){
+            $.ajax({
+                url:ajaxurl,
+                type:'get',
+                data:{'page':'graphics','action':'get_weeks','season':$('#season').val(),'csrf':$('#csrf').val()},
+                dataType:'json',
+                success:(data)=>{
+                    console.log(data);
+                    if(!data.status){
+                        return;
+                    }
+
+                    const w =  $('#week');
+                    w.html('');
+                    data.weeks.forEach(e=>{
+                        const o = $('<option>', { text: e }).val(e);
+                        w.append(o);
+                    });
+                },error:(a,b,c)=>{
+                    console.log(a+','+b+','+c);
+                }
+            });
         }
 
         function relMouseCoords(event){
@@ -311,27 +342,28 @@
             }
 
             const bx = box(mx-s.l, my-s.u, s.l+s.r, s.u+s.d);
-            //draw_text('VS', bx);
             add_bx(bx);
             draw_bx(bx);
-
-            //console.log(s);
         }
+
+        $('#season').on('change', function(){
+            get_weeks();
+        });
 
         $('#data').on('change', function(){
             const val = parseInt($(this).val(),10);
             switch(val){
                 case 1://matches
-                    
+                    $('.wsel').show();
                     break;
                 case 2://standings
-                    
+                    $('.wsel').hide();
                     break;
                 case 3://final score
-                
+                    $('.wsel').hide();
                     break;
                 case 4://roster
-
+                    $('.wsel').hide();
                     break;
             }
         });
@@ -380,6 +412,7 @@
         }
 
         $('.img-box').on('click', function(){
+            clear_bx();
             const url = $($(this).children()[0]).attr('src');
             id = parseInt($(this).attr('upload-id'), 10);
 
@@ -421,40 +454,93 @@
             }
         });
 
-        function fetch_data(){
+        $('.btn-adddata').on('click', function(){
+            const c = BX.length;
+
+            fetch_data(function(data){
+                if (data.arr.length !== c){
+                    console.log('data /= boxes');
+                }
+                const url = $($(`[upload-id=${id}]`).children()[0]).attr('src');
+                draw_img(url);
+
+                const min = Math.min(c, data.arr.length);
+                for (let i = 0; i < min; i++){
+                    const bx = BX[i];
+                    const d = data.arr[i];
+
+                    if(data.mode===1){
+                        const vs = draw_text('VS', bx);
+                        const lb = box(bx.x-vs.w, bx.y, vs.x-bx.x, bx.h);
+                        const rb = box(vs.x+(2*vs.w),bx.y,bx.w-(vs.x+vs.w),bx.h);
+
+                        draw_text(d.home, lb, 'left');
+                        draw_text(d.away, rb, 'right');
+
+                    }
+                }
+            });
+        });
+
+        function fetch_data(callback){
             const s = $('#season').val();
-            const g = $('#game').val();
+            const g = $('#games').val();
             const d = $('#div').val();
-            const a = `get-${['matches', 'standings', 'scores', 'roster'][parseInt($('#data').val(),10)]}`;
+            const w = $('#week').val();
+            const a = `get_${['matches', 'standings', 'scores', 'roster'][parseInt($('#data').val(),10)-1]}`;
 
             $.ajax({
                 url:ajaxurl,
                 type:'get',
-                data:{'page':'graphics', 'action':a, 'season':s,'game':g,'div':d,'csrf':$('#csrf').val()},
-                dataType:'text',
+                data:{'page':'graphics', 'action':a, 'season':s,'game':g,'div':d,'week':w,'csrf':$('#csrf').val()},
+                dataType:'json',
                 success:(data)=>{
                     console.log(data);
+
+                    if (!data.status){
+                        //error
+                        return;
+                    }
+
+                    callback(data);
                 }
             });
         }
 
-        function draw_text(text, bx){
-
+        function draw_text(text, bx, opt='center'){
+            text=text.toUpperCase();
             const size = text2dim(text);
-            const tx = bx.x + (bx.w / 2) - (size.w / 2);
-            const ty = bx.y + (bx.h / 2) + (size.h / 2);
+            let tx = bx.x + (bx.w / 2) - (size.w / 2);
+            let ty = bx.y + (bx.h / 2) + (size.h / 2);
+
+            switch (opt){
+                case 'left':
+                    tx = bx.w-size.w+bx.x;
+                    break;
+                case 'right':
+                    tx = bx.x;
+                    break;
+            }
 
             const f = new FontFace('Bahnschrift', 'url(https://tecesports.com/fonts/BAHNSCHRIFT.TTF)');
             f.load().then(function(font){
                 document.fonts.add(font);
-                console.log(font);
                 ctx.font='400 30px Bahnschrift Condensed';
                 ctx.fillStyle='#000000';
                 ctx.fillText(text, tx, ty);
             });
+
+            const obj = {
+                x: tx,
+                y: ty,
+                w: size.w,
+                h: size.h
+            };
+            console.log(obj);
+            return obj;
         }
 
-        function text2dim(text){
+        function oldt2d(text){
             //assuming font size is 30px, each letter is ~15px
             let w = 0;
             const FONT_SIZE=30;
@@ -478,6 +564,18 @@
             return {
                 w: Math.floor(w), 
                 h:FONT_SIZE * 0.7
+            };
+        }
+
+        function text2dim(text){
+
+            const canvas = text2dim.canvas || (text2dim.canvas = document.createElement("canvas"));
+            const context = canvas.getContext("2d");
+            context.font = '400 30px Bahnschrift Condensed';
+            const metrics = context.measureText(text);
+            return {
+                w: Math.floor(metrics.width),
+                h: 30 * 0.7
             };
         }
         

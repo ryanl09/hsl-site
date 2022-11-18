@@ -634,6 +634,86 @@ class Event implements IEvent {
         $res = self::get_roster($db, $event_id, $team_id);
         return !empty($res);
     }
+
+    /**
+     * gets mondays of each week for a season
+     * @param   int $season
+     * @return  array
+     */
+
+    public static function get_mondays($db, $season){
+        if (!$season){
+            return [];
+        }
+
+        $len = 6; //6 weeks
+
+        $query=
+        "SELECT `event_date`
+        FROM `events`
+        WHERE `event_season` = ?
+        ORDER BY `event_date` DESC";
+
+        $res = $db->query($query, $season)->fetchArray();
+
+        if (empty($res)){
+            return [];
+        }
+
+        $dates = [];
+        $s = new DateTime($res['event_date']);
+        $s->modify('this monday');
+        $dates[] = $s->format('m-d-Y');
+        while (count($dates) < $len){
+            $s->modify('next monday');
+            $dates[] = $s->format('m-d-Y');
+        }
+
+        return $dates;
+    }
+
+    /**
+     * gets all events for game on certain week for div
+     * @param   string  $date
+     * @param   int     $game
+     * @param   int     $div
+     * @return  array
+     */
+
+    public static function during_week($db, $date, $game, $div){
+        if (!$date){
+            return [];
+        }
+
+        $next_week = DateTime::createFromFormat('m-d-Y', $date);
+        $i = $next_week->format('Y-m-d');
+        $next_week->modify('+7 day');
+        $j = $next_week->format('Y-m-d');
+
+        $d_str = 'AND s1.division = ?';
+        if ($div==-1){
+            $div = 1;
+            $d_str='AND s1.division IN (?, 2)';
+        }
+
+        $query=
+        "SELECT t1.team_name as home, t2.team_name as away
+        FROM events
+        INNER JOIN subteams s1
+            ON s1.id = events.event_home
+        INNER JOIN teams t1
+            ON s1.team_id = t1.id
+        INNER JOIN subteams s2
+            ON s2.id = events.event_away
+        INNER JOIN teams t2
+            ON s2.team_id = t2.id
+        WHERE events.event_date >= ? AND events.event_date < ?
+            AND events.event_game = ? $d_str
+        ORDER BY s1.division, events.event_date, events.event_time";
+        
+        $res = $db->query($query, $i, $j, $game, $div)->fetchAll();
+        return $res;
+    }
 }
 
 ?>
