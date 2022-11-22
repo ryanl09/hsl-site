@@ -10,10 +10,6 @@ class Calendar {
         $this->active_day = $date != null ? date('d', strtotime($date)) : date('d');
     }
 
-    public function add_all_events() {
-        
-    }
-
     public function add_event($txt, $date, $days = 1, $color = '') {
         $color = $color ? ' ' . $color : $color;
         $this->events[] = [$txt, $date, $days, $color];
@@ -52,7 +48,7 @@ class Calendar {
                 $selected = ' selected';
             }
             $html .= '<div class="day_num' . $selected . '">';
-            $html .= '<span>' . $i . '</span>';
+            $html .= '<span class="calendar-date-text">' . $i . '</span>';
             foreach ($this->events as $event) {
                 for ($d = 0; $d <= ($event[2]-1); $d++) {
                     if (date('y-m-d', strtotime($this->active_year . '-' . $this->active_month . '-' . $i . ' -' . $d . ' day')) == date('y-m-d', strtotime($event[1]))) {

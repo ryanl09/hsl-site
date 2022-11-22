@@ -144,7 +144,6 @@ $game_icons2.='</div>';
     <body>
         <div class="content">
             <?php
-                $calendar->add_event("Test Game", "November 12 2022");
                 echo $calendar->show();
             ?>
         </div>

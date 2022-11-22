@@ -174,9 +174,13 @@
                     const tb = $('.table-all-tbody');
                     tb.html('');
 
-                    const calendar_table = $('.content');
+                    const calendar_table = $('.content .calendar .days');
 
-                    if (data.events.length > 0){
+                    if (data.events.length > 0){  
+                        var mySpans = new Array();                 
+                        var tempSpans = document.getElementsByClassName('calendar-date-text');
+                        mySpans = Array.from(tempSpans);
+                        //console.log(mySpans);
 
                         data.events.forEach(e =>{
                             var res = 'TBD';
@@ -191,10 +195,18 @@
                                 window.open(`https://tecesports.com/event/${e.event_id}`, '_blank');
                             });
 
-                            var calendar_entry = $('<div class="event">', {
-                                html:`${e.event_home} ${e.event_away}`
-                            });
-                            calendar_table.append(calendar_entry);
+                            // [0] year, [1] month, [2] day
+                            var arr = e.event_date.split("-");
+                            let currentDate = new Date();
+                            const month = currentDate.getMonth() + 1;
+                            const year = currentDate.getFullYear();
+                            if (month == arr[1] && year == arr[0]) {
+                                //console.log(arr[0] + " " + arr[1] + " " + arr[2] + " is in current month");
+                                var calendar_entry = document.createElement('div');
+                                calendar_entry.classList.add("event");
+                                calendar_entry.innerHTML = `${e.event_home} vs ${e.event_away}`;
+                                mySpans[parseInt(arr[2])-1].closest('div.day_num').appendChild(calendar_entry);
+                            }
                             
                             tb.append(tr);
                         });
