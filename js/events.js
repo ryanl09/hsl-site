@@ -175,9 +175,9 @@
                     tb.html('');
 
                     if (data.events.length > 0){  
-                        //var mySpans = new Array();                 
-                        //var tempSpans = document.getElementsByClassName('calendar-date-text');
-                        //mySpans = Array.from(tempSpans);
+                        var mySpans = new Array();                 
+                        var tempSpans = document.getElementsByClassName('calendar-date-text');
+                        mySpans = Array.from(tempSpans);
                         //console.log(mySpans);
 
                         data.events.forEach(e =>{
@@ -194,7 +194,7 @@
                             });
 
                             // [0] year, [1] month, [2] day
-                            /*var arr = e.event_date.split("-");
+                            var arr = e.event_date.split("-");
                             let currentDate = new Date();
                             const month = currentDate.getMonth() + 1;
                             const year = currentDate.getFullYear();
@@ -227,7 +227,7 @@
                                 }
                                 calendar_entry.innerHTML = `${e.event_home} vs ${e.event_away} - ${fix_time(e.event_time)}`;
                                 mySpans[parseInt(arr[2])-1].closest('div.day_num').appendChild(calendar_entry);
-                            }*/
+                            }
                             
                             tb.append(tr);
                         });
