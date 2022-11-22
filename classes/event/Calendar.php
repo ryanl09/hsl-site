@@ -10,23 +10,8 @@ class Calendar {
         $this->active_day = $date != null ? date('d', strtotime($date)) : date('d');
     }
 
-    static function get_all_events($db) {
-        $query = 
-        "SELECT t.team_name AS home, t2.team_name AS away, events.event_time, events.event_date, s.division, events.id, s.tag as home_tag, s2.tag as away_tag,
-        s.id as h_id, s2.id as a_id
-        FROM events
-        INNER JOIN subteams s
-            ON s.id = events.event_home
-        INNER JOIN teams t
-            ON s.team_id = t.id
-        INNER JOIN subteams s2
-            ON s2.id = events.event_away
-        INNER JOIN teams t2
-            ON s2.team_id = t2.id
-        ORDER BY events.event_time ASC";
-
-        $res = $db->query($query)->fetchAll();
-        return $res;
+    public function add_all_events() {
+        
     }
 
     public function add_event($txt, $date, $days = 1, $color = '') {
