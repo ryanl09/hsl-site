@@ -28,9 +28,8 @@
             data:{'page':'messages','action':'get_convos','csrf':$('#csrf').val()},
             dataType:'json',
             success:(data)=>{
-                console.log(data);
                 if (!data.status){
-                    //error
+                    show_error(data.errors);
                     return;
                 }
 
@@ -54,9 +53,8 @@
                     c.append(cb);
                     c.append($('<hr>').addClass('sep'));
                 });
-            },
-            error:(a,b,c)=>{
-                console.log(a+','+b+','+c);
+            },error:(a,b,c)=>{
+                report_error('messages', a+','+b+','+c, 'get_convos');
             }
         });
 
@@ -116,17 +114,19 @@
             data:{'page':'messages', 'action':'get_convo','user_id':uid, 'csrf':$('#csrf').val()},
             dataType:'json',
             success:(data)=>{
+                if (!data.status){
+                    show_error(data.errors);
+                    return;
+                }
+
                 clear_chats();
 
                 for (let i = data.convo.length - 1; i >= 0; i--){
                     const c = data.convo[i];
                     make_chat(c.message, c.is_mine);
                 }
-
-                console.log(data);
-            },
-            error:(a,b,c)=>{
-                console.log(a+','+b+','+c);
+            },error:(a,b,c)=>{
+                report_error('messages', a+','+b+','+c, 'get_convo');
             }
         });
     }
@@ -145,13 +145,12 @@
             dataType:'json',
             success:(data)=>{
                 if (!data.status){
-                    //error
+                    show_error(data.errors);
                     return;
                 }
                 make_chat(msg, 1);
-            },
-            error:(a,b,c)=>{
-                console.log(a+','+b+','+c);
+            },error:(a,b,c)=>{
+                report_error('messages', a+','+b+','+c, 'send_msg');
             }
         });
     }

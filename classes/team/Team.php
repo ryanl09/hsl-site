@@ -184,6 +184,67 @@ class Team extends TeamAbstract {
     }
 
     /**
+     * apply team for next season
+     * @return  boolean
+     */
+
+    public function apply_next(){
+        if (!$this->id){
+            return false;
+        }
+
+        $c_s = Season::get_current($this->db);
+        $n_s = $c_s + 1;
+
+        $query=
+        "INSERT INTO `apply_next`
+        VALUES (?, ?)";
+
+        $res = $this->db->query($query, $this->id, $n_s)->affectedRows();
+        return $res>0;
+    }
+
+    /**
+     * unapply for next season
+     * @return  boolean
+     */
+
+    public function unapply_next(){
+        if (!$this->id){
+            return false;
+        }
+
+        $query=
+        "DELETE FROM `apply_next`
+        WHERE `team_id` = ?";
+
+        $res = $this->db->query($query, $this->id)->affectedRows();
+        return $res>0;
+    }
+
+    /**
+     * checks if team is applied for next season
+     * @return  boolean
+     */
+
+    public function is_applied_next(){
+        if (!$this->id){
+            return false;
+        }
+
+        $c_s = Season::get_current($this->db);
+        $n_s = $c_s + 1;
+
+        $query=
+        "SELECT *
+        FROM `apply_next`
+        WHERE `team_id` = ? AND `season_id` = ?";
+
+        $res = $this->db->query($query, $this->id, $n_s)->numRows();
+        return $res>0;
+    }
+
+    /**
      * gets the schoolcode of a team
      * @return  string
      */

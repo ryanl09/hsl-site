@@ -100,9 +100,8 @@
             async: true,
             success:(data)=>{
                 parse_data(tab,data);
-            },
-            error:(a,b,c)=>{
-                console.log(a+','+b+','+c);
+            },error:(a,b,c)=>{
+                report_error('team', a+','+b+','+c, `get_${tab}_tab`);
             }
         });
     }
@@ -133,7 +132,7 @@
                 });
 
             },error:(a,b,c)=>{
-                console.log(a+','+b+','+c);
+                report_error('team', a+','+b+','+c, 'get_players');
             }
         });
     }
@@ -141,7 +140,6 @@
     function parse_data(tab, dat){
         switch(tab){
             case 'info':
-                console.log(dat);
                 $('.loading.box-info').remove();
                 if (!dat.status) {
                     document.getElementsByClassName('page-content')[0].insertAdjacentHTML('beforeend', `<p>${dat}</p>`);

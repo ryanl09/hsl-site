@@ -10,7 +10,7 @@
             success:(data)=>{
 
                 if (!data.status){
-                    //error
+                    show_error(data.errors);
                     return;
                 }
 
@@ -35,9 +35,8 @@
                     //     $('.matchup > h2').text(`${days}d ${hours}h ${minutes}m ${seconds}s`);
                     //     }, 1000);
                 }
-            },
-            error:(a,b,c)=>{
-                console.log(a+','+b+','+c);
+            },error:(a,b,c)=>{
+                report_error('events', a+','+b+','+c, 'get_current');
             }
         });
 
@@ -53,7 +52,7 @@
                     const tb = $('.table-today-tbody');
                     tb.html('');
                     if (!data.status){
-                        //error
+                        show_error(data.errors);
                         return;
                     }
 
@@ -84,9 +83,8 @@
                         $('.today-nogames').show();
                         $('.table-today').hide();
                     }
-                },
-                error:(a,b,c)=>{
-                    console.log(a+','+b+','+c);
+                },error:(a,b,c)=>{
+                    report_error('events', a+','+b+','+c, 'get_today');
                 }
             });
         }
@@ -123,7 +121,7 @@
                 dataType:'json',
                 success:(data)=>{
                     if (!data.status){
-                        //error
+                        show_error(data.errors);
                         return;
                     }
                     const val = $('#sort-team').val();
@@ -136,9 +134,8 @@
                         $('#sort-team').append(opt);
                     });
                     //$('#sort-team').val(val);
-                },
-                error:(a,b,c)=>{
-                    console.log(a+','+b+','+c);
+                },error:(a,b,c)=>{
+                    report_error('events', a+','+b+','+c, 'get_teams');
                 }
             });
         }
@@ -169,9 +166,8 @@
                 data:{'page': 'events', 'action':'all_events','sort-team':$('#sort-team').val(),'sort-div':$('#sort-div').val(), 'game':game, 'time': $('#sort-time').val(), 'csrf':$('#csrf').val()},
                 dataType:'json',
                 success:(data)=>{
-                    console.log(data);
                     if (!data.status){
-                        //error
+                        show_error(data.errors);
                         return;
                     }
 
@@ -203,9 +199,8 @@
                             tb.append(tr);
                         });
                     }
-                },
-                error:(a,b,c)=>{
-                    console.log(a+','+b+','+c);
+                },error:(a,b,c)=>{
+                    report_error('events', a+','+b+','+c, 'all_events');
                 }
             });
         }

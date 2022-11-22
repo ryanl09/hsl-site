@@ -94,7 +94,6 @@
                     'secondarycolor':$('#secondarycolor').val(), 'schoolcode':$('#schoolcode').val(), 'isymca':ymca},
                 dataType:'json',
                 success:(data)=>{
-                    console.log(data);
                     reg.prop('disabled', false);
                     reg.val('Login');
                     if(!data.status) {
@@ -114,8 +113,8 @@
                 },
                 error:(a,b,c)=>{
                     reg.prop('disabled', false);
-                    reg.val('Login');
-                    console.log(`${a} ${b} ${c} `);
+                    reg.val('Register');
+                    report_error('register', a+','+b+','+c, '0_register');
                 }
             });
         });
@@ -160,6 +159,11 @@
             var spe = specialChars.test(p) | 0;
             pass_flags[3]=spe;
             set_flag('p-spe', spe);
+
+            
+            var mat = (p===$('#c_password').val()) | 0;
+            pass_flags[4]=mat;
+            set_flag('p-mat', mat);
 
             ps.slideDown();
         });

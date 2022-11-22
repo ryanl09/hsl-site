@@ -30,14 +30,13 @@
                 data:{'page':'admin', 'action':'add_announcement', 'a-title':$('#a-title').val(), 'a-body': $('#a-body').val(), 'csrf':$('#csrf').val()},
                 dataType:'json',
                 success:(data)=>{
-                    console.log(data);
                     if (!data.status){
-                        //error
+                        show_error(data.errors);
                         return;
                     }
-                },
-                error:(a,b,c)=>{
-                    console.log(a+','+b+','+c);
+                    show_success('Announcement posted!');
+                },error:(a,b,c)=>{
+                    report_error('admin', a+','+b+','+c, 'add_announcment');
                 }
             });
         });
@@ -49,15 +48,14 @@
                 data:{'page':'admin', 'action':'delete_announcement', 'announcement_id':id, 'csrf':$('#csrf').val()},
                 dataType:'json',
                 success:(data)=>{
-                    console.log(data);
                     if (!data.status){
-                        //error
+                        show_error(data.errors);
                         return;
                     }
+                    show_success('Announcement removed');
                     get_announcements();
-                },
-                error:(a,b,c)=>{
-                    console.log(a+','+b+','+c);
+                },error:(a,b,c)=>{
+                    report_error('admin', a+','+b+','+c, 'delete_announcement');
                 }
             });
         }
@@ -69,10 +67,8 @@
                 data:{'page':'admin', 'action':'get_announcements', 'announcement_id':$('#announcement_id').val(), 'csrf':$('#csrf').val()}, 
                 dataType:'json',
                 success:(data)=>{
-                    console.log(data);
-
                     if (!data.status){
-                        //error
+                        show_error(data.errors);
                         return;
                     }
 
@@ -97,9 +93,8 @@
                         var announcement_id = parseInt($(this).attr('announcement-id'), 10);
                         remove_announcement(announcement_id);
                     });
-                },
-                error:(a,b,c)=>{
-                    console.log(a+','+b+','+c);
+                },error:(a,b,c)=>{
+                    report_error('admin', a+','+b+','+c, 'get_announcements');
                 }
             });
         }
@@ -111,16 +106,14 @@
                 data:{'page':'admin', 'action':'add_temp_pl', 'ign':$('#ign').val(), 'team': $('#team').val(), 'csrf':$('#csrf').val()},
                 dataType:'json',
                 success:(data)=>{
-                    console.log(data);
                     if (!data.status){
-                        //error
+                        show_error(data.errors);
                         return;
                     }
 
                     $('#pl-id').val(data.id);
-                },
-                error:(a,b,c)=>{
-                    console.log(a+','+b+','+c);
+                },error:(a,b,c)=>{
+                    report_error('admin', a+','+b+','+c, 'add_temp_pl');
                 }
             });
         });
@@ -130,12 +123,15 @@
                 url:ajaxurl,
                 type:'post',
                 data:{'page':'admin', 'action':'allocate_temp_pl', 'id':$('#pl-id').val(), 'game':$('#game').val(), 'div':$('#div').val(), 'csrf':$('#csrf').val()},
-                dataType:'text',
+                dataType:'json',
                 success:(data)=>{
-                    console.log(data);
-                },
-                error:(a,b,c)=>{
-                    console.log(a+','+b+','+c);
+                    if(!data.status){
+                        show_error(data.errors);
+                        return;
+                    }
+                    show_success('Player allocated!');
+                },error:(a,b,c)=>{
+                    report_error('admin', a+','+b+','+c, 'allocate_temp_pl');
                 }
             });
         });

@@ -35,8 +35,8 @@
                 data:{'page':'graphics','action':'get_weeks','season':$('#season').val(),'csrf':$('#csrf').val()},
                 dataType:'json',
                 success:(data)=>{
-                    console.log(data);
                     if(!data.status){
+                        show_error(data.errors);
                         return;
                     }
 
@@ -47,7 +47,7 @@
                         w.append(o);
                     });
                 },error:(a,b,c)=>{
-                    console.log(a+','+b+','+c);
+                    report_error('graphics', a+','+b+','+c, 'get_weeks');
                 }
             });
         }
@@ -495,14 +495,14 @@
                 data:{'page':'graphics', 'action':a, 'season':s,'game':g,'div':d,'week':w,'csrf':$('#csrf').val()},
                 dataType:'json',
                 success:(data)=>{
-                    console.log(data);
-
                     if (!data.status){
-                        //error
+                        show_error(data.errors);
                         return;
                     }
 
                     callback(data);
+                },error:(d,b,c)=>{
+                    report_error('graphics', d+','+b+','+c, a);
                 }
             });
         }
@@ -598,11 +598,9 @@
                         console.log(this.responseText);
                         var data = JSON.parse(this.responseText);
                         if (!data.status){
-                            console.log(data.errors);
+                            show_error(data.errors);
                             return;
                         }
-
-                        console.log(data);
 
                         var img = data.url;
                         $('.img-list').append(
@@ -628,6 +626,9 @@
                 data:{'page':'graphics', 'action':'get_data', 'upload_id':id, 'csrf':$('#csrf').val()},
                 dataType:'json',
                 success:(data)=>{
+                    if (!data.status){
+                        show_error(data.errors);
+                    }
 
                     data.data.forEach(e=>{
                         const bx = box(e.x, e.y, e.width, e.height);
@@ -635,9 +636,8 @@
                         draw_bx(bx);
                     });
 
-                },
-                error:(a,b,c)=>{
-                    console.log(a+','+b+','+c);
+                },error:(a,b,c)=>{
+                    report_error('graphics', a+','+b+','+c, 'get_data');
                 }
             });
         }
@@ -651,14 +651,13 @@
                 data:{'page':'graphics', 'action':'set_data', 'upload_id':id, 'data':data, 'csrf':$('#csrf').val()},
                 dataType:'json',
                 success:(data)=>{
-                    console.log(data);
                     if (!data.status){
-                        //error
+                        show_error(data.errors);
                         return;
                     }
-                },
-                error:(a,b,c)=>{
-                    console.log(a+','+b+','+c);
+                    show_success('Data updated!');
+                },error:(a,b,c)=>{
+                    report_error('graphics', a+','+b+','+c, 'set_data');
                 }
             });
         }

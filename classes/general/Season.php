@@ -26,6 +26,20 @@ class Season {
     }
 
     /**
+     * Gets next season info
+     * @return   int
+     */
+
+    public static function get_next_name(){
+        $today = getdate();
+        if ($today['mon'] >= 8){
+            return 'Spring ' . ($today['year'] + 1);
+        } else {
+            return 'Fall ' . $today['year'];
+        }
+    }
+
+    /**
      * Adds a new season
      * @param   string  $name
      * @return  int

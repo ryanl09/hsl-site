@@ -107,6 +107,7 @@ function start_content_full($nav, $s) {
 function end_content_full($ui){
     end_content($ui);
     echo '
+            <div id="alert-container"></div>
         </body>
     </html>';
 }

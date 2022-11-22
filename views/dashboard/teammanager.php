@@ -1,12 +1,27 @@
+<script type="text/javascript" src="/js/dashboard-tm.js"></script>
+
 <div class="profile-tabs">
-    <button class="tab-change selected" tab-id="1">Home</button>
-    <button class="tab-change" tab-id="2">Rosters</button>
-    <button class="tab-change" tab-id="3">Announcements</button>
-    <button class="tab-change" tab-id="4">Rules</button>
-    <button class="tab-change" tab-id="5">Fundraising</button>
+    <button class="tab-change" tab-id="1" tab-target="home">Home</button>
+    <button class="tab-change" tab-id="2" tab-target="players">Players</button>
+    <button class="tab-change" tab-id="6" tab-target="rosters">Rosters</button>
+    <button class="tab-change" tab-id="3" tab-target="announcements">Announcements</button>
+    <!-- <button class="tab-change" tab-id="4">Rules</button> -->
+    <button class="tab-change" tab-id="5" tab-target="fundraising">Fundraising</button>
 </div>
 
 <div class="tab" tab--id="1">
+    <div class="opt-next">
+        <?php
+            require_once($path . '/classes/general/Season.php');
+            $n = Season::get_next_name($db);
+
+            $team_id = $_SESSION['user']->get_team_id();
+            $t = new Team($db, $team_id);
+            $checked = $t->is_applied_next() ? 'checked' : '';
+        ?>
+        <input type="checkbox" id="apply-n" <?php echo $checked; ?>>
+        <label for="apply-n">Opt in for next season (<?php echo $n; ?>)</label>
+    </div>
     <h3 class="sec-title">Blog posts<i class='bx bx-news' ></i></h3>
     <hr class="sep">
     <div class="row showloading">
@@ -17,21 +32,20 @@
 </div>
 
 <div class="tab" tab--id="2" style="display:none;">
+    <p>Students will register with this link:</p>
+    <?php 
+        $team = new Team($db, $_SESSION['user']->get_team_id());
+        $href = 'https://tecesports.com/register/' . $team->get_schoolcode();
+    ?>
+    <span style="display:flex; gap:10px; align-items:center;">
+        <div class="copy-code">
+            <i class='bx bx-copy'></i>
+        </div>
+        <a id="schoolcode" href="<?php echo $href;?>"><?php echo $href;?></a>
+    </span>
     <div class="row e2">
         <div class="box tall">
             <h3 class="box-title">Players</h3>
-            <p>Students will register with this link:</p>
-            <?php 
-                $team = new Team($db, $_SESSION['user']->get_team_id());
-                $href = 'https://tecesports.com/register/' . $team->get_schoolcode();
-            ?>
-            <span style="display:flex; gap:10px; align-items:center;">
-                <div class="copy-code">
-                    <i class='bx bx-copy'></i>
-                </div>
-                <a id="schoolcode" href="<?php echo $href;?>"><?php echo $href;?></a>
-            </span>
-            <h3 class="box-title">Registered Players</h3>
             <div class="rpw">
                 <table class="r-players" cellspacing="0">
                     <tbody>
@@ -134,8 +148,11 @@
             </div>
         </div>
     </div>
-    <div class="row e2">
-        <div class="box s-events">
+</div>
+
+
+<div class="tab" tab--id="6" style="display:none;"><div class="row e2">
+        <div class="box s-events tall">
             <h3 class="box-title">Set rosters</h3>
             <div class="split">
                 <div class="split-top">
@@ -189,7 +206,7 @@
             </div>
         </div>
 
-        <div class="box">
+        <div class="box tall add-s">
             <h3 class="box-title">Set rosters</h3>
             <div class="avail-pl"></div>
         </div>
@@ -199,28 +216,7 @@
 
 
 <div class="tab" tab--id="3" style="display:none;">
-    <div class="row announce">
-
-
-        <div class="box">
-            <div class="ann">
-                <h2 class="ann-title"></h2>
-                <div class="ann-body">
-                    <p class="body-text"></p>
-                </div>
-                <div class="ann-info">
-                    <div class="ann-author">
-                        <img src="https://tecesports.com/uploads/" alt="" width="40" height="40">
-                        <p class="author"></p>
-                    </div>
-                    <p class="ann-time"></p>
-                </div>
-            </div>
-        </div>
-
-
-
-    </div>
+    <div class="row announce"></div>
 </div>
 
 

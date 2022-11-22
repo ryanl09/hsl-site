@@ -31,8 +31,6 @@
             data:{'page':'teams', 'action':'get_teams', 'type':'hs', 'csrf':$('#csrf').val()},
             dataType:'json',
             success:(data)=>{
-                console.log(data);
-
                 add_team_box(data.teams[0]);
                 for (let i = 1; i < data.teams.length; i++){
                     if(data.teams[i-1].id !== data.teams[i].id){
@@ -44,8 +42,8 @@
                     }
                 }
 
-            },error(a,b,c){
-                console.log(a+','+b+','+c);
+            },error:(a,b,c)=>{
+                report_error('teams', a+','+b+','+c, 'get_teams');
             }
         });
     });

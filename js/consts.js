@@ -1,6 +1,8 @@
 const ajax_url = '/ajax/';
 const ajaxurl = 'https://tecesports.com/ajax/tec-ajax.php';
 
+var alerts = [];
+
 $(document).ready(function(){
     const request_token = $('meta[name="request-token"]').attr('content') ?? 0;
     if (!request_token) {
@@ -40,14 +42,55 @@ function fix_time(time) {
     return `${_h}:${time.split(':')[1]}${suf}`;
 }
 
-function show_error() {
-
+function make_alert(t, cl) {
+    const a = $('<div>', {text: t})
+        .addClass('alert')
+        .addClass(cl);
+    const b = $('#alert-container');
+    b.prepend(a);
+    a.addClass('show');
+    alerts.push(a);
+    if (alerts.length > 3){
+        const c = alerts.shift();
+        c.remove();
+    }
+    setTimeout(function(){ 
+        a.removeClass('show'); 
+    }, 3000);
 }
 
-function show_success() {
-
+function show_error(t) {
+    if (Array.isArray(t)){
+        t.forEach(e=>{
+            make_alert(e, 'error');
+        });
+        return;
+    }
+    make_alert(t, 'error');
 }
 
-function show_info() {
+function show_success(t) {
+    make_alert(t, 'success');
+}
 
+function show_info(t) {
+    make_alert(t, 'info');
+}
+
+function report_error(p,e,fn){
+    $.ajax({
+        url:ajaxurl,
+        type:'post',
+        data:{'page':'error','action':'report_error','e_page':p,'e_msg':e,'e_fn':fn,'csrf':$('#csrf').val()},
+        dataType:'json',
+        success:(data)=>{
+            if (!data.status){
+                show_error(data.errors);
+                return;
+            }
+            show_info(data.success);
+        },error:(a,b,c)=>{
+            console.log(a+','+b+','+c);
+        }
+    });
 }

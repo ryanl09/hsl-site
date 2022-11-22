@@ -26,10 +26,8 @@
                 data:{'page':'get-profile', 'action':'get_stats', 'user':$('#user').val(), 'tab':'get_stats', 'pl_id':id, 'game':game, 'season':season, 'csrf':$('#csrf').val()},
                 dataType:'json',
                 success:(data)=>{
-                    console.log(data);
-
                     if (!data.status){
-                        //error
+                        show_error(data.errors);
                         return;
                     }
 
@@ -57,9 +55,8 @@
                         obj[e.id].val += e.stat_value;
                         $(`#stat-${e.id}`).text(obj[e.id].val);
                     });
-                },
-                error:(a,b,c)=>{
-                    console.log(a+','+b+','+c);
+                },error:(a,b,c)=>{
+                    report_error('profile', a+','+b+','+c, 'get_stats');
                 }
             });
         }
@@ -85,11 +82,9 @@
                         console.log(this.responseText);
                         var data = JSON.parse(this.responseText);
                         if (!data.status){
-                            console.log(data.errors);
+                            show_error(data.errors);
                             return;
                         }
-
-                        console.log(data);
 
                         var img = data.url;
                         $('.pfp').css('background', `url(${img}) 50% 50% no-repeat`);
@@ -193,9 +188,9 @@
                 dataType:'json',
                 success:(data)=>{
                     s.prop('disabled', false);
-                },
-                error:(a,b,c)=>{
+                },error:(a,b,c)=>{
                     s.prop('disabled', false);
+                    report_error('profile', a+','+b+','+c, 'edit_pfp');
                 }
             });
         });
@@ -231,9 +226,8 @@
             async: true,
             success:(data)=>{
                 parse_data(tab,data);
-            },
-            error:(a,b,c)=>{
-                console.log(a+','+b+','+c);
+            },error:(a,b,c)=>{
+                report_error('profile', a+','+b+','+c, 'get_profile');
             }
         });
     }
@@ -241,10 +235,10 @@
     function parse_data(tab, dat){
         switch(tab){
             case 'info':
-                console.log(dat);
                 $('.loading.box-info').remove();
                 if (!dat.status) {
                     document.getElementsByClassName('page-content')[0].insertAdjacentHTML('beforeend', `<p>${dat}</p>`);
+                    show_error(dat.errors);
                     return;
                 }
 

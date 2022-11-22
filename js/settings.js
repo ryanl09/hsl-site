@@ -16,15 +16,16 @@
                 url:ajaxurl,
                 type:'post',
                 data:{'page': 'settings', 'action':'set_ign', 'data':JSON.stringify(vals), 'csrf':$('#csrf').val()},
-                dataType:'text',
+                dataType:'json',
                 success:(data)=>{
-                    console.log(data);
-                    if (data.status){
-                        alert(data.success);
+                    if (!data.status){
+                        show_error(data.errors);
+                        return;
                     }
-                },
-                error:(a,b,c)=>{
-                    console.log(a+','+b+','+c);
+
+                    show_success(data.success);
+                },error:(a,b,c)=>{
+                    report_error('settingss', a+','+b+','+c, 'set_ign');
                 }
             });
         });

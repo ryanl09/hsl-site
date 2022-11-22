@@ -31,9 +31,8 @@
             data:{'page':'events', 'action':'get_teams','game':game,'div':div, 'csrf':$('#csrf').val()},
             dataType:'json',
             success:(data)=>{
-                console.log(data);
                 if (!data.status){
-                    //error
+                    show_error(data.errors);
                     return;
                 }
                 const val = $('#team').val();
@@ -46,9 +45,8 @@
                     $('#team').append(opt);
                 });
                 //$('#sort-team').val(val);
-            },
-            error:(a,b,c)=>{
-                console.log(a+','+b+','+c);
+            },error:(a,b,c)=>{
+                report_error('stats', a+','+b+','+c, 'get_teams');
             }
         });
     }
@@ -130,9 +128,8 @@
             data:{'page':'events', 'action':'get_all_stats','team':team, 'game':game,'div':div, 'csrf':$('#csrf').val()},
             dataType:'json',
             success:(data)=>{
-                console.log(data);
                 if (!data.status){
-                    //error
+                    show_error(data.errors);
                     return;
                 }
                 const cols = data.cols;
@@ -184,9 +181,8 @@
 
                 process_stats($('.stats-tbody'));
                 get_top_pl();
-            },
-            error:(a,b,c)=>{
-                console.log(a+','+b+','+c);
+            },error:(a,b,c)=>{
+                report_error('stats', a+','+b+','+c, 'get_all_stats');
             }
         });
     }
@@ -200,12 +196,11 @@
         $.ajax({
             url:ajaxurl,
             type:'get',
-            data:{'page': 'stats', 'action':'get_top_players', 'game':game, 'div':div, 'stat_id':stat_id, 'csrf':$('#csrf').val()},
+            data:{'page': 'events', 'action':'get_top_players', 'game':game, 'div':div, 'stat_id':stat_id, 'csrf':$('#csrf').val()},
             dataType:'json',
             success:(data)=>{
-                console.log(data);
                 if (!data.status){
-                    //error
+                    show_error(data.errors);
                     return;
                 }
 
@@ -221,9 +216,8 @@
                     body.append(tr);
                 });
                 
-            },
-            error:(a,b,c)=>{
-                console.log(a+','+b+','+c);
+            },error:(a,b,c)=>{
+                report_error('stats', a+','+b+','+c, 'get_top_players');
             }
         });
     }

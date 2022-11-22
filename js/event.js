@@ -41,31 +41,30 @@ $(document).ready(()=>{
                 obj.push(o);
             });
 
-            console.log($('#home-score').val());
+            //console.log($('#home-score').val());
 
             var home_score = $('#home-score').val() ?? 0;
             var away_score = $('#away-score').val() ?? 0;
 
-            console.log(home_score);
+            //console.log(home_score);
             $.ajax({
                 url:ajaxurl,
                 type:'post',
                 data:{'page': 'event', 'action':'stats', 'data':JSON.stringify(obj), 'event_id':e_id, 'home_score':home_score, 'away_score':away_score, 'csrf':$('#csrf').val()},
-                dataType:'text',
+                dataType:'json',
                 success:(data)=>{
                     save.prop('disabled', false);
                     save.html(save_html);
-                    console.log(data);
-                    alert(data);
                     if (!data.status && data.errors){
-
+                        show_error(data.errors);
                         return;
                     }
+                    show_success('Stats updated!');
                 },
                 error:(a,b,c)=>{
                     save.prop('disabled', false);
                     save.html(save_html);
-                    console.log(a+','+b+','+c);
+                    report_error('event', a+','+b+','+c, 'save_stats');
                 }
             });
         });
@@ -87,18 +86,15 @@ $(document).ready(()=>{
             data:{'page': 'event', 'action':'add_flag', 'event_id':e_id, 'flag_type':type, 'flag_reason':reason, 'csrf':$('#csrf').val()},
             dataType:'json',
             success:(data)=>{
-                console.log(data);
                 if(!data.status){
-                    //error
+                    show_error(data.errors);
                     return;
                 }
+                show_success(data.success);
 
-                alert(data.success);
-
-                window.location.reload();
-            },
-            error:(a,b,c)=>{
-                console.log(a+','+b+','+c);
+                //window.location.reload();
+            },error:(a,b,c)=>{
+                report_error('event', a+','+b+','+c, 'add_flag');
             }
         });
     }
@@ -115,16 +111,15 @@ $(document).ready(()=>{
             data:{'page': 'event', 'action':'remove_roster', 'event_id':e_id, 'pl_id':id, 'csrf':$('#csrf').val()},
             dataType:'json',
             success:(data)=>{
-                console.log(data);
                 if(!data.status){
-                    //error
+                    show_error(data.errors);
                     return;
                 }
 
-                window.location.reload();
-            },
-            error:(a,b,c)=>{
-                console.log(a+','+b+','+c);
+                show_success('Player removed from roster!');
+                //window.location.reload();
+            },error:(a,b,c)=>{
+                report_error('event', a+','+b+','+c, 'remove_roster');
             }
         });
     }
@@ -141,18 +136,17 @@ $(document).ready(()=>{
             url:ajaxurl,
             type:'post',
             data:{'page': 'event', 'action':'add_roster', 'event_id':e_id, 'pl_id':pl_id, 'team_id':team_id, 'csrf':$('#csrf').val()},
-            dataType:'text',
+            dataType:'json',
             success:(data)=>{
-                console.log(data);
                 if(!data.status){
-                    //error
+                    show_error(data.errors);
                     return;
                 }
 
-                window.location.reload();
-            },
-            error:(a,b,c)=>{
-                console.log(a+','+b+','+c);
+                show_success('Player added to roster!');
+                //window.location.reload();
+            },error:(a,b,c)=>{
+                report_error('event', a+','+b+','+c, 'add_roster');
             }
         });
     }
@@ -172,11 +166,10 @@ $(document).ready(()=>{
         dataType:'json',
         async: true,
         success:(data)=>{
-            console.log(data);
             var p = data.p ?? 0;
             
             if (data.errors){
-                alert(data.errors);
+                show_error(data.errors);
                 return;
             }
 
@@ -265,9 +258,8 @@ $(document).ready(()=>{
 
             $('.home').toggleClass('loading c-auto');
             $('.show-onload').show();
-        },
-        error:(a,b,c)=>{
-            console.log(a+','+b+','+c);
+        },error:(a,b,c)=>{
+            report_error('event', a+','+b+','+c, 'stats');
         }
     });
 });

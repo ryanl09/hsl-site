@@ -16,7 +16,6 @@ $(document).ready(function() {
             data:{'page':'forgot', 'action':'request', 'email':$('#username').val(),'csrf':$('#csrf').val()},
             dataType:'json',
             success:(data)=>{
-                console.log(data);
                 if(!data.status){
                     btn.val('Submit');
                     btn.prop('disabled', false);
@@ -32,7 +31,7 @@ $(document).ready(function() {
             error:(a,b,c)=>{
                 btn.prop('disabled', false);
                 btn.val('Submit');
-                console.log(a+','+b+','+c);
+                report_error('forgot', a+','+b+','+c, 'request');
             }
         });
     });
@@ -62,9 +61,8 @@ $(document).ready(function() {
                 }
 
                 $('.login-box').html(`<p>${data.success}</p>`);
-            },
-            error:(a,b,c)=>{
-                console.log(a+','+b+','+c);
+            },error:(a,b,c)=>{
+                report_error('forgot', a+','+b+','+c, 'reset');
             }
         });
     });

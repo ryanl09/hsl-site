@@ -18,10 +18,27 @@
     margin-left: auto;
 }
 
+.opt-next {
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    gap:6px;
+}
+
 .wp-post-image {
     width:100%;
     height:220px;
     object-fit: contain;
+}
+
+.avail-pl {
+    max-height:330px;
+    overflow-y: auto;
+}
+
+.avail-pl > div {
+    display:flex;
+    align-items: center;
 }
 
 .blog-posts {
@@ -430,6 +447,14 @@ tbody tr:hover{
 .ann-body{
     max-height: 186px;
     overflow-y:auto;
+}
+
+.btm {
+    position:absolute;
+    left:0;
+    bottom:0;
+    margin:10px;
+    width:calc(100% - 20px);
 }
 
 

@@ -102,9 +102,13 @@ $(document).ready(()=>{
             dataType:'json',
             async: false,
             success:(data)=>{
+                if (!data.status){
+                    show_error(data.errors);
+                    return;
+                }
                 tms = data;
             },error:(a,b,c)=>{
-                console.log(a+','+b+','+c);
+                report_error('eventpanel', a+','+b+','+c, 'get_teams');
             }
         });
 
@@ -173,9 +177,8 @@ $(document).ready(()=>{
                 $('.btn-generate').prop('disabled', false);
                 $('.btn-generate').text('Generate');
                 $('.btn-generate').addClass('clickable');
-                console.log(data);
                 if(data.errors){
-                    console.log(data);
+                    show_error(data.errors);
                     return;
                 }
 
@@ -262,24 +265,21 @@ $(document).ready(()=>{
                         type:'post',
                         url:ajaxurl,
                         data:{'page': 'eventpanel', 'action':'upload', 'schedule':schedule, 'csrf':$('#csrf').val(), 'game_id':$('#games').val() },
-                        dataType:'text',
+                        dataType:'json',
                         success:(dat)=>{
                             $(up).prop('disabled', false);
-                            console.log(dat);
-
                             if (dat.errors) {
-
+                                show_error(dat.errors);
                                 return;
                             }
 
-                            console.log(dat.success);
+                            show_success(dat.success);
                         }
                     });
                 });
                 p.insertAdjacentElement('afterbegin', up);
-            },
-            error:function(a,b,c){
-                console.log(a+','+b+','+c);
+            },error:(a,b,c)=>{
+                report_error('eventpanel', a+','+b+','+c, 'schedule');
             }
         });
 

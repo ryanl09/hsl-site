@@ -25,6 +25,7 @@ switch ($role) {
     case 'player':
         include_once($path . '/views/dashboard/player.php');
         break;
+    case 'admin':
     case 'team_manager':
         include_once($path . '/views/dashboard/teammanager.php');
         break;

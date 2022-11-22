@@ -16,7 +16,6 @@
                 data:{ 'page':'login', 'action':'0', 'username':$('#username').val(), 'password':$('#password').val(), 'csrf':$('#csrf').val()},
                 dataType:'json',
                 success:(data)=>{
-                    console.log(data);
                     log.prop('disabled', false);
                     log.val('Login');
                     if(!data.status) {
@@ -37,7 +36,7 @@
                 error:(a,b,c)=>{
                     log.prop('disabled', false);
                     log.val('Login');
-                    console.log(`${a} ${b} ${c} `);
+                    report_error('login', a+','+b+','+c, '0_login');
                 }
             });
         });

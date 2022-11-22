@@ -6,6 +6,13 @@ require_once($path . '/classes/team/SubTeam.php');
 require_once($path . '/classes/team/Team.php');
 require_once($path . '/classes/user/User.php');
 
+if (!isset($_SESSION['user'])){
+    echo ajaxerror::e('errors', ['User session not set']);
+    die();
+}
+
+$user = $_SESSION['user'];
+
 if ($_SERVER['REQUEST_METHOD']==='POST') {
     $perms = ['admin', 'team_manager'];
 if (in_array($_SESSION['user'], $perms)) {
@@ -16,6 +23,35 @@ if (in_array($_SESSION['user'], $perms)) {
 $action = $_POST['action'];
 
 switch ($action) {
+    case 'apply_next':
+        if (!isset($_POST['apply'])){
+            echo ajaxerror::e('errors', ['Missing fields']);
+            die();
+        }
+        $apply = $_POST['apply'] === 'true' ? true : false;
+
+        $team_id = $user->get_team_id();
+        $t = new Team($db, $team_id);
+        if ($apply){
+            $applied = $t->apply_next();
+            echo json_encode(
+                array(
+                    'status' => 1,
+                    'apply' => $applied
+                )
+            );
+            die();
+        }
+
+        $applied = $t->unapply_next();
+        echo json_encode(
+            array(
+                'status' => 1,
+                'apply' => $applied
+            )
+        );
+
+        break;
     case 'save_teams':
         if (!isset($_POST['teams'])) {
             echo ajaxerror::e('errors', ['Missing teams']);
@@ -63,13 +99,7 @@ switch ($action) {
             die();
         }
 
-        if (!isset($_SESSION['user'])){
-            echo ajaxerror::e('errors', ['Missing user session']);
-            die();
-        }
-
         $pl = $_POST['pl_id'];
-        $user = $_SESSION['user'];
         $t_id = $user->get_team_id();
 
         $team = new Team($db, $t_id);
@@ -131,19 +161,6 @@ switch ($action) {
             echo ajaxerror::e('errors', ['Missing teams']);
             die();
         }
-
-        if (!isset($_SESSION['user'])){
-            echo ajaxerror::e('errors', ['Missing user session']);
-            die();
-        }
-
-        $user = $_SESSION['user'];
-
-        if (!in_array($user->get_role(), ['admin', 'team_manager'])){
-            echo ajaxerror::e('errors', ['Insufficient user permission']);
-            die();
-        }
-
         $pl_id = $_POST['pl_id'];
         $teams=json_decode($_POST['teams']);
 
@@ -235,6 +252,17 @@ switch ($action) {
     $action = $_GET['action'];
 
     switch ($action){
+        case 'get_applied':
+            $team_id = $user->get_team_id();
+            $t = new Team($db, $team_id);
+            $applied = $t->is_applied_next();
+            echo json_encode(
+                array(
+                    'status' => 1,
+                    'applied' => $applied
+                )
+            );
+            break;
         case 'get_teams':
 
             if (!isset($_GET['pl_id'])) {

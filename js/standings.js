@@ -11,9 +11,8 @@
             data:{'page':'games','action':'get_all','csrf':$('#csrf').val()},
             dataType:'json',
             success:(data)=>{
-                console.log(data);
                 if (!data.status){
-                    //error
+                    show_error(data.errors);
                     return;
                 }
 
@@ -42,6 +41,8 @@
                 });
         
                 get_stnd();
+            },error:(a,b,c)=>{
+                report_error('standings', a+','+b+','+c, 'get_all');
             }
         });
 
@@ -56,9 +57,8 @@
                     'game_id':game_id,'div':div,'csrf':$('#csrf').val()},
                 dataType:'json',
                 success:(data)=>{
-                    console.log(data);
                     if(!data.status){
-                        //error
+                        show_error(data.errors);
                         return;
                     }
 
@@ -106,9 +106,8 @@
 
                         tb.append(tr);
                     });
-                },
-                error:(a,b,c)=>{
-                    console.log(a+','+b+','+c);
+                },error:(a,b,c)=>{
+                    report_error('standings', a+','+b+','+c, 'get_standings');
                 }
             });
         }

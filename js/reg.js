@@ -30,8 +30,11 @@
                     if (data.status){
                         window.location.reload();
                     }else{
-                        console.log(data);
+                        show_error(data.errors);
                     }
+                }
+                ,error:(a,b,c)=>{
+                    report_error('reg', a+','+b+','+c, 'update_team');
                 }
             });
         });

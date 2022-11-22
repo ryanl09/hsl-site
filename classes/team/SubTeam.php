@@ -89,7 +89,8 @@ class SubTeam extends TeamAbstract {
             ON player_seasons.user_id = users.user_id AND player_seasons.subteam_id = ? AND player_seasons.season_id = ?
         LEFT OUTER JOIN `user_igns`
             ON user_igns.user_id = users.user_id
-        $temp";
+        $temp
+        ORDER BY users.name";
 
         $res = $this->db->query($query, $this->id, $this->id, $c_s)->fetchAll();
         return $res;
