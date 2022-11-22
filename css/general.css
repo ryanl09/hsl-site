@@ -4,6 +4,31 @@ td, th {
     font-size: .9em;
 }
 
+.activation-banner {
+    height:100px;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.activation-btn {
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5em;
+    font-weight: 100;
+    letter-spacing: 3px;
+}
+
+.activation-btn {
+    background-color:var(--red);
+}
+
+.activation-btn:hover {
+    background-color:var(--red-h);
+}
+
 .page-banner {
     height:300px;
     display:flex;

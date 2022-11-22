@@ -22,6 +22,8 @@ class User {
     protected $name;
     protected $pronouns;
     protected $pfp_url;
+    protected $activation_key;
+    protected $activated;
     
     private $team_id;
 
@@ -36,6 +38,8 @@ class User {
             $this->pronouns = '';
             $this->pfp_url = '';
             $this->team_id = 0;
+            $this->activation_key = '';
+            $this->activated = 0;
             return;
         }
 
@@ -43,7 +47,7 @@ class User {
         $this->db = $db;
         
         $query = 
-        "SELECT `username`, `email`, `pfp_url`, `user_id`, `name`, `pronouns`, `team_id`, `role`
+        "SELECT `username`, `email`, `pfp_url`, `user_id`, `name`, `pronouns`, `team_id`, `role`, `activation_key`, `activated`
         FROM `users`
         WHERE `user_id` = ?";
         $res = $this->db->query($query, $this->id)->fetchArray();
@@ -53,6 +57,8 @@ class User {
         $this->set_name($res['name']);
         $this->set_pronouns($res['pronouns']);
         $this->set_team_id($res['team_id']);
+        $this->set_activated($res['activated']);
+        $this->set_activation_key($res['activation_key']);
         $this->role = $res['role'];
         $this->pfp_url = $res['pfp_url'] ? $res['pfp_url'] : 'https://tecesports.com/images/user.png';
 
@@ -71,6 +77,39 @@ class User {
     public function get_id() {
         return $this->id;
     }
+
+    /**
+     * Get if user's acct is activated or not
+     * @return int 0 not activated, 1 activated
+     */
+    public function get_activated() {
+        return $this->activated;
+    }
+
+    /**
+     * Set user's acct activated (or not)
+     */
+    public function set_activated($activated) {
+        $this->activated = $activated;
+    }
+
+    /**
+     * Get user's activation key
+     * 
+     * @return int
+     */
+    public function get_activation_key() {
+        return $this->activation_key;
+    }
+
+    /**
+     * Set user's activation key
+     */
+    public function set_activation_key($activation_key) {
+        $this->activation_key = $activation_key;
+    }
+
+
 
     /**
      * Get the user's username

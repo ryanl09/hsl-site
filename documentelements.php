@@ -127,13 +127,25 @@ function start_content($nav) {
         include_once($path . '/ajax/ajaxdb.php');
         $db = ajaxdb::get_instance();
         $banner = Banner::get($db, $p);
+
+        // Display a banner to notify user that their acct is not yet activated
+        /*$activated = 0;
+        if (isset($_SESSION['user'])) {
+            $u = $_SESSION['user'];
+            $activated = $u->get_activated();
+        }
+        if (!$activated) {
+            $home .= '<div class="activation-banner">';
+            $home .= '<button class="btn activation-btn">' . "Your account is not yet activated.  Click here to send an activation link to your email." . '</button>';
+            $home .= '</div>';
+        }*/
+
         if ($banner){
             $home .= '<div class="page-banner" style="background-image: url('.$banner.')">';
             $home .= '<div class="banner-text"><h2>'.$p.'</h2></div>';
             $home .= '</div>';
         }
         $home .= '<div class="page-content">';
-        
     }
 
     echo '
