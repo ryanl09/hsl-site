@@ -39,7 +39,6 @@ td, th {
 
 .page-banner h2 {
     position: relative;
-    mix-blend-mode: difference;
     font-size: 2em;
     font-weight: 500;
     text-transform: uppercase;
