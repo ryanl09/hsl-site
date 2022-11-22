@@ -10,6 +10,7 @@ require_once($path . '/classes/team/Team.php');
 require_once($path . '/classes/services/VerifyService.php');
 require_once($path . '/classes/security/AuthToken.php');
 require_once($path . '/classes/security/PasswordHash.php');
+require_once($path . '/classes/services/EmailService.php');
 
 class RegisterService extends VerifyService {
     const MIN_USER_LENGTH = 3;

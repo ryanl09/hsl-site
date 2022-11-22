@@ -26,6 +26,7 @@ require_once($path . '/controllers/TermsController.php');
 require_once($path . '/controllers/TickerController.php');
 require_once($path . '/controllers/UpdatesController.php');
 require_once($path . '/controllers/HomeController.php');
+require_once($path . '/controllers/ActivateController.php');
 
 require_once($path . '/classes/services/LogoutService.php');
 
@@ -50,6 +51,9 @@ class ClientRequest {
         switch ($arg) {
             case 'home':
                 $this->ctrl = new HomeController();
+                break;
+            case 'activate':
+                $this->ctrl = new ActivateController($ex);
                 break;
             case 'dashboard':
                 $this->ctrl = new DashboardController();
