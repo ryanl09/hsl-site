@@ -52,6 +52,12 @@ table {
     display:block;
 }
 
+.box.all-events-calendar {
+    height:110px;
+    max-height: 110px;
+    display:block;
+}
+
 .today-top {
     display:flex;
     flex-direction: row;
@@ -151,6 +157,13 @@ tbody tr:hover {
 }
 
 .all-events {
+    display:flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+}
+
+.all-events-calendar {
     display:flex;
     justify-content: center;
     flex-direction: column;

@@ -495,6 +495,55 @@ class Event implements IEvent {
         return $res;
     }
 
+    public static function sort_by_calendar($db, $team, $div, $time){
+        $c_s = Season::get_current($db);
+
+        $team=intval($team);
+        $div=intval($div);
+
+        $team_str = "events.event_home = ? OR events.event_away = ? ";
+
+        if ($team===-1){
+            $team_str = "events.event_home <> ? AND events.event_away <> ? ";
+        }
+
+        $div_str = "AND s.division = ? ";
+
+        if ($div===-1){
+            $div_str = "AND s.division <> ? ";
+        }
+
+        $time_str = "";
+        $today = date('Y-m-d'); //todays date
+        $toda = date("H:i:s"); //time now
+        if (strcmp($time, 'upcoming')===0){
+            $time_str = "AND events.event_date >= \"$today\"";
+        } else if (strcmp($time,'past')===0){
+            $time_str = "AND events.event_date <= \"$today\"";
+        }
+
+        $where = $team_str . $div_str . $time_str;
+
+        $query =
+        "SELECT t.team_name as event_home, t.team_logo as home_logo, t2.team_name as event_away, t2.team_logo as away_logo, events.event_winner, events.event_date, 
+        events.event_time, s.division, events.id as event_id, events.event_home_score as home_score, events.event_away_score as away_score,
+        s.tag as home_tag, s2.tag as away_tag
+        FROM `events`
+        INNER JOIN subteams s
+            ON s.id = events.event_home
+        INNER JOIN teams t
+            ON s.team_id = t.id
+        INNER JOIN subteams s2
+            ON s2.id = events.event_away
+        INNER JOIN teams t2
+            ON s2.team_id = t2.id
+        WHERE $where AND events.event_season = ?
+        ORDER BY events.event_date ASC, s.division ASC";
+
+        $res = $db->query($query, $team, $team, $div, $c_s)->fetchAll();
+        return $res;
+    }
+
     /**
      * gets events of team id
      * @param   int $sid

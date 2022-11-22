@@ -143,9 +143,28 @@ $game_icons2.='</div>';
     ?>
     <body>
         <div class="content">
-            <?php
-                echo $calendar->show();
-            ?>
+            <div class="box all-events-calendar">
+                <div class="all-header">
+                    <div class="today-top">
+                        <h3>All events</h3>
+                        <?php echo $game_icons2; ?>
+                    </div>
+                    <div class="sort-by-calendar">
+                        <span>Sort By:</span>
+                        <select name="sort-team-calendar" id="sort-team-calendar">
+                            <option value="-1" selected>Any Team</option>
+                        </select>
+                        <select name="sort-div-calendar" id="sort-div-calendar">
+                            <option value="1">D1</option>
+                            <option value="2">D2</option>
+                        </select>
+                        <select name="sort-season-calendar" id="sort-season-calendar">
+                            <option value="-1" selected>Current Season</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <?php echo $calendar->show(); ?>
         </div>
     </body>
 </div>

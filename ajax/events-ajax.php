@@ -67,6 +67,27 @@ switch ($action) {
         );
         die();
         break;
+    case 'all_events_calendar':
+        if (!isset($_GET['sort-team-calendar']) || !isset($_GET['sort-div-calendar']) || !isset($_GET['game-calendar'])){
+            echo ajaxerror::e('errors', ['Missing fields']);
+            die();
+        }
+        
+        $team = $_GET['sort-team'];
+        $div = $_GET['sort-div'];
+        $time = $_GET['time'];
+
+        $e = [];
+        $e = Event::sort_by_calendar($db, $team, $div, $time);
+
+        echo json_encode(
+            array(
+                'status' => 1,
+                'events' => $e
+            )
+        );
+        die();
+        break;
     case 'get_teams':
         if (!isset($_GET['game']) || !isset($_GET['div'])){
             echo ajaxerror::e('errors', ['No game or division set']);

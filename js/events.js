@@ -174,12 +174,10 @@
                     const tb = $('.table-all-tbody');
                     tb.html('');
 
-                    const calendar_table = $('.content .calendar .days');
-
                     if (data.events.length > 0){  
-                        var mySpans = new Array();                 
-                        var tempSpans = document.getElementsByClassName('calendar-date-text');
-                        mySpans = Array.from(tempSpans);
+                        //var mySpans = new Array();                 
+                        //var tempSpans = document.getElementsByClassName('calendar-date-text');
+                        //mySpans = Array.from(tempSpans);
                         //console.log(mySpans);
 
                         data.events.forEach(e =>{
@@ -196,6 +194,77 @@
                             });
 
                             // [0] year, [1] month, [2] day
+                            /*var arr = e.event_date.split("-");
+                            let currentDate = new Date();
+                            const month = currentDate.getMonth() + 1;
+                            const year = currentDate.getFullYear();
+                            if (month == arr[1] && year == arr[0]) {
+                                //console.log(arr[0] + " " + arr[1] + " " + arr[2] + " is in current month");
+                                var calendar_entry = document.createElement('div');
+                                calendar_entry.classList.add("event");
+                                switch (game) {
+                                    case 1: // Rocket League
+                                        calendar_entry.style.backgroundColor = '#001f7f';
+                                        break;
+                                    case 2: // Valorant
+                                        calendar_entry.style.backgroundColor = '#ab0013';
+                                        break;
+                                    case 3: // Overwatch 2
+                                        calendar_entry.style.backgroundColor = '#e78500';
+                                        break;
+                                    case 4: // League of Legends
+                                        calendar_entry.style.backgroundColor = '#6a9c54';
+                                        break;
+                                    case 5: // Fortnite
+                                        calendar_entry.style.backgroundColor = '#0085ff';
+                                        break;
+                                    case 6: // Super Smash Bros
+                                        calendar_entry.style.backgroundColor = '#670000';
+                                        break;
+                                    case 7: // Multiversus
+                                        calendar_entry.style.backgroundColor = '#ff2300';
+                                        break;
+                                }
+                                calendar_entry.innerHTML = `${e.event_home} vs ${e.event_away} - ${fix_time(e.event_time)}`;
+                                mySpans[parseInt(arr[2])-1].closest('div.day_num').appendChild(calendar_entry);
+                            }*/
+                            
+                            tb.append(tr);
+                        });
+                    }
+                },error:(a,b,c)=>{
+                    report_error('events', a+','+b+','+c, 'all_events');
+                }
+            });
+        }
+
+        //all_events_calendar();
+
+        function all_events_calendar(){
+            $.ajax({
+                url:ajaxurl,
+                type:'get',
+                data:{'page': 'events', 'action':'all_events_calendar','sort-team':$('#sort-team').val(),'sort-div':$('#sort-div').val(), 'time': $('#sort-time').val(), 'csrf':$('#csrf').val()},
+                dataType:'json',
+                success:(data)=>{
+                    if (!data.status){
+                        show_error(data.errors);
+                        return;
+                    }
+
+                    if (data.events.length > 0){  
+                        var mySpans = new Array();                 
+                        var tempSpans = document.getElementsByClassName('calendar-date-text');
+                        mySpans = Array.from(tempSpans);
+                        //console.log(mySpans);
+
+                        data.events.forEach(e =>{
+                            var res = 'TBD';
+                            if (e.event_winner!==0){
+                                res = `${e.home_score} - ${e.away_score}`;
+                            }
+
+                            // [0] year, [1] month, [2] day
                             var arr = e.event_date.split("-");
                             let currentDate = new Date();
                             const month = currentDate.getMonth() + 1;
@@ -204,15 +273,36 @@
                                 //console.log(arr[0] + " " + arr[1] + " " + arr[2] + " is in current month");
                                 var calendar_entry = document.createElement('div');
                                 calendar_entry.classList.add("event");
-                                calendar_entry.innerHTML = `${e.event_home} vs ${e.event_away}`;
+                                switch (game) {
+                                    case 1: // Rocket League
+                                        calendar_entry.style.backgroundColor = '#001f7f';
+                                        break;
+                                    case 2: // Valorant
+                                        calendar_entry.style.backgroundColor = '#ab0013';
+                                        break;
+                                    case 3: // Overwatch 2
+                                        calendar_entry.style.backgroundColor = '#e78500';
+                                        break;
+                                    case 4: // League of Legends
+                                        calendar_entry.style.backgroundColor = '#6a9c54';
+                                        break;
+                                    case 5: // Fortnite
+                                        calendar_entry.style.backgroundColor = '#0085ff';
+                                        break;
+                                    case 6: // Super Smash Bros
+                                        calendar_entry.style.backgroundColor = '#670000';
+                                        break;
+                                    case 7: // Multiversus
+                                        calendar_entry.style.backgroundColor = '#ff2300';
+                                        break;
+                                }
+                                calendar_entry.innerHTML = `${e.event_home} vs ${e.event_away} - ${fix_time(e.event_time)}`;
                                 mySpans[parseInt(arr[2])-1].closest('div.day_num').appendChild(calendar_entry);
                             }
-                            
-                            tb.append(tr);
                         });
                     }
                 },error:(a,b,c)=>{
-                    report_error('events', a+','+b+','+c, 'all_events');
+                    report_error('events', a+','+b+','+c, 'all_events_calendar');
                 }
             });
         }
