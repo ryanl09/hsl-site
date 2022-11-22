@@ -102,7 +102,6 @@ td, th {
     position: relative;
     font-size: 2em;
     font-weight: 500;
-    mix-blend-mode: difference;
     text-transform: uppercase;
     letter-spacing: 6px;
     color:#fff;

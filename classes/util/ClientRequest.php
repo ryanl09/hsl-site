@@ -58,7 +58,7 @@ class ClientRequest {
             case 'dashboard':
                 $this->ctrl = new DashboardController();
                 break;
-            case 'league':
+            case 'series':
                 $this->ctrl = new LeagueController();
                 break;
             case 'feed':

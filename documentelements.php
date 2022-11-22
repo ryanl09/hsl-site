@@ -205,10 +205,10 @@ function print_navbar() {
                             </a>
                         </li>
                         
-                        <li class="nav-link p-league">
-                            <a href="'.href('league').'" class="'._s('league').'">
+                        <li class="nav-link p-series">
+                            <a href="'.href('series').'" class="'._s('series').'">
                                 <i class="bx bx-menu icon" ></i>
-                                <span class="text nav-text">League</span>
+                                <span class="text nav-text">Series</span>
                             </a>
                         </li>
 
