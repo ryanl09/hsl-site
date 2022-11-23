@@ -22,7 +22,6 @@ $game_icons.='</div>';
 
 ?>
 
-<h3 style="margin-bottom:10px;">Stats</h3>
 <div class="row e2thirds">
     <div class="box stats-box">
         <div class="stats-top">

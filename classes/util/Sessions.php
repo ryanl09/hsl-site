@@ -23,4 +23,8 @@ $args = $_SERVER["REQUEST_URI"];
 str_replace('://', '', $args);
 $_SESSION['current_page'] = explode("/", $args);
 
+if (!isset($_SESSION['requests'])){
+    $_SESSION['requests'] = [];
+}
+
 ?>

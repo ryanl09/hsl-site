@@ -9,8 +9,6 @@ start_content_full(1, 'league');
 
 ?>
 
-<h2 style="margin-bottom:10px;">Series</h2>
-
 <!--
 <div class="row e1">
     <div class="box playing-next">

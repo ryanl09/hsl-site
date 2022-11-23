@@ -10,6 +10,23 @@ include_once($path . '/classes/security/csrf.php');
 include_once($path . '/classes/util/ajaxerror.php');
 include_once($path . '/classes/util/Sessions.php');
 
+require_once($path . '/classes/util/RateLimiter.php');
+
+$rl = new RateLimiter(10, 3);
+$add = $rl->add();
+
+if (!$add){
+    $time = $rl->time_until_next();
+
+    if ($time > 0){
+        echo ajaxerror::e('errors', ['Too many requests. Please wait ' . $time . ' seconds']);
+        die();
+    }
+
+    //fail safe
+    $rl->allow();
+}
+
 $get = check_get();
 $post = check_post();
 $status = $get['status'] || $post['status'];

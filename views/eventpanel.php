@@ -10,7 +10,6 @@ admin_block();
 
 start_content_full(1, 'eventpanel'); ?>
 
-<h2>Event Panel</h2>
 <h4>Schedule Builder</h4>
 <input type="checkbox" id="clear-fields" checked="checked">
 <label for="clear-fields">Clear fields on game change</label>

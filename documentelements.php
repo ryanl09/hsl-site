@@ -141,12 +141,16 @@ function start_content($nav) {
             $home .= '</div>';
         }*/
 
-        if ($banner){
+        $is_404 = $_SESSION['current_page'] === '404';
+        if (!$is_404){
+            if (!$banner){
+                $banner = 'https://tecesports.com/images/banners/banner-3.png';
+            }
             $home .= '<div class="page-banner" style="background-image: url('.$banner.')">';
             $home .= '<div class="banner-text"><h2>'.$p.'</h2></div>';
             $home .= '</div>';
+            $home .= '<div class="page-content">';
         }
-        $home .= '<div class="page-content">';
     }
 
     echo '

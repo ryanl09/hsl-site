@@ -125,6 +125,9 @@ class ClientRequest {
                 $this->ctrl = new TeamsController();
                 break;
             default:
+                if (session_id()){
+                    $_SESSION['current_page'] = '404';
+                }
                 $this->ctrl = new Error404Controller();
                 break;
         }

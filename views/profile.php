@@ -53,7 +53,6 @@ base_header(
             </div>
         <?php } ?>
         <section class="home">
-            <input type="hidden" id="csrf" value="<?php echo $_SESSION['csrf']; ?>">
             <?php if ($view->get_id()) { //if user exists ?>
                 <div class="banner-wrapper">
                     <div class="banner">

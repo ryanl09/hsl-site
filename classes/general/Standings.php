@@ -80,9 +80,11 @@ class Standings {
             return $a['s1'] < $b['s1'];
         }
         
-        usort($recs, "cms1");
-        usort($recs, "cm2");
-        usort($recs, "cmp");
+        if (!empty($recs)){
+            usort($recs, "cms1");
+            usort($recs, "cm2");
+            usort($recs, "cmp");
+        }
 
         return array(
             'recs' => $recs,
