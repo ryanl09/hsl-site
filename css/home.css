@@ -1,5 +1,17 @@
 @import 'constants.css';
 
+html{
+    scroll-behavior: smooth;
+}
+
+body{
+    min-width: fit-content;
+}
+
+.qlink{
+    scroll-margin-top: 120px;
+}
+
 .top-wrapper {
     height:100px;
     width:100%;
@@ -10,8 +22,9 @@
     width:100%;
     height:100px;
     padding:10px 20px;
-    background-color:#fff;
-    color:#000;
+    background-color:rgba(3,6,17,0);
+    color:#fff;
+    box-shadow: 0 2px 2px -2px rgba(0,0,0,.2);
 }
 
 .top-menu ul {
@@ -59,9 +72,33 @@ li button {
 }
 
 .sec1 {
-    background-color:#050a1e;
+    background-color:#000;
     color:#fff;
-    margin-top:100px;
+    background-image: url(https://tecesports.com/images/hss-crop-t.png);
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.sec2 {
+    background-color:#fff;
+    color:#000;
+}
+
+.s-title {
+    margin-bottom:24px;
+}
+
+.s-title p {
+    font-size: 1.5em;
+    font-weight: 600;
+    text-align: center;
+}
+
+.s-title .bar {
+    width:100px;
+    height:4px;
+    background-color: var(--primary-color);
+    margin:10px auto;
 }
 
 li button:hover {
@@ -70,20 +107,40 @@ li button:hover {
 }
 
 .top-menu li.mlink:hover {
-    background-color:rgb(233 244 251);
+    background-color:rgba(233, 244, 251, .2);
     cursor:pointer;
 }
 
 a {
     text-decoration: none;
-    color:black;
+    color:#fff;
 }
 .np{
     padding:10px 4px !important;
 }
 
 .section {
-    padding:40px 0;
+    position:relative;
+    padding:40px 120px;
+}
+
+.section img {
+    z-index: 5;
+}
+
+.hss-img {
+    position: absolute;
+    right:0px;
+    top:0px;
+    overflow:hidden;
+    opacity:0.2;
+    z-index: 0 !important;
+}
+
+.pc-img {
+    position:absolute;
+    bottom:50px;
+    right:100px;
 }
 
 .main-title {
@@ -93,17 +150,43 @@ a {
     align-items: center;
 }
 
+.main-title p{
+    width:100%;
+    text-align: left;
+}
+
 .main-title .t{
-    font-size:30px;
-    font-weight: 800;
-    text-shadow: 0px 1px var(--primary-color);
+    font-size:2.4em;
+    font-weight: 700;
+    width:100%;
 }
 
 .main-title .b {
-    font-size: 50px;
-    font-weight: 500;
-    text-shadow: 0px 2px var(--primary-color);
+    font-size: 3.5em;
+    font-weight: 400;
+    width:100%;
 }
+
+.main-title .d {
+    font-size: 1.1em;
+    font-weight: 400;
+    max-width: 500px;
+    margin-top: 30px;
+    margin-right: auto;
+}
+
+.sp120 {
+    width:100%;
+    height:120px;
+}
+
+.wave {
+    position:absolute;
+    left:0px;
+    bottom:0px;
+    width:100%;
+}
+
 
 .sp200 {
     width:100%;
@@ -119,14 +202,18 @@ a {
     gap: 10px
 }
 
+
 .card {
+    color:#000;
     border-radius: 6px;
+    border:1px solid #e8e8e8;
     padding:24px;
-    background-color: #11172b;
+    background-color: #fff;
     transition: .17s all ease;
     font-weight: 500;
     font-size: 16px;
     z-index: 3;
+    box-shadow: 0px 2px 8px -2px #dedede;
     position:relative;
 }
 
@@ -137,6 +224,8 @@ a {
     font-size: 18px;
     margin-bottom:40px;
 }
+
+.card-top i {}
 
 .btn-cont {
     background-color:#11172b;
@@ -157,7 +246,7 @@ a {
 }
 
 .card.hov:hover {
-    background-color: #1a223b;
+    background-color: var(--lb-h);
     cursor:pointer;
 }
 
@@ -200,12 +289,29 @@ a {
     transform: scale(.5) rotate3d(1, -1, 0.6, 70deg) translateZ(0);
 }
 
+@media only screen and (max-width: 1300px){
+
+    .pc-img{
+        display:none;
+    }
+    
+    .c3 {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .section {
+        padding: 40px 80px;
+    }
+    
+    .section, .small {
+        width:100%;
+    }
+}
+
+
 @media only screen and (max-width: 800px){
     .top-wrapper {
         display:none;
-    }
-    .section, .small {
-        width:100%;
     }
     .small{
         min-width: 400px;
@@ -216,5 +322,17 @@ a {
     }
     .sec1 {
         margin-top:0px;
+    }
+
+    .main-title .t {
+        font-size: 1.5em;
+    }
+
+    .main-title .b{
+        font-size: 2em;
+    }
+
+    .main-title .d{
+        font-size: 1em;
     }
 }

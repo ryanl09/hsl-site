@@ -9,11 +9,10 @@ start_content_full(0, 'home'); ?>
     <nav class="top-menu">
         <ul>
             <li>
-                <img src="https://tecesports.com/images/tec-black.png" alt="TEC" width="80" height="80">
+                <img src="https://tecesports.com/images/tec-white.png" alt="TEC" width="80" height="80">
             </li>
-            <li>High School Series</li>
             <li class="mlink homelink"><a href="https://tecesports.com">Home</a></li>
-            <li class="mlink"><a href="https://tecesports.com/pricing">About</a></li>
+            <li class="mlink"><a href="https://tecesports.com/home#about">About</a></li>
             <li class="mlink"><a href="https://tecesports.com/pricing">Pricing</a></li>
             <?php if (isset($_SESSION['user']) && $_SESSION['user']->get_id()) { ?>
                 <li class="mlink">
@@ -39,125 +38,139 @@ start_content_full(0, 'home'); ?>
 </div>
 
 <div class="section sec1">
-    
-    <!--
-    <div class="site-img">
-        <img src="https://tecesports.com/images/site.png">
-    </div>
-    -->
+
+    <div class="sp200"></div>
 
     <div class="main-title">
         <p class="t">The Esport Company</p>
         <p class="b">High School Series</p>
+        <p class="d">Creating the minor league system for esports utilizing technology, education, and community.</p>
     </div>
 
     <div class="sp200"></div>
 
-    <div class="subsec">
-        <p>What's Included?</p>
-        <div class="cards c3 small">
-            <div class="card hov">
-                <div class="card-top">
-                    <i class='bx bxs-user-circle' ></i>User Profiles
-                </div>
-                <div class="card-body">
-                    For students to display their basic info, stats, and VODS.
-                </div>
+    <!--<img src="https://tecesports.com/images/hss-crop.png" width="1920" height="1144" alt="" class="hss-img">-->
+    <img src="https://tecesports.com/images/home-pc.png" width="300" height="293" alt="" class="pc-img">
+
+    <div style="height: 150px; overflow: hidden;" class="wave">
+        <svg viewBox="0 0 500 150" preserveAspectRatio="none" style="height: 100%; width: 100%;">
+            <path d="M0.00,49.98 C149.99,150.00 349.20,-49.98 500.00,49.98 L500.00,150.00 L0.00,150.00 Z" style="stroke: none; fill: #fff;"></path>
+        </svg>
+    </div>
+</div>
+
+<div class="section sec2">
+
+<div class="s-title">
+    <p id="about" class="qlink">What's Included?</p>
+    <div class="bar"></div>
+</div>
+    <div class="cards c3 small">
+        <div class="card hov">
+            <div class="card-top">
+                <i class='bx bxs-user-circle' ></i>User Profiles
             </div>
-            <div class="card hov">
-                <div class="card-top">
-                    <i class='bx bx-stats' ></i>Stat Tracking
-                </div>
-                <div class="card-body">
-                    Every student's stats are tracked for each season.
-                </div>
+            <div class="card-body">
+                For students to display their basic info, stats, and VODS.
             </div>
-            <div class="card hov">
-                <div class="card-top">
-                    <i class='bx bx-list-ol' ></i>League Standings
-                </div>
-                <div class="card-body">
-                    View any team's standings, all in one place.
-                </div>
+        </div>
+        <div class="card hov">
+            <div class="card-top">
+                <i class='bx bx-stats' ></i>Stat Tracking
             </div>
-            <div class="card hov">
-                <div class="card-top">
-                    <i class='bx bx-chat' ></i>Messaging
-                </div>
-                <div class="card-body">
-                    Instantly connect with recruiters!
-                </div>
+            <div class="card-body">
+                Every student's stats are tracked for each season.
             </div>
-            <div class="card hov">
-                <div class="card-top">
-                    <i class='bx bxs-t-shirt'></i>Jerseys
-                </div>
-                <div class="card-body">
-                    Each team gets up to 15 jerseys for free!
-                </div>
+        </div>
+        <div class="card hov">
+            <div class="card-top">
+                <i class='bx bx-list-ol' ></i>League Standings
             </div>
-            <div class="card hov">
-                <div class="card-top">
-                    <i class='bx bxl-twitch' ></i>Livestreamed Events
-                </div>
-                <div class="card-body">
-                    Every game is streamed to one of our Twitch channels
-                </div>
+            <div class="card-body">
+                View any team's standings, all in one place.
+            </div>
+        </div>
+        <div class="card hov">
+            <div class="card-top">
+                <i class='bx bx-chat' ></i>Messaging
+            </div>
+            <div class="card-body">
+                Instantly connect with recruiters!
+            </div>
+        </div>
+        <div class="card hov">
+            <div class="card-top">
+                <i class='bx bxs-t-shirt'></i>Jerseys
+            </div>
+            <div class="card-body">
+                Each team gets up to 15 jerseys for free!
+            </div>
+        </div>
+        <div class="card hov">
+            <div class="card-top">
+                <i class='bx bxl-twitch' ></i>Livestreamed Events
+            </div>
+            <div class="card-body">
+                Every game is streamed to one of our Twitch channels.
             </div>
         </div>
     </div>
 
     <div class="sp200"></div>
-
-    <div class="subsec">
-        <p>Quick Links</p>
-        <div class="cards c3 small">
-        
-            <div class="card">
-                <div class="card-top">
-                    <i class='bx bxs-user-circle' ></i>Teams
-                </div>
-                <div class="btn-cont">
-                    <a href="/teams">
-                        <button class="btn smooth view-graphics">
-                            <span>View teams this season</span>
-                            <i class="bx bx-chevron-right"></i>
-                        </button>
-                    </a>
-                </div>
-            </div>
-            <div class="card">
-                <div class="card-top">
-                    <i class='bx bx-stats' ></i>Stats
-                </div>
-                <div class="btn-cont">
-                    <a href="/stats">
-                        <button class="btn smooth view-graphics">
-                            <span>View all stats</span>
-                            <i class="bx bx-chevron-right"></i>
-                        </button>
-                    </a>
-                </div>
-            </div>
-            <div class="card">
-                <div class="card-top">
-                    <i class='bx bx-calendar-event' ></i>Schedule
-                </div>
-                <div class="btn-cont">
-                    <a href="/events">
-                        <button class="btn smooth view-graphics">
-                            <span>View all events</span>
-                            <i class="bx bx-chevron-right"></i>
-                        </button>
-                    </a>
-                </div>
-            </div>
-        </div>
-    </div>
     
+    <div style="height: 150px; overflow: hidden;" class="wave">
+        <svg viewBox="0 0 500 150" preserveAspectRatio="none" style="height: 100%; width: 100%;">
+            <path d="M0.00,49.98 C149.99,150.00 349.20,-49.98 500.00,49.98 L500.00,150.00 L0.00,150.00 Z" style="stroke: none; fill: #e4e9e7;"></path>
+        </svg>
+    </div>
 
-    <div class="endsec">
-        
+</div>
+
+<div class="section sec3">
+    <div class="sp200"></div>
+
+    <p>Quick Links</p>
+    <div class="cards c3 small">
+    
+        <div class="card">
+            <div class="card-top">
+                <i class='bx bxs-user-circle' ></i>Teams
+            </div>
+            <div class="btn-cont">
+                <a href="/teams">
+                    <button class="btn smooth view-graphics">
+                        <span>View teams this season</span>
+                        <i class="bx bx-chevron-right"></i>
+                    </button>
+                </a>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-top">
+                <i class='bx bx-stats' ></i>Stats
+            </div>
+            <div class="btn-cont">
+                <a href="/stats">
+                    <button class="btn smooth view-graphics">
+                        <span>View all stats</span>
+                        <i class="bx bx-chevron-right"></i>
+                    </button>
+                </a>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-top">
+                <i class='bx bx-calendar-event' ></i>Schedule
+            </div>
+            <div class="btn-cont">
+                <a href="/events">
+                    <button class="btn smooth view-graphics">
+                        <span>View all events</span>
+                        <i class="bx bx-chevron-right"></i>
+                    </button>
+                </a>
+            </div>
+        </div>
     </div>
 </div>
 
