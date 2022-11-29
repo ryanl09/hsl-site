@@ -19,8 +19,6 @@ $games = Game::get_all($db);
 
 $game_icons='<div class="game-icons e-today">';
 $game_icons2='<div class="game-icons e-all">';
-$game_icons_calendar='<div class="game-icons e-all-calendar">';
-
 foreach ($games as $i => $row){
     $sel='';
     if (!$i){
@@ -28,11 +26,9 @@ foreach ($games as $i => $row){
     }
     $game_icons .= '<img class="game-icon'.$sel.'" game-id="'.$row['id'].'" src="'.$row['url'].'" width="35" height="35">';
     $game_icons2 .= '<img class="game-icon'.$sel.'" game-id="'.$row['id'].'" src="'.$row['url'].'" width="35" height="35">';
-    $game_icons_calendar .= '<img class="game-icon-calendar'.$sel.'" game-id-calendar="'.$row['id'].'" src="'.$row['url'].'" width="35" height="35">';
 }
 $game_icons.='</div>';
 $game_icons2.='</div>';
-$game_icons_calendar.='</div>';
 ?>
 
 <div class="top-section">
@@ -151,7 +147,7 @@ $game_icons_calendar.='</div>';
                 <div class="all-header">
                     <div class="today-top">
                         <h3>All events</h3>
-                        <?php echo $game_icons_calendar; ?>
+                        <?php echo $game_icons2; ?>
                     </div>
                     <div class="sort-by-calendar">
                         <span>Sort By:</span>
@@ -161,6 +157,9 @@ $game_icons_calendar.='</div>';
                         <select name="sort-div-calendar" id="sort-div-calendar">
                             <option value="1">D1</option>
                             <option value="2">D2</option>
+                        </select>
+                        <select name="sort-season-calendar" id="sort-season-calendar">
+                            <option value="-1" selected>Current Season</option>
                         </select>
                     </div>
                 </div>

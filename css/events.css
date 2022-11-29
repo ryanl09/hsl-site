@@ -225,20 +225,6 @@ select {
     background-color: rgba(0,0,0,0.1);
 }
 
-@media only screen and (max-width:1024px){
-    .e2thirds{
-        grid-template-columns: auto;
-    }
-
-    .sort-by {
-        flex-direction: column;
-    }
-
-    .sort-by select{
-        width:100%;
-    }
-}
-
 .calendar {
     display: flex;
     flex-flow: column;
@@ -294,7 +280,6 @@ select {
     font-size: 14px;
     padding: 3px 6px;
     border-radius: 4px;
-    background-color: #06640e;
     color: #fff;
     word-wrap: break-word;
     cursor: pointer;
@@ -346,4 +331,52 @@ select {
 .game-icon-calendar:hover {
     opacity: 0.65;
     cursor:pointer;
+}
+
+.event {
+    display:flex;
+    align-items: center;
+    justify-content: center;
+    gap:15%;
+}
+
+.event > p {
+    color:#000;
+    font-weight: 600;
+}
+
+.event[game-id="1"]{
+    background-color:rgba(70,103,201,0.2);
+}
+.event[game-id="2"]{
+    background-color:rgba(179,62,76,0.2);
+}
+.event[game-id="3"]{
+    background-color:rgba(211,158,83,0.2);
+}
+.event[game-id="4"]{
+    background-color:rgba(80,194,160,0.2);
+}
+.event[game-id="5"]{
+    background-color:rgba(89,156,219,0.2);
+}
+.event[game-id="6"]{
+    background-color:rgba(109,55,55,0.2);
+}
+.event[game-id="7"]{
+    background-color:rgba(219,90,70,0.2);
+}
+
+@media only screen and (max-width:1024px){
+    .e2thirds{
+        grid-template-columns: auto;
+    }
+
+    .sort-by {
+        flex-direction: column;
+    }
+
+    .sort-by select{
+        width:100%;
+    }
 }
