@@ -20,6 +20,7 @@ $games = Game::get_all($db);
 $game_icons='<div class="game-icons e-today">';
 $game_icons2='<div class="game-icons e-all">';
 $game_icons_calendar='<div class="game-icons e-all-calendar">';
+//
 foreach ($games as $i => $row){
     $sel='';
     if (!$i){
