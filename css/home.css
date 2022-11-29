@@ -92,8 +92,9 @@ li button {
     background-color:#fff;
     color:#000;
 
-    background-image: url(https://tecesports.com/images/bg-footer-2.png);
-    background-position: bottom left;
+    background-image: url(https://tecesports.com/images/bg-test-2.png);
+    background-position: -280px 100px;
+    background-size: contain;
     background-repeat: no-repeat;
 }
 
@@ -478,6 +479,10 @@ a:hover .bxl-linkedin {
     
     .section, .small {
         width:100%;
+    }
+
+    .sec2 {
+        background-position: bottom left;
     }
 }
 

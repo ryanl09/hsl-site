@@ -133,7 +133,9 @@ start_content_full(0, 'home'); ?>
         <div class="small-bar bar"></div>
     </div>
 
+    <div class="div" style="width:100%; height:16px;"></div>
     <p class="pricing-desc desc">Pricing starts at $3,500 / year, and includes:</p>
+    <div class="sp60"></div>
 
     <div class="cards small c2">
         <div class="card hov card-flex">
@@ -170,9 +172,13 @@ start_content_full(0, 'home'); ?>
 </div>
 
 <div class="section sec5">
-    <div class="sp200"></div>
+    <div class="sp120"></div>
 
-    <p>Quick Links</p>
+    <div class="s-title">
+        <p>Quick Links</p>
+        <div class="bar"></div>
+    </div>
+
     <div class="cards c3 small">
     
         <div class="card">
@@ -215,6 +221,7 @@ start_content_full(0, 'home'); ?>
             </div>
         </div>
     </div>
+    <div class="sp60"></div>
 </div>
 
 <div class="footer">
