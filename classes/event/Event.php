@@ -495,7 +495,7 @@ class Event implements IEvent {
         return $res;
     }
 
-    public static function sort_by_calendar($db, $team, $div, $time){
+    public static function sort_by_calendar($db, $team, $div){
         $c_s = Season::get_current($db);
 
         $team=intval($team);
@@ -523,11 +523,11 @@ class Event implements IEvent {
         }
 
         $where = $team_str . $div_str . $time_str;
-
-        $query =
+        
+        $query = 
         "SELECT t.team_name as event_home, t.team_logo as home_logo, t2.team_name as event_away, t2.team_logo as away_logo, events.event_winner, events.event_date, 
-        events.event_time, s.division, events.id as event_id, events.event_home_score as home_score, events.event_away_score as away_score,
-        s.tag as home_tag, s2.tag as away_tag
+        events.event_time, events.event_stream, s.division, events.id as event_id, events.event_home_score as home_score, events.event_away_score as away_score,
+        s.tag as home_tag, s2.tag as away_tag, events.event_game as game
         FROM `events`
         INNER JOIN subteams s
             ON s.id = events.event_home

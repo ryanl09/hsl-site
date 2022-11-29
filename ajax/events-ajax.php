@@ -68,17 +68,21 @@ switch ($action) {
         die();
         break;
     case 'all_events_calendar':
-        if (!isset($_GET['sort-team-calendar']) || !isset($_GET['sort-div-calendar']) || !isset($_GET['game-calendar'])){
+        if (!isset($_GET['sort-team-calendar']) || !isset($_GET['sort-div-calendar'])){
             echo ajaxerror::e('errors', ['Missing fields']);
             die();
         }
-        
-        $team = $_GET['sort-team'];
-        $div = $_GET['sort-div'];
-        $time = $_GET['time'];
+
+        $team = $_GET['sort-team-calendar'];
+        $div = $_GET['sort-div-calendar'];
+
+        if (!is_numeric($team) || !is_numeric($div)){
+            echo ajaxerror::e('errors', ['Invalid team or division']);
+            die();
+        }
 
         $e = [];
-        $e = Event::sort_by_calendar($db, $team, $div, $time);
+        $e = Event::sort_by_calendar($db, $team, $div);
 
         echo json_encode(
             array(

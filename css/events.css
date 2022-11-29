@@ -281,7 +281,6 @@ select {
     padding: 15px;
     font-weight: bold;
     color: #7c878d;
-    cursor: pointer;
     min-height: 100px;
 }
 .calendar .days .day_num span {
@@ -298,6 +297,7 @@ select {
     background-color: #06640e;
     color: #fff;
     word-wrap: break-word;
+    cursor: pointer;
 }
 .calendar .days .day_num .event.green {
     background-color: #51ce57;
@@ -328,4 +328,22 @@ select {
 .calendar .days .day_num.selected {
     background-color: #f1f2f3;
     cursor: inherit;
+}
+
+.game-icon-calendar {
+    padding: 2px;
+    transition: var(--tran-03);
+    background-color: rgba(0, 0, 0, 0);
+    border: none;
+}
+
+.game-icon-calendar.selected{
+    background-color:rgba(0,0,0,0.1);
+    border-radius: 2px;
+    border:1px solid #ccc;
+}
+
+.game-icon-calendar:hover {
+    opacity: 0.65;
+    cursor:pointer;
 }

@@ -174,11 +174,7 @@
                     const tb = $('.table-all-tbody');
                     tb.html('');
 
-                    if (data.events.length > 0){  
-                        var mySpans = new Array();                 
-                        var tempSpans = document.getElementsByClassName('calendar-date-text');
-                        mySpans = Array.from(tempSpans);
-                        //console.log(mySpans);
+                    if (data.events.length > 0){
 
                         data.events.forEach(e =>{
                             var res = 'TBD';
@@ -192,42 +188,6 @@
                             tr.on('click', function(){
                                 window.open(`https://tecesports.com/event/${e.event_id}`, '_blank');
                             });
-
-                            // [0] year, [1] month, [2] day
-                            var arr = e.event_date.split("-");
-                            let currentDate = new Date();
-                            const month = currentDate.getMonth() + 1;
-                            const year = currentDate.getFullYear();
-                            if (month == arr[1] && year == arr[0]) {
-                                //console.log(arr[0] + " " + arr[1] + " " + arr[2] + " is in current month");
-                                var calendar_entry = document.createElement('div');
-                                calendar_entry.classList.add("event");
-                                switch (game) {
-                                    case 1: // Rocket League
-                                        calendar_entry.style.backgroundColor = '#001f7f';
-                                        break;
-                                    case 2: // Valorant
-                                        calendar_entry.style.backgroundColor = '#ab0013';
-                                        break;
-                                    case 3: // Overwatch 2
-                                        calendar_entry.style.backgroundColor = '#e78500';
-                                        break;
-                                    case 4: // League of Legends
-                                        calendar_entry.style.backgroundColor = '#6a9c54';
-                                        break;
-                                    case 5: // Fortnite
-                                        calendar_entry.style.backgroundColor = '#0085ff';
-                                        break;
-                                    case 6: // Super Smash Bros
-                                        calendar_entry.style.backgroundColor = '#670000';
-                                        break;
-                                    case 7: // Multiversus
-                                        calendar_entry.style.backgroundColor = '#ff2300';
-                                        break;
-                                }
-                                calendar_entry.innerHTML = `${e.event_home} vs ${e.event_away} - ${fix_time(e.event_time)}`;
-                                mySpans[parseInt(arr[2])-1].closest('div.day_num').appendChild(calendar_entry);
-                            }
                             
                             tb.append(tr);
                         });
@@ -238,19 +198,21 @@
             });
         }
 
-        //all_events_calendar();
+        all_events_calendar();
 
         function all_events_calendar(){
             $.ajax({
                 url:ajaxurl,
                 type:'get',
-                data:{'page': 'events', 'action':'all_events_calendar','sort-team':$('#sort-team').val(),'sort-div':$('#sort-div').val(), 'time': $('#sort-time').val(), 'csrf':$('#csrf').val()},
+                data:{'page': 'events', 'action':'all_events_calendar','sort-team-calendar':$('#sort-team-calendar').val(),'sort-div-calendar':$('#sort-div-calendar').val(), 'csrf':$('#csrf').val()},
                 dataType:'json',
                 success:(data)=>{
                     if (!data.status){
                         show_error(data.errors);
                         return;
                     }
+
+                    console.log(data);
 
                     if (data.events.length > 0){  
                         var mySpans = new Array();                 
@@ -272,8 +234,8 @@
                             if (month == arr[1] && year == arr[0]) {
                                 //console.log(arr[0] + " " + arr[1] + " " + arr[2] + " is in current month");
                                 var calendar_entry = document.createElement('div');
-                                calendar_entry.classList.add("event");
-                                switch (game) {
+                                $(calendar_entry).addClass("event").attr('game-id', e.game);
+                                switch (e.game) {
                                     case 1: // Rocket League
                                         calendar_entry.style.backgroundColor = '#001f7f';
                                         break;
@@ -296,13 +258,26 @@
                                         calendar_entry.style.backgroundColor = '#ff2300';
                                         break;
                                 }
-                                calendar_entry.innerHTML = `${e.event_home} vs ${e.event_away} - ${fix_time(e.event_time)}`;
+                                //calendar_entry.innerHTML = `${e.event_home} vs ${e.event_away} - ${fix_time(e.event_time)}`;
+                                
+                                calendar_entry.setAttribute('title', `${e.event_home} vs ${e.event_away}`);
+                                calendar_entry.setAttribute('onclick', `window.location="https://tecesports.com/event/${e.event_id}"`, `_blank`);
+                                var team1 = document.createElement('img');
+                                var team2 = document.createElement('img');
+                                team1.setAttribute('src', `${e.home_logo}`);
+                                team2.setAttribute('src', `${e.away_logo}`);
+                                team1.setAttribute('width', '80');
+                                team1.setAttribute('height', '80');
+                                team2.setAttribute('width', '80');
+                                team2.setAttribute('height', '80');
+                                calendar_entry.appendChild(team1);
+                                calendar_entry.appendChild(team2);
                                 mySpans[parseInt(arr[2])-1].closest('div.day_num').appendChild(calendar_entry);
                             }
                         });
                     }
                 },error:(a,b,c)=>{
-                    report_error('events', a+','+b+','+c, 'all_events_calendar');
+                    report_error('events', a+','+b+','+c, 'all_events');
                 }
             });
         }
@@ -326,6 +301,26 @@
             all_events_sort(game);
             fetch_teams(game);
             
+        });
+
+        $('.e-all-calendar .game-icon-calendar').on('click', function(){
+            $('.e-all-calendar .game-icon-calendar').removeClass('selected');
+            $(this).addClass('selected');
+
+            $('#sort-team-calendar').val('-1');
+            
+            var game = parseInt($(this).attr('game-id-calendar'), 10);
+        });
+
+        $('#sort-team-calendar').on('change', function(){
+            var game = parseInt($('.e-all-calendar .game-icon-calendar.selected').attr('game-id-calendar'),10);
+            all_events_calendar(game);
+        });
+
+        $('#sort-div-calendar').on('change', function(){
+            var game = parseInt($('.e-all-calendar .game-icon-calendar.selected').attr('game-id-calendar'),10);
+            call_events_calendar(game);
+            fetch_teams(game);
         });
     });
 })();
