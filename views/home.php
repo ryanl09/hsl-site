@@ -61,10 +61,10 @@ start_content_full(0, 'home'); ?>
 
 <div class="section sec2">
 
-<div class="s-title">
-    <p id="about" class="qlink">What's Included?</p>
-    <div class="bar"></div>
-</div>
+    <div class="s-title">
+        <p id="about" class="qlink">What's Included?</p>
+        <div class="bar"></div>
+    </div>
     <div class="cards c3 small">
         <div class="card hov">
             <div class="card-top">
@@ -127,6 +127,49 @@ start_content_full(0, 'home'); ?>
 </div>
 
 <div class="section sec3">
+
+    <div class="s-title">
+        <p id="pricing">Pricing</p>
+        <div class="small-bar bar"></div>
+    </div>
+
+    <p class="pricing-desc desc">Pricing starts at $3,500 / year, and includes:</p>
+
+    <div class="cards small c2">
+        <div class="card hov card-flex">
+            <i class='bx bx-desktop' ></i>
+            <p>Equipment</p>
+        </div>
+        <div class="card hov card-flex">
+            <i class='bx bx-edit-alt'></i>
+            <p>Curriculum</p>
+        </div>
+        <div class="card hov card-flex">
+            <i class='bx bxs-t-shirt' ></i>
+            <p>Jerseys</p>
+        </div>
+        <div class="card hov card-flex">
+            <i class='bx bx-calendar' ></i>
+            <p>Statewide Matches</p>
+        </div>
+    </div>
+
+    <div class="sp120"></div>
+</div>
+
+<div class="section sec4">
+    <div class="sp120"></div>
+
+    <div class="s-title">
+        <p>Want to Learn More?</p>
+        <div class="bar"></div>
+    </div>
+
+    <a href="https://calendly.com/theesportcompany/intro" class="a-btn a-green">Schedule an Intro Call</a>
+    <div class="sp120"></div>
+</div>
+
+<div class="section sec5">
     <div class="sp200"></div>
 
     <p>Quick Links</p>
@@ -171,6 +214,30 @@ start_content_full(0, 'home'); ?>
                 </a>
             </div>
         </div>
+    </div>
+</div>
+
+<div class="footer">
+    <div class="footer-top">
+        <div class="footer-title">
+            <p class="ft1">TEC Esports</p>
+            <p class="ft2">High School Series</p>
+        </div>
+        <div class="social-icons">
+            <a href="https://www.facebook.com/TheEsportCompany/"><i class='bx bxl-facebook'></i></a>
+            <a href="https://www.instagram.com/theesportcompany/?hl=en"><i class='bx bxl-instagram' ></i></a>
+            <a href="https://twitter.com/esportcompanyus"><i class='bx bxl-twitter' ></i></a>
+            <a href="https://www.twitch.tv/theesportcompany"><i class='bx bxl-twitch' ></i></a>
+            <a href="https://www.tiktok.com/@theesportcompany" style="position:relative;">
+                <i class='bx bxl-tiktok b' ></i>
+                <i class='bx bxl-tiktok r' ></i>
+                <i class='bx bxl-tiktok' ></i>
+            </a>
+            <a href="https://www.linkedin.com/company/the-esport-company"><i class='bx bxl-linkedin' ></i></a>
+        </div>
+    </div>
+    <div class="footer-bottom">
+
     </div>
 </div>
 

@@ -6,6 +6,15 @@ html{
 
 body{
     min-width: fit-content;
+    background-position: center;
+    background-image: url(https://tecesports.com/images/call-sec.png);
+    background-attachment: fixed;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.a-btn.a-green {
+    margin:0 auto;
 }
 
 .qlink{
@@ -82,6 +91,28 @@ li button {
 .sec2 {
     background-color:#fff;
     color:#000;
+
+    background-image: url(https://tecesports.com/images/bg-footer-2.png);
+    background-position: bottom left;
+    background-repeat: no-repeat;
+}
+
+.sec3, .sec5 {
+    background-color:#e4e9e7;
+    color:#000;
+}
+
+.sec3 {
+
+    background-image: url(https://tecesports.com/images/bg-edit-light.png);
+    background-position: bottom right;
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+
+.sec4 {
+    background-color:rgba(0,0,0,0);
+    color:#fff;
 }
 
 .s-title {
@@ -99,6 +130,10 @@ li button {
     height:4px;
     background-color: var(--primary-color);
     margin:10px auto;
+}
+
+.s-title .bar.small-bar {
+    width:50px;
 }
 
 li button:hover {
@@ -180,6 +215,11 @@ a {
     height:120px;
 }
 
+.sp60 {
+    width:100%;
+    height:60px;
+}
+
 .wave {
     position:absolute;
     left:0px;
@@ -197,11 +237,22 @@ a {
     display:grid;
 }
 
-.c3 {
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 10px
+.c2 {
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    gap:10px;
 }
 
+.c3 {
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 10px;
+}
+
+.card-flex {
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    gap:10px;
+}
 
 .card {
     color:#000;
@@ -228,17 +279,17 @@ a {
 .card-top i {}
 
 .btn-cont {
-    background-color:#11172b;
-    color:#fff;
+    background-color:#fff;
+    color:#000;
 }
 
 .btn.smooth {
-    background-color:#11172b;
-    color:#fff;
+    background-color:#fff;
+    color:#000;
 }
 
 .btn.smooth:hover{
-    background-color: #232e50;
+    background-color: var(--lb-h);
 }
 
 .card-top i {
@@ -289,18 +340,140 @@ a {
     transform: scale(.5) rotate3d(1, -1, 0.6, 70deg) translateZ(0);
 }
 
-@media only screen and (max-width: 1300px){
+/*
+    footer
+*/
 
+.footer {
+    width:100%;
+    background-color:var(--back);
+    padding:40px;
+}
+
+.footer-top{
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap:10px;
+}
+
+.social-icons {
+    display:flex;
+    align-items: center;
+    gap:10px;
+}
+
+.social-icons a {
+    text-decoration: none;
+    padding:4px;
+    border-radius: 4px;
+    transition:.17s all ease;
+    display:flex;
+    align-items: center;
+    justify-content:center;
+}
+
+.social-icons a:hover {
+    background-color:rgba(255,255,255,0.1);
+}
+
+a:hover .bxl-facebook {
+    color:#3B5998;
+}
+
+a:hover .bxl-instagram {
+    background: #d6249f;
+    background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%,#d6249f 60%,#285AEB 90%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+a:hover .bxl-twitter {
+    color: #1DA1F2;
+}
+
+a:hover .bxl-twitch {
+    color: #6441A5;
+}
+
+.bxl-tiktok:not(.r):not(.b) {
+    z-index:2;
+}
+
+.bxl-tiktok.b {
+    opacity:0;
+    left:3px;
+    top:3px;
+    position:absolute;
+    color:#00f2ea;
+}
+
+.bxl-tiktok.r{
+    opacity:0;
+    position:absolute;
+    color:#ff0050;
+    right:3px;
+    bottom:3px;
+}
+
+a:hover .bxl-tiktok:not(.b):not(.r){
+    color:#fff;
+}
+
+a:hover .bxl-tiktok.b, a:hover .bxl-tiktok.r {
+    opacity:1;
+}
+
+a:hover .bxl-linkedin {
+    color:#0E76A8;
+}
+
+.social-icons i {
+    color: var(--text-light);
+    font-size: 1.6em;
+    transition: .17s all ease;
+}
+
+.footer-title {
+    width:100%;
+}
+
+.footer-title p {
+    width:fit-content;
+    margin:6px auto;
+    color:var(--text-light);
+}
+
+.ft1 {
+    font-size: 1.1em;
+    font-weight: 500;
+}
+
+.ft2 {
+    font-size: 1em;
+    font-weight: 300;
+}
+
+/* end footer */
+
+.desc {
+    font-weight: 500;
+    width:fit-content;
+    margin:10px auto;
+}
+
+@media only screen and (max-width: 1300px){
     .pc-img{
         display:none;
     }
     
-    .c3 {
+    .c2, .c3 {
         grid-template-columns: 1fr 1fr;
     }
 
     .section {
-        padding: 40px 80px;
+        padding: 40px 60px;
     }
     
     .section, .small {
@@ -314,9 +487,9 @@ a {
         display:none;
     }
     .small{
-        min-width: 400px;
+        min-width: 200px;
     }
-    .c3 {
+    .c2, .c3 {
         grid-template-columns: auto;
         gap:20px;
     }

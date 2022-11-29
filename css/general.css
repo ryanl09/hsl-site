@@ -65,6 +65,26 @@ td, th {
   to {bottom: 0; opacity: 0;}
 }
 
+.a-btn {
+    display:block;
+    transition:.17s all ease;
+    text-decoration: none;
+    display:block;
+    padding:10px 16px;
+    border-radius: 4px;
+    width:fit-content;
+    font-weight: 500;
+}
+
+.a-green{
+    color:#fff;
+    background-color:var(--primary-color);
+}
+
+.a-green:hover {
+    background-color:var(--save-h);
+}
+
 .activation-banner {
     height:100px;
     display:flex;

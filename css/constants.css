@@ -6,6 +6,7 @@
     --primary-color-light: #F6F5FF;
     --toggle-color: #DDD;
     --text-color: #373f51;
+    --text-light: #888;
     --red:rgb(224,75,75);
     --red-h:rgb(158, 45, 45);
     --blue: rgb(107, 153, 223);
@@ -13,6 +14,8 @@
     --save-h:#23a362;
 
     --lb-h:rgb(210, 232, 247);
+
+    --back:rgb(3, 6, 17);
 
     /* ====== Transition ====== */
     --tran-03: all 0.2s ease;

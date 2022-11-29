@@ -1,14 +1,15 @@
-$(document).ready(function() {
-
+function menu_scroll(s){
     var nav = $('.top-menu');
+    const opacity = s/200 >= 1 ? 1 : s/200;
+    nav.css('background-color', `rgba(3, 6, 17, ${opacity})`);
+}
+
+$(document).ready(function() {
+    menu_scroll(document.body.scrollTop);
+
     window.onscroll = function () { 
-        const s = document.body.scrollTop;
-        const opacity = s/200 >= 1 ? 1 : s/200;
-        nav.css('background-color', `rgba(3, 6, 17, ${opacity})`);
+        menu_scroll(document.body.scrollTop);
     };
-
-
-
 
 
     $('.activation-btn').on('click', function(){
