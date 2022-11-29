@@ -304,12 +304,20 @@
         });
 
         $('.e-all-calendar .game-icon-calendar').on('click', function(){
-            $('.e-all-calendar .game-icon-calendar').removeClass('selected');
-            $(this).addClass('selected');
-
             $('#sort-team-calendar').val('-1');
+
+            const g = $(this).attr('game-id-calendar');
+            const has = $(this).hasClass('selected');
+
+            if (has){
+                $(`.event[game-id=${g}]`).hide();
+             }else{
+                $(`.event[game-id=${g}]`).show();
+            }
+
+            $(this).toggleClass('selected');
             
-            var game = parseInt($(this).attr('game-id-calendar'), 10);
+            //var game = parseInt($(this).attr('game-id-calendar'), 10);
         });
 
         $('#sort-team-calendar').on('change', function(){
