@@ -42,6 +42,7 @@ start_content_full(0, 'login'); ?>
         <div class="check">
             <a href="/forgot">Forgot password</a>
         </div>
+        <div class="g-recaptcha" data-sitekey="6LeI7ksjAAAAAGDmu7GpRYBjYrytWaad-SJgqm4j"></div>
         <div class="row">
             <div class="input">
                 <input type="submit" value="Login" id='login-btn'>

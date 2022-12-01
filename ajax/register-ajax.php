@@ -8,6 +8,22 @@ if (!$_SERVER['REQUEST_METHOD']==='POST') {
     die();
 }
 
+if (!isset($_POST['cap'])){
+    echo ajaxerror::e('errors', ['Missing captcha!']);
+    die();
+}
+
+$cap = $_POST['cap'];
+
+$secret = '6LeI7ksjAAAAAFhzmM7Ma49AFf1FsMwH05a9WeId';
+$verifyResponse = file_get_contents('https://www.google.com/recaptcha/api/siteverify?secret='.$secret.'&response='.$cap);
+$responseData = json_decode($verifyResponse);
+
+if (!$responseData->success){
+    echo ajaxerror::e('errors', ['Invalid captcha!']);
+    die();
+}
+
 if (!isset($_POST['nonce'])){
     echo ajaxerror::e('errors', ['Missing session key']);
     die();

@@ -69,6 +69,14 @@
                 return;
             }
 
+            const cap = grecaptcha.getResponse();
+            if (cap.length === 0){
+                errors.html('Please complete the captcha!');
+                errors.show();
+                return;
+            }
+
+
             const flag_count = pass_flags.reduce(function(a, b) { return a + b; }, 0);
             if (flag_count !== pass_flags.length){
                 errors.html(`Please fix the remaining (${pass_flags.length - flag_count}) password errors.`);
@@ -91,7 +99,7 @@
                 data:{ 'page':'register', 'action':'0', 'f_name':$('#firstname').val(), 'l_name':$('#lastname').val(), 'pronouns': $('#pronouns').val(), 'email': $('#email').val(), 
                     'username':$('#username').val(), 'password':$('#password').val(), 'c_password':$('#c_password').val(), 'csrf':$('#csrf').val(),
                     'terms':terms, 'type':type, 'discord': $('#discord').val(), 'school': $('#school').val(), 'mascot':mascot, 'phone':$('#phone').val(), 'primarycolor':$('#primarycolor').val(),
-                    'secondarycolor':$('#secondarycolor').val(), 'schoolcode':$('#schoolcode').val(), 'isymca':ymca, 'nonce':$('#nonce').val()},
+                    'secondarycolor':$('#secondarycolor').val(), 'schoolcode':$('#schoolcode').val(), 'isymca':ymca, 'nonce':$('#nonce').val(), 'cap':cap},
                 dataType:'json',
                 success:(data)=>{
                     reg.prop('disabled', false);

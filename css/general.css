@@ -65,6 +65,11 @@ td, th {
   to {bottom: 0; opacity: 0;}
 }
 
+.g-recaptcha {
+    width:fit-content;
+    margin:0 auto;
+}
+
 .a-btn {
     display:block;
     transition:.17s all ease;

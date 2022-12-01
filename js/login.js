@@ -5,15 +5,24 @@
 
         log.on('click', (e)=>{
             e.preventDefault();
-            log.prop('disabled', true);
-            log.val('');
             errors.hide();
             errors.html('');
+
+            const cap = grecaptcha.getResponse();
+            if (cap.length === 0){
+                errors.html('Please complete the captcha!');
+                errors.show();
+                return;
+            }
+
+            log.prop('disabled', true);
+            log.val('');
+
 
             $.ajax({
                 type:'post',
                 url:ajaxurl,
-                data:{ 'page':'login', 'action':'0', 'username':$('#username').val(), 'password':$('#password').val(), 'csrf':$('#csrf').val(), 'nonce':$('#nonce').val()},
+                data:{ 'page':'login', 'action':'0', 'username':$('#username').val(), 'password':$('#password').val(), 'csrf':$('#csrf').val(), 'nonce':$('#nonce').val(), 'cap':cap},
                 dataType:'json',
                 success:(data)=>{
                     log.prop('disabled', false);

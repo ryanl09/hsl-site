@@ -13,9 +13,14 @@ function base_header($params = [], $nosidebar = false){
         }
     }
 
+    $need_captcha = false;
+
     $scripts = '';
     if (isset($params['scripts'])) {
         foreach ($params['scripts'] as $script) {
+            if ($script === 'login' || $script === 'register'){
+                $need_captcha = true;
+            }
             $scripts .= '<script type="text/javascript" src="/js/' . $script . '.js"></script>';
         }
     }
@@ -36,6 +41,7 @@ function base_header($params = [], $nosidebar = false){
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <script src="/includes/jquery-3.6.0.min.js"></script>
+        ' . ($need_captcha ? '<script src="https://www.google.com/recaptcha/api.js" async defer></script>' : '') . '
         <script src="/js/consts.js"></script>
         <link rel="stylesheet" href="/css/general.css">
         <link rel="stylesheet" href="/css/transition.css">

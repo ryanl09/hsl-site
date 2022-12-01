@@ -122,6 +122,7 @@ start_content_full(0, 'register'); ?>
             <input type="checkbox" name="terms" id="terms">
             <label for="terms">I have read and accept both the <a href="<?php echo href('terms'); ?>">Terms & Conditions</a> and <a href="<?php echo href('privacy'); ?>">Privacy Policy</a></label>
         </div>
+        <div class="g-recaptcha" data-sitekey="6LeI7ksjAAAAAGDmu7GpRYBjYrytWaad-SJgqm4j"></div>
         <div class="row">
             <div class="input">
                 <input type="submit" value="Register" id='register-btn'>
