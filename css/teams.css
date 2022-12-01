@@ -12,7 +12,7 @@
     overflow: hidden;
     display:flex;
     align-items: center;
-    gap:20px;
+    gap:10px;
 }
 
 h3 {
@@ -25,4 +25,12 @@ h3 {
 
 .games {
     margin-left: auto;
+}
+
+.team-box{
+    flex-direction: column;
+}
+
+.team-box > h3 {
+    font-weight: 500;
 }

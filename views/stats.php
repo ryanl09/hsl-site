@@ -23,7 +23,7 @@ $game_icons.='</div>';
 ?>
 
 <div class="row e2thirds">
-    <div class="box stats-box">
+    <div class="box stats-box" style="overflow:hidden;">
         <div class="stats-top">
             <h3>Sort by</h3>
             <?php echo $game_icons; ?>
@@ -41,7 +41,7 @@ $game_icons.='</div>';
             </select>
         </div>
         <hr class="sep">
-        <div>
+        <div style="max-height:530px; overflow-y:scroll;">
             <table cellspacing="0">
                 <thead class="stats-thead"></thead>
                 <tbody class="stats-tbody"></tbody>

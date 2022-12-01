@@ -9,6 +9,10 @@
             $(this).addClass('selected');
 
             var game = parseInt($(this).attr('game-id'), 10);
+
+            $('#team').val('-1');
+            $('#div').val('1');
+
             fetch_teams(game);
             fetch_stats(game);
         });
@@ -17,8 +21,38 @@
         $('#top-stat').on('change', function(){
             get_top_pl();
         });
+
+        $('#team').on('change', function(){
+            const t = parseInt($('#team').val(), 10);
+            if(t<0){
+                $('.stats-tbody > tr').show();
+                show_teams(true);
+                $('[data-is="team"]').show();
+                update_tr_bg();
+                return true;
+            }
+    
+            $(`tbody tr:not([team-id="${t}"])`).hide();
+            show_teams(false);
+            $(`tr[team-id="${t}"]`).show();
+
+            update_tr_bg(t);
+        });
     });
 
+    function update_tr_bg(t=-1){
+        if(t<0){
+            $(`.stats-tbody tr:nth-child(even)`)
+                .css('background', '#ffffff');
+            $('.stats-tbody tr:nth-child(odd)')
+                .css('background', '#e8f3f7');
+            return;
+        }
+        $(`.stats-tbody tr[team-id="${t}"]:nth-of-type(even)`)
+            .css('background', '#ffffff');
+        $(`.stats-tbody tr[team-id="${t}"]:nth-of-type(odd)`)
+            .css('background', '#e8f3f7');
+    }
     
     /**
      * populate teams select
@@ -39,7 +73,7 @@
                 $('#team').html('<option value="-1">Any team</option>');
                 data.teams.forEach(e => {
                     let opt = $('<option>',{
-                        value:e.subteam_id,
+                        value:e.team_id,
                         text:`${e.team_name} ${e.tag}`
                     });
                     $('#team').append(opt);
@@ -54,13 +88,19 @@
     function show_teams(val){
         if(val){
             $('.team-col').show();
+            $(`[data-is="team"]`).show();
             return;
         }
         $('.team-col').hide();
+        $(`[data-is="team"]`).hide();
     }
 
     let td = (data) =>{
         return `<td>${data}</td>`;
+    }
+
+    let td_c = (data, k, v) =>{
+        return `<td ${k}="${v}">${data}</td>`;
     }
 
     var _SORT_BY = -1;
@@ -75,8 +115,9 @@
                 blocks+=td(e.stats[e.stats.map(e => e.stat_id).indexOf(f.id)].stat_total);
             });
             const row = $('<tr>', {
-                html:`${td(e.ign)}${td(e.team)}${blocks}`
-            });
+                html:`${td(e.ign)}${td_c(e.team, 'data-is', 'team')}${blocks}`
+            })
+                .attr('team-id', e.team_id);
             tb.append(row);
         }
     }
