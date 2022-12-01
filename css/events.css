@@ -371,6 +371,14 @@ select {
     background-color:rgba(219,90,70,0.2);
 }
 
+.bxs-left-arrow {
+    cursor: pointer;
+}
+
+.bxs-right-arrow {
+    cursor: pointer;
+}
+
 @media only screen and (max-width:1024px){
     .e2thirds{
         grid-template-columns: auto;

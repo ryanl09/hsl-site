@@ -201,6 +201,63 @@
             });
         }
 
+        const m = $('cal-month'); 
+        const y = $('cal-year');
+
+        init_date();
+        
+        
+
+        $('.bxs-left-arrow').on('click', function(){
+            console.log("hi");
+            const mon = get_month();
+            set_month(mon-1 % 12);
+
+            console.log("Previous Month " + mon);
+        
+            update_month();
+        });
+
+        $('.bxs-right-arrow').on('click', function(){
+            const mon = get_month();
+            set_month((mon % 12) + 1);
+
+            console.log("Next Month " + mon);
+        
+            update_month();
+        });
+
+        // Init month between 1 and 12 inclusive
+        function init_date() {
+            const today = new Date();
+            set_month(today.getMonth() + 1);
+            set_year(today.getFullYear());
+        }
+
+        let get_month=()=>{
+            var mon = m.attr('cal-month');
+            return parseInt(mon, 10);
+        }
+
+        function set_month(m){
+            m.attr('cal-month', m);
+        }
+
+        let get_year=()=>{
+            var ye = y.attr('cal-year');
+            return parseInt(ye, 10);
+        }
+
+        function set_year(ye){
+            m.attr('cal-year', ye);
+        }
+
+        function update_month(){
+            const mon = get_month();
+
+            //update the dom here
+        }
+
         all_events_calendar();
 
         function all_events_calendar(){
@@ -231,10 +288,14 @@
                             }
 
                             // [0] year, [1] month, [2] day
-                            var arr = e.event_date.split("-");
-                            let currentDate = new Date();
-                            const month = currentDate.getMonth() + 1;
-                            const year = currentDate.getFullYear();
+                            //var arr = e.event_date.split("-");
+                            //let currentDate = new Date();
+                            //const month = currentDate.getMonth() + 1;
+                            //const year = currentDate.getFullYear();
+
+                            const month = get_month();
+                            const year = get_year();
+
                             if (month == arr[1] && year == arr[0]) {
                                 //console.log(arr[0] + " " + arr[1] + " " + arr[2] + " is in current month");
                                 var ce = $('<div>');

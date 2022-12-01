@@ -24,6 +24,8 @@ class Calendar {
         $html .= '<div class="header">';
         $html .= '<div class="month-year">';
         $html .= date('F Y', strtotime($this->active_year . '-' . $this->active_month . '-' . $this->active_day));
+        $html .= '<i class="bx bxs-left-arrow" title="Previous Month"></i>';
+        $html .= '<i class="bx bxs-right-arrow" title="Next Month"></i>';
         $html .= '</div>';
         $html .= '</div>';
         $html .= '<div class="days">';
