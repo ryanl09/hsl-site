@@ -3,25 +3,24 @@
     function add_team_box(e){
 
         const teams = $('.teams');
-        const t = $('<button>');
+        const a = $('<a>')
+            .attr('href', `https://tecesports.com/team/${e.slug}`)
+            .css('text-decoration', 'none');
+        const t = $('<div>');
         t.addClass(`team-box box ${e.slug}`);
-
-        const a = $('<a>');
-        a.addClass('team-link');
-        a.css('display', 'block');
-        t.attr('onClick', `window.location=\"https://tecesports.com/team/${e.slug}\"`);
         
         const img = $('<img>');
         img.attr('src', e.team_logo)
-            .attr('width', '80')
-            .attr('height', '80');
+            .attr('width', '60')
+            .attr('height', '60');
 
-        a.append(img);
-        t.append(a);
+        t.append(img);
         t.append($('<h3>', { text: e.team_name }));
+        /*
         t.append($('<div>').addClass('games')
             .append($('<img>').attr('src', e.url).attr('width', '26').attr('height', '26')));
-        teams.append(t);
+            */
+        teams.append(a.append(t));
     }
 
     $(document).ready(function(){
@@ -35,11 +34,12 @@
                 for (let i = 1; i < data.teams.length; i++){
                     if(data.teams[i-1].id !== data.teams[i].id){
                         add_team_box(data.teams[i]);
-                    }else{
+                    }/*else{
+                        
                         const b = $(`.${data.teams[i].slug}`);
                         b.append($('<img>').attr('src', data.teams[i].url).attr('width', '26').attr('height', '26'));
                             
-                    }
+                    }*/
                 }
 
             },error:(a,b,c)=>{

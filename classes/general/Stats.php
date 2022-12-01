@@ -146,7 +146,7 @@ class Stats {
         }
 
         $query=
-        "SELECT SUM(stats.stat_value) AS total, stat_cols.id, user_igns.ign, teams.team_name, users.username
+        "SELECT SUM(stats.stat_value) AS total, stat_cols.id, user_igns.ign, teams.team_name, teams.id AS team_id, users.username
         FROM stats
         INNER JOIN stat_cols
             ON stat_cols.id = stats.stat_id
@@ -157,7 +157,7 @@ class Stats {
         INNER JOIN teams
             ON users.team_id = teams.id
         WHERE stat_cols.game_id = ?
-        GROUP BY stat_cols.id, user_igns.ign, users.username, teams.team_name
+        GROUP BY stat_cols.id, user_igns.ign, users.username, teams.team_name, teams.id
         ORDER BY user_igns.ign, stat_cols.id";
 
         $res = $this->db->query($query, $game)->fetchAll();
@@ -178,6 +178,7 @@ class Stats {
             );
             $ret[$idx]['ign']=$row['ign'];
             $ret[$idx]['team']=$row['team_name'];
+            $ret[$idx]['team_id']=$row['team_id'];
             $last_ign = $row['ign'];
             unset($res[$i]);
         }
