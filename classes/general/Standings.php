@@ -4,6 +4,7 @@ $path = $_SERVER['DOCUMENT_ROOT'];
 
 require_once('Stats.php');
 require_once('Game.php');
+require_once('Season.php');
 require_once($path . '/classes/team/SubTeam.php');
 
 class Standings {
@@ -21,6 +22,8 @@ class Standings {
         $st = new Stats($db);
         $t_s = $st->team_stats($game_id, $div);
 
+        $cs = Season::get_current($db);
+
         $ids = array_map(
             function($n) {
                 return $n['st_id'];
@@ -32,16 +35,29 @@ class Standings {
             $query=
             "SELECT COUNT(*) as wins
             FROM events
-            WHERE (event_home = ? AND event_winner = event_home) OR (event_away = ? AND event_winner = event_away)";
+            WHERE (event_home = ? AND event_winner = event_home) OR (event_away = ? AND event_winner = event_away)
+                AND `event_season` = ?";
         
-            $wins = $db->query($query, $team_id, $team_id)->fetchArray();
+            $wins = $db->query($query, $team_id, $team_id, $cs)->fetchArray();
         
             $query=
             "SELECT COUNT(*) as losses
             FROM events
-            WHERE ((event_home = ? AND event_winner <> event_home) OR (event_away = ? AND event_winner <> event_away)) AND event_winner <> 0";
+            WHERE ((event_home = ? AND event_winner <> event_home) OR (event_away = ? AND event_winner <> event_away)) AND event_winner <> 0
+                AND `event_season` = ?";
         
-            $losses = $db->query($query, $team_id, $team_id)->fetchArray();
+            $losses = $db->query($query, $team_id, $team_id, $cs)->fetchArray();
+
+            $query=
+            "SELECT
+            SUM(CASE 
+                WHEN `event_winner` = ? THEN ABS(`event_home_score` - `event_away_score`)
+                WHEN `event_winner` <> ? THEN -1 * ABS(`event_home_score` - `event_away_score`)
+            END) as rd
+            FROM `events`
+            WHERE `event_season` = ?
+                AND `event_home` = ? OR `event_away` = ?";
+            $r_diff = $db->query($query, $team_id, $team_id, $cs, $team_id, $team_id)->fetchArray();
         
             $query =
             "SELECT teams.team_name
@@ -64,26 +80,32 @@ class Standings {
                 'st_id' => $team_id,
                 'wins' => $wins['wins'],
                 'losses' => $losses['losses'],
+                'rounds' => $r_diff['rd'],
                 's1' => $s1
             );
         }
         
-        function cmp($a, $b){
+        function cmp_wins($a, $b){
             return $a['wins'] < $b['wins'];
         }
         
-        function cm2($a, $b){
+        function cmp_losses($a, $b){
             return $a['losses'] > $b['losses'];
         }
 
-        function cms1($a, $b){
+        function cmp_rounds($a, $b){
+            return $a['rounds'] < $b['rounds'];
+        }
+
+        function cmp_first_stat($a, $b){
             return $a['s1'] < $b['s1'];
         }
         
         if (!empty($recs)){
-            usort($recs, "cms1");
-            usort($recs, "cm2");
-            usort($recs, "cmp");
+            usort($recs, "cmp_first_stat");
+            usort($recs, "cmp_rounds");
+            usort($recs, "cmp_losses");
+            usort($recs, "cmp_wins");
         }
 
         return array(

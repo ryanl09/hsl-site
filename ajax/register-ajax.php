@@ -1,11 +1,25 @@
 <?php
 
+require_once($path . '/classes/security/Nonce.php');
 require_once($path . '/classes/services/RegisterService.php');
 
 if (!$_SERVER['REQUEST_METHOD']==='POST') {
     echo 'Invalid request';
     die();
 }
+
+if (!isset($_POST['nonce'])){
+    echo ajaxerror::e('errors', ['Missing session key']);
+    die();
+}
+
+$nonce = $_POST['nonce'];
+$verify = Nonce::verify($nonce);
+if (!$verify){
+    echo ajaxerror::e('errors', ['Invalid session key. ']);
+    die();
+}
+Nonce::destroy();
 
 if (isset($_POST['terms'])) {
     $terms = $_POST['terms'];

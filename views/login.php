@@ -2,14 +2,17 @@
 
 $path = $_SERVER['DOCUMENT_ROOT'];
 require_once($path . '/documentelements.php');
+require_once($path . '/classes/security/Nonce.php');
 
 if (isset($_SESSION['user']) && $_SESSION['user']->get_id()) {
     header('Location: ' . href('dashboard'));
 }
 
+$nonce = Nonce::generate();
 start_content_full(0, 'login'); ?>
 
 <div class="login-box">
+    <input type="hidden" id="nonce" value="<?php echo $nonce; ?>">
     <div class="login-header">
         <h1>Login</h1>
         <img src="https://tecesports.com/images/tec-black.png" alt="TEC">

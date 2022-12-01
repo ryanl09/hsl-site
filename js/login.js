@@ -13,7 +13,7 @@
             $.ajax({
                 type:'post',
                 url:ajaxurl,
-                data:{ 'page':'login', 'action':'0', 'username':$('#username').val(), 'password':$('#password').val(), 'csrf':$('#csrf').val()},
+                data:{ 'page':'login', 'action':'0', 'username':$('#username').val(), 'password':$('#password').val(), 'csrf':$('#csrf').val(), 'nonce':$('#nonce').val()},
                 dataType:'json',
                 success:(data)=>{
                     log.prop('disabled', false);

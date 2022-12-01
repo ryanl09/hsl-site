@@ -62,6 +62,8 @@
                         return;
                     }
 
+                    console.log(data);
+
                     const st = data.standings;
 
                     const th = $('.stnd-thead');
