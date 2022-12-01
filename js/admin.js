@@ -135,5 +135,26 @@
                 }
             });
         });
+
+        $('.dl-players').on('click', function(){
+            $.ajax({
+                url:ajaxurl,
+                type:'get',
+                data:{'page':'csv', 'action':'get_players', 'csrf':$('#csrf').val()},
+                dataType:'json',
+                success:(data)=>{
+                    const blob = new Blob([data.data], { type: 'text/csv' });
+                    const url = window.URL.createObjectURL(blob)
+                    var link = document.createElement('a');
+                    document.body.append(link);
+                    link.setAttribute('href', url);
+                    link.setAttribute('download', 'players.csv');
+                    link.click();
+                    link.remove();
+                },error:(a,b,c)=>{
+                    report_error('csv', a+','+b+','+c, 'get_players');
+                }
+            });
+        });
     });    
 })();

@@ -81,6 +81,23 @@ class Player extends User {
         }
         return new Player($db, 0);
     }
+
+    /**
+     * get all players: fname,lname,ign,school
+     */
+
+    public static function get_all($db) {
+        $query=
+        "SELECT DISTINCT users.name, user_igns.ign, teams.team_name
+        FROM `users`
+        INNER JOIN `user_igns`
+            ON users.user_id = user_igns.user_id
+        INNER JOIN `teams`
+            ON users.team_id = teams.id
+        WHERE users.role = \"player\"";
+        $res = $db->query($query)->fetchAll();
+        return $res;
+    }
 }
 
 ?>

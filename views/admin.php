@@ -13,6 +13,8 @@ admin_block();
 <div class="profile-tabs">
     <button class="tab-change selected" tab-id="1">Links</button>
     <button class="tab-change" tab-id="2">General</button>
+    <button class="tab-change" tab-id="3">CSV</button>
+    <button class="tab-change" tab-id="4">Analytics</button>
 </div>
 
 <div class="tab" tab--id="1">
@@ -68,33 +70,6 @@ admin_block();
     </div>
 </div>
 
-<?php
-
-/* //event csv
-$query = 
-"SELECT events.event_date as d, events.event_time as t, t.team_name as home, t2.team_name as away, events.event_stream, s.tag as st, s2.tag as st2
-FROM events
-INNER JOIN subteams s
-    ON s.id = events.event_home
-INNER JOIN teams t
-    ON t.id = s.team_id
-INNER JOIN subteams s2
-    ON s2.id = events.event_away
-INNER JOIN teams t2
-    ON t2.id = s2.team_id
-WHERE events.event_game = 3";
-
-$d = new tecdb();
-
-$res = $d->query($query)->fetchAll();
-
-echo 'Date,Time,Home,Away,Stream<br>';
-
-foreach ($res as $i => $row){
-    echo $row['d'] . ',' . date('g:i a', strtotime($row['t'])) . ',' . $row['home'] . ' ' . $row['st'] . ',' . $row['away'] . ' ' . $row['st2'] .  ',' . $row['event_stream'] . '<br>';
-}*/
-
-?>
 <div class="tab" tab--id="2" style="display:none;">
     <div class="create-box">
         <div class="create-pl">
@@ -155,24 +130,12 @@ foreach ($res as $i => $row){
             <div class="announcement-header">
                 <h3>Delete Announcement</h3>
             </div>
-            <div class="announcement-body">
-                    
-                <div class="row announce">
-
-
-                    <div class="box ann-box">
-                        <div class="ann">
-                            <h2 class="ann-title"></h2>
-                                <div class="ann-author">
-                                    <p class="author"></p>
-                                </div>
-                                <p class="ann-time"></p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
         </div>
     </div>
+</div>
+
+<div class="tab" tab--id="3" style="display:none;">
+    <button class="btn dl-players"><i class='bx bx-download'></i>Players</button>
 </div>
 
 <?php end_content_full(1); ?>
