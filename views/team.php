@@ -52,7 +52,7 @@ base_header(
                                 <p class="name">
                                     <?php
                                         $tm = $team->get_team_manager();
-                                        echo $tm['name'];
+                                        echo "Team Manager:  " . $tm['name'];
                                     ?>
                                 </p>
                             </div>

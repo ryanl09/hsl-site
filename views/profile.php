@@ -97,7 +97,7 @@ base_header(
                             </div>
                         </div>
                         <div class="school-logo">
-                            <img src="<?php echo $view->get_team()->get_logo(); ?>" alt="logo" width="100" height="100">
+                            <img src="<?php echo $view->get_team()->get_logo(); ?>" alt="logo" title="<?php echo  $view->get_team_name() ?>" width="100" height="100">
                         </div>
                     </div>
                     <div class="banner-bottom">
