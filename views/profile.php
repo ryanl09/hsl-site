@@ -90,14 +90,14 @@ base_header(
                                         echo '<p class="p-c">No badges on display</p>';
                                     } else {
                                         foreach ($badges as $i => $row) {
-                                            echo '<img src="'.$row['url'].'" width="100" height="100">';
+                                            echo '<img src="'.$row['url'].'" title="'.$row['description'].'" width="100" height="100">';
                                         }
                                     }
                                 ?>
                             </div>
                         </div>
                         <div class="school-logo">
-                            <img src="<?php echo $view->get_team()->get_logo(); ?>" alt="logo" width="100" height="100">
+                            <img src="<?php echo $view->get_team()->get_logo(); ?>" alt="logo" title="<?php echo  $view->get_team_name() ?>" width="100" height="100">
                         </div>
                     </div>
                     <div class="banner-bottom">

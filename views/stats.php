@@ -15,7 +15,7 @@ foreach ($games as $i => $row){
     if (!$i){
         $sel=' selected';
     }
-    $game_icons .= '<img class="game-icon'.$sel.'" game-id="'.$row['id'].'" src="'.$row['url'].'" width="35" height="35">';
+    $game_icons .= '<img class="game-icon'.$sel.'" game-id="'.$row['id'].'" src="'.$row['url'].'" title="'.$row['game_name'].'" width="35" height="35">';
 }
 $game_icons.='</div>';
 

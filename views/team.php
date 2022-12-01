@@ -52,7 +52,7 @@ base_header(
                                 <p class="name">
                                     <?php
                                         $tm = $team->get_team_manager();
-                                        echo $tm['name'];
+                                        echo "Team Manager:  " . $tm['name'];
                                     ?>
                                 </p>
                             </div>
@@ -69,7 +69,7 @@ base_header(
                                         echo '<p class="p-c">No badges on display</p>';
                                     } else {
                                         foreach ($badges as $i => $row) {
-                                            echo '<img src="'.$row['url'].'" width="100" height="100" class="hastooltip"><span style="display:none;">'.$row['description'].'</span>';
+                                            echo '<img src="'.$row['url'].'" width="100" height="100" title="'.$row['description'].'">';
                                         }
                                     }
                                 ?>
