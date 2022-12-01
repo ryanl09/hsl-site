@@ -184,6 +184,7 @@ $(document).ready(()=>{
                 src: data.home.logo
             }).attr('width', data.img.width)
             .attr('height', data.img.height)
+            .attr('title', data.home.t_name)
             .addClass('img-ref');
 
             var a_name = $('<p>', {
@@ -193,6 +194,7 @@ $(document).ready(()=>{
                 src: data.away.logo
             }).attr('width', data.img.width)
             .attr('height', data.img.height)
+            .attr('title', data.away.t_name)
             .addClass('img-ref');
 
             $('.home-team').append(h_logo).append(h_name);
