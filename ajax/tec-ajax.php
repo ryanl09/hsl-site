@@ -68,6 +68,7 @@ if(!$exists){
     die();
 }
 
+$method = $_SERVER['REQUEST_METHOD'];
 include_once($path . '/ajax' . '/' . $page . '-ajax.php');
 
 

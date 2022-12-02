@@ -13,6 +13,7 @@ require_once($path . '/controllers/GraphicsController.php');
 require_once($path . '/controllers/LeagueController.php');
 require_once($path . '/controllers/LoginController.php');
 require_once($path . '/controllers/MessagesController.php');
+require_once($path . '/controllers/PlayoffsController.php');
 require_once($path . '/controllers/PrivacyController.php');
 require_once($path . '/controllers/ProfileController.php');
 require_once($path . '/controllers/RegController.php');
@@ -123,6 +124,9 @@ class ClientRequest {
                 break;
             case 'teams':
                 $this->ctrl = new TeamsController();
+                break;
+            case 'playoffs':
+                $this->ctrl = new PlayoffsController($ex);
                 break;
             default:
                 if (session_id()){

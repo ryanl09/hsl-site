@@ -25,8 +25,10 @@ if ($_SERVER['REQUEST_METHOD']==='GET') {
             $team_ids=[];
             $recs = [];
 
-            unset($res[2]);
             unset($res[3]);
+            unset($res[4]);
+            unset($res[5]);
+            unset($res[6]);
 
             foreach ($res as $i => $row){
                 $r_id = $row['id'];

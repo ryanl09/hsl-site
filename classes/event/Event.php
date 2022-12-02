@@ -201,6 +201,24 @@ class Event implements IEvent {
      */
 
 
+    /**
+     * create event
+     * @param   int $home
+     * @param   int $away
+     * @param   string  $date;
+     * @param   string  $time
+     * @param   int $game
+     */
+
+    public static function create($db, $home, $away, $date, $time, $game) {
+        $date = date('Y-m-d', strtotime($date));
+        $time = date('H:i:s', strtotime($time));
+
+        $query ="INSERT INTO `events` (`event_home`, `event_away`, `event_stream`, `event_date`, `event_time`, `event_game`, `event_winner`)
+        VALUES (?, ?, \"\", ?, ?, ?, 0)";
+        $id = $db->query($query, $home, $away, $date, $time, $game)->lastInsertId();
+        return $id;
+    }
 
     /**
      * Check if event with this id exists
