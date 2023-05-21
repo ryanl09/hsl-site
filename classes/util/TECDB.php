@@ -13,10 +13,10 @@ class tecdb {
 
 
 		
-		$dbhost = '3.17.33.69';
-		$dbuser = 'ryantest';
-		$dbpass = 'TECisthebest1*';
-		$dbname = 'techs';
+		$dbhost = DB_HOST;
+		$dbuser = DB_USER;
+		$dbpass = DB_PASS;
+		$dbname = DB_NAME;
 
 		/*
 		$dbhost = '162.241.194.77';
